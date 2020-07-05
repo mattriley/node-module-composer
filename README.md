@@ -1,10 +1,10 @@
 # module-composer
 
-Composes "modules" enabling coarse-grained module-level depenency injection.
+Composes 'modules' enabling coarse-grained module-level depenency injection.
 
 A module in this sense is any plain object with a `__modulename` entry.
 Any entries containing functions are invoked with a given object argument. 
-The object argument is assigned the "current" module named after `__modulename`.
+The object argument is assigned the current module named after `__modulename`.
 Any entries not containing functions are traversed and returned as-is unless `__modulename` is present.
 
 ## Install
