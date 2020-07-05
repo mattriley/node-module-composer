@@ -1,16 +1,24 @@
-new readme
-
 # module-composer
 
-TODO
+Composes "modules" enabling coarse-grained module-level depenency injection.
+
+A module in this sense is any plain object with a `__modulename` entry.
+Any entries containing functions are invoked with a given object argument. 
+The object argument is assigned the "current" module named after `__modulename`.
+Any entries not containing functions are traversed and returned as-is unless `__modulename` is present.
 
 ## Install
 
-`npm i @mattriley/module-composer`
+`npm i module-composer`
 
 ## Usage
 
-TODO
+```js
+const compose = require('module-composer');
+const modules = require('./modules');
+const moduleB = compose(modules.moduleB, {});
+const moduleA = compose(modules.moduleA, { moduleB });
+```
 
 ## Example
 
@@ -63,12 +71,10 @@ moduleA.bar = modules.moduleA.bar({ moduleA, moduleB });
 moduleA.foo();
 ```
 
-`module-composer` automates composition by looking for a `__modulename` entry on each module.
-
 Here's how these modules might be composed with `module-composer`:
 
 ```js
-const compose = require('@mattriley/module-composer');
+const compose = require('module-composer');
 
 const modules = {
     moduleA: {
@@ -124,7 +130,7 @@ proj/
 ```js
 // run.js
 
-const compose = require('@mattriley/module-composer');
+const compose = require('module-composer');
 const src = require('./src');
 
 const moduleB = compose(src.moduleB, {});
