@@ -16,7 +16,6 @@
         "lodash": "^4.17.15"
     },
     "devDependencies": {
-        "@mattriley/indexgen": "^0.1.2",
         "eslint": "^7.4.0",
         "nyc": "^14.1.1",
         "tap-spec": "^5.0.0",
