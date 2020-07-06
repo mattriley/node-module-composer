@@ -1,4 +1,5 @@
 module.exports = {
     __modulename: 'src',
-    moduleComposition: require('./module-composition')
+    collapse: require('./collapse'),
+    compose: require('./compose')
 };

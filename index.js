@@ -1,5 +1,3 @@
-const src = require('./src');
-const moduleComposition = {};
-moduleComposition.collapse = src.moduleComposition.collapse({ moduleComposition });
-moduleComposition.compose = src.moduleComposition.compose({ moduleComposition });
-module.exports = moduleComposition.compose;
+const { compose, collapse } = require('./src');
+compose.collapse = (...args) => collapse(compose(...args));
+module.exports = compose;
