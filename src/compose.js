@@ -1,7 +1,6 @@
-const _ = require('lodash');
-
 const mapValues = (obj, arg) => {
-    return _.mapValues(obj, val => _.isFunction(val) ? val(arg) : compose(val, arg));
+    const process = val => val instanceof Function ? val(arg) : compose(val, arg);
+    return Object.entries(obj).reduce((acc, [key, val]) => Object.assign(acc, { [key]: process(val) }), {});
 };
 
 const compose = (obj, arg) => {
