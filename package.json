@@ -1,6 +1,6 @@
 {
     "name": "module-composer",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "description": "Composes 'modules' enabling coarse-grained module-level depenency injection.",
     "author": "Matt Riley",
     "license": "ISC",
