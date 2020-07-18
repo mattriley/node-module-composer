@@ -9,7 +9,7 @@ Any entries not containing functions are traversed and returned as-is unless `__
 
 ## Install
 
-`npm i module-composer`
+`npm install module-composer`
 
 ## Usage
 
@@ -206,7 +206,7 @@ module.exports = ({ moduleA, moduleB }) => () => {
 };
 ```
 
-## Couldn't those `index.js` files be generated?
+## Couldn't those index.js files be generated?
 
 Glad you asked. Absolutely. See: https://github.com/mattriley/node-indexgen
 
