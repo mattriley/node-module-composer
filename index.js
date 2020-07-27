@@ -1,5 +1,5 @@
 const mapValues = (obj, arg) => {
-    const process = val => val instanceof Function ? val(arg) : compose(val, arg);
+    const process = val => (val instanceof Function ? val(arg) : compose(val, arg));
     return Object.entries(obj).reduce((acc, [key, val]) => Object.assign(acc, { [key]: process(val) }), {});
 };
 
@@ -13,7 +13,10 @@ const compose = (obj, arg) => {
 
 const collapse = (obj, parentObj, parentKey) => {
     Object.entries(obj).forEach(([key, val]) => {        
-        if (key === parentKey) parentObj[key] = Object.assign(val, parentObj[key]);
+        if (key === parentKey) {
+            parentObj[key] = Object.assign(val, parentObj[key]);
+            delete val[key];
+        }
         if (typeof obj === 'object') collapse(val, obj, key);
     });
     return obj;
