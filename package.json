@@ -1,7 +1,7 @@
 {
     "name": "module-composer",
-    "version": "0.1.6",
-    "description": "Composes 'modules' enabling coarse-grained module-level depenency injection.",
+    "version": "0.1.7",
+    "description": "Composes 'modules' enabling coarse-grained module-level depenency injection",
     "author": "Matt Riley",
     "license": "ISC",
     "homepage": "https://github.com/mattriley/node-module-composer",
