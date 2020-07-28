@@ -12,6 +12,7 @@ const compose = (obj, arg) => {
 };
 
 const collapse = (obj, parentObj, parentKey) => {
+    if (!obj) return obj;
     Object.entries(obj).forEach(([key, val]) => {        
         if (key === parentKey) {
             parentObj[key] = Object.assign(val, parentObj[key]);
