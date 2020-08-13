@@ -11,6 +11,9 @@
         "test": "tape 'tests/**/*.test.js' | tap-spec",
         "coverage": "nyc npm t"
     },
+    "dependencies": {
+        "lodash.merge": "^4.6.2"
+    },
     "devDependencies": {
         "eslint": "^7.4.0",
         "nyc": "^14.1.1",
