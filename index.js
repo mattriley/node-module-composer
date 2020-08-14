@@ -29,6 +29,7 @@ const collapse = (obj, parentObj, parentKey) => {
 module.exports = (obj, arg, override = {}) => {
     const { __modulename } = obj;
     if (!__modulename) return obj;
-    const result = collapse(compose({ __modulename, [__modulename]: obj }, arg));
-    return merge(result, result[__modulename], override);
+    const composed = compose(obj, arg);
+    const collapsed = collapse({ [__modulename]: composed });
+    return merge(collapsed[__modulename], override);
 };
