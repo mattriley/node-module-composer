@@ -101,3 +101,30 @@ test('function name matching __modulename is collapsed', t => {
     const foo = compose(obj);
     foo();
 });
+
+test('result is merged with override value', t => {
+    const obj = {
+        __modulename: 'foo',
+        bar: {
+            __modulename: 'bar',
+            fun2: () => () => {
+                t.fail();
+            }
+        },
+        fun1: ({ foo }) => () => {
+            foo.bar.fun2();
+        }
+    };
+
+    const override = {
+        bar: {
+            fun2: () => {
+                t.pass();
+                t.end();
+            }
+        }
+    };
+
+    const foo = compose(obj, {}, override);
+    foo.fun1();
+});
