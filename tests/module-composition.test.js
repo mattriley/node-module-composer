@@ -1,84 +1,89 @@
+/* eslint-disable no-underscore-dangle */
 const test = require('tape');
 const compose = require('..');
 
-test('module without __modulename is returned without changes', t => {
-    const module = {
-        key: 'val',
-        fun: () => {}
+test('object without __modulename is unchanged', t => {
+    const obj = {
+        foo: 'FOO',
+        fun: () => undefined
     };
 
-    Object.freeze(module); // So that error is raised on attempt to change.
-    const initialisedModule = compose(module);
-    t.strictEqual(initialisedModule, module);
+    Object.freeze(obj);
+    const foo = compose(obj);
+    t.strictEqual(foo, obj);
     t.end();
 });
 
 test('__modulename is removed', t => {
-    const module = {
-        __modulename: 'someModule'
+    const obj = {
+        __modulename: 'foo'
     };
 
-    const initialisedModule = compose(module);
-    t.notOk(initialisedModule.__modulename);
+    const foo = compose(obj);
+    t.equal(foo.__modulename, undefined);
     t.end();
 });
 
 test('argument is optional', t => {
-    const module = {
-        __modulename: 'someModule',
-        doSomething: () => () => {}
-    };
-
-    const initialisedModule = compose(module); // No argument passed.
-    t.ok(initialisedModule.doSomething);
-    t.end();
-});
-
-test('existing properties remain unchanged', t => {
-    const module = {
-        __modulename: 'someModule',
-        doSomething: ({ foo }) => () => {
-            t.equal(foo, 'bar');
+    const obj = {
+        __modulename: 'foo',
+        fun: ({ foo }) => () => {
+            t.true(typeof foo.fun === 'function');
             t.end();
         }
     };
 
-    const argument = { foo: 'bar' };
-    const initialisedModule = compose(module, argument);
-    initialisedModule.doSomething();
+    const foo = compose(obj, undefined);
+    foo.fun();
 });
 
-test('peer function can be invoked', t => {
-    const module = {
-        __modulename: 'someModule',
-        doSomething: ({ someModule }) => () => {
-            someModule.doSomethingElse();
+test('argument without __modulename is unchanged', t => {
+    const obj = {
+        __modulename: 'foo',
+        fun: ({ foo, bar }) => () => {
+            t.true(typeof foo.fun === 'function');
+            t.equal(bar, 'BAR');
+            t.end();
+        }
+    };
+
+    const foo = compose(obj, { bar: 'BAR' });
+    foo.fun();
+});
+
+test('peer function is invoked with arg', t => {
+    const obj = {
+        __modulename: 'foo',
+        fun1: ({ foo }) => num => {
+            t.equal(num, 1);
+            foo.fun2(2);
         },
-        doSomethingElse: () => () => {
+        fun2: () => num => {
+            t.equal(num, 2);
             t.end();
         }
     };
 
-    const initialisedModule = compose(module);
-    initialisedModule.doSomething();
+    const foo = compose(obj);
+    foo.fun1(1);
 });
 
-test('function within submodule can be invoked', t => {
-    const module = {
-        __modulename: 'module',
-        submodule: {
-            __modulename: 'submodule',
-            doSomethingElse: argument => () => {
-                t.ok(argument.module);
-                t.ok(argument.submodule);
+test('nested function is invoked', t => {
+    const obj = {
+        __modulename: 'foo',
+        bar: {
+            __modulename: 'bar',
+            fun2: ({ foo, bar }) => () => {
+                t.ok(foo);
+                t.ok(bar);
                 t.end();
             }
         },
-        doSomething: ({ module }) => () => {
-            module.submodule.doSomethingElse();
+        fun1: ({ foo }) => () => {
+            foo.bar.fun2();
         }
     };
 
-    const initialisedModule = compose(module);
-    initialisedModule.doSomething();
+    const foo = compose(obj);
+    foo.fun1();
 });
