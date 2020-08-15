@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 const test = require('tape');
-const compose = require('..');
+const compose = require('./compose');
 
 test('object without __modulename is unchanged', t => {
     const obj = {
@@ -54,18 +54,17 @@ test('argument without __modulename is unchanged', t => {
 test('peer function is invoked with arg', t => {
     const obj = {
         __modulename: 'foo',
-        fun1: ({ foo }) => num => {
-            t.equal(num, 1);
-            foo.fun2(2);
+        fun1: ({ foo }) => () => {
+            foo.fun2();
         },
-        fun2: () => num => {
-            t.equal(num, 2);
+        fun2: () => () => {
+            t.pass();
             t.end();
         }
     };
 
     const foo = compose(obj);
-    foo.fun1(1);
+    foo.fun1();
 });
 
 test('nested function is invoked', t => {
@@ -73,9 +72,8 @@ test('nested function is invoked', t => {
         __modulename: 'foo',
         bar: {
             __modulename: 'bar',
-            fun2: ({ foo, bar }) => () => {
-                t.ok(foo);
-                t.ok(bar);
+            fun2: () => () => {
+                t.pass();
                 t.end();
             }
         },
@@ -86,4 +84,20 @@ test('nested function is invoked', t => {
 
     const foo = compose(obj);
     foo.fun1();
+});
+
+test('function name matching __modulename is collapsed', t => {
+    const obj = {
+        __modulename: 'foo',
+        foo: ({ foo }) => () => {
+            foo.bar();
+        },
+        bar: () => () => {
+            t.pass();
+            t.end();
+        }
+    };
+
+    const foo = compose(obj);
+    foo();
 });
