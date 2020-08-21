@@ -1,5 +1,5 @@
 const test = require('tape');
-const compose = require('./compose');
+const composer = require('./');
 
 test('argument is optional', t => {
     const src = {
@@ -11,7 +11,7 @@ test('argument is optional', t => {
         }
     };
 
-    const foo = compose(src)('foo', undefined);
+    const foo = composer(src)('foo', undefined);
     foo.fun();
 });
 
@@ -28,7 +28,7 @@ test('peer function is invoked with arg', t => {
         }
     };
 
-    const foo = compose(src)('foo');
+    const foo = composer(src)('foo');
     foo.fun1();
 });
 
@@ -47,7 +47,7 @@ test('nested function is invoked', t => {
         }
     };
 
-    const foo = compose(src)('foo');
+    const foo = composer(src)('foo');
     foo.fun1();
 });
 
@@ -64,6 +64,6 @@ test('function name matching parent key is collapsed', t => {
         }
     };
 
-    const foo = compose(src)('foo');
+    const foo = composer(src)('foo');
     foo();
 });
