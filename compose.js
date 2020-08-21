@@ -1,5 +1,3 @@
-const merge = require('lodash.merge');
-
 const mapValues = (obj, arg) => {
     const process = (val, key) => (typeof val === 'function' ? val(arg) : (typeof val === 'object' ? compose(val, arg, key) : val));
     return Object.entries(obj).reduce((acc, [key, val]) => Object.assign(acc, { [key]: process(val, key) }), {});
@@ -24,9 +22,9 @@ const collapse = (obj, parentObj, parentKey) => {
     return obj;
 };
 
-module.exports = parent => (key, arg, override = {}) => {
+module.exports = parent => (key, arg) => {
     const obj = parent[key];
     const composed = compose(obj, arg, key);
     const collapsed = collapse({ [key]: composed });
-    return merge(collapsed[key], override);
+    return collapsed[key];
 };

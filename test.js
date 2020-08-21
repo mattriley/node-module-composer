@@ -51,7 +51,7 @@ test('nested function is invoked', t => {
     foo.fun1();
 });
 
-test('function name matching __modulename is collapsed', t => {
+test('function name matching parent key is collapsed', t => {
     const src = {
         foo: {
             foo: ({ foo }) => () => {
@@ -66,31 +66,4 @@ test('function name matching __modulename is collapsed', t => {
 
     const foo = compose(src)('foo');
     foo();
-});
-
-test('result is merged with override value', t => {
-    const src = {
-        foo: {
-            bar: {
-                fun2: () => () => {
-                    t.fail();
-                }
-            },
-            fun1: ({ foo }) => () => {
-                foo.bar.fun2();
-            }
-        }
-    };
-
-    const override = {
-        bar: {
-            fun2: () => {
-                t.pass();
-                t.end();
-            }
-        }
-    };
-
-    const foo = compose(src)('foo', {}, override);
-    foo.fun1();
 });

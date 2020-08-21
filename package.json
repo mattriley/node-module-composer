@@ -11,9 +11,7 @@
         "test": "node test.js | tap-spec",
         "cov": "nyc --include compose.js npm t"
     },
-    "dependencies": {
-        "lodash.merge": "^4.6.2"
-    },
+    "dependencies": {},
     "devDependencies": {
         "eslint": "^7.4.0",
         "nyc": "^14.1.1",
