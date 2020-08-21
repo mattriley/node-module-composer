@@ -2,10 +2,9 @@
 
 Composes 'modules' enabling coarse-grained module-level depenency injection.
 
-A module in this sense is any plain object with a `__modulename` entry.
+A module is just a plain object.
 Any entries containing functions are invoked with a given object argument. 
-The object argument is assigned the current module named after `__modulename`.
-Any entries not containing functions are traversed and returned as-is unless `__modulename` is present.
+Any entries containing objects are traversed and any value that is neither object or function is returned as-is.
 
 ## Install
 
@@ -14,10 +13,11 @@ Any entries not containing functions are traversed and returned as-is unless `__
 ## Usage
 
 ```js
-const compose = require('module-composer');
-const modules = require('./modules');
-const moduleB = compose(modules.moduleB, {});
-const moduleA = compose(modules.moduleA, { moduleB });
+const composer = require('module-composer');
+const src = require('./src');
+const compose = composer(src);
+const moduleB = compose('moduleB', {});
+const moduleA = compose('moduleA', { moduleB });
 ```
 
 ## Example
@@ -25,7 +25,7 @@ const moduleA = compose(modules.moduleA, { moduleB });
 Take the following object graph:
 
 ```js
-const modules = {
+const src = {
     moduleA: {
         foo: ({ moduleA, moduleB }) => () => {
             console.log('foo');
@@ -61,12 +61,12 @@ Here's how these modules might be composed manually:
 
 ```js
 const moduleB = {};
-moduleB.baz = modules.moduleB.baz({ moduleB });
-moduleB.qux = modules.moduleB.qux({ moduleB });
+moduleB.baz = src.moduleB.baz({ moduleB });
+moduleB.qux = src.moduleB.qux({ moduleB });
 
 const moduleA = {};
-moduleA.foo = modules.moduleA.foo({ moduleA, moduleB });
-moduleA.bar = modules.moduleA.bar({ moduleA, moduleB });
+moduleA.foo = src.moduleA.foo({ moduleA, moduleB });
+moduleA.bar = src.moduleA.bar({ moduleA, moduleB });
 
 moduleA.foo();
 ```
@@ -74,9 +74,9 @@ moduleA.foo();
 Here's how these modules might be composed with `module-composer`:
 
 ```js
-const compose = require('module-composer');
+const composer = require('module-composer');
 
-const modules = {
+const src = {
     moduleA: {
         __modulename: 'moduleA',
         foo: ({ moduleA, moduleB }) => () => {
@@ -100,8 +100,9 @@ const modules = {
     }
 };
 
-const moduleB = compose(modules.moduleB, {});
-const moduleA = compose(modules.moduleA, { moduleB });
+const compose = composer(src);
+const moduleB = compose('moduleB', {});
+const moduleA = compose('moduleA', { moduleB });
 
 moduleA.foo();
 ```
@@ -130,11 +131,12 @@ proj/
 ```js
 // run.js
 
-const compose = require('module-composer');
+const composer = require('module-composer');
 const src = require('./src');
 
-const moduleB = compose(src.moduleB, {});
-const moduleA = compose(src.moduleA, { moduleB });
+const compose = composer(src);
+const moduleB = compose('moduleB', {});
+const moduleA = compose('moduleA', { moduleB });
 
 moduleA.foo();
 ```
@@ -145,7 +147,6 @@ moduleA.foo();
 // index.js
 
 module.exports = {
-    __modulename: 'src',
     moduleA: require('./module-a'),
     moduleB: require('./module-b')
 };
@@ -157,7 +158,6 @@ module.exports = {
 // index.js
 
 module.exports = {
-    __modulename: 'moduleA',
     foo: require('./foo'),
     bar: require('./bar')
 };
@@ -185,7 +185,6 @@ module.exports = ({ moduleA, moduleB }) => () => {
 // index.js
 
 module.exports = {
-    __modulename: 'moduleB',
     baz: require('./baz'),
     qux: require('./qux')
 };

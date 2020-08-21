@@ -1,16 +1,14 @@
-/* eslint-disable no-underscore-dangle */
 const merge = require('lodash.merge');
 
 const mapValues = (obj, arg) => {
-    const process = val => (val instanceof Function ? val(arg) : compose(val, arg));
-    return Object.entries(obj).reduce((acc, [key, val]) => Object.assign(acc, { [key]: process(val) }), {});
+    const process = (val, key) => (typeof val === 'function' ? val(arg) : (typeof val === 'object' ? compose(val, arg, key) : val));
+    return Object.entries(obj).reduce((acc, [key, val]) => Object.assign(acc, { [key]: process(val, key) }), {});
 };
 
-const compose = (obj, arg) => {
-    const { __modulename, ...entries } = obj;
+const compose = (obj, arg, parentKey) => {
     const product = {}; 
-    const newArg = { [__modulename]: product, ...arg };
-    return Object.assign(product, mapValues(entries, newArg));
+    const newArg = { [parentKey]: product, ...arg };
+    return Object.assign(product, mapValues(obj, newArg));
 };
 
 const collapse = (obj, parentObj, parentKey) => {
@@ -26,10 +24,9 @@ const collapse = (obj, parentObj, parentKey) => {
     return obj;
 };
 
-module.exports = (obj, arg, override = {}) => {
-    const { __modulename } = obj;
-    if (!__modulename) return obj;
-    const composed = compose(obj, arg);
-    const collapsed = collapse({ [__modulename]: composed });
-    return merge(collapsed[__modulename], override);
+module.exports = parent => (key, arg, override = {}) => {
+    const obj = parent[key];
+    const composed = compose(obj, arg, key);
+    const collapsed = collapse({ [key]: composed });
+    return merge(collapsed[key], override);
 };
