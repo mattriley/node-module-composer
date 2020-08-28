@@ -8,7 +8,6 @@ const pick = require('lodash/pick');
 module.exports = (parent, options) => {
     options = options || {};
     const overrides = options.overrides || {};
-
     return (key, arg) => {
         const obj = parent[key];
         const composed = compose(obj, arg, key);
@@ -22,10 +21,9 @@ const compose = (obj, arg, parentKey) => {
     if (!isPlainObject(obj)) return obj;
     const product = {}; 
     const newArg = { [parentKey]: product, ...arg };
-    return Object.assign(product, invokeEntries(obj, newArg));
+    const newObj = mapValues(obj, (val, key) => (isFunction(val) ? val(newArg) : compose(val, newArg, key)));
+    return Object.assign(product, newObj);
 };
-
-const invokeEntries = (obj, arg) => mapValues(obj, (val, key) => (isFunction(val) ? val(arg) : compose(val, arg, key)));
 
 const collapse = (obj, parentObj, parentKey) => {
     if (isPlainObject(obj)) {
