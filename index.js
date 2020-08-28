@@ -1,5 +1,9 @@
-const merge = require('lodash.merge');
-const pick = require('lodash.pick');
+const forEach = require('lodash/forEach');
+const isFunction = require('lodash/isFunction');
+const isPlainObject = require('lodash/isPlainObject');
+const mapValues = require('lodash/mapValues');
+const merge = require('lodash/merge');
+const pick = require('lodash/pick');
 
 module.exports = (parent, options) => {
     options = options || {};
@@ -15,28 +19,23 @@ module.exports = (parent, options) => {
 };
 
 const compose = (obj, arg, parentKey) => {
-    if (typeof obj !== 'object') return obj;
+    if (!isPlainObject(obj)) return obj;
     const product = {}; 
     const newArg = { [parentKey]: product, ...arg };
     return Object.assign(product, invokeEntries(obj, newArg));
 };
 
-const invokeEntries = (obj, arg) => {    
-    return Object.entries(obj).reduce((acc, [key, val]) => {
-        const newVal = typeof val === 'function' ? val(arg) : compose(val, arg, key);
-        return Object.assign(acc, { [key]: newVal });
-    }, {});
-};
+const invokeEntries = (obj, arg) => mapValues(obj, (val, key) => (isFunction(val) ? val(arg) : compose(val, arg, key)));
 
 const collapse = (obj, parentObj, parentKey) => {
-    if (obj && typeof obj === 'object') {
-        Object.entries(obj).forEach(([key, val]) => {        
+    if (isPlainObject(obj)) {
+        forEach(obj, (val, key) => {
             if (key === parentKey) {
                 parentObj[key] = Object.assign(val, parentObj[key]);
                 delete val[key];
             }
             collapse(val, obj, key);
-        });
+        });    
     }
     return obj;
 };
