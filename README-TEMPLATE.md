@@ -1,6 +1,10 @@
-# module-composer
+# Module Composer
 
 Module composition using partial function application.
+
+This package was extracted from [Agile Avatars](https://github.com/mattriley/agileavatars).
+
+## Table of Contents
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -8,18 +12,9 @@ Module composition using partial function application.
 
 ## Install
 
-`npm install module-composer`
-
-## Example
-
-This package was extracted from [Agile Avatars](https://github.com/mattriley/agileavatars).
-
-This is Agile Avatar's [Composition Root](https://blog.ploeh.dk/2011/07/28/CompositionRoot/):
-
-<%- exampleUsage %>
-
-
-
+```
+npm install module-composer
+```
 
 ## Usage
 
@@ -27,11 +22,20 @@ This is Agile Avatar's [Composition Root](https://blog.ploeh.dk/2011/07/28/Compo
 const composer = require('module-composer');
 const src = require('./src');
 const compose = composer(src);
-const moduleB = compose('moduleB', {});
+const moduleB = compose('moduleB');
 const moduleA = compose('moduleA', { moduleB });
 ```
 
-## Example
+## Example: Agile Avatars
+
+This is the composition root from Agile Avatars:
+
+<%- exampleUsage %>
+
+Recommended reading:
+- [Composition Root - Mark Seemann](https://blog.ploeh.dk/2011/07/28/CompositionRoot/)
+
+## How it works
 
 Take the following object graph:
 
@@ -68,7 +72,7 @@ baz
 qux
 ```
 
-Here's how these modules might be composed manually:
+Here's how these modules would be composed manually:
 
 ```js
 const moduleB = {};
@@ -82,35 +86,12 @@ moduleA.bar = src.moduleA.bar({ moduleA, moduleB });
 moduleA.foo();
 ```
 
-Here's how these modules might be composed with `module-composer`:
+Here's how these modules would be composed with `module-composer`:
 
 ```js
 const composer = require('module-composer');
-
-const src = {
-    moduleA: {
-        foo: ({ moduleA, moduleB }) => () => {
-            console.log('foo');
-            moduleA.bar();
-        },
-        bar: ({ moduleA, moduleB }) => () => {
-            console.log('bar');
-            moduleB.baz();
-        }
-    },
-    moduleB: {
-        baz: ({ moduleB }) => () => {
-            console.log('baz');
-            moduleB.qux();
-        },
-        qux: ({ moduleB }) => () => {
-            console.log('qux');
-        }
-    }
-};
-
 const compose = composer(src);
-const moduleB = compose('moduleB', {});
+const moduleB = compose('moduleB');
 const moduleA = compose('moduleA', { moduleB });
 
 moduleA.foo();

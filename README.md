@@ -1,15 +1,19 @@
-# module-composer
+# Module Composer
 
 Module composition using partial function application.
+
+This package was extracted from [Agile Avatars](https://github.com/mattriley/agileavatars).
+
+## Table of Contents
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 - [Install](#install)
-- [Example](#example)
 - [Usage](#usage)
-- [Example](#example-1)
+- [Example: Agile Avatars](#example-agile-avatars)
+- [How it works](#how-it-works)
 - [How is this useful?](#how-is-this-useful)
 - [Couldn't those index.js files be generated?](#couldnt-those-indexjs-files-be-generated)
 
@@ -17,13 +21,23 @@ Module composition using partial function application.
 
 ## Install
 
-`npm install module-composer`
+```
+npm install module-composer
+```
 
-## Example
+## Usage
 
-This package was extracted from [Agile Avatars](https://github.com/mattriley/agileavatars).
+```js
+const composer = require('module-composer');
+const src = require('./src');
+const compose = composer(src);
+const moduleB = compose('moduleB');
+const moduleA = compose('moduleA', { moduleB });
+```
 
-This is Agile Avatar's [Composition Root](https://blog.ploeh.dk/2011/07/28/CompositionRoot/):
+## Example: Agile Avatars
+
+This is the composition root from Agile Avatars:
 
 <details open>
 <summary>https://raw.githubusercontent.com/mattriley/agileavatars/master/boot.js</summary>
@@ -61,20 +75,10 @@ module.exports = ({ window, ...overrides }) => {
 ```
 </details>
 
+Recommended reading:
+- [Composition Root - Mark Seemann](https://blog.ploeh.dk/2011/07/28/CompositionRoot/)
 
-
-
-## Usage
-
-```js
-const composer = require('module-composer');
-const src = require('./src');
-const compose = composer(src);
-const moduleB = compose('moduleB', {});
-const moduleA = compose('moduleA', { moduleB });
-```
-
-## Example
+## How it works
 
 Take the following object graph:
 
@@ -111,7 +115,7 @@ baz
 qux
 ```
 
-Here's how these modules might be composed manually:
+Here's how these modules would be composed manually:
 
 ```js
 const moduleB = {};
@@ -125,35 +129,12 @@ moduleA.bar = src.moduleA.bar({ moduleA, moduleB });
 moduleA.foo();
 ```
 
-Here's how these modules might be composed with `module-composer`:
+Here's how these modules would be composed with `module-composer`:
 
 ```js
 const composer = require('module-composer');
-
-const src = {
-    moduleA: {
-        foo: ({ moduleA, moduleB }) => () => {
-            console.log('foo');
-            moduleA.bar();
-        },
-        bar: ({ moduleA, moduleB }) => () => {
-            console.log('bar');
-            moduleB.baz();
-        }
-    },
-    moduleB: {
-        baz: ({ moduleB }) => () => {
-            console.log('baz');
-            moduleB.qux();
-        },
-        qux: ({ moduleB }) => () => {
-            console.log('qux');
-        }
-    }
-};
-
 const compose = composer(src);
-const moduleB = compose('moduleB', {});
+const moduleB = compose('moduleB');
 const moduleA = compose('moduleA', { moduleB });
 
 moduleA.foo();
