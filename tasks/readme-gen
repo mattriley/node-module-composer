@@ -12,4 +12,3 @@ node ./tasks/readme-gen.js > $README
 npx doctoc --maxlevel 2 $README 
 
 git add $README
-git add docs
