@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+export SRC="src"
+export TESTS="tests"
+
+time "tasks/$1" "${@:2}"

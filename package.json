@@ -7,28 +7,21 @@
     "homepage": "https://github.com/mattriley/node-module-composer",
     "repository": "github:mattriley/node-module-composer",
     "main": "index.js",
-    "scripts": {
-        "test": "node test.js | tap-spec",
-        "cov": "nyc --include compose.js npm t"
-    },
     "dependencies": {
         "lodash": "^4.17.20"
     },
     "devDependencies": {
+        "c8": "^7.3.0",
+        "ejs": "^3.1.5",
         "eslint": "^7.4.0",
-        "nyc": "^14.1.1",
-        "tap-spec": "^5.0.0",
-        "tape": "^4.12.0"
+        "husky": "^4.2.5",
+        "tap-mocha-reporter": "^5.0.1",
+        "zora": "^4.0.0"
     },
-    "nyc": {
-        "all": true,
-        "include": [
-            "src/**/*.js"
-        ],
-        "reporter": [
-            "lcov",
-            "text"
-        ]
+    "husky": {
+        "hooks": {
+            "pre-commit": "./task pre-commit"
+        }
     },
     "publishConfig": {
         "access": "public"

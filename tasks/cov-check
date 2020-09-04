@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# Runs unit tests and checks coverage.
+
+npx c8 \
+    --check-coverage \
+    --all \
+    --include "$SRC" \
+    --reporter=text-summary \
+    --reporter=lcov \
+    --branches 100 \
+    --lines 100 \
+    --functions 100 \
+    --statements 100 \
+    ./tasks/test

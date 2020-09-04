@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# Minimum quality check for a commit.
+
+set -e
+
+./tasks/readme-gen
+
+STAGED_FILES=$(git diff --name-only --staged | tr -d '[:space:]')
+STAGED_DOCS=$(echo $STAGED_FILES | grep .md$ | tr -d '[:space:]')
+
+if [ "$STAGED_FILES" = "$STAGED_DOCS" ]; then
+    echo "Stages files are all docs. Skipping lint and test."
+else
+    ./tasks/lint
+    ./tasks/cov-check
+fi

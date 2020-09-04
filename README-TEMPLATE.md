@@ -10,14 +10,6 @@ Any entries containing objects are traversed and any value that is neither objec
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-- [Install](#install)
-- [Usage](#usage)
-- [Example](#example)
-- [How is this useful?](#how-is-this-useful)
-- [Couldn't those index.js files be generated?](#couldnt-those-indexjs-files-be-generated)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 ## Install
 
 `npm install module-composer`

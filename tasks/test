@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# Runs unit tests.
+
+export INDENT=true
+node "$TESTS/module-composer.test.js" | npx tap-mocha-reporter spec
