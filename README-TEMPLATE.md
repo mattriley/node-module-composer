@@ -1,10 +1,6 @@
 # module-composer
 
-Composes 'modules' enabling coarse-grained module-level depenency injection.
-
-A module is just a plain object.
-Any entries containing functions are invoked with a given object argument. 
-Any entries containing objects are traversed and any value that is neither object or function is returned as-is.
+Module composition using partial function application.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -13,6 +9,17 @@ Any entries containing objects are traversed and any value that is neither objec
 ## Install
 
 `npm install module-composer`
+
+## Example
+
+This package was extracted from [Agile Avatars](https://github.com/mattriley/agileavatars).
+
+This is Agile Avatar's [Composition Root](https://blog.ploeh.dk/2011/07/28/CompositionRoot/):
+
+<%- exampleUsage %>
+
+
+
 
 ## Usage
 
@@ -82,7 +89,6 @@ const composer = require('module-composer');
 
 const src = {
     moduleA: {
-        __modulename: 'moduleA',
         foo: ({ moduleA, moduleB }) => () => {
             console.log('foo');
             moduleA.bar();
@@ -93,7 +99,6 @@ const src = {
         }
     },
     moduleB: {
-        __modulename: 'moduleB',
         baz: ({ moduleB }) => () => {
             console.log('baz');
             moduleB.qux();
@@ -211,5 +216,4 @@ module.exports = ({ moduleA, moduleB }) => () => {
 
 ## Couldn't those index.js files be generated?
 
-Glad you asked. Absolutely. See: https://github.com/mattriley/node-indexgen
-
+Glad you asked. Absolutely. See: https://github.com/mattriley/node-module-indexgen

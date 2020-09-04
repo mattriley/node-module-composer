@@ -1,18 +1,15 @@
 # module-composer
 
-Composes 'modules' enabling coarse-grained module-level depenency injection.
-
-A module is just a plain object.
-Any entries containing functions are invoked with a given object argument. 
-Any entries containing objects are traversed and any value that is neither object or function is returned as-is.
+Module composition using partial function application.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 - [Install](#install)
-- [Usage](#usage)
 - [Example](#example)
+- [Usage](#usage)
+- [Example](#example-1)
 - [How is this useful?](#how-is-this-useful)
 - [Couldn't those index.js files be generated?](#couldnt-those-indexjs-files-be-generated)
 
@@ -21,6 +18,51 @@ Any entries containing objects are traversed and any value that is neither objec
 ## Install
 
 `npm install module-composer`
+
+## Example
+
+This package was extracted from [Agile Avatars](https://github.com/mattriley/agileavatars).
+
+This is Agile Avatar's [Composition Root](https://blog.ploeh.dk/2011/07/28/CompositionRoot/):
+
+<details open>
+<summary>https://raw.githubusercontent.com/mattriley/agileavatars/master/boot.js</summary>
+
+```js
+const sentry = require('@sentry/browser');
+const composer = require('module-composer');
+const { lib, startup, ...src } = require('./src');
+
+module.exports = ({ window, ...overrides }) => {
+
+    const compose = composer(src, { overrides });
+
+    const io = compose('io', { window });
+    const config = compose('config', { io, window });
+    sentry.init(config.sentry);
+        
+    // Data layer
+    const { state, stores, settings, subscriptions } = startup.createStores({ lib, config });
+        
+    // Domain layer
+    const core = compose('core', { lib, config });
+    const services = compose('services', { subscriptions, settings, stores, core, io, lib, config, sentry });
+
+    // Presentation layer
+    const { el, ...elements } = compose('elements', { lib, window });
+    const components = compose('components', { el, elements, services, subscriptions, lib, config, window });
+
+    startup.insertNilRole({ config, settings, stores });
+    startup.createHandlers({ services, subscriptions, lib, config });
+
+    return { components, elements, services, core, subscriptions, lib, config, state };
+
+};
+```
+</details>
+
+
+
 
 ## Usage
 
@@ -90,7 +132,6 @@ const composer = require('module-composer');
 
 const src = {
     moduleA: {
-        __modulename: 'moduleA',
         foo: ({ moduleA, moduleB }) => () => {
             console.log('foo');
             moduleA.bar();
@@ -101,7 +142,6 @@ const src = {
         }
     },
     moduleB: {
-        __modulename: 'moduleB',
         baz: ({ moduleB }) => () => {
             console.log('baz');
             moduleB.qux();
@@ -219,5 +259,4 @@ module.exports = ({ moduleA, moduleB }) => () => {
 
 ## Couldn't those index.js files be generated?
 
-Glad you asked. Absolutely. See: https://github.com/mattriley/node-indexgen
-
+Glad you asked. Absolutely. See: https://github.com/mattriley/node-module-indexgen
