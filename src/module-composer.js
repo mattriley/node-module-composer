@@ -17,8 +17,7 @@ module.exports = (parent, options) => {
         Object.assign(modules, result);
         return result[key];
     };
-    result.modules = {};
-    return result;
+    return Object.assign(result, { modules });
 };
 
 const compose = (obj, arg, parentKey) => {
