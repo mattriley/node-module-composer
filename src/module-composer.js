@@ -5,8 +5,7 @@ const mapValues = require('lodash/mapValues');
 const merge = require('lodash/merge');
 const pick = require('lodash/pick');
 
-module.exports = (parent, options) => {
-    options = options || {};
+module.exports = (parent, options = {}) => {
     const overrides = options.overrides || {};
     const modules = { ...parent };
     const dependencies = {};
@@ -19,9 +18,8 @@ module.exports = (parent, options) => {
         Object.assign(dependencies, { [key]: Object.keys(arg) });
         return module;
     };
-    const getModules = () => ({ ...modules });
-    const getDependencies = () => ({ ...dependencies });
-    return Object.assign(compose, { getModules, getDependencies });
+    const getModules = () => ({ ...modules, __dependencies: { ...dependencies } });
+    return Object.assign(compose, { getModules });
 };
 
 const composeRecursive = (obj, arg, parentKey) => {
