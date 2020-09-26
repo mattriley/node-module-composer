@@ -8,7 +8,7 @@ const pick = require('lodash/pick');
 module.exports = (parent, options) => {
     options = options || {};
     const overrides = options.overrides || {};
-    const modules = {};
+    const modules = { ...parent };
     const result = (key, arg) => {
         const obj = parent[key];
         const composed = compose(obj, arg, key);
@@ -17,7 +17,8 @@ module.exports = (parent, options) => {
         Object.assign(modules, result);
         return result[key];
     };
-    return Object.assign(result, { modules });
+    const getModules = () => ({ ...modules });
+    return Object.assign(result, { getModules });
 };
 
 const compose = (obj, arg, parentKey) => {
