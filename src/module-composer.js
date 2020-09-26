@@ -9,16 +9,19 @@ module.exports = (parent, options) => {
     options = options || {};
     const overrides = options.overrides || {};
     const modules = { ...parent };
+    const relationships = {};
     const result = (key, arg) => {
         const obj = parent[key];
         const composed = compose(obj, arg, key);
         const collapsed = collapse({ [key]: composed });
         const result = override(collapsed, overrides);
         Object.assign(modules, result);
+        Object.assign(relationships, { [key]: Object.keys(arg || {}) });
         return result[key];
     };
     const getModules = () => ({ ...modules });
-    return Object.assign(result, { getModules });
+    const getRelationships = () => ({ ...relationships });
+    return Object.assign(result, { getModules, getRelationships });
 };
 
 const compose = (obj, arg, parentKey) => {

@@ -1,6 +1,6 @@
 {
     "name": "module-composer",
-    "version": "0.4.3",
+    "version": "0.4.4",
     "description": "Module composition using partial function application",
     "author": "Matt Riley",
     "license": "ISC",
