@@ -9,37 +9,37 @@ module.exports = (parent, options) => {
     options = options || {};
     const overrides = options.overrides || {};
     const modules = { ...parent };
-    const relationships = {};
-    const result = (key, arg) => {
+    const dependencies = {};
+    const compose = (key, arg = {}) => {
         const obj = parent[key];
-        const composed = compose(obj, arg, key);
-        const collapsed = collapse({ [key]: composed });
-        const result = override(collapsed, overrides);
-        Object.assign(modules, result);
-        Object.assign(relationships, { [key]: Object.keys(arg || {}) });
-        return result[key];
+        const composed = composeRecursive(obj, arg, key);
+        const collapsed = collapseRecursive({ [key]: composed })[key];
+        const module = override({ [key]: collapsed }, overrides)[key];
+        Object.assign(modules, { [key]: module });
+        Object.assign(dependencies, { [key]: Object.keys(arg) });
+        return module;
     };
     const getModules = () => ({ ...modules });
-    const getRelationships = () => ({ ...relationships });
-    return Object.assign(result, { getModules, getRelationships });
+    const getDependencies = () => ({ ...dependencies });
+    return Object.assign(compose, { getModules, getDependencies });
 };
 
-const compose = (obj, arg, parentKey) => {
+const composeRecursive = (obj, arg, parentKey) => {
     if (!isPlainObject(obj)) return obj;
     const product = {}; 
     const newArg = { [parentKey]: product, ...arg };
-    const newObj = mapValues(obj, (val, key) => (isFunction(val) ? val(newArg) : compose(val, newArg, key)));
+    const newObj = mapValues(obj, (val, key) => (isFunction(val) ? val(newArg) : composeRecursive(val, newArg, key)));
     return Object.assign(product, newObj);
 };
 
-const collapse = (obj, parentObj, parentKey) => {
+const collapseRecursive = (obj, parentObj, parentKey) => {
     if (isPlainObject(obj)) {
         forEach(obj, (val, key) => {
             if (key === parentKey) {
                 parentObj[key] = Object.assign(val, parentObj[key]);
                 delete val[key];
             }
-            collapse(val, obj, key);
+            collapseRecursive(val, obj, key);
         });    
     }
     return obj;
