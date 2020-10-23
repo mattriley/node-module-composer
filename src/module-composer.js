@@ -1,9 +1,5 @@
-const forEach = require('lodash/forEach');
-const isFunction = require('lodash/isFunction');
-const isPlainObject = require('lodash/isPlainObject');
-const mapValues = require('lodash/mapValues');
 const merge = require('lodash/merge');
-const pick = require('lodash/pick');
+const { isObject, isFunction, forEach, mapValues, pick } = require('./util');
 
 module.exports = (parent, options = {}) => {
     const overrides = options.overrides || {};
@@ -24,7 +20,7 @@ module.exports = (parent, options = {}) => {
 };
 
 const composeRecursive = (obj, arg, parentKey) => {
-    if (!isPlainObject(obj)) return obj;
+    if (!isObject(obj)) return obj;
     const product = {}; 
     const newArg = { [parentKey]: product, ...arg };
     const newObj = mapValues(obj, (val, key) => (isFunction(val) ? val(newArg) : composeRecursive(val, newArg, key)));
@@ -32,7 +28,7 @@ const composeRecursive = (obj, arg, parentKey) => {
 };
 
 const collapseRecursive = (obj, parentObj, parentKey) => {
-    if (isPlainObject(obj)) {
+    if (isObject(obj)) {
         forEach(obj, (val, key) => {
             if (key === parentKey) {
                 parentObj[key] = Object.assign(val, parentObj[key]);
