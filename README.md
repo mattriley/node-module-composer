@@ -52,7 +52,7 @@ module.exports = ({ window, ...overrides }) => {
     const compose = composer(src, { overrides });
 
     // Configure
-    const config = compose('config');
+    const config = compose('config', { window });
     const io = compose('io', { window });    
     
     // Data
@@ -66,16 +66,15 @@ module.exports = ({ window, ...overrides }) => {
         
     // Presentation
     const { el, ...ui } = compose('ui', { window });        
-    const styles = compose('styles', { el, ui, subscriptions, config });
     const elements = compose('elements', { el, ui, util });
     const vendorComponents = compose('vendorComponents', { el, ui, config, window });
     compose('components', { el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
-    
+    compose('styles', { el, ui, subscriptions, config });
+
     // Startup    
     compose('diagnostics', { stores, util });
-    compose('startup', { styles, subscriptions, services, stores, ui, util, config });
-
-    return compose.getModules();
+    const { mount } = compose('startup', compose.getModules());
+    return { mount, ...compose.getModules() };
 
 };
 ```
