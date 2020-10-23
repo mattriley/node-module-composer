@@ -10,6 +10,7 @@ module.exports = (parent, options = {}) => {
     const modules = { ...parent };
     const dependencies = {};
     const compose = (key, arg = {}) => {
+        delete arg[key];
         const obj = parent[key];
         const composed = composeRecursive(obj, arg, key);
         const collapsed = collapseRecursive({ [key]: composed })[key];

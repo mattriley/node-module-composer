@@ -52,10 +52,9 @@ module.exports = ({ window, ...overrides }) => {
     const compose = composer(src, { overrides });
 
     // Configure
-    const io = compose('io', { window });
-    const config = compose('config', { io, window });
-    const { gtag, vendorComponents } = compose('vendor', { config, window });
-
+    const config = compose('config');
+    const io = compose('io', { window });    
+    
     // Data
     const stores = compose('stores', { storage, config });
     const subscriptions = compose('subscriptions', { stores, util });
@@ -63,18 +62,18 @@ module.exports = ({ window, ...overrides }) => {
     // Domain
     const core = compose('core', { util, config });
     const services = compose('services', { subscriptions, stores, core, io, util, config });
+    const vendorServices = compose('vendorServices', { io, config, window });
         
     // Presentation
-    const { el, ...ui } = compose('ui', { config, window });
-    const styles = compose('styles', { el, subscriptions, config });
-    const elements = compose('elements', { el, ui, window });
-    compose('components', { el, elements, services, subscriptions, ui, util, config, gtag, vendorComponents });
+    const { el, ...ui } = compose('ui', { window });        
+    const styles = compose('styles', { el, ui, subscriptions, config });
+    const elements = compose('elements', { el, ui, util });
+    const vendorComponents = compose('vendorComponents', { el, ui, config, window });
+    compose('components', { el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
     
-    // Startup
-    const rels = compose.getRelationships();
-    compose('diagnostics', { stores, util, rels });
-    const startup = compose('startup', { styles, subscriptions, services, stores, util, config, window });
-    startup();
+    // Startup    
+    compose('diagnostics', { stores, util });
+    compose('startup', { styles, subscriptions, services, stores, ui, util, config });
 
     return compose.getModules();
 
