@@ -6,6 +6,7 @@ module.exports = (parent, options = {}) => {
     const modules = { ...parent };
     const dependencies = {};
     const compose = (key, arg = {}) => {
+        arg = { ...arg };        
         delete arg[key];
         const obj = parent[key];
         const composed = composeRecursive(obj, arg, key);
