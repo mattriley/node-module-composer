@@ -1,7 +1,7 @@
 {
     "name": "module-composer",
-    "version": "0.4.8",
-    "description": "Module composition using partial function application",
+    "version": "0.5.0",
+    "description": "Module composition utility",
     "author": "Matt Riley",
     "license": "ISC",
     "homepage": "https://github.com/mattriley/node-module-composer",

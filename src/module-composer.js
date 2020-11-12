@@ -1,5 +1,4 @@
-const merge = require('lodash/merge');
-const { isObject, isFunction, forEach, mapValues, pick } = require('./util');
+const { isObject, isFunction, mapValues, override } = require('./util');
 
 module.exports = (parent, options = {}) => {
     const overrides = options.overrides || {};
@@ -10,11 +9,12 @@ module.exports = (parent, options = {}) => {
         delete arg[key];
         const obj = parent[key];
         const composed = composeRecursive(obj, arg, key);
-        const collapsed = collapseRecursive({ [key]: composed })[key];
-        const module = override({ [key]: collapsed }, overrides)[key];
-        Object.assign(modules, { [key]: module });
+        const module = override({ [key]: composed }, overrides)[key];
+        const initialise = isFunction(module[key]) ? module[key] : () => module;
+        const result = initialise();
+        Object.assign(modules, { [key]: result });
         Object.assign(dependencies, { [key]: Object.keys(arg) });
-        return module;
+        return result;
     };
     const getModules = () => ({ ...modules, __dependencies: { ...dependencies } });
     return Object.assign(compose, { getModules });
@@ -26,21 +26,4 @@ const composeRecursive = (obj, arg, parentKey) => {
     const newArg = { [parentKey]: product, ...arg };
     const newObj = mapValues(obj, (val, key) => (isFunction(val) ? val(newArg) : composeRecursive(val, newArg, key)));
     return Object.assign(product, newObj);
-};
-
-const collapseRecursive = (obj, parentObj, parentKey) => {
-    if (isObject(obj)) {
-        forEach(obj, (val, key) => {
-            if (key === parentKey) {
-                parentObj[key] = Object.assign(val, parentObj[key]);
-                delete val[key];
-            }
-            collapseRecursive(val, obj, key);
-        });    
-    }
-    return obj;
-};
-
-const override = (obj, overrides) => {
-    return merge(obj, pick(overrides, Object.keys(obj)));
 };
