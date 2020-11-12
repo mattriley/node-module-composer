@@ -9,12 +9,11 @@ module.exports = (parent, options = {}) => {
         delete arg[key];
         const obj = parent[key];
         const composed = composeRecursive(obj, arg, key);
-        const module = override({ [key]: composed }, overrides)[key];
-        const initialise = isFunction(module[key]) ? module[key] : () => module;
-        const result = initialise();
-        Object.assign(modules, { [key]: result });
+        const initialise = isFunction(composed[key]) ? composed[key] : () => composed;
+        const module = override({ [key]: initialise() }, overrides)[key];
+        Object.assign(modules, { [key]: module });
         Object.assign(dependencies, { [key]: Object.keys(arg) });
-        return result;
+        return module;
     };
     const getModules = () => ({ ...modules, __dependencies: { ...dependencies } });
     return Object.assign(compose, { getModules });
