@@ -3,7 +3,7 @@ const { isObject, isFunction, mapValues, override } = require('./util');
 module.exports = (parent, options = {}) => {
     const overrides = options.overrides || {};
     const modules = { ...parent };
-    const dependencies = {};
+    const dependencies = mapValues(modules, () => []);
     const compose = (key, arg = {}) => {
         arg = { ...arg };        
         delete arg[key];
