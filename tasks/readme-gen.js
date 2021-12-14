@@ -1,4 +1,3 @@
-/* eslint-disable no-sync */
 const ejs = require('ejs');
 const fs = require('fs');
 const fetch = require('node-fetch');
@@ -27,12 +26,12 @@ const start = async () => {
         renderJsFile,
         exampleUsage: await renderJsFile('https://raw.githubusercontent.com/mattriley/agileavatars/master/boot.js')
     };
-    
+
     ejs.renderFile('README-TEMPLATE.md', data, {}, (err, str) => {
         if (err) throw err;
         process.stdout.write(str);
     });
-    
+
 };
 
 start();

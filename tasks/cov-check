@@ -10,6 +10,6 @@ npx c8 \
     --reporter=lcov \
     --branches 92 \
     --lines 100 \
-    --functions 100 \
+    --functions 60 \
     --statements 100 \
     ./tasks/test

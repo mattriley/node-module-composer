@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-# Runs ESLint. 
-
-npx eslint "*.js" "$SRC" "$TESTS" $@
