@@ -18,7 +18,7 @@
         "husky": "^7.0.4",
         "node-fetch": "^2.6.6",
         "tap-mocha-reporter": "^5.0.1",
-        "zora": "^4.0.0"
+        "zora": "^5.0.1"
     },
     "publishConfig": {
         "access": "public"
