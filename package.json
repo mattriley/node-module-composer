@@ -15,15 +15,10 @@
         "doctoc": "^2.1.0",
         "ejs": "^3.1.6",
         "fetch": "^1.1.0",
-        "husky": "^4.2.5",
+        "husky": "^7.0.4",
         "node-fetch": "^2.6.6",
         "tap-mocha-reporter": "^5.0.1",
         "zora": "^4.0.0"
-    },
-    "husky": {
-        "hooks": {
-            "pre-commit": "./task pre-commit"
-        }
     },
     "publishConfig": {
         "access": "public"
