@@ -1,4 +1,4 @@
 #!/bin/bash
 
-export INDENT=true
-node "$TESTS/module-composer.test.js" | npx tap-mocha-reporter spec
+export ZORA_REPORTER=json 
+node "$TESTS/module-composer.test.js" | npx zr
