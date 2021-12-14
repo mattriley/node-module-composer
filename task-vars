@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export SRC="src"
+export TESTS="tests"

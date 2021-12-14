@@ -1,6 +1,15 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-export SRC="src"
-export TESTS="tests"
+. ./task-vars
 
-time "tasks/$1" "${@:2}"
+function task() {
+    echo "$1 started"
+    "tasks/$1" "${@:2}"
+    EXIT_CODE=$?
+    echo
+    echo "exit code $EXIT_CODE"
+}
+
+time task $@
+echo
+exit $EXIT_CODE
