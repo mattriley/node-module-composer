@@ -1,4 +1,4 @@
-const merge = require('lodash/merge');
+const merge = require('lodash.merge');
 const isFunction = val => typeof val === 'function';
 const isObject = val => val !== null && val.constructor.name === 'Object';
 const mapValues = (obj, cb) => Object.entries(obj).reduce((acc, [key, val]) => Object.assign(acc, { [key]: cb(val, key) }), {});
