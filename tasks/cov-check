@@ -6,7 +6,7 @@ npx c8 \
     --include "$SRC" \
     --reporter=text-summary \
     --reporter=lcov \
-    --branches 92 \
+    --branches 80 \
     --lines 100 \
     --functions 60 \
     --statements 100 \

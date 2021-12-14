@@ -57,21 +57,3 @@ test('nested function is invoked', t => {
     foo.fun1();
     t.ok(fun2Called);
 });
-
-test('function name matching parent key is collapsed', async () => {
-    await new Promise(resolve => {
-        const src = {
-            foo: {
-                foo: ({ foo }) => () => {
-                    foo.bar();
-                },
-                bar: () => () => {
-                    resolve();
-                }
-            }
-        };
-
-        const foo = composer(src)('foo');
-        foo();
-    });
-});
