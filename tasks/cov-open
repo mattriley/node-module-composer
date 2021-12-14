@@ -1,6 +1,4 @@
-#!/usr/bin/env bash
-
-# Runs unit tests with coverage and opens the coverage report.
+#!/bin/bash
 
 npx c8 \
     --all \

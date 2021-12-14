@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -i
+#!/bin/bash -i
 
 # Generates README.md
 # NOTE: Ensure draw.io is on the PATH.

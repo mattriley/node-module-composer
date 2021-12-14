@@ -1,6 +1,4 @@
-#!/usr/bin/env bash
-
-# Minimum quality check for a commit.
+#!/bin/bash
 
 set -e
 
