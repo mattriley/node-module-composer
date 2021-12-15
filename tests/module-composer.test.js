@@ -57,3 +57,12 @@ test('nested function is invoked', t => {
     foo.fun1();
     t.ok(fun2Called);
 });
+
+test('get dependencies', t => {
+    const src = { foo: {}, bar: {} };
+    const compose = composer(src);
+    const foo = compose('foo');
+    compose('bar', { foo });
+    const expected = { foo: [], bar: ['foo'] };
+    t.equal(compose.getDependencies(), expected);
+});
