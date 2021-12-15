@@ -75,3 +75,12 @@ test('get modules', t => {
     const expected = { foo: {}, bar: {} };
     t.equal(compose.getModules(), expected);
 });
+
+test('get module', t => {
+    const src = { foo: {}, bar: {} };
+    const compose = composer(src);
+    const foo = compose('foo');
+    compose('bar', { foo });
+    const expected = {};
+    t.equal(compose.getModule('foo'), expected);
+});
