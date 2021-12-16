@@ -84,3 +84,10 @@ test('get module', t => {
     const expected = {};
     t.equal(compose.getModule('foo'), expected);
 });
+
+test('add modules', t => {
+    const src = {};
+    const compose = composer(src);
+    compose.addModules({ foo: {} });
+    t.equal(compose.getDependencies(), { foo: [] });
+});
