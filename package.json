@@ -1,6 +1,6 @@
 {
     "name": "module-composer",
-    "version": "0.6.3",
+    "version": "0.6.4",
     "description": "Module composition utility",
     "author": "Matt Riley",
     "license": "ISC",
@@ -8,7 +8,7 @@
     "repository": "github:mattriley/node-module-composer",
     "main": "index.js",
     "dependencies": {
-        "lodash.merge": "^4.6.3"
+        "lodash.merge": "^4.6.2"
     },
     "devDependencies": {
         "c8": "^7.3.0",
