@@ -9,5 +9,5 @@ npx c8 \
     --branches 80 \
     --lines 100 \
     --functions 60 \
-    --statements 100 \
+    --statements 90 \
     ./tasks/test
