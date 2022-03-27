@@ -7,7 +7,7 @@ npx c8 \
     --reporter=text-summary \
     --reporter=lcov \
     --branches 80 \
-    --lines 100 \
+    --lines 90 \
     --functions 60 \
     --statements 90 \
     ./tasks/test
