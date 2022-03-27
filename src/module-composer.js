@@ -24,7 +24,8 @@ module.exports = (parent, defaults = {}, overrides = {}) => {
         addModules,
         getModule: key => modules[key],
         getModules: () => ({ ...modules }),
-        getDependencies: () => ({ ...dependencies })
+        getDependencies: () => ({ ...dependencies }),
+        done: () => ({ modules, dependencies })
     });
 };
 
