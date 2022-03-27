@@ -1,8 +1,6 @@
 # Module Composer
 
-Module composition using partial function application.
-
-This package was extracted from [Agile Avatars](https://github.com/mattriley/agileavatars).
+Module composition utility.
 
 ## Table of Contents
 
