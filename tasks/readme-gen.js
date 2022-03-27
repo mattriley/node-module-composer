@@ -24,7 +24,7 @@ const start = async () => {
     const data = {
         nodeVersion,
         renderJsFile,
-        exampleUsage: await renderJsFile('https://raw.githubusercontent.com/mattriley/agileavatars/master/boot.js')
+        exampleUsage: await renderJsFile('https://raw.githubusercontent.com/mattriley/agileavatars/master/src/boot.js')
     };
 
     ejs.renderFile('README-TEMPLATE.md', data, {}, (err, str) => {
