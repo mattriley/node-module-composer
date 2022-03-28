@@ -53,7 +53,8 @@ test('nested function is invoked', t => {
         }
     };
 
-    const foo = composer(src)('foo');
+    const compose = composer(src);
+    const foo = compose('foo');
     foo.fun1();
     t.ok(fun2Called);
 });
