@@ -5,7 +5,7 @@ const composer = require('../');
 test('argument is optional', t => {
     let fooIsFunction = false;
 
-    const src = {
+    const modules = {
         foo: {
             fun: ({ foo }) => () => {
                 fooIsFunction = typeof foo.fun === 'function';
@@ -13,7 +13,8 @@ test('argument is optional', t => {
         }
     };
 
-    const foo = composer(src)('foo', undefined);
+    const compose = composer(modules);
+    const foo = compose('foo', undefined);
     foo.fun();
     t.ok(fooIsFunction);
 });
@@ -21,7 +22,7 @@ test('argument is optional', t => {
 test('peer function is invoked with arg', t => {
     let fun2Called = false;
 
-    const src = {
+    const modules = {
         foo: {
             fun1: ({ foo }) => () => {
                 foo.fun2();
@@ -32,7 +33,8 @@ test('peer function is invoked with arg', t => {
         }
     };
 
-    const foo = composer(src)('foo');
+    const compose = composer(modules);
+    const foo = compose('foo');
     foo.fun1();
     t.ok(fun2Called);
 });
@@ -40,7 +42,7 @@ test('peer function is invoked with arg', t => {
 test('nested function is invoked', t => {
     let fun2Called = false;
 
-    const src = {
+    const modules = {
         foo: {
             bar: {
                 fun2: () => () => {
@@ -53,7 +55,7 @@ test('nested function is invoked', t => {
         }
     };
 
-    const compose = composer(src);
+    const compose = composer(modules);
     const foo = compose('foo');
     foo.fun1();
     t.ok(fun2Called);
