@@ -20,6 +20,15 @@ test('dependencies are applied', t => {
     t.equal(actual, expected);
 });
 
+test('defaults are applied', t => {
+    const modules = { foo: {} };
+    const compose = composer(modules, { bar: {} });
+    compose('foo');
+    const actual = compose.done();
+    const expected = { modules: { foo: {} }, dependencies: { foo: ['bar'] } }
+    t.equal(actual, expected);
+});
+
 test('initialiser is invoked', t => {
     const modules = {
         foo: {
