@@ -2,23 +2,6 @@ const { test } = require('zora');
 
 const composer = require('../');
 
-test('argument is optional', t => {
-    let fooIsFunction = false;
-
-    const modules = {
-        foo: {
-            fun: ({ foo }) => () => {
-                fooIsFunction = typeof foo.fun === 'function';
-            }
-        }
-    };
-
-    const compose = composer(modules);
-    const foo = compose('foo', undefined);
-    foo.fun();
-    t.ok(fooIsFunction);
-});
-
 test('peer function is invoked with arg', t => {
     let fun2Called = false;
 
