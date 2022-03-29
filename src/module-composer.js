@@ -1,8 +1,7 @@
 const { isObject, isFunction, mapValues, override } = require('./util');
 
 module.exports = (parent, defaults = {}, overrides = {}) => {
-    const modules = { ...parent }, dependencies = {};
-    Object.assign(dependencies, mapValues(modules, () => []))
+    const modules = { ...parent }, dependencies = mapValues(modules, () => []);
     const done = () => ({ modules: { ...modules }, dependencies: { ...dependencies } });
     const compose = (key, arg = modules, initialise) => {
         arg = { ...defaults, ...arg };
