@@ -1,7 +1,7 @@
 {
     "name": "module-composer",
-    "version": "0.7.5",
-    "description": "Module composition utility",
+    "version": "0.7.6",
+    "description": "A module composition utility",
     "author": "Matt Riley",
     "license": "ISC",
     "homepage": "https://github.com/mattriley/node-module-composer",

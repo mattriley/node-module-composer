@@ -1,6 +1,6 @@
 # Module Composer
 
-Module composition utility.
+A module composition utility.
 
 ## Table of Contents
 
