@@ -8,8 +8,8 @@ module.exports = (parent, defaults = {}, overrides = {}) => {
         delete arg[key];
         const obj = parent[key];
         const composed = composeRecursive(obj, arg, key);
-        initialise = initialise ?? (() => composed);
-        const module = override({ [key]: initialise(composed) }, overrides)[key];
+        const initialised = initialise ? initialise(composed) : composed;
+        const module = override({ [key]: initialised }, overrides)[key];
         modules[key] = module;
         dependencies[key] = Object.keys(arg);
         return module;
