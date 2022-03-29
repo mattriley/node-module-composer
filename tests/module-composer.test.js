@@ -2,6 +2,37 @@ const { test } = require('zora');
 
 const composer = require('../');
 
+test('dependencies are optional', t => {
+    const modules = { foo: {} };
+    const compose = composer(modules);
+    compose('foo');
+    const actual = compose.done();
+    const expected = { modules: { foo: {} }, dependencies: { foo: [] } };
+    t.equal(actual, expected);
+});
+
+test('dependencies are applied', t => {
+    const modules = { foo: {} };
+    const compose = composer(modules);
+    compose('foo', { bar: {} });
+    const actual = compose.done();
+    const expected = { modules: { foo: {} }, dependencies: { foo: ['bar'] } }
+    t.equal(actual, expected);
+});
+
+test('initialiser is invoked', t => {
+    const modules = {
+        foo: {
+            setup: () => () => ({ bar: {} })
+        }
+    };
+    const compose = composer(modules);
+    compose('foo', undefined, foo => foo.setup());
+    const actual = compose.done();
+    const expected = { modules: { foo: { bar: {} } }, dependencies: { foo: [] } };
+    t.equal(actual, expected);
+});
+
 test('peer function is invoked with arg', t => {
     let fun2Called = false;
 
@@ -17,8 +48,26 @@ test('peer function is invoked with arg', t => {
     };
 
     const compose = composer(modules);
-    const foo = compose('foo');
-    foo.fun1();
+    compose('foo').fun1();
+    t.ok(fun2Called);
+});
+
+test('peer function is invoked with arg', t => {
+    let fun2Called = false;
+
+    const modules = {
+        foo: {
+            fun1: ({ foo }) => () => {
+                foo.fun2();
+            },
+            fun2: () => () => {
+                fun2Called = true;
+            }
+        }
+    };
+
+    const compose = composer(modules);
+    compose('foo').fun1();
     t.ok(fun2Called);
 });
 
@@ -39,41 +88,6 @@ test('nested function is invoked', t => {
     };
 
     const compose = composer(modules);
-    const foo = compose('foo');
-    foo.fun1();
+    compose('foo').fun1();
     t.ok(fun2Called);
 });
-
-// test('get dependencies', t => {
-//     const src = { foo: {}, bar: {} };
-//     const compose = composer(src);
-//     const foo = compose('foo');
-//     compose('bar', { foo });
-//     const expected = { foo: [], bar: ['foo'] };
-//     t.equal(compose.getDependencies(), expected);
-// });
-
-// test('get modules', t => {
-//     const src = { foo: {}, bar: {} };
-//     const compose = composer(src);
-//     const foo = compose('foo');
-//     compose('bar', { foo });
-//     const expected = { foo: {}, bar: {} };
-//     t.equal(compose.getModules(), expected);
-// });
-
-// test('get module', t => {
-//     const src = { foo: {}, bar: {} };
-//     const compose = composer(src);
-//     const foo = compose('foo');
-//     compose('bar', { foo });
-//     const expected = {};
-//     t.equal(compose.getModule('foo'), expected);
-// });
-
-// test('add modules', t => {
-//     const src = {};
-//     const compose = composer(src);
-//     compose.addModules({ foo: {} });
-//     t.equal(compose.getDependencies(), { foo: [] });
-// });
