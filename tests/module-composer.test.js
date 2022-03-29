@@ -33,6 +33,15 @@ test('initialiser is invoked', t => {
     t.equal(actual, expected);
 });
 
+test('avoids following non-objects', t => {
+    const modules = { foo: { bar: 1 } };
+    const compose = composer(modules);
+    compose('foo');
+    const actual = compose.done();
+    const expected = { modules: { foo: { bar: 1 } }, dependencies: { foo: [] } };
+    t.equal(actual, expected);
+});
+
 test('peer function is invoked with arg', t => {
     let fun2Called = false;
 
