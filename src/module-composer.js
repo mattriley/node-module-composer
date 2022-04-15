@@ -2,7 +2,8 @@ const { isObject, isFunction, mapValues, override } = require('./util');
 
 module.exports = (parent, defaults = {}, overrides = {}) => {
     const modules = { ...parent }, dependencies = mapValues(modules, () => []);
-    const done = () => ({ modules: { ...modules }, dependencies: { ...dependencies } });
+    const getModules = () => ({ ...modules });
+    const getDependencies = () => ({ ...dependencies });
     const compose = (key, arg = {}, initialise) => {
         arg = { ...defaults, ...arg };
         delete arg[key];
@@ -14,7 +15,7 @@ module.exports = (parent, defaults = {}, overrides = {}) => {
         dependencies[key] = Object.keys(arg);
         return module;
     };
-    return Object.assign(compose, { done });
+    return Object.assign(compose, { getModules, getDependencies });
 };
 
 const composeRecursive = (obj, arg, parentKey) => {

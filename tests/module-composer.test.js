@@ -6,27 +6,24 @@ test('dependencies are optional', t => {
     const modules = { foo: {} };
     const compose = composer(modules);
     compose('foo');
-    const actual = compose.done();
-    const expected = { modules: { foo: {} }, dependencies: { foo: [] } };
-    t.equal(actual, expected);
+    t.equal(compose.getModules(), { foo: {} });
+    t.equal(compose.getDependencies(), { foo: [] });
 });
 
 test('dependencies are applied', t => {
     const modules = { foo: {} };
     const compose = composer(modules);
     compose('foo', { bar: {} });
-    const actual = compose.done();
-    const expected = { modules: { foo: {} }, dependencies: { foo: ['bar'] } }
-    t.equal(actual, expected);
+    t.equal(compose.getModules(), { foo: {} });
+    t.equal(compose.getDependencies(), { foo: ['bar'] });
 });
 
 test('defaults are applied', t => {
     const modules = { foo: {} };
     const compose = composer(modules, { bar: {} });
     compose('foo');
-    const actual = compose.done();
-    const expected = { modules: { foo: {} }, dependencies: { foo: ['bar'] } }
-    t.equal(actual, expected);
+    t.equal(compose.getModules(), { foo: {} });
+    t.equal(compose.getDependencies(), { foo: ['bar'] });
 });
 
 test('initialiser is invoked', t => {
@@ -37,18 +34,16 @@ test('initialiser is invoked', t => {
     };
     const compose = composer(modules);
     compose('foo', undefined, foo => foo.setup());
-    const actual = compose.done();
-    const expected = { modules: { foo: { bar: {} } }, dependencies: { foo: [] } };
-    t.equal(actual, expected);
+    t.equal(compose.getModules(), { foo: { bar: {} } });
+    t.equal(compose.getDependencies(), { foo: [] });
 });
 
 test('avoids following non-objects', t => {
     const modules = { foo: { bar: 1 } };
     const compose = composer(modules);
     compose('foo');
-    const actual = compose.done();
-    const expected = { modules: { foo: { bar: 1 } }, dependencies: { foo: [] } };
-    t.equal(actual, expected);
+    t.equal(compose.getModules(), { foo: { bar: 1 } });
+    t.equal(compose.getDependencies(), { foo: [] });
 });
 
 test('peer function is invoked with arg', t => {
