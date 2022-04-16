@@ -16,7 +16,7 @@ module.exports = (parent, options = {}) => {
         dependencies[key] = Object.keys(arg);
         return module;
     };
-    return Object.assign(compose, { getModules, getDependencies });
+    return Object.assign(compose, { modules, dependencies, getModules, getDependencies });
 };
 
 const composeRecursive = (obj, arg, parentKey) => {
