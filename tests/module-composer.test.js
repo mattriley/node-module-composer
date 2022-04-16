@@ -4,27 +4,27 @@ const composer = require('../');
 
 test('dependencies are optional', t => {
     const modules = { foo: {} };
-    const compose = composer(modules);
+    const compose = composer(modules, { compositionModule: { enabled: false } });
     compose('foo');
-    t.equal(compose.getModules(), { foo: {} });
-    t.equal(compose.getDependencies(), { foo: [] });
+    t.equal(compose.modules, { foo: {} });
+    t.equal(compose.dependencies, { foo: [] });
 });
 
 test('dependencies are applied', t => {
     const modules = { foo: {} };
-    const compose = composer(modules);
+    const compose = composer(modules, { compositionModule: { enabled: false } });
     compose('foo', { bar: {} });
-    t.equal(compose.getModules(), { foo: {} });
-    t.equal(compose.getDependencies(), { foo: ['bar'] });
+    t.equal(compose.modules, { foo: {} });
+    t.equal(compose.dependencies, { foo: ['bar'] });
 });
 
 test('defaults are applied', t => {
     const modules = { foo: {} };
     const defaults = { bar: {} };
-    const compose = composer(modules, { defaults });
+    const compose = composer(modules, { defaults, compositionModule: { enabled: false } });
     compose('foo');
-    t.equal(compose.getModules(), { foo: {} });
-    t.equal(compose.getDependencies(), { foo: ['bar'] });
+    t.equal(compose.modules, { foo: {} });
+    t.equal(compose.dependencies, { foo: ['bar'] });
 });
 
 test('initialiser is invoked', t => {
@@ -33,18 +33,18 @@ test('initialiser is invoked', t => {
             setup: () => () => ({ bar: {} })
         }
     };
-    const compose = composer(modules);
+    const compose = composer(modules, { compositionModule: { enabled: false } });
     compose('foo', undefined, foo => foo.setup());
-    t.equal(compose.getModules(), { foo: { bar: {} } });
-    t.equal(compose.getDependencies(), { foo: [] });
+    t.equal(compose.modules, { foo: { bar: {} } });
+    t.equal(compose.dependencies, { foo: [] });
 });
 
 test('avoids following non-objects', t => {
     const modules = { foo: { bar: 1 } };
-    const compose = composer(modules);
+    const compose = composer(modules, { compositionModule: { enabled: false } });
     compose('foo');
-    t.equal(compose.getModules(), { foo: { bar: 1 } });
-    t.equal(compose.getDependencies(), { foo: [] });
+    t.equal(compose.modules, { foo: { bar: 1 } });
+    t.equal(compose.dependencies, { foo: [] });
 });
 
 test('peer function is invoked with arg', t => {
@@ -61,7 +61,7 @@ test('peer function is invoked with arg', t => {
         }
     };
 
-    const compose = composer(modules);
+    const compose = composer(modules, { compositionModule: { enabled: false } });
     compose('foo').fun1();
     t.ok(fun2Called);
 });
@@ -80,7 +80,7 @@ test('peer function is invoked with arg', t => {
         }
     };
 
-    const compose = composer(modules);
+    const compose = composer(modules, { compositionModule: { enabled: false } });
     compose('foo').fun1();
     t.ok(fun2Called);
 });
@@ -101,7 +101,7 @@ test('nested function is invoked', t => {
         }
     };
 
-    const compose = composer(modules);
+    const compose = composer(modules, { compositionModule: { enabled: false } });
     compose('foo').fun1();
     t.ok(fun2Called);
 });
