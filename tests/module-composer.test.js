@@ -20,7 +20,8 @@ test('dependencies are applied', t => {
 
 test('defaults are applied', t => {
     const modules = { foo: {} };
-    const compose = composer(modules, { bar: {} });
+    const defaults = { bar: {} };
+    const compose = composer(modules, { defaults });
     compose('foo');
     t.equal(compose.getModules(), { foo: {} });
     t.equal(compose.getDependencies(), { foo: ['bar'] });

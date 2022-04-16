@@ -41,11 +41,12 @@ This is the composition root from Agile Avatars:
 <summary>https://raw.githubusercontent.com/mattriley/agileavatars/master/src/boot.js</summary>
 
 ```js
-const composer = require('module-composer');
-const modules = require('./modules');
+import composer from 'module-composer';
+import modules from './modules';
 const { storage, util } = modules;
 
-module.exports = ({ window, config, ...overrides }) => {
+export default ({ window, config, ...overrides }) => {
+
 
     const compose = composer(modules, { config }, overrides);
 
@@ -70,7 +71,8 @@ module.exports = ({ window, config, ...overrides }) => {
     compose('diagnostics', { stores, util });
     compose('startup', { ui, components, styles, services, subscriptions, stores, util, config });
 
-    return compose.done();
+
+    return compose;
 
 };
 ```
