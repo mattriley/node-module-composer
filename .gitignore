@@ -1,4 +1,4 @@
 node_modules
 coverage
-.nyc_output
+iTermocil.yml
 .DS_Store

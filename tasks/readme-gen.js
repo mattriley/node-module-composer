@@ -1,13 +1,14 @@
 const ejs = require('ejs');
 const fs = require('fs');
-const fetch = require('node-fetch');
+const bent = require('bent')
+
+const getString = bent('string')
 
 const nodeVersion = fs.readFileSync('.nvmrc', 'utf-8').trim();
 
 const renderJsFile = async (url, opts = {}) => {
     const open = opts.open || true;
-    const res = await fetch(url);
-    const code = await res.text();
+    const code = await getString(url);
 
     return [
         `<details ${open ? 'open' : ''}>`,
