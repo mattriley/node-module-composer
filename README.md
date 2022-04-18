@@ -84,7 +84,7 @@ Recommended reading:
 Take the following object graph:
 
 ```js
-const src = {
+const modules = {
     moduleA: {
         foo: ({ moduleA, moduleB }) => () => {
             console.log('foo');
@@ -134,9 +134,9 @@ Here's how these modules would be composed with `module-composer`:
 
 ```js
 const composer = require('module-composer');
-const compose = composer(src);
-const moduleB = compose('moduleB');
-const moduleA = compose('moduleA', { moduleB });
+const compose = composer(modules);
+const { moduleB } = compose('moduleB');
+const { moduleA } = compose('moduleA', { moduleB });
 
 moduleA.foo();
 ```
@@ -166,16 +166,16 @@ proj/
 // run.js
 
 const composer = require('module-composer');
-const src = require('./src');
+const modules = require('./modules');
 
-const compose = composer(src);
-const moduleB = compose('moduleB', {});
-const moduleA = compose('moduleA', { moduleB });
+const compose = composer(modules);
+const { moduleB } = compose('moduleB', {});
+const { moduleA } = compose('moduleA', { moduleB });
 
 moduleA.foo();
 ```
 
-`proj/src`
+`src/modules`
 
 ```js
 // index.js
@@ -186,7 +186,7 @@ module.exports = {
 };
 ```
 
-`proj/src/module-a`
+`src/modules/module-a`
 
 ```js
 // index.js
@@ -213,7 +213,7 @@ module.exports = ({ moduleA, moduleB }) => () => {
 };
 ```
 
-`proj/src/module-b`
+`src/modules/module-b`
 
 ```js
 // index.js

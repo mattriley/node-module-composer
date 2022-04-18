@@ -3,54 +3,54 @@ const { test } = require('zora');
 const composer = require('../');
 
 test('dependencies are optional', t => {
-    const modules = { foo: {} };
-    const compose = composer(modules, { compositionModule: { enabled: false } });
-    compose('foo');
-    t.equal(compose.modules, { foo: {} });
-    t.equal(compose.dependencies, { foo: [] });
+    const inputModules = { foo: {} };
+    const compose = composer(inputModules);
+    const { composition, ...modules } = compose('foo');
+    t.equal(modules, { foo: {} });
+    t.equal(composition.dependencies, { foo: [] });
 });
 
 test('dependencies are applied', t => {
-    const modules = { foo: {} };
-    const compose = composer(modules, { compositionModule: { enabled: false } });
-    compose('foo', { bar: {} });
-    t.equal(compose.modules, { foo: {} });
-    t.equal(compose.dependencies, { foo: ['bar'] });
+    const inputModules = { foo: {} };
+    const compose = composer(inputModules);
+    const { composition, ...modules } = compose('foo', { bar: {} });
+    t.equal(modules, { foo: {} });
+    t.equal(composition.dependencies, { foo: ['bar'] });
 });
 
 test('defaults are applied', t => {
-    const modules = { foo: {} };
+    const inputModules = { foo: {} };
     const defaults = { bar: {} };
-    const compose = composer(modules, { defaults, compositionModule: { enabled: false } });
-    compose('foo');
-    t.equal(compose.modules, { foo: {} });
-    t.equal(compose.dependencies, { foo: ['bar'] });
+    const compose = composer(inputModules, { defaults });
+    const { composition, ...modules } = compose('foo');
+    t.equal(modules, { foo: {} });
+    t.equal(composition.dependencies, { foo: ['bar'] });
 });
 
 test('initialiser is invoked', t => {
-    const modules = {
+    const inputModules = {
         foo: {
             setup: () => () => ({ bar: {} })
         }
     };
-    const compose = composer(modules, { compositionModule: { enabled: false } });
-    compose('foo', undefined, foo => foo.setup());
-    t.equal(compose.modules, { foo: { bar: {} } });
-    t.equal(compose.dependencies, { foo: [] });
+    const compose = composer(inputModules);
+    const { composition, ...modules } = compose('foo', undefined, foo => foo.setup());
+    t.equal(modules, { foo: { bar: {} } });
+    t.equal(composition.dependencies, { foo: [] });
 });
 
 test('avoids following non-objects', t => {
-    const modules = { foo: { bar: 1 } };
-    const compose = composer(modules, { compositionModule: { enabled: false } });
-    compose('foo');
-    t.equal(compose.modules, { foo: { bar: 1 } });
-    t.equal(compose.dependencies, { foo: [] });
+    const inputModules = { foo: { bar: 1 } };
+    const compose = composer(inputModules);
+    const { composition, ...modules } = compose('foo');
+    t.equal(modules, { foo: { bar: 1 } });
+    t.equal(composition.dependencies, { foo: [] });
 });
 
 test('peer function is invoked with arg', t => {
     let fun2Called = false;
 
-    const modules = {
+    const inputModules = {
         foo: {
             fun1: ({ foo }) => () => {
                 foo.fun2();
@@ -61,15 +61,16 @@ test('peer function is invoked with arg', t => {
         }
     };
 
-    const compose = composer(modules, { compositionModule: { enabled: false } });
-    compose('foo').fun1();
+    const compose = composer(inputModules);
+    const { foo } = compose('foo')
+    foo.fun1();
     t.ok(fun2Called);
 });
 
 test('peer function is invoked with arg', t => {
     let fun2Called = false;
 
-    const modules = {
+    const inputModules = {
         foo: {
             fun1: ({ foo }) => () => {
                 foo.fun2();
@@ -80,8 +81,9 @@ test('peer function is invoked with arg', t => {
         }
     };
 
-    const compose = composer(modules, { compositionModule: { enabled: false } });
-    compose('foo').fun1();
+    const compose = composer(inputModules);
+    const { foo } = compose('foo')
+    foo.fun1();
     t.ok(fun2Called);
 });
 
@@ -101,7 +103,8 @@ test('nested function is invoked', t => {
         }
     };
 
-    const compose = composer(modules, { compositionModule: { enabled: false } });
-    compose('foo').fun1();
+    const compose = composer(modules);
+    const { foo } = compose('foo')
+    foo.fun1();
     t.ok(fun2Called);
 });
