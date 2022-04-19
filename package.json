@@ -1,12 +1,15 @@
 {
     "name": "module-composer",
-    "version": "0.12.0",
+    "version": "0.13.0",
     "description": "A module composition utility",
     "author": "Matt Riley",
     "license": "ISC",
     "homepage": "https://github.com/mattriley/node-module-composer",
     "repository": "github:mattriley/node-module-composer",
-    "main": "index.js",
+    "main": "src/module-composer.js",
+    "files": [
+        "src/**/*"
+    ],
     "scripts": {
         "test": "./task test"
     },
