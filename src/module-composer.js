@@ -3,22 +3,21 @@ const { isObject, isFunction, mapValues, override } = require('./util');
 module.exports = (parent, options = {}) => {
     const modules = { ...parent }, dependencies = mapValues(modules, () => []);
     modules.composition = { modules, dependencies };
-    return (key, args = {}, customise) => {
+    return (key, args = {}, customise = m => m) => {
         args = { ...options.defaults, ...args };
         delete args[key];
-        const obj = parent[key];
-        const composed = composeRecursive(obj, args, key);
-        const customised = customise ? customise(composed) : composed;
-        modules[key] = override({ [key]: customised }, options.overrides)[key];
+        const target = parent[key];
+        const module = customise(composeRecursive(target, args, key));
+        modules[key] = override({ [key]: module }, options.overrides)[key];
         dependencies[key] = Object.keys(args);
         return { ...modules };
     };
 };
 
-const composeRecursive = (obj, args, parentKey) => {
-    if (!isObject(obj)) return obj;
+const composeRecursive = (target, args, parentKey) => {
+    if (!isObject(target)) return target;
     const product = {};
     const newArg = { [parentKey]: product, ...args };
-    const newObj = mapValues(obj, (val, key) => (isFunction(val) ? val(newArg) : composeRecursive(val, newArg, key)));
+    const newObj = mapValues(target, (val, key) => (isFunction(val) ? val(newArg) : composeRecursive(val, newArg, key)));
     return Object.assign(product, newObj);
 };
