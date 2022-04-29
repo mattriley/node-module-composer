@@ -2,6 +2,4 @@
   
 . ./task-vars
 
-./tasks/lib/itermocil-install
-./tasks/itermocil
-code .
+./tasks/lib/itermocil
