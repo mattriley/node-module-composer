@@ -1,5 +1,10 @@
-node_modules
-coverage
-iTermocil.yml
-package-lock.json
+/*cache
+/*output
+/build
+/coverage
+/node_modules
+/temp
+/config.*
+/itermocil.yml
+/.vscode
 .DS_Store

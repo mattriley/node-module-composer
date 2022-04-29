@@ -1,6 +1,3 @@
 #!/bin/bash
 
-export PROJECT_NAME="module-composer"
-export SRC="src"
-export TESTS="tests"
-export TEST_WATCH_PATTERN="{$SRC,$TESTS}/**/*.js"
+. ./task-vars-default

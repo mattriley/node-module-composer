@@ -1,0 +1,9 @@
+#!/bin/bash
+  
+. ./task-vars
+
+export ZORA_REPORTER="json"
+
+find "$TESTS" -name "*.test.js" -print \
+| xargs node \
+| npx zr -R diff

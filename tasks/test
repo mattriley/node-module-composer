@@ -1,4 +1,5 @@
 #!/bin/bash
+  
+. ./task-vars
 
-export ZORA_REPORTER=json 
-node "$TESTS/module-composer.test.js" | npx zr
+./tasks/lib/test-zora
