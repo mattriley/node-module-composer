@@ -19,8 +19,8 @@ do
   if [ -f "$SCRIPT_FILE" ]; then
   cat >> "itermocil.yml" <<EOF
       - commands:
-      - nvm use
-      - $SCRIPT_FILE
+        - nvm use
+        - $SCRIPT_FILE
 EOF
   fi
 done
