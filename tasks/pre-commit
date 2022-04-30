@@ -1,8 +1,0 @@
-#!/bin/bash
-  
-. ./task-vars
-
-set -ex
-# ./tasks/check-relative-imports
-# ./tasks/lint
-# ./tasks/cov-check

@@ -1,5 +1,5 @@
 #!/bin/bash
-
+  
 . ./task-vars
 
-./tasks/lib/cov-c8
+./task lint-eslint

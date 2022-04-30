@@ -2,8 +2,7 @@
   
 . ./task-vars
 
-npx c8 \
---check-coverage \
+npx c8 --check-coverage \
 --all \
 --include "$SRC" \
 --reporter=text-summary \
@@ -13,4 +12,4 @@ npx c8 \
 --lines $COV_LINES \
 --functions $COV_FUNCTIONS \
 --statements $COV_STATEMENTS \
-./tasks/test
+./task test

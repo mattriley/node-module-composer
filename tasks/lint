@@ -1,6 +1,0 @@
-#!/bin/bash
-  
-. ./task-vars
-
-echo "Not implemented."
-# ./tasks/lib/lint-eslint

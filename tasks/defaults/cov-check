@@ -1,0 +1,5 @@
+#!/bin/bash
+  
+. ./task-vars
+
+./task cov-c8-check
