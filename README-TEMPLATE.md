@@ -28,7 +28,7 @@ const moduleA = compose('moduleA', { moduleB });
 
 This is the composition root from Agile Avatars:
 
-<%- exampleUsage %>
+<%- fetchCode('https://raw.githubusercontent.com/mattriley/agileavatars/master/src/compose.js') %>
 
 Recommended reading:
 - [Composition Root - Mark Seemann](https://blog.ploeh.dk/2011/07/28/CompositionRoot/)

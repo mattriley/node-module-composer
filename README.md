@@ -38,7 +38,7 @@ const moduleA = compose('moduleA', { moduleB });
 This is the composition root from Agile Avatars:
 
 <details open>
-<summary>https://raw.githubusercontent.com/mattriley/agileavatars/master/src/boot.js</summary>
+<summary>https://raw.githubusercontent.com/mattriley/agileavatars/master/src/compose.js</summary>
 
 ```js
 import composer from 'module-composer';
