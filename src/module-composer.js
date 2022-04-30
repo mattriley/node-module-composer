@@ -2,7 +2,7 @@ const { isObject, isFunction, mapValues, override } = require('./util');
 
 module.exports = (target, options = {}) => {
     const modules = { ...target }, dependencies = mapValues(modules, () => []);
-    modules.composition = { modules, dependencies };
+    modules.composition = { target, modules, dependencies };
     return (key, args = {}, customise = m => m) => {
         const totalArgs = { ...options.defaults, ...args };
         const module = customise(composeRecursive(target[key], totalArgs, key));
