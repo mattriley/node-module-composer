@@ -79,7 +79,7 @@ module.exports = ({ test }) => {
         };
 
         const compose = composer(target);
-        const { foo } = compose('foo')
+        const { foo } = compose('foo');
         foo.fun1();
         t.ok(fun2Called);
     });
@@ -91,7 +91,7 @@ module.exports = ({ test }) => {
             foo: {
                 bar: {
                     fun2: () => () => {
-                        fun2Called = true
+                        fun2Called = true;
                     }
                 },
                 fun1: ({ foo }) => () => {
@@ -101,9 +101,9 @@ module.exports = ({ test }) => {
         };
 
         const compose = composer(modules);
-        const { foo } = compose('foo')
+        const { foo } = compose('foo');
         foo.fun1();
         t.ok(fun2Called);
     });
 
-}
+};
