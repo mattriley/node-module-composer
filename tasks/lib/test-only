@@ -2,4 +2,4 @@
   
 . ./task-vars
 
-npx tape "$TEST_PATTERN" $@
+ZORA_ONLY=true ./task test
