@@ -4,43 +4,45 @@ module.exports = ({ test }) => {
 
     test('target module unchanged if not composed', t => {
         const target = { foo: {}, bar: {} };
-        const compose = composer(target);
-        const { composition, ...modules } = compose('foo');
-        t.equal(modules, { foo: {}, bar: {} });
+        const { compose } = composer(target);
+        const { composition } = compose('foo');
+        t.equal(composition.modules, { foo: {}, bar: {} });
         t.equal(composition.dependencies, { foo: [], bar: [] });
     });
 
     test('args are optional', t => {
         const target = { foo: {} };
-        const compose = composer(target); // NOTE: No args.
-        const { composition, ...modules } = compose('foo');
-        t.equal(modules, { foo: {} });
+        const { compose } = composer(target); // NOTE: No args.
+        const { composition } = compose('foo');
+        t.equal(composition.modules, { foo: {} });
         t.equal(composition.dependencies, { foo: [] });
     });
 
     test('args are applied', t => {
         const target = { foo: {} };
-        const compose = composer(target);
-        const { composition, ...modules } = compose('foo', { bar: {} });
-        t.equal(modules, { foo: {} });
+        const { compose } = composer(target);
+        const { composition } = compose('foo', { bar: {} });
+        t.equal(composition.modules, { foo: {} });
         t.equal(composition.dependencies, { foo: ['bar'] });
     });
 
     test('defaults are applied', t => {
         const target = { foo: {} };
         const defaults = { bar: {} };
-        const compose = composer(target, { defaults });
-        const { composition, ...modules } = compose('foo');
-        t.equal(modules, { foo: {} });
+        const config = { moduleComposer: { defaults } };
+        const { compose } = composer(target, config);
+        const { composition } = compose('foo');
+        t.equal(composition.modules, { foo: {} });
         t.equal(composition.dependencies, { foo: ['bar'] });
     });
 
     test('overrides are applied', t => {
         const target = { foo: {} };
         const overrides = { foo: { num: 1 } };
-        const compose = composer(target, { overrides });
-        const { composition, ...modules } = compose('foo');
-        t.equal(modules, { foo: { num: 1 } });
+        const config = { moduleComposer: { overrides } };
+        const { compose } = composer(target, config);
+        const { composition } = compose('foo');
+        t.equal(composition.modules, { foo: { num: 1 } });
         t.equal(composition.dependencies, { foo: [] });
     });
 
@@ -50,17 +52,17 @@ module.exports = ({ test }) => {
                 setup: () => () => ({ bar: {} })
             }
         };
-        const compose = composer(target);
-        const { composition, ...modules } = compose('foo', {}, foo => foo.setup());
-        t.equal(modules, { foo: { bar: {} } });
+        const { compose } = composer(target);
+        const { composition } = compose('foo', {}, foo => foo.setup());
+        t.equal(composition.modules, { foo: { bar: {} } });
         t.equal(composition.dependencies, { foo: [] });
     });
 
     test('non-objects are returned as-is', t => {
         const target = { foo: { bar: 1 } };
-        const compose = composer(target);
-        const { composition, ...modules } = compose('foo');
-        t.equal(modules, { foo: { bar: 1 } });
+        const { compose } = composer(target);
+        const { composition } = compose('foo');
+        t.equal(composition.modules, { foo: { bar: 1 } });
         t.equal(composition.dependencies, { foo: [] });
     });
 
@@ -78,7 +80,7 @@ module.exports = ({ test }) => {
             }
         };
 
-        const compose = composer(target);
+        const { compose } = composer(target);
         const { foo } = compose('foo');
         foo.fun1();
         t.ok(fun2Called);
@@ -100,7 +102,7 @@ module.exports = ({ test }) => {
             }
         };
 
-        const compose = composer(modules);
+        const { compose } = composer(modules);
         const { foo } = compose('foo');
         foo.fun1();
         t.ok(fun2Called);

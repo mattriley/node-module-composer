@@ -88,7 +88,7 @@ Here's how these modules would be composed with `module-composer`:
 
 ```js
 const composer = require('module-composer');
-const compose = composer(modules);
+const { compose } = composer(modules);
 const { moduleB } = compose('moduleB');
 const { moduleA } = compose('moduleA', { moduleB });
 

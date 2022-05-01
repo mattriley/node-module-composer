@@ -45,8 +45,9 @@ import composer from 'module-composer';
 import modules from './modules';
 const { storage, util } = modules;
 
-export default ({ window, config, ...overrides }) => {
+export default config => {
 
+    const { window, overrides } = config;
     const compose = composer(modules, { overrides });
 
     // Data
@@ -133,7 +134,7 @@ Here's how these modules would be composed with `module-composer`:
 
 ```js
 const composer = require('module-composer');
-const compose = composer(modules);
+const { compose } = composer(modules);
 const { moduleB } = compose('moduleB');
 const { moduleA } = compose('moduleA', { moduleB });
 

@@ -1,15 +1,19 @@
-const { isObject, isFunction, mapValues, override } = require('./util');
+const { isObject, isFunction, mapValues, override, merge } = require('./util');
 
-module.exports = (target, options = {}) => {
+module.exports = (target, ...configs) => {
+    const config = merge({}, ...configs);
+    const { moduleComposer: options = {} } = config;
     const modules = { ...target }, dependencies = mapValues(modules, () => []);
-    modules.composition = { target, modules, dependencies };
-    return (key, args = {}, customise = m => m) => {
+    const composition = { config, target, modules, dependencies };
+    const compose = (key, args = {}, customise = m => m) => {
         const totalArgs = { ...options.defaults, ...args };
-        const module = customise(composeRecursive(target[key], totalArgs, key));
+        const composed = composeRecursive(target[key], totalArgs, key);
+        const module = customise(composed);
         modules[key] = override({ [key]: module }, options.overrides)[key];
         dependencies[key] = Object.keys(totalArgs);
-        return { ...modules };
+        return { config, composition, ...modules };
     };
+    return { compose, composition, config };
 };
 
 const composeRecursive = (target, args, parentKey) => {
