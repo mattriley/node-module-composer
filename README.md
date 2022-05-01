@@ -43,12 +43,14 @@ This is the composition root from Agile Avatars:
 ```js
 import composer from 'module-composer';
 import modules from './modules';
+import defaultConfig from './default-config.json';
 const { storage, util } = modules;
 
-export default config => {
+export default (...configs) => {
 
-    const { window, overrides } = config;
-    const compose = composer(modules, { overrides });
+
+    const { compose, config } = composer(modules, defaultConfig, ...configs);
+    const { window } = config;
 
     // Data
     const { stores } = compose('stores', { storage, config }, stores => stores.setup());
