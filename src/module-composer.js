@@ -1,7 +1,7 @@
 const { isObject, isFunction, mapValues, override, merge } = require('./util');
 
 module.exports = (target, ...configs) => {
-    const config = merge({}, ...configs);
+    const config = merge({}, ...configs.flat());
     const { moduleComposer: options = {} } = config;
     const modules = { ...target }, dependencies = mapValues(modules, () => []);
     const composition = { config, target, modules, dependencies };

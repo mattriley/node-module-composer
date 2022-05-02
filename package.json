@@ -1,6 +1,6 @@
 {
     "name": "module-composer",
-    "version": "0.14.1",
+    "version": "0.14.2",
     "description": "A module composition utility",
     "author": "Matt Riley",
     "license": "ISC",
