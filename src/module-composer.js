@@ -1,10 +1,12 @@
 const { isObject, isFunction, mapValues, override, merge } = require('./util');
+const mermaidGraph = require('./mermaid-graph');
 
 module.exports = (target, ...configs) => {
     const config = merge({}, ...configs.flat());
     const { moduleComposer: options = {} } = config;
     const modules = { ...target }, dependencies = mapValues(modules, () => []);
-    const composition = { config, target, modules, dependencies };
+    const mermaid = () => mermaidGraph(dependencies);
+    const composition = { config, target, modules, dependencies, mermaid };
     const compose = (key, args = {}, customise = m => m) => {
         const totalArgs = { ...options.defaults, ...args };
         const composed = composeRecursive(target[key], totalArgs, key);
@@ -13,7 +15,7 @@ module.exports = (target, ...configs) => {
         dependencies[key] = Object.keys(totalArgs);
         return { config, composition, ...modules };
     };
-    return { compose, composition, config };
+    return { ...composition, compose };
 };
 
 const composeRecursive = (target, args, parentKey) => {

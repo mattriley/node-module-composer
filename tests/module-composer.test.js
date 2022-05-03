@@ -108,4 +108,11 @@ module.exports = ({ test }) => {
         t.ok(fun2Called);
     });
 
+    test('mermaid', t => {
+        const target = { foo: {} };
+        const { compose } = composer(target);
+        const { composition } = compose('foo', { bar: {} });
+        t.equal(composition.mermaid(), 'graph TD;\n    foo-->bar;');
+    });
+
 };
