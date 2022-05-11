@@ -1,6 +1,6 @@
 {
     "name": "module-composer",
-    "version": "0.15.0",
+    "version": "0.15.1",
     "description": "A module composition utility",
     "author": "Matt Riley",
     "license": "ISC",
@@ -10,9 +10,6 @@
     "files": [
         "src/**/*"
     ],
-    "scripts": {
-        "test": "./task test"
-    },
     "dependencies": {
         "lodash.merge": "^4.6.2"
     },
