@@ -3,4 +3,5 @@
 . ./task-vars
 
 INDEX_HTML="$(set -- ./coverage/**/index.html; echo "$1")"
+
 open -a "Google Chrome" "$INDEX_HTML"
