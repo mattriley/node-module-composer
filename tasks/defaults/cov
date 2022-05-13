@@ -3,4 +3,3 @@
 . ./task-vars
 
 ./tasks/lib/c8-cov
-./tasks/lib/cov-open

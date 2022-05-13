@@ -42,7 +42,8 @@ const [templateFile] = process.argv.slice(2);
 const composeFile = './src/compose.js';
 
 const start = async () => {
-    const compose = fs.existsSync(composeFile) ? await import(composeFile) : undefined;
+    const composeImport = fs.existsSync(composeFile) ? await import(composeFile) : undefined;
+    const compose = composeImport?.default ?? composeImport;
     const data = { fetchText, fetchCode, readCode, moduleGraph: moduleGraph(compose) };
 
     ejs.renderFile(templateFile, data, {}, (err, res) => {

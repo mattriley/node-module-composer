@@ -1,64 +1,46 @@
-/* eslint-disable no-process-env */
-/* eslint-disable no-console */
-/* eslint-disable no-process-exit */
 import JSDOM from 'jsdom';
-import { createHarness, createJSONReporter } from 'zora';
-// import { createDiffReporter } from 'zora-reporters'; // use for tricky errors
-
+import { createHarness } from 'zora';
+import { createDiffReporter } from 'zora-reporters';
+import glob from 'fast-glob';
+import process from 'process';
 import path from 'path';
-import moduleComposer from 'module-composer';
-import testHelpers from '../../test-helpers';
-import modules from '../../src/modules';
-import composeOrig from '../../src/compose';
-import testConfig from '../../src/test-config';
-import _ from 'lodash';
+import composeModules from '../../src/compose';
+import composeTesting from '../../testing/compose';
+import testConfig from '../../testing/test-config';
 
 const setup = () => {
     const { window } = new JSDOM.JSDOM('', { url: 'https://localhost/' });
-    const resetJsdom = () => { window.document.getElementsByTagName('html')[0].innerHTML = ''; };
-    const composeHelpers = moduleComposer({ helpers: testHelpers });
-    const { helpers } = composeHelpers('helpers', { window });
+    const { helpers } = composeTesting({ window });
 
-    const compose = (args = {}) => {
-        resetJsdom();
-        const config = _.merge({}, testConfig, args.config);
-        const modules = composeOrig({ window, ...args, config });
+    const compose = (config = {}) => {
+        window.document.getElementsByTagName('html')[0].innerHTML = '';
+        delete window.dataLayer;
+        const modules = composeModules({ window }, testConfig, config);
         modules.startup.start();
         return modules;
     };
 
-    return { modules, compose, window, helpers };
+    return { compose, window, helpers };
 };
 
-const args = setup();
-
-const files = process.argv.slice(2);
-const indent = process.env.INDENT === 'true';
-const runOnly = process.env.RUN_ONLY === 'true';
-const testHarness = createHarness({ indent, runOnly });
-const test = testHarness[runOnly ? 'only' : 'test'];
+const testModuleArgs = setup();
+const [pattern] = process.argv.slice(2);
+const testFiles = glob.sync(pattern);
+const testHarness = createHarness({ indent: true });
+const test = testHarness[process.env.ZORA_ONLY === 'true' ? 'only' : 'test'];
 
 const runTests = filePath => {
-    test(filePath, async ({ only, skip, ...t }) => {
+    return test(filePath, async ({ only, skip, ...t }) => {
         const test = (...args) => t.test(...args);
         Object.assign(test, { only, skip });
         const { default: invokeTests } = await import(path.resolve(filePath));
-        invokeTests({ test, setup, ...args });
+        return invokeTests({ test, ...testModuleArgs });
     });
 };
 
 const start = async () => {
-    let uncaughtError = null;
-
-    try {
-        files.forEach(runTests);
-        await testHarness.report({ reporter: createJSONReporter() });
-    } catch (e) {
-        console.error(e);
-        uncaughtError = e;
-    } finally {
-        process.exitCode = !testHarness.pass || uncaughtError ? 1 : 0;
-    }
+    await Promise.all(testFiles.map(runTests));
+    await testHarness.report({ reporter: createDiffReporter() });
 };
 
 start();
