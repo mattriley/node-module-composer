@@ -2,7 +2,6 @@ import fs from 'fs';
 import ejs from 'ejs';
 import child from 'child_process';
 import process from 'process';
-import compose from './src/compose';
 
 const fetchText = url => child.execSync(`curl ${url}`).toString('utf8');
 
@@ -30,7 +29,7 @@ const renderCode = (code, summary, opts = {}) => {
     ].join('\n');
 };
 
-const moduleGraph = () => {
+const moduleGraph = compose => () => {
     const { mermaid } = compose().composition;
     return [
         '```mermaid',
@@ -40,9 +39,16 @@ const moduleGraph = () => {
 };
 
 const [templateFile] = process.argv.slice(2);
-const data = { fetchText, fetchCode, readCode, moduleGraph };
+const composeFile = './src/compose.js';
 
-ejs.renderFile(templateFile, data, {}, (err, res) => {
-    if (err) throw err;
-    process.stdout.write(res);
-});
+const start = async () => {
+    const compose = fs.existsSync(composeFile) ? await import(composeFile) : undefined;
+    const data = { fetchText, fetchCode, readCode, moduleGraph: moduleGraph(compose) };
+
+    ejs.renderFile(templateFile, data, {}, (err, res) => {
+        if (err) throw err;
+        process.stdout.write(res);
+    });
+};
+
+start();
