@@ -1,10 +1,8 @@
 #!/bin/bash
 
-. ./task-vars-default
-
-export COV_BRANCHES=80
-export COV_LINES=80
-export COV_FUNCTIONS=80
-export COV_STATEMENTS=80
+export COV_BRANCHES=0
+export COV_LINES=0
+export COV_FUNCTIONS=0
+export COV_STATEMENTS=0
 
 export ITERMOCIL_TASKS=("edit" "test-watch")
