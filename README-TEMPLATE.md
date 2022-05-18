@@ -1,6 +1,6 @@
 # Module Composer
 
-A module composition utility.
+A tiny but powerful closure-based module composition utility.
 
 ## Table of Contents
 
@@ -76,12 +76,6 @@ The `compose` function calls the first arrow function with the specified depende
 
 This is analogous to calling a class constructor with dependencies and returning the resulting instance. However rather than using a class to encapsulate dependency state, closures (stateful functions) are used instead.
 
-## Advanced Example: Agile Avatars
-
-This is the composition root from [Agile Avatars](https://agileavatars.com):
-
-<%- fetchCode('https://raw.githubusercontent.com/mattriley/agileavatars/master/src/compose.js') %>
-
 ## File system structure
 
 The module hierarchy can be easily represented by the file system:
@@ -121,3 +115,9 @@ module.exports = {
 This pattern opens the possibility of autogenerating `index.js` files.
 
 `module-indexgen` is a package design to do just that: https://github.com/mattriley/node-module-indexgen
+
+## Advanced Example: Agile Avatars
+
+This is the composition root from [Agile Avatars](https://agileavatars.com):
+
+<%- fetchCode('https://raw.githubusercontent.com/mattriley/agileavatars/master/src/compose.js') %>

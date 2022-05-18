@@ -1,7 +1,7 @@
 {
     "name": "module-composer",
-    "version": "0.15.1",
-    "description": "A module composition utility",
+    "version": "0.16.0",
+    "description": "A tiny but powerful closure-based module composition utility.",
     "author": "Matt Riley",
     "license": "ISC",
     "repository": "github:mattriley/node-module-composer",
@@ -22,7 +22,6 @@
         "eslint": "^8.15.0",
         "fast-glob": "^3.2.11",
         "husky": "^8.0.1",
-        "tape": "^5.5.3",
         "task-library": "^0.1.4",
         "zora": "^5.0.3",
         "zora-reporters": "^1.3.2"

@@ -1,6 +1,6 @@
 # Module Composer
 
-A module composition utility.
+A tiny but powerful closure-based module composition utility.
 
 ## Table of Contents
 
@@ -10,8 +10,8 @@ A module composition utility.
 
 - [Install](#install)
 - [Basic Usage](#basic-usage)
-- [Advanced Example: Agile Avatars](#advanced-example-agile-avatars)
 - [File system structure](#file-system-structure)
+- [Advanced Example: Agile Avatars](#advanced-example-agile-avatars)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -83,6 +83,46 @@ The `compose` function calls the first arrow function with the specified depende
 
 This is analogous to calling a class constructor with dependencies and returning the resulting instance. However rather than using a class to encapsulate dependency state, closures (stateful functions) are used instead.
 
+## File system structure
+
+The module hierarchy can be easily represented by the file system:
+
+```js
+modules/
+    index.js
+    stores/
+        index.js
+        addToCart.js        
+    services/
+        index.js
+        orderProducts.js        
+    components/
+        index.js
+        productDetails.js        
+```
+
+`index.js` files can be used as "barrel" files to rollup each file in a directory:
+
+```js
+// modules/index.js
+module.exports = {
+    stores: require('./stores'),
+    services: require('./services'),
+    components: require('./components')
+};
+```
+
+```js
+// modules/components/index.js
+module.exports = {
+    productDetails: require('./productDetails')
+};
+```
+
+This pattern opens the possibility of autogenerating `index.js` files.
+
+`module-indexgen` is a package design to do just that: https://github.com/mattriley/node-module-indexgen
+
 ## Advanced Example: Agile Avatars
 
 This is the composition root from [Agile Avatars](https://agileavatars.com):
@@ -125,43 +165,3 @@ export default ({ window, configs }) => {
 };
 ```
 </details>
-
-## File system structure
-
-The module hierarchy can be easily represented by the file system:
-
-```js
-modules/
-    index.js
-    stores/
-        index.js
-        addToCart.js        
-    services/
-        index.js
-        orderProducts.js        
-    components/
-        index.js
-        productDetails.js        
-```
-
-`index.js` files can be used as "barrel" files to rollup each file in a directory:
-
-```js
-// modules/index.js
-module.exports = {
-    stores: require('./stores'),
-    services: require('./services'),
-    components: require('./components')
-};
-```
-
-```js
-// modules/components/index.js
-module.exports = {
-    productDetails: require('./productDetails')
-};
-```
-
-This pattern opens the possibility of autogenerating `index.js` files.
-
-`module-indexgen` is a package design to do just that: https://github.com/mattriley/node-module-indexgen
