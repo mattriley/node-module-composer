@@ -14,185 +14,110 @@ A module composition utility.
 npm install module-composer
 ```
 
-## Usage
+## Basic Usage
+
+Consider the following example:
 
 ```js
 const composer = require('module-composer');
-const src = require('./src');
-const compose = composer(src);
-const moduleB = compose('moduleB');
-const moduleA = compose('moduleA', { moduleB });
+const modules = require('./src/modules');
+
+const { compose } = composer(modules);
+const { stores } = compose('stores');
+const { services } = compose('services', { stores });
+const { components } = compose('components', { services });
 ```
 
-## Example: Agile Avatars
+`modules` is simply an object containing an entry for each module:
 
-This is the composition root from Agile Avatars:
+```js
+{
+    stores: { ... },
+    services: { ... },
+    components: { ... }
+}
+```
+
+`composer` is passed `modules` and returns a `compose` function.
+
+`compose` is then passed dependencies for a given module name and returns the "composed" module.
+
+Each module is simply an object containing an entry for each module function:
+
+```js
+{
+    stores: { 
+        addToCart: () => product => { ... }
+    },
+    services: { 
+        orderProduct: ({ stores }) => product => { ... }
+    },
+    components: {
+        productDetails: ({ services }) => product => { ... }
+    }
+}
+```
+
+Notice the "double arrow" functions? This is syntactic sugar for "a function at returns another function".
+
+Here's the equivalent with double arrows, using `components` as an example:
+
+```js
+{
+    components: {
+        productDetails: ({ services }) => {
+            return product => { ... }
+        }
+    }
+}
+```
+
+The `compose` function calls the first arrow function with the specified dependencies for each entry in the module and returns the second arrow function.
+
+This is analogous to calling a class constructor with dependencies and returning the resulting instance. However rather than using a class to encapsulate dependency state, closures (stateful functions) are used instead.
+
+## Advanced Example: Agile Avatars
+
+This is the composition root from [Agile Avatars](https://agileavatars.com):
 
 <%- fetchCode('https://raw.githubusercontent.com/mattriley/agileavatars/master/src/compose.js') %>
 
-Recommended reading:
-- [Composition Root - Mark Seemann](https://blog.ploeh.dk/2011/07/28/CompositionRoot/)
+## File system structure
 
-## How it works
-
-Take the following object graph:
+The module hierarchy can be easily represented by the file system:
 
 ```js
-const modules = {
-    moduleA: {
-        foo: ({ moduleA, moduleB }) => () => {
-            console.log('foo');
-            moduleA.bar();
-        },
-        bar: ({ moduleA, moduleB }) => () => {
-            console.log('bar');
-            moduleB.baz();
-        }
-    },
-    moduleB: {
-        baz: ({ moduleB }) => () => {
-            console.log('baz');
-            moduleB.qux();
-        },
-        qux: ({ moduleB }) => () => {
-            console.log('qux');
-        }
-    }
-};
-```
-
-Upon composition, and invocation of `foo`, the intended output is:
-
-```
-foo
-bar
-baz
-qux
-```
-
-Here's how these modules would be composed manually:
-
-```js
-const moduleB = {};
-moduleB.baz = src.moduleB.baz({ moduleB });
-moduleB.qux = src.moduleB.qux({ moduleB });
-
-const moduleA = {};
-moduleA.foo = src.moduleA.foo({ moduleA, moduleB });
-moduleA.bar = src.moduleA.bar({ moduleA, moduleB });
-
-moduleA.foo();
-```
-
-Here's how these modules would be composed with `module-composer`:
-
-```js
-const composer = require('module-composer');
-const { compose } = composer(modules);
-const { moduleB } = compose('moduleB');
-const { moduleA } = compose('moduleA', { moduleB });
-
-moduleA.foo();
-```
-
-## How is this useful?
-
-The above example could be broken down into the following directory structure:
-
-```
-proj/
-    run.js
-    src/
+modules/
+    index.js
+    stores/
         index.js
-        module-a/
-            index.js
-            foo.js
-            bar.js            
-        module-b/
-            index.js  
-            baz.js
-            qux.js                  
+        addToCart.js        
+    services/
+        index.js
+        orderProducts.js        
+    components/
+        index.js
+        productDetails.js        
 ```
 
-`proj`
+`index.js` files can be used as "barrel" files to rollup each file in a directory:
 
 ```js
-// run.js
-
-const composer = require('module-composer');
-const modules = require('./modules');
-
-const compose = composer(modules);
-const { moduleB } = compose('moduleB', {});
-const { moduleA } = compose('moduleA', { moduleB });
-
-moduleA.foo();
-```
-
-`src/modules`
-
-```js
-// index.js
-
+// modules/index.js
 module.exports = {
-    moduleA: require('./module-a'),
-    moduleB: require('./module-b')
+    stores: require('./stores'),
+    services: require('./services'),
+    components: require('./components')
 };
 ```
-
-`src/modules/module-a`
 
 ```js
-// index.js
-
+// modules/components/index.js
 module.exports = {
-    foo: require('./foo'),
-    bar: require('./bar')
-};
-
-
-// foo.js
-
-module.exports = ({ moduleA, moduleB }) => () => {
-    console.log('foo');
-    moduleA.bar();
-};
-
-
-// bar.js
-
-module.exports = ({ moduleA, moduleB }) => () => {
-    console.log('bar');
-    moduleB.baz();
+    productDetails: require('./productDetails')
 };
 ```
 
-`src/modules/module-b`
+This pattern opens the possibility of autogenerating `index.js` files.
 
-```js
-// index.js
-
-module.exports = {
-    baz: require('./baz'),
-    qux: require('./qux')
-};
-
-
-// baz.js
-
-module.exports = ({ moduleA, moduleB }) => () => {
-    console.log('baz');
-    moduleA.qux();
-};
-
-
-// qux.js
-
-module.exports = ({ moduleA, moduleB }) => () => {
-    console.log('qux');
-};
-```
-
-## Couldn't those index.js files be generated?
-
-Glad you asked. Absolutely. See: https://github.com/mattriley/node-module-indexgen
+`module-indexgen` is a package design to do just that: https://github.com/mattriley/node-module-indexgen
