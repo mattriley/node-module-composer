@@ -67,7 +67,7 @@ Each module is simply an object containing an entry for each module function:
 
 Notice the "double arrow" functions? This is syntactic sugar for "a function at returns another function".
 
-Here's the equivalent with double arrows, using `components` as an example:
+Here's the equivalent without double arrows, using `components` as an example:
 
 ```js
 {
