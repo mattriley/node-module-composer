@@ -76,9 +76,9 @@ modules/
 
 `index.js` files can be used as "barrel" files to rollup each file in a directory:
 
-<$- readCode('./examples/basic/modules/index.js') %>
+<%- readCode('./examples/basic/modules/index.js') %>
 
-<$- readCode('./examples/basic/modules/components/index.js') %>
+<%- readCode('./examples/basic/modules/components/index.js') %>
 
 This pattern opens the possibility of autogenerating `index.js` files.
 

@@ -122,9 +122,27 @@ modules/
 
 `index.js` files can be used as "barrel" files to rollup each file in a directory:
 
-<$- readCode('./examples/basic/modules/index.js') 
+<details open>
+<summary>./examples/basic/modules/index.js</summary>
 
-<$- readCode('./examples/basic/modules/components/index.js') 
+```js
+module.exports = {
+    components: require('./components'),
+    services: require('./services'),
+    stores: require('./stores')
+};
+```
+</details>
+
+<details open>
+<summary>./examples/basic/modules/components/index.js</summary>
+
+```js
+module.exports = {
+    productDetails: require('./product-details')
+};
+```
+</details>
 
 This pattern opens the possibility of autogenerating `index.js` files.
 
