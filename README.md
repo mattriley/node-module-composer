@@ -95,7 +95,7 @@ modules/
         addToCart.js        
     services/
         index.js
-        orderProducts.js        
+        orderProduct.js        
     components/
         index.js
         productDetails.js        
