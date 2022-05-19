@@ -90,8 +90,10 @@ Here's the equivalent _without_ double arrows, using `components` as an example:
 
 ```js
 export default {
-    productDetails: ({ services }) => {
-        return ({ product }) => { ... }
+    components: {
+        productDetails: ({ services }) => {
+            return ({ product }) => { ... }
+        }
     }
 }
 ```
