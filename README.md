@@ -25,15 +25,22 @@ npm install module-composer
 
 Consider the following example:
 
+<details open>
+<summary>./examples/basic/compose.js</summary>
+
 ```js
 const composer = require('module-composer');
-const modules = require('./src/modules');
+const modules = require('./modules');
 
-const { compose } = composer(modules);
-const { stores } = compose('stores');
-const { services } = compose('services', { stores });
-const { components } = compose('components', { services });
+module.exports = () => {
+    const { compose } = composer(modules);
+    const { stores } = compose('stores');
+    const { services } = compose('services', { stores });
+    const { components } = compose('components', { services });
+    return { stores, services, components };
+};
 ```
+</details>
 
 `modules` is simply an object containing an entry for each module:
 
@@ -51,19 +58,31 @@ const { components } = compose('components', { services });
 
 Each module is simply an object containing an entry for each module function:
 
+<details open>
+<summary>./examples/basic/modules.js</summary>
+
 ```js
-{
-    stores: { 
-        addToCart: () => product => { ... }
-    },
-    services: { 
-        orderProduct: ({ stores }) => product => { ... }
-    },
+module.exports = {
     components: {
-        productDetails: ({ services }) => product => { ... }
+        productDetails: ({ services }) => ({ product }) => {
+            // When Add to Cart button clicked...
+            services.addToCart({ product, quantity: 1 });
+        }
+    },
+    services: {
+        addToCart: ({ stores }) => ({ productId, quantity }) => {
+            // Use productId and quantity to produce items and totalCost...
+            stores.setCart({ items, totalCost });
+        }
+    },
+    stores: {
+        setCart: () => ({ items, totalCost }) => {
+            // Store items and totalCost...
+        }
     }
-}
+};
 ```
+</details>
 
 Notice the "double arrow" functions? That's syntactic sugar for "a function at returns another function".
 
@@ -73,7 +92,7 @@ Here's the equivalent _without_ double arrows, using `components` as an example:
 {
     components: {
         productDetails: ({ services }) => {
-            return product => { ... }
+            return ({ product }) => { ... }
         }
     }
 }

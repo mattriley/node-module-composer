@@ -18,15 +18,7 @@ npm install module-composer
 
 Consider the following example:
 
-```js
-const composer = require('module-composer');
-const modules = require('./src/modules');
-
-const { compose } = composer(modules);
-const { stores } = compose('stores');
-const { services } = compose('services', { stores });
-const { components } = compose('components', { services });
-```
+<%- readCode('./examples/basic/compose.js') %>
 
 `modules` is simply an object containing an entry for each module:
 
@@ -44,19 +36,7 @@ const { components } = compose('components', { services });
 
 Each module is simply an object containing an entry for each module function:
 
-```js
-{
-    stores: { 
-        addToCart: () => product => { ... }
-    },
-    services: { 
-        orderProduct: ({ stores }) => product => { ... }
-    },
-    components: {
-        productDetails: ({ services }) => product => { ... }
-    }
-}
-```
+<%- readCode('./examples/basic/modules.js') %>
 
 Notice the "double arrow" functions? That's syntactic sugar for "a function at returns another function".
 
@@ -66,7 +46,7 @@ Here's the equivalent _without_ double arrows, using `components` as an example:
 {
     components: {
         productDetails: ({ services }) => {
-            return product => { ... }
+            return ({ product }) => { ... }
         }
     }
 }
