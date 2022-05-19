@@ -1,8 +1,4 @@
 #!/bin/bash
 
-export COV_BRANCHES=0
-export COV_LINES=0
-export COV_FUNCTIONS=0
-export COV_STATEMENTS=0
-
+export INDEXGEN_PATHS=("./examples/basic/modules")
 export ITERMOCIL_TASKS=("edit" "test-watch")
