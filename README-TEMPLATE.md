@@ -43,11 +43,9 @@ Notice the "double arrow" functions? That's syntactic sugar for "a function at r
 Here's the equivalent _without_ double arrows, using `components` as an example:
 
 ```js
-{
-    components: {
-        productDetails: ({ services }) => {
-            return ({ product }) => { ... }
-        }
+export default {
+    productDetails: ({ services }) => {
+        return ({ product }) => { ... }
     }
 }
 ```
@@ -76,21 +74,9 @@ modules/
 
 `index.js` files can be used as "barrel" files to rollup each file in a directory:
 
-```js
-// modules/index.js
-module.exports = {
-    stores: require('./stores'),
-    services: require('./services'),
-    components: require('./components')
-};
-```
+<$- readCode('./examples/basic/modules/index.js') %>
 
-```js
-// modules/components/index.js
-module.exports = {
-    productDetails: require('./productDetails')
-};
-```
+<$- readCode('./examples/basic/modules/components/index.js') %>
 
 This pattern opens the possibility of autogenerating `index.js` files.
 

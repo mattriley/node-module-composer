@@ -29,10 +29,10 @@ Consider the following example:
 <summary>./examples/basic/compose.js</summary>
 
 ```js
-const composer = require('module-composer');
-const modules = require('./modules');
+import composer from 'module-composer';
+import modules from './modules';
 
-module.exports = () => {
+export default () => {
     const { compose } = composer(modules);
     const { stores } = compose('stores');
     const { services } = compose('services', { stores });
@@ -62,7 +62,7 @@ Each module is simply an object containing an entry for each module function:
 <summary>./examples/basic/modules.js</summary>
 
 ```js
-module.exports = {
+export default {
     components: {
         productDetails: ({ services }) => ({ product }) => {
             // When Add to Cart button clicked...
@@ -89,11 +89,9 @@ Notice the "double arrow" functions? That's syntactic sugar for "a function at r
 Here's the equivalent _without_ double arrows, using `components` as an example:
 
 ```js
-{
-    components: {
-        productDetails: ({ services }) => {
-            return ({ product }) => { ... }
-        }
+export default {
+    productDetails: ({ services }) => {
+        return ({ product }) => { ... }
     }
 }
 ```
@@ -122,21 +120,9 @@ modules/
 
 `index.js` files can be used as "barrel" files to rollup each file in a directory:
 
-```js
-// modules/index.js
-module.exports = {
-    stores: require('./stores'),
-    services: require('./services'),
-    components: require('./components')
-};
-```
+<$- readCode('./examples/basic/modules/index.js') 
 
-```js
-// modules/components/index.js
-module.exports = {
-    productDetails: require('./productDetails')
-};
-```
+<$- readCode('./examples/basic/modules/components/index.js') 
 
 This pattern opens the possibility of autogenerating `index.js` files.
 

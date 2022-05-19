@@ -1,7 +1,7 @@
-const composer = require('module-composer');
-const modules = require('./modules');
+import composer from 'module-composer';
+import modules from './modules';
 
-module.exports = () => {
+export default () => {
     const { compose } = composer(modules);
     const { stores } = compose('stores');
     const { services } = compose('services', { stores });

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     components: {
         productDetails: ({ services }) => ({ product }) => {
             // When Add to Cart button clicked...
