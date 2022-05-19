@@ -14,7 +14,7 @@ A tiny but powerful closure-based module composition utility.
 npm install module-composer
 ```
 
-## Basic Usage
+## Basic example
 
 Consider the following example:
 
@@ -58,9 +58,9 @@ Each module is simply an object containing an entry for each module function:
 }
 ```
 
-Notice the "double arrow" functions? This is syntactic sugar for "a function at returns another function".
+Notice the "double arrow" functions? That's syntactic sugar for "a function at returns another function".
 
-Here's the equivalent without double arrows, using `components` as an example:
+Here's the equivalent _without_ double arrows, using `components` as an example:
 
 ```js
 {
@@ -72,7 +72,7 @@ Here's the equivalent without double arrows, using `components` as an example:
 }
 ```
 
-The `compose` function calls the first arrow function with the specified dependencies for each entry in the module and returns the second arrow function.
+`compose` calls the first arrow function with the specified dependencies for each entry in the module and returns the second arrow function.
 
 This is analogous to calling a class constructor with dependencies and returning the resulting instance. However rather than using a class to encapsulate dependency state, closures (stateful functions) are used instead.
 
@@ -114,9 +114,9 @@ module.exports = {
 
 This pattern opens the possibility of autogenerating `index.js` files.
 
-`module-indexgen` is a package design to do just that: https://github.com/mattriley/node-module-indexgen
+`module-indexgen` is a package designed to do just that: https://github.com/mattriley/node-module-indexgen
 
-## Advanced Example: Agile Avatars
+## Advanced example: Agile Avatars
 
 This is the composition root from [Agile Avatars](https://agileavatars.com):
 
