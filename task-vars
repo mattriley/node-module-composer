@@ -1,4 +1,5 @@
 #!/bin/bash
 
+export INDEXGEN_OPTIONS="--type=esm"
 export INDEXGEN_PATHS=("./examples/basic/modules")
 export ITERMOCIL_TASKS=("edit" "test-watch")

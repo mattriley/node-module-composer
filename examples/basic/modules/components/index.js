@@ -1,3 +1,5 @@
-module.exports = {
-    productDetails: require('./product-details')
+import productDetails from './product-details';
+
+export default {
+    productDetails
 };

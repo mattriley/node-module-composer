@@ -1,3 +1,5 @@
-module.exports = {
-    addToCart: require('./add-to-cart')
+import addToCart from './add-to-cart';
+
+export default {
+    addToCart
 };

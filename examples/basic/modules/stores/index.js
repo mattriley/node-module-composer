@@ -1,3 +1,5 @@
-module.exports = {
-    setCart: require('./set-cart')
+import setCart from './set-cart';
+
+export default {
+    setCart
 };

@@ -126,10 +126,14 @@ modules/
 <summary>./examples/basic/modules/index.js</summary>
 
 ```js
-module.exports = {
-    components: require('./components'),
-    services: require('./services'),
-    stores: require('./stores')
+import components from './components';
+import services from './services';
+import stores from './stores';
+
+export default {
+    components,
+    services,
+    stores
 };
 ```
 </details>
@@ -138,8 +142,10 @@ module.exports = {
 <summary>./examples/basic/modules/components/index.js</summary>
 
 ```js
-module.exports = {
-    productDetails: require('./product-details')
+import productDetails from './product-details';
+
+export default {
+    productDetails
 };
 ```
 </details>
