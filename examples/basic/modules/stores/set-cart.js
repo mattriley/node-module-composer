@@ -1,0 +1,3 @@
+module.exports = () => ({ items, totalCost }) => {
+    // Store items and totalCost...
+};
