@@ -11,6 +11,7 @@ A tiny but powerful closure-based module composition utility.
 - [Install](#install)
 - [Basic example](#basic-example)
 - [File system structure](#file-system-structure)
+- [Advanced example: Agile Avatars](#advanced-example-agile-avatars)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -157,11 +158,7 @@ This pattern opens the possibility of autogenerating `index.js` files.
 
 [Mermaid](https://mermaid-js.github.io) is a tool for creating diagrams and visualizations using text and code.
 
-```mermaid
-graph TD;
-    components-->services;
-    services-->stores;
-```
+moduleGraph('./examples/basic/compose.js')
 
 -->
 

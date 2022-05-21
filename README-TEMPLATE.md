@@ -89,7 +89,7 @@ This pattern opens the possibility of autogenerating `index.js` files.
 
 [Mermaid](https://mermaid-js.github.io) is a tool for creating diagrams and visualizations using text and code.
 
-<%- moduleGraph('./examples/basic/compose.js') %>
+moduleGraph('./examples/basic/compose.js')
 
 -->
 
