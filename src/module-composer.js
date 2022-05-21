@@ -6,7 +6,7 @@ module.exports = (target, ...configs) => {
     const config = merge({}, ...configs.flat());
     const options = merge({ ...defaultOptions }, config.moduleComposer);
     const modules = { ...target }, dependencies = mapValues(modules, () => []);
-    const mermaid = () => mermaidGraph(dependencies);
+    const mermaid = opts => mermaidGraph(dependencies, opts);
     const composition = { config, target, modules, dependencies, mermaid };
     const compose = (key, args = {}, customise = options.customiser) => {
         const totalArgs = { ...options.defaults, ...args };

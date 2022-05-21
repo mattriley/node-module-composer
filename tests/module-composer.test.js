@@ -127,4 +127,11 @@ module.exports = ({ test }) => {
         t.equal(composition.mermaid(), 'graph TD;\n    foo-->bar;');
     });
 
+    test('mermaid omit', t => {
+        const target = { foo: {} };
+        const { compose } = composer(target);
+        const { composition } = compose('foo', { bar: {} });
+        t.equal(composition.mermaid({ omit: ['foo'] }), 'graph TD;');
+    });
+
 };
