@@ -84,6 +84,15 @@ This pattern opens the possibility of autogenerating `index.js` files.
 
 `module-indexgen` is a package designed to do just that: https://github.com/mattriley/node-module-indexgen
 
+<!--
+## Generating Mermaid diagrams
+
+[Mermaid](https://mermaid-js.github.io) is a tool for creating diagrams and visualizations using text and code.
+
+<%- moduleGraph('./examples/basic/compose.js') %>
+
+-->
+
 ## Advanced example: Agile Avatars
 
 This is the composition root from [Agile Avatars](https://agileavatars.com):
