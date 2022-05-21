@@ -18,7 +18,7 @@ npm install module-composer
 
 Consider the following example:
 
-<%- readCode('./examples/basic/compose.js') %>
+<%- await readCode('./examples/basic/compose.js') %>
 
 `modules` is simply an object containing an entry for each module:
 
@@ -36,7 +36,7 @@ Consider the following example:
 
 Each module is simply an object containing an entry for each module function:
 
-<%- readCode('./examples/basic/modules.js') %>
+<%- await readCode('./examples/basic/modules.js') %>
 
 Notice the "double arrow" functions? That's syntactic sugar for "a function at returns another function".
 
@@ -76,22 +76,30 @@ modules/
 
 `index.js` files can be used as "barrel" files to rollup each file in a directory:
 
-<%- readCode('./examples/basic/modules/index.js') %>
+<%- await readCode('./examples/basic/modules/index.js') %>
 
-<%- readCode('./examples/basic/modules/components/index.js') %>
+<%- await readCode('./examples/basic/modules/components/index.js') %>
 
 This pattern opens the possibility of autogenerating `index.js` files.
 
 `module-indexgen` is a package designed to do just that: https://github.com/mattriley/node-module-indexgen
 
-<!--
 ## Generating Mermaid diagrams
 
-[Mermaid](https://mermaid-js.github.io) is a tool for creating diagrams and visualizations using text and code.
+[Mermaid](https://mermaid-js.github.io) is a tool for creating diagrams and visualizations using text and code. Since early 2022, GitHub can render diagrams directly from Mermaid syntax in markdown files. See [Include diagrams in your Markdown files with Mermaid](https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/) for more information.
 
-moduleGraph('./examples/basic/compose.js')
+This diagram is generated from the basic example above:
 
--->
+<%- await moduleGraph('./examples/basic/compose.js') %>
+
+module-composer produces a module named `composition` which can be used to generate Mermaid syntax.
+
+A consumer might generate Mermaid syntax like so:
+
+```js
+const { composition } = compose();
+const graph = composition.mermaid();
+```
 
 ## Advanced example: Agile Avatars
 

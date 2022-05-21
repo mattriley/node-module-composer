@@ -5,5 +5,6 @@ export default () => {
     const { compose } = composer(modules);
     const { stores } = compose('stores');
     const { services } = compose('services', { stores });
-    return compose('components', { services });
+    const { components } = compose('components', { services });
+    return compose.getModules();
 };
