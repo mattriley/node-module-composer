@@ -85,7 +85,7 @@ export default {
 ```
 </details>
 
-Notice the "double arrow" functions? That's syntactic sugar for "a function at returns another function".
+Notice the "double arrow" functions? That's syntactic sugar for "a function that returns another function".
 
 Here's the equivalent _without_ double arrows, using `components` as an example:
 

@@ -38,7 +38,7 @@ Each module is simply an object containing an entry for each module function:
 
 <%- await readCode('./examples/basic/modules.js') %>
 
-Notice the "double arrow" functions? That's syntactic sugar for "a function at returns another function".
+Notice the "double arrow" functions? That's syntactic sugar for "a function that returns another function".
 
 Here's the equivalent _without_ double arrows, using `components` as an example:
 
