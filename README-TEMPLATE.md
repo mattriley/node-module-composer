@@ -104,7 +104,7 @@ const graph = composition.mermaid();
 ## Advanced example: Agile Avatars
 
 > Great looking avatars for your agile board and experiment in FRAMEWORK-LESS, vanilla JavaScript.<br/>
-https://agileavatars.com | https://github.com/mattriley/agileavatars
+https://agileavatars.com • https://github.com/mattriley/agileavatars
 
 Module composition:
 
