@@ -2,6 +2,10 @@
 
 A tiny but powerful closure-based module composition utility.
 
+Why is it so common for modern JavaScript applications to be reasoned about in terms of scripts and files, and implemented as convoluted mazes of file imports?
+
+Module Composer encourages intentionality for application architecture by making it easier to design and reason about an application as a composition of modules.
+
 ## Table of Contents
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -11,7 +15,7 @@ A tiny but powerful closure-based module composition utility.
 - [Install](#install)
 - [Basic example](#basic-example)
 - [File system structure](#file-system-structure)
-- [Generating Mermaid diagrams](#generating-mermaid-diagrams)
+- [Mermaid diagrams](#mermaid-diagrams)
 - [App config](#app-config)
 - [Advanced example: Agile Avatars](#advanced-example-agile-avatars)
 
@@ -154,7 +158,7 @@ This pattern opens the possibility of autogenerating `index.js` files.
 
 `module-indexgen` is a package designed to do just that: https://github.com/mattriley/node-module-indexgen
 
-## Generating Mermaid diagrams
+## Mermaid diagrams
 
 [Mermaid](https://mermaid-js.github.io) is a tool for creating diagrams and visualizations using text and code. Since early 2022, GitHub can render diagrams directly from Mermaid syntax in markdown files. See [Include diagrams in your Markdown files with Mermaid](https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/) for more information.
 
@@ -166,7 +170,7 @@ graph TD;
     services-->stores;
 ```
 
-module-composer produces a module named `composition` which can be used to generate Mermaid syntax.
+Module Composer produces a module named `composition` which can be used to generate Mermaid syntax.
 
 A consumer might generate Mermaid syntax like so:
 
