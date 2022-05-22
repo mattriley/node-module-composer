@@ -12,6 +12,7 @@ A tiny but powerful closure-based module composition utility.
 - [Basic example](#basic-example)
 - [File system structure](#file-system-structure)
 - [Generating Mermaid diagrams](#generating-mermaid-diagrams)
+- [App config](#app-config)
 - [Advanced example: Agile Avatars](#advanced-example-agile-avatars)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -53,11 +54,9 @@ export default () => {
 }
 ```
 
-`composer` is passed `modules` and returns a `compose` function.
+`composer` is passed `modules` and returns a `compose` function. `compose` is then passed dependencies for a given module name and returns the "composed" module.
 
-`compose` is then passed dependencies for a given module name and returns the "composed" module.
-
-Each module is simply an object containing an entry for each module function:
+Each module is simply an object containing an entry for each function of the module:
 
 <details open>
 <summary>./examples/basic/modules.js</summary>
@@ -107,7 +106,7 @@ This is analogous to calling a class constructor with dependencies and returning
 
 The module hierarchy can be easily represented by the file system:
 
-```js
+```
 modules/
     index.js
     stores/
@@ -175,6 +174,19 @@ A consumer might generate Mermaid syntax like so:
 const { composition } = compose();
 const graph = composition.mermaid();
 ```
+
+## App config
+
+For convenience, config can be passed as the second and subsequent parameters to the composer function. These configs are merged using [Lodash merge](https://www.npmjs.com/package/lodash.merge) and returned along with the compose function.
+
+In the next example, `defaultConfig` and `userConfig` are merged to produce `config`, which is then passed as a dependency of the `components` module.
+
+```js
+const { compose, config } = composer(modules, defaultConfig, userConfig);
+const { components } = compose('components', { config });
+```
+
+This can be especially useful during testing by applying test config.
 
 ## Advanced example: Agile Avatars
 
