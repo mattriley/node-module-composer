@@ -6,6 +6,8 @@ Why is it so common for modern JavaScript applications to be reasoned about in t
 
 Module Composer encourages intentionality for application architecture by making it easier to design and reason about an application as a composition of modules.
 
+So what is a module? A module in this context is simply a plain old JavaScript object with functions that accept a very explicitly defined set of other modules. 
+
 ## Table of Contents
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
