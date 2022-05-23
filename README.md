@@ -2,7 +2,7 @@
 
 A tiny but powerful closure-based module composition utility.
 
-Why is it so common for modern JavaScript applications to be reasoned about in terms of scripts and files, and implemented as convoluted mazes of file imports?
+Why is it so common for modern JavaScript applications (backend _and_ frontend) to be reasoned about in terms of scripts and files, and implemented as convoluted mazes of file imports?
 
 Module Composer encourages intentionality for application architecture by making it easier to design and reason about an application as a composition of modules.
 
@@ -34,19 +34,16 @@ npm install module-composer
 Consider the following example:
 
 <details open>
-<summary>./examples/basic/compose.js</summary>
+<summary>./examples/basic/compose-no-export.js</summary>
 
 ```js
 import composer from 'module-composer';
 import modules from './modules';
 
-export default () => {
-    const { compose } = composer(modules);
-    const { stores } = compose('stores');
-    const { services } = compose('services', { stores });
-    const { components } = compose('components', { services });
-    return compose.getModules();
-};
+const { compose } = composer(modules);
+const { stores } = compose('stores');
+const { services } = compose('services', { stores });
+const { components } = compose('components', { services });
 ```
 </details>
 
@@ -60,7 +57,7 @@ export default () => {
 }
 ```
 
-`composer` is passed `modules` and returns a `compose` function. `compose` is then passed dependencies for a given module name and returns the "composed" module.
+The first step is to create a `compose` function for the given _uncomposed_ modules. The `compose` function is then used to compose a module of other modules. The _composed_ module is then returned and may be used to compose another module, and so on.
 
 Each module is simply an object containing an entry for each function of the module:
 
@@ -104,7 +101,7 @@ export default {
 }
 ```
 
-`compose` calls the first arrow function with the specified dependencies for each entry in the module and returns the second arrow function.
+The `compose` function invokes the first arrow function with the specified modules for each entry in the module and returns the second arrow function.
 
 This is analogous to calling a class constructor with dependencies and returning the resulting instance. However rather than using a class to encapsulate dependency state, closures (stateful functions) are used instead.
 
@@ -126,7 +123,7 @@ modules/
         productDetails.js        
 ```
 
-`index.js` files can be used as "barrel" files to rollup each file in a directory:
+This hierarchy can be mirrored in code by rolling up each file in each directory using `index.js` files. This approach leads to a design where any file is only ever imported once regardless of the number of usages. It also reduces or eliminates the large blocks of import statements typically found at the top of each file, and eliminates any need for backtracking, i.e. `../../../`.
 
 <details open>
 <summary>./examples/basic/modules/index.js</summary>
@@ -156,9 +153,9 @@ export default {
 ```
 </details>
 
-This pattern opens the possibility of autogenerating `index.js` files.
+This pattern opens the possibility of generating `index.js` files. This means that not only is each file only ever imported once, a developer needn't write import statements at all.
 
-`module-indexgen` is a package designed to do just that: https://github.com/mattriley/node-module-indexgen
+The package `module-indexgen` is designed to do just that: https://github.com/mattriley/node-module-indexgen
 
 ## Mermaid diagrams
 
