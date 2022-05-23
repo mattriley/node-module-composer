@@ -161,7 +161,29 @@ The package `module-indexgen` is designed to do just that: https://github.com/ma
 
 [Mermaid](https://mermaid-js.github.io) is a tool for creating diagrams and visualizations using text and code. Since early 2022, GitHub can render diagrams directly from Mermaid syntax in markdown files. See [Include diagrams in your Markdown files with Mermaid](https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/) for more information.
 
-This diagram is generated from the basic example above:
+Module Composer provides a `mermaid` function to generate a Mermaid diagram as code:
+
+```js
+import composer from 'module-composer';
+import modules from './modules';
+
+const { compose, mermaid } = composer(modules);
+const { stores } = compose('stores');
+const { services } = compose('services', { stores });
+const { components } = compose('components', { services });
+
+const diagram = mermaid();
+```
+
+The value of `diagram` is:
+
+```
+graph TD;
+    components-->services;
+    services-->stores;
+```
+
+Which renders:
 
 ```mermaid
 graph TD;
@@ -169,14 +191,7 @@ graph TD;
     services-->stores;
 ```
 
-Module Composer produces a module named `composition` which can be used to generate Mermaid syntax.
-
-A consumer might generate Mermaid syntax like so:
-
-```js
-const { composition } = compose();
-const graph = composition.mermaid();
-```
+_If the diagram is not rendered, you might not be viewing this file in GitHub._
 
 ## App config
 
@@ -237,7 +252,7 @@ export default ({ window, configs }) => {
 ```
 </details>
 
-Generated Mermaid digram:
+Mermaid digram:
 
 ```mermaid
 graph TD;

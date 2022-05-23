@@ -8,7 +8,7 @@ module.exports = (target, ...configs) => {
     const modules = { ...target }, dependencies = mapValues(modules, () => []);
     const mermaid = opts => mermaidGraph(dependencies, opts);
     const composition = { config, target, modules, dependencies, mermaid };
-    const getModules = () => ({ config, composition, ...modules });
+    const composed = () => ({ config, composition, ...modules });
 
     const composeRecursive = (target, args, parentKey) => {
         if (!isObject(target)) return target;
@@ -20,15 +20,11 @@ module.exports = (target, ...configs) => {
 
     const compose = (key, args = {}, customise = options.customiser) => {
         const totalArgs = { ...options.defaults, ...args };
-        const composed = composeRecursive(target[key], totalArgs, key);
-        const module = customise(composed);
+        const module = customise(composeRecursive(target[key], totalArgs, key));
         modules[key] = override({ [key]: module }, options.overrides)[key];
         dependencies[key] = Object.keys(totalArgs);
-        return getModules();
+        return composed();
     };
 
-    Object.assign(compose, { getModules });
-    return { config, compose };
+    return { config, compose, composed, mermaid };
 };
-
-
