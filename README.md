@@ -41,7 +41,6 @@ const { compose } = composer(modules);
 const { stores } = compose('stores');
 const { services } = compose('services', { stores });
 const { components } = compose('components', { services });
-
 ```
 
 `modules` is simply an object containing an entry for each module:
@@ -78,7 +77,6 @@ export default {
         }
     }
 };
-
 ```
 
 Notice the "double arrow" functions? That's syntactic sugar for "a function that returns another function".
@@ -129,7 +127,6 @@ export default {
     services,
     stores
 };
-
 ```
 
 ```js
@@ -138,7 +135,6 @@ import productDetails from './product-details';
 export default {
     productDetails
 };
-
 ```
 
 This pattern opens the possibility of generating `index.js` files. This means that not only is each file only ever imported once, a developer needn't write import statements at all.
@@ -147,7 +143,11 @@ The package `module-indexgen` is designed to do just that: https://github.com/ma
 
 ## Mermaid diagrams
 
-[Mermaid](https://mermaid-js.github.io) is a tool for creating diagrams and visualizations using text and code. Since early 2022, GitHub can render diagrams directly from Mermaid syntax in markdown files. See [Include diagrams in your Markdown files with Mermaid](https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/) for more information.
+[Mermaid](https://mermaid-js.github.io) is a tool for creating diagrams and visualizations using text and code. 
+
+Since early 2022, GitHub can render diagrams directly from Mermaid syntax in markdown files. 
+
+See [Include diagrams in your Markdown files with Mermaid](https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/) for more information.
 
 Module Composer provides a `mermaid` function to generate a Mermaid diagram as code:
 
@@ -234,7 +234,6 @@ export default ({ window, configs }) => {
     return compose('startup', { ui, components, styles, services, subscriptions, stores, util, config });
 
 };
-
 ```
 
 Mermaid digram:
