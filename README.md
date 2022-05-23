@@ -2,11 +2,11 @@
 
 A tiny but powerful closure-based module composition utility.
 
-Why is it so common for modern JavaScript applications (backend _and_ frontend) to be organised and reasoned about in terms of scripts and files, and navigated via a convoluted maze of file imports?
+Why is it so common for JavaScript applications these days (backend _and_ frontend) to be organised and reasoned about in terms of scripts and files, and navigated via a convoluted maze of file imports?
 
 Module Composer encourages intentionality around application architecture by making it easier to design and reason about applications at a higher level, in this case, as a composition of _modules_.
 
-So what is a module? In this context, a module is simply a plain old JavaScript object (a POJO!) with functions that accept a very explicitly defined set of other modules. These functions are _higher-order_ in that they return another function whose invocation may be deferred to later in the application lifecycle, but retain access to the provided modules thanks to the power of closures (stateful functions).
+So what is a module? Not to be confused with JavaScript CJS or ESM modules, a module in this context is simply a plain old JavaScript object (a POJO!) with functions that accept a very explicitly defined set of _other_ modules. These functions are _higher-order_ in that they return another function whose invocation may be deferred to later in the application lifecycle, while retaining access to the provided modules thanks to the power of closures (stateful functions). Closures are a native feature of JavaScript.
 
 If that sounds like a lot to wrap your head around, fear not! Implementation-wise it's actually rather simple. See the [basic example](#basic-example) below to see it in action.
 
