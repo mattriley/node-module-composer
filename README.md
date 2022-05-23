@@ -2,11 +2,13 @@
 
 A tiny but powerful closure-based module composition utility.
 
-Why is it so common for modern JavaScript applications (backend _and_ frontend) to be reasoned about in terms of scripts and files, and implemented as convoluted mazes of file imports?
+Why is it so common for modern JavaScript applications (backend _and_ frontend) to be organised and reasoned about in terms of scripts and files, and navigated via a convoluted maze of file imports?
 
-Module Composer encourages intentionality for application architecture by making it easier to design and reason about an application as a composition of modules.
+Module Composer encourages intentionality around application architecture by making it easier to design and reason about applications at a higher level, in this case, as a composition of _modules_.
 
-So what is a module? A module in this context is simply a plain old JavaScript object with functions that accept a very explicitly defined set of other modules. 
+So what is a module? In this context, a module is simply a plain old JavaScript object (a POJO!) with functions that accept a very explicitly defined set of other modules. These functions are _higher-order_ in that they return another function whose invocation may be deferred to later in the application lifecycle, but retain access to the provided modules thanks to the power of closures (stateful functions).
+
+If that sounds like a lot to wrap your head around, fear not! Implementation-wise it's actually rather simple. See the [basic example](#basic-example) below to see it in action.
 
 ## Table of Contents
 
@@ -79,7 +81,7 @@ export default {
 };
 ```
 
-Notice the "double arrow" functions? That's syntactic sugar for "a function that returns another function".
+Notice the _double arrow_ functions? That's syntactic sugar for _a function that returns another function_.
 
 Here's the equivalent _without_ double arrows, using `components` as an example:
 
