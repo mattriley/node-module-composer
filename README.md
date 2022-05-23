@@ -33,9 +33,6 @@ npm install module-composer
 
 Consider the following example:
 
-<details open>
-<summary>./examples/basic/compose-no-export.js</summary>
-
 ```js
 import composer from 'module-composer';
 import modules from './modules';
@@ -44,8 +41,8 @@ const { compose } = composer(modules);
 const { stores } = compose('stores');
 const { services } = compose('services', { stores });
 const { components } = compose('components', { services });
+
 ```
-</details>
 
 `modules` is simply an object containing an entry for each module:
 
@@ -60,9 +57,6 @@ const { components } = compose('components', { services });
 The first step is to create a `compose` function for the given _uncomposed_ modules. The `compose` function is then used to compose a module of other modules. The _composed_ module is then returned and may be used to compose another module, and so on.
 
 Each module is simply an object containing an entry for each function of the module:
-
-<details open>
-<summary>./examples/basic/modules.js</summary>
 
 ```js
 export default {
@@ -84,8 +78,8 @@ export default {
         }
     }
 };
+
 ```
-</details>
 
 Notice the "double arrow" functions? That's syntactic sugar for "a function that returns another function".
 
@@ -125,9 +119,6 @@ modules/
 
 This hierarchy can be mirrored in code by rolling up each file in each directory using `index.js` files. This approach leads to a design where any file is only ever imported once regardless of the number of usages. It also reduces or eliminates the large blocks of import statements typically found at the top of each file, and eliminates any need for backtracking, i.e. `../../../`.
 
-<details open>
-<summary>./examples/basic/modules/index.js</summary>
-
 ```js
 import components from './components';
 import services from './services';
@@ -138,11 +129,8 @@ export default {
     services,
     stores
 };
-```
-</details>
 
-<details open>
-<summary>./examples/basic/modules/components/index.js</summary>
+```
 
 ```js
 import productDetails from './product-details';
@@ -150,8 +138,8 @@ import productDetails from './product-details';
 export default {
     productDetails
 };
+
 ```
-</details>
 
 This pattern opens the possibility of generating `index.js` files. This means that not only is each file only ever imported once, a developer needn't write import statements at all.
 
@@ -213,9 +201,6 @@ https://agileavatars.com • https://github.com/mattriley/agileavatars
 
 Module composition:
 
-<details open>
-<summary>./src/compose.js</summary>
-
 ```js
 import composer from 'module-composer';
 import modules from './modules';
@@ -249,8 +234,8 @@ export default ({ window, configs }) => {
     return compose('startup', { ui, components, styles, services, subscriptions, stores, util, config });
 
 };
+
 ```
-</details>
 
 Mermaid digram:
 
