@@ -129,6 +129,18 @@ const { components } = compose('components', { config });
 
 This can be especially useful during testing by applying test config.
 
+## Inversion of Control (IoC)
+
+Module Composer enables Inversion of Control by externalising _other modules_ as dependencies. 
+
+Well known advantages of Inversion of Control include:
+- The ability to swap implementations at runtime, e.g. repositories that integrate with different database technologies.
+- The ability to stub/mock/fake dependencies for testing purposes.
+
+Inversion of Control is a big (and sometimes controversial) topic and worth being familiar with.
+
+I would like to stress that although Module Composer enables Inversion of Control, the primary goal of Module Composer is to encourage intentionality around application architecture.
+
 ## Advanced example: Agile Avatars
 
 > Great looking avatars for your agile board and experiment in FRAMEWORK-LESS, vanilla JavaScript.<br/>
