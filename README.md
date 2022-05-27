@@ -4,7 +4,7 @@ A tiny but powerful closure-based module composition utility.
 
 Why is it so common for JavaScript applications these days (backend _and_ frontend) to be organised and reasoned about in terms of scripts and files, and navigated via a convoluted maze of file imports?
 
-Module Composer encourages intentionality around application architecture by making it easier to design and reason about applications at a higher level, in this case, as a composition of _modules_.
+Module Composer aims to encourage good modular design and intentionality for application architecture by making it easier to design and reason about applications at a higher level, in this case, as a composition of _modules_.
 
 So what is a module? Not to be confused with JavaScript CJS or ESM modules, a module in this context is simply a plain old JavaScript object (a POJO!) with functions that accept a very explicitly defined set of _other_ modules. These functions are _higher-order_ in that they return another function whose invocation may be deferred to later in the application lifecycle, while retaining access to the provided modules thanks to the power of closures (stateful functions). Closures are a native feature of JavaScript.
 
@@ -202,12 +202,13 @@ This can be especially useful during testing by applying test config.
 Module Composer enables Inversion of Control by externalising _other modules_ as dependencies. 
 
 Well known advantages of Inversion of Control include:
-- The ability to swap implementations at runtime, e.g. repositories that integrate with different database technologies.
+
+- The ability to switch implementations at runtime, e.g. repositories that integrate with different database technologies.
 - The ability to stub/mock/fake dependencies for testing purposes.
 
 Inversion of Control is a big (and sometimes controversial) topic and worth being familiar with.
 
-I would like to stress that although Module Composer enables Inversion of Control, the primary goal of Module Composer is to encourage intentionality around application architecture.
+I want to stress that although Module Composer enables Inversion of Control, the primary aim is to encourage good modular design and intentionality for application architecture.
 
 ## Advanced example: Agile Avatars
 
