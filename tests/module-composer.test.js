@@ -71,10 +71,21 @@ module.exports = ({ test }) => {
     });
 
     test('non-objects are returned as-is', t => {
-        const target = { foo: { bar: 1 } };
+        class Classy { }
+        const target = {
+            foo: {
+                num: 1,
+                str: 'str',
+                bool: true,
+                regex: /abc/,
+                Classy,
+                inst: new Classy(),
+                null: null,
+            }
+        };
         const { compose } = composer(target);
         const { composition } = compose('foo');
-        t.equal(composition.modules, { foo: { bar: 1 } });
+        t.equal(composition.modules, target);
         t.equal(composition.dependencies, { foo: [] });
     });
 
