@@ -81,6 +81,7 @@ module.exports = ({ test }) => {
                 Classy,
                 inst: new Classy(),
                 null: null,
+                undef: undefined
             }
         };
         const { compose } = composer(target);
