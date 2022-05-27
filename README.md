@@ -146,9 +146,9 @@ The package `module-indexgen` is designed to do just that: https://github.com/ma
 
 ## Mermaid diagrams
 
-[Mermaid](https://mermaid-js.github.io) is a tool for creating diagrams and visualizations using text and code. 
+> Mermaid is a tool for creating diagrams and visualizations using text and code.<br/> https://mermaid-js.github.io • https://github.com/mermaid-js/mermaid
 
-Since early 2022, GitHub can render diagrams directly from Mermaid syntax in markdown files. See [Include diagrams in your Markdown files with Mermaid](https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/) for more information.
+GitHub can render diagrams directly from Mermaid syntax in markdown files. See [Include diagrams in your Markdown files with Mermaid](https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/) for more information.
 
 Module Composer provides a `mermaid` function to generate a Mermaid diagram as code:
 
