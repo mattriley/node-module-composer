@@ -203,8 +203,8 @@ Module Composer enables Inversion of Control by externalising _other modules_ as
 
 Well known advantages of Inversion of Control include:
 
-- The ability to switch implementations at runtime, e.g. repositories that integrate with different database technologies.
-- The ability to stub/mock/fake dependencies for testing purposes.
+- Ability to switch implementations at runtime, e.g. repositories that integrate with different database technologies.
+- Ability to stub/mock/fake dependencies for testing purposes.
 
 Inversion of Control is a big (and sometimes controversial) topic and worth being familiar with.
 
