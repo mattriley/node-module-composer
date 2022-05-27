@@ -22,6 +22,7 @@ If that sounds like a lot to wrap your head around, fear not! Implementation-wis
 - [Mermaid diagrams](#mermaid-diagrams)
 - [App config](#app-config)
 - [Inversion of Control (IoC)](#inversion-of-control-ioc)
+- [Functional programming](#functional-programming)
 - [Advanced example: Agile Avatars](#advanced-example-agile-avatars)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -102,6 +103,8 @@ This is analogous to calling a class constructor with dependencies and returning
 
 ## File system structure
 
+Module Composer influences (but does not necessitate) the file system structure toward file-per-function.
+
 The module hierarchy can be easily represented by the file system:
 
 ```
@@ -145,6 +148,8 @@ This pattern opens the possibility of generating `index.js` files. This means th
 The package `module-indexgen` is designed to do just that: https://github.com/mattriley/node-module-indexgen
 
 ## Mermaid diagrams
+
+Module Composer can generate diagrams-as-code using Mermaid.
 
 > Mermaid is a tool for creating diagrams and visualizations using text and code.<br/> https://mermaid-js.github.io • https://github.com/mermaid-js/mermaid
 
@@ -209,6 +214,14 @@ Well known advantages of Inversion of Control include:
 Inversion of Control is a big (and sometimes controversial) topic and worth being familiar with.
 
 I want to stress that although Module Composer enables Inversion of Control, the primary aim is to encourage good modular design and intentionality for application architecture.
+
+## Functional programming
+
+Module Composer is designed with a bias toward functional programming.
+
+The closure-based approach is only possible thanks to JavaScript support for functions as first-class objects. That's not to suggest JavaScript or Module Composer are necessarily functional, but preferencing functions over classes (for instance) may encourage a more functional style.
+
+It's entirely possible, and arguably desirable to design JavaScript applications without classes!
 
 ## Advanced example: Agile Avatars
 
