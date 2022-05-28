@@ -5,6 +5,7 @@ module.exports = (target, ...configs) => {
     const options = util.merge({ customiser: util.defaultCustomiser() }, config.moduleComposer);
     const modules = { ...target };
     const dependencies = util.mapValues(modules, () => []);
+    const mermaid = opts => util.mermaid(dependencies, opts);
 
     const recurse = (target, args, parentKey) => {
         if (!util.isPlainObject(target)) return target;
@@ -23,16 +24,11 @@ module.exports = (target, ...configs) => {
         return composition.modules;
     };
 
-    const composition = {
-        compose,
-        mermaid: opts => util.mermaid(dependencies, opts),
-        getConfig: () => ({ ...config }),
-        getModules: () => ({ ...modules }),
-        getDependencies: () => ({ ...dependencies }),
-        get config() { return this.getConfig(); },
-        get modules() { return this.getModules(); },
-        get dependencies() { return this.getDependencies(); }
-    };
+    const props = Object.entries({ target, config, modules, dependencies }).flatMap(([key, val]) => [
+        [`get${util.upperFirst(key)}`, { enumerable: true, value: () => ({ ...val }) }],
+        [key, { enumerable: true, get() { return { ...val }; } }]
+    ]);
 
+    const composition = Object.defineProperties({ compose, mermaid }, Object.fromEntries(props));
     return { composition, ...composition };
 };

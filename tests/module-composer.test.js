@@ -2,11 +2,19 @@ const composer = require('../');
 
 module.exports = ({ test }) => {
 
+    test('can get target', t => {
+        const target = { foo: {} };
+        const { composition } = composer(target);
+        t.equal(composition.target, target);
+        t.equal(composition.getTarget(), target);
+    });
+
     test('merges config', t => {
         const config1 = { a: { b: 'B', c: 'c' } };
         const config2 = { a: { c: 'C', d: 'D' } };
-        const { config } = composer({}, config1, config2);
-        t.equal(config, { a: { b: 'B', c: 'C', d: 'D' } });
+        const { composition } = composer({}, config1, config2);
+        t.equal(composition.config, { a: { b: 'B', c: 'C', d: 'D' } });
+        t.equal(composition.getConfig(), { a: { b: 'B', c: 'C', d: 'D' } });
     });
 
     test('target module unchanged if not composed', t => {
@@ -30,7 +38,9 @@ module.exports = ({ test }) => {
         const { compose, composition } = composer(target);
         compose('foo', { bar: {} });
         t.equal(composition.modules, { foo: {} });
+        t.equal(composition.getModules(), { foo: {} });
         t.equal(composition.dependencies, { foo: ['bar'] });
+        t.equal(composition.getDependencies(), { foo: ['bar'] });
     });
 
     test('defaults are applied', t => {
