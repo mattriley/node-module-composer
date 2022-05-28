@@ -191,7 +191,7 @@ For a less contrived example, see [Advanced example: Agile Avatars](#advanced-ex
 
 ## App config
 
-For convenience, config can be passed as the second and subsequent parameters to the composer function. These configs are merged using [Lodash merge](https://www.npmjs.com/package/lodash.merge) and returned along with the compose function.
+For convenience, config can be passed as the second and subsequent parameters to the composer function. These configs are merged using [Lodash merge](https://lodash.com/docs#merge) and returned along with the compose function.
 
 In the next example, `defaultConfig` and `userConfig` are merged to produce `config`, which is then passed as a dependency of the `components` module.
 
