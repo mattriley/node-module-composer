@@ -238,7 +238,7 @@ const { storage, util } = modules;
 
 export default ({ window, configs }) => {
 
-    const { compose, composition, config } = composer(modules, defaultConfig, configs);
+    const { compose, config } = composer(modules, defaultConfig, configs);
 
     // Data
     const { stores } = compose('stores', { storage, config });
@@ -262,7 +262,9 @@ export default ({ window, configs }) => {
     compose('diagnostics', { stores, util });
     compose('startup', { ui, components, styles, services, subscriptions, stores, util, config });
 
-    return composition;
+    console.warn(compose)
+
+    return compose;
 
 };
 ```

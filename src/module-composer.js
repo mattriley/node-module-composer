@@ -29,6 +29,8 @@ module.exports = (target, ...configs) => {
         [key, { enumerable: true, get() { return { ...val }; } }]
     ]);
 
-    const composition = Object.defineProperties({ compose, mermaid }, Object.fromEntries(props));
-    return Object.assign(compose, { composition, ...composition });
+    const composition = Object.defineProperties({ mermaid }, Object.fromEntries(props));
+    Object.defineProperties(compose, Object.fromEntries(props));
+    Object.assign(compose, { composition });
+    return { compose, ...compose };
 };
