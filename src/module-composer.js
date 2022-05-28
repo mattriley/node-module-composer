@@ -3,10 +3,8 @@ const util = require('./util');
 module.exports = (target, ...configs) => {
     const config = util.merge({}, ...configs.flat());
     const options = util.merge({ customiser: util.defaultCustomiser() }, config.moduleComposer);
-    const modules = { ...target }, dependencies = util.mapValues(modules, () => []);
-    const mermaid = opts => util.mermaid(dependencies, opts);
-    const composition = { config, target, modules, dependencies, mermaid };
-    const getModules = () => ({ config, composition, ...modules });
+    const modules = { ...target };
+    const dependencies = util.mapValues(modules, () => []);
 
     const recurse = (target, args, parentKey) => {
         if (!util.isPlainObject(target)) return target;
@@ -22,8 +20,19 @@ module.exports = (target, ...configs) => {
         const module = customise(recurse(target[key], totalArgs, key));
         modules[key] = util.override({ [key]: module }, options.overrides)[key];
         dependencies[key] = Object.keys(totalArgs);
-        return getModules();
+        return composition.modules;
     };
 
-    return { config, compose, getModules, mermaid };
+    const composition = {
+        compose,
+        mermaid: opts => util.mermaid(dependencies, opts),
+        getConfig: () => ({ ...config }),
+        getModules: () => ({ ...modules }),
+        getDependencies: () => ({ ...dependencies }),
+        get config() { return this.getConfig(); },
+        get modules() { return this.getModules(); },
+        get dependencies() { return this.getDependencies(); }
+    };
+
+    return { composition, ...composition };
 };
