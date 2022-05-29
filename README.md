@@ -19,7 +19,7 @@ If that sounds like a lot to wrap your head around, fear not! Implementation-wis
 - [Install](#install)
 - [Basic example](#basic-example)
 - [Composition root](#composition-root)
-- [File system structure](#file-system-structure)
+- [File system](#file-system)
 - [Mermaid diagrams](#mermaid-diagrams)
 - [Fitness functions](#fitness-functions)
 - [Inversion of Control (IoC)](#inversion-of-control-ioc)
@@ -140,9 +140,9 @@ Recommended reading:
 - [Composition Root](https://blog.ploeh.dk/2011/07/28/CompositionRoot/) by Mark Seemann.
 - [Understanding the Composition Root](https://freecontent.manning.com/dependency-injection-in-net-2nd-edition-understanding-the-composition-root/) by Steven van Deursen & Mark Seemann.
 
-## File system structure
+## File system
 
-Module Composer influences (but does not necessitate) the file system structure toward _file-per-function_.
+Module Composer influences (but does not necessitate) the file system toward _file-per-function_.
 
 The module hierarchy can be easily represented by the file system:
 
