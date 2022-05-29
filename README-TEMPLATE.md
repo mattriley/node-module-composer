@@ -62,6 +62,27 @@ The `compose` function invokes the first arrow function with the specified modul
 
 This is analogous to calling a class constructor with dependencies and returning the resulting instance. However rather than using a class to encapsulate dependency state, closures (stateful functions) are used instead.
 
+## Composition root
+
+Module Composer should be isolated to the _composition root_ of the application.
+
+> A Composition Root is a (preferably) unique location in an application where modules are composed together. [Source](https://freecontent.manning.com/dependency-injection-in-net-2nd-edition-understanding-the-composition-root/)
+
+Module composition should occur as close to the entry point of the application as possible.
+
+Here's an example of a composition root isolated to a separate file named `compose.js`: 
+
+<%- await readCode('./examples/basic/compose.js') %>
+
+And here's an example of an entry point for a single-page (web) application (SPA):
+
+<%- await readCode('./examples/basic/app.js') %>
+
+Recommended reading:
+
+- [Composition Root](https://blog.ploeh.dk/2011/07/28/CompositionRoot/) by Mark Seemann.
+- [Understanding the Composition Root](https://freecontent.manning.com/dependency-injection-in-net-2nd-edition-understanding-the-composition-root/) by Steven van Deursen & Mark Seemann.
+
 ## File system structure
 
 Module Composer influences (but does not necessitate) the file system structure toward _file-per-function_.
@@ -69,17 +90,20 @@ Module Composer influences (but does not necessitate) the file system structure 
 The module hierarchy can be easily represented by the file system:
 
 ```
-modules/
-    index.js
-    stores/
+src/
+    app.js
+    compose.js
+    modules/
         index.js
-        addToCart.js        
-    services/
-        index.js
-        orderProduct.js        
-    components/
-        index.js
-        productDetails.js        
+        stores/
+            index.js
+            add-to-cart.js        
+        services/
+            index.js
+            order-product.js        
+        components/
+            index.js
+            product-details.js
 ```
 
 This hierarchy can be mirrored in code by rolling up each file in each directory using `index.js` files. This approach leads to a design where any file is only ever imported once regardless of the number of usages. It also reduces or eliminates the large blocks of import statements typically found at the top of each file, and eliminates any need for path backtracking, i.e. `../../../`. Path backtracking is a potential code smell due to the risk of inappropriate coupling. Instead, the relationships between each module are explicitly established during at application initialisation time.
@@ -120,39 +144,30 @@ _If the diagram is not rendered, you might not be viewing this file in GitHub._
 
 For a less contrived example, see [Advanced example: Agile Avatars](#advanced-example-agile-avatars) below.
 
-## Application configuration
+## Fitness functions
 
-For convenience, config can be passed as the second and subsequent parameters to the composer function. These configs are merged using [Lodash merge](https://lodash.com/docs#merge) and returned along with the compose function.
+Module Composer can describe the dependency graph to enable _fitness functions_ for appropriate coupling.
 
-In the next example, `defaultConfig` and `userConfig` are merged to produce `config`, which is then passed as a dependency of the `components` module.
+> An architectural fitness function, as defined in Building Evolutionary Architectures, provides an objective integrity assessment of some architectural characteristics, which may encompass existing verification criteria, such as unit testing, metrics, monitors, and so on. [Source](https://www.thoughtworks.com/en-au/radar/techniques/architectural-fitness-function)
+
+Here's an example fitness function in the form of a unit test that asserts the view layer is not directly coupled to the persistance layer.
 
 ```js
-const { compose, config } = composer(modules, defaultConfig, userConfig);
-const { components } = compose('components', { config });
+test('components are not directly coupled to stores', t => {
+    const { dependencies } = compose();
+    t.notOk(dependencies['components'].includes('stores'));
+});
 ```
 
-This can be especially useful during testing by applying test config.
+`dependencies` is an object that lists the dependencies for each module:
 
-## Composition Root
-
-Module Composer should be isolated to the _Composition Root_ of the application.
-
-> A Composition Root is a (preferably) unique location in an application where modules are composed together. [Source](https://freecontent.manning.com/dependency-injection-in-net-2nd-edition-understanding-the-composition-root/)
-
-Module composition should occur as close to the entry point of the application as possible.
-
-Here's an example of a Composition Root isolated to a separate file named `compose.js`: 
-
-<%- await readCode('./examples/basic/compose.js') %>
-
-And here's an example of an entry point for a single-page (web) application (SPA):
-
-<%- await readCode('./examples/basic/app.js') %>
-
-Recommended reading:
-
-- [Composition Root](https://blog.ploeh.dk/2011/07/28/CompositionRoot/) by Mark Seemann.
-- [Understanding the Composition Root](https://freecontent.manning.com/dependency-injection-in-net-2nd-edition-understanding-the-composition-root/) by Steven van Deursen & Mark Seemann.
+```js
+{
+    components: ['services'],
+    services: ['stores'],
+    stores: []
+}
+```
 
 ## Inversion of Control (IoC)
 
@@ -174,6 +189,19 @@ Module Composer is designed with a bias toward _functional programming_.
 The closure-based approach is only possible thanks to JavaScript support for functions as first-class objects. That's not to suggest JavaScript or Module Composer are necessarily functional, but preferencing functions over classes (for instance) may encourage a more functional style.
 
 It's entirely possible, and arguably desirable to design JavaScript applications without classes!
+
+## Application configuration
+
+For convenience, config can be passed as the second and subsequent parameters to the composer function. These configs are merged using [Lodash merge](https://lodash.com/docs#merge) and returned along with the compose function.
+
+In the next example, `defaultConfig` and `userConfig` are merged to produce `config`, which is then passed as a dependency of the `components` module.
+
+```js
+const { compose, config } = composer(modules, defaultConfig, userConfig);
+const { components } = compose('components', { config });
+```
+
+This can be especially useful during testing by applying test config.
 
 ## Advanced example: Agile Avatars
 
