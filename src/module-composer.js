@@ -30,7 +30,7 @@ module.exports = (target, ...configs) => {
     ]);
 
     const composition = Object.defineProperties({ mermaid }, Object.fromEntries(props));
+    Object.assign(compose, { composition, ...composition });
     Object.defineProperties(compose, Object.fromEntries(props));
-    Object.assign(compose, { composition });
     return { compose, ...compose };
 };
