@@ -21,6 +21,7 @@ If that sounds like a lot to wrap your head around, fear not! Implementation-wis
 - [File system structure](#file-system-structure)
 - [Mermaid diagrams](#mermaid-diagrams)
 - [App config](#app-config)
+- [Composition Root](#composition-root)
 - [Inversion of Control (IoC)](#inversion-of-control-ioc)
 - [Functional programming](#functional-programming)
 - [Advanced example: Agile Avatars](#advanced-example-agile-avatars)
@@ -201,6 +202,31 @@ const { components } = compose('components', { config });
 ```
 
 This can be especially useful during testing by applying test config.
+
+## Composition Root
+
+Aim to isolate use of Module Composer to the Composition Root of the application.
+
+Module composition should occur during application initialisation time, close to the entry point of the application. This is known as the _Composition Root_.
+
+The following is an example of a Composition Root isolated to a separate file named `compose.js`: 
+
+```js
+import composer from 'module-composer';
+import modules from './modules';
+
+export default () => {
+    const { compose } = composer(modules);
+    const { stores } = compose('stores');
+    const { services } = compose('services', { stores });
+    const { components } = compose('components', { services });
+    return compose;
+};
+```
+
+Recommended reading:
+
+- [Composition Root by Mark Seemann](https://blog.ploeh.dk/2011/07/28/CompositionRoot/)
 
 ## Inversion of Control (IoC)
 

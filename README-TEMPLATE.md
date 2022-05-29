@@ -133,6 +133,20 @@ const { components } = compose('components', { config });
 
 This can be especially useful during testing by applying test config.
 
+## Composition Root
+
+Aim to isolate use of Module Composer to the Composition Root of the application.
+
+Module composition should occur during application initialisation time, close to the entry point of the application. This is known as the _Composition Root_.
+
+The following is an example of a Composition Root isolated to a separate file named `compose.js`: 
+
+<%- await readCode('./examples/basic/compose.js') %>
+
+Recommended reading:
+
+- [Composition Root by Mark Seemann](https://blog.ploeh.dk/2011/07/28/CompositionRoot/)
+
 ## Inversion of Control (IoC)
 
 Module Composer enables Inversion of Control by externalising _other modules_ as dependencies. 
