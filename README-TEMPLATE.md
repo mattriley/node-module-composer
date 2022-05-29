@@ -135,17 +135,24 @@ This can be especially useful during testing by applying test config.
 
 ## Composition Root
 
-Aim to isolate use of Module Composer to the Composition Root of the application.
+Module Composer should be isolated to the _Composition Root_ of the application.
 
-Module composition should occur during application initialisation time, close to the entry point of the application. This is known as the _Composition Root_.
+> A Composition Root is a (preferably) unique location in an application where modules are composed together. [Source](https://freecontent.manning.com/dependency-injection-in-net-2nd-edition-understanding-the-composition-root/)
 
-The following is an example of a Composition Root isolated to a separate file named `compose.js`: 
+Module composition should occur as close to the entry point of the application as possible.
+
+Here's an example of a Composition Root isolated to a separate file named `compose.js`: 
 
 <%- await readCode('./examples/basic/compose.js') %>
 
+And here's an example of an entry point for a single-page (web) application (SPA):
+
+<%- await readCode('./examples/basic/app.js') %>
+
 Recommended reading:
 
-- [Composition Root by Mark Seemann](https://blog.ploeh.dk/2011/07/28/CompositionRoot/)
+- [Composition Root](https://blog.ploeh.dk/2011/07/28/CompositionRoot/) by Mark Seemann.
+- [Understanding the Composition Root](https://freecontent.manning.com/dependency-injection-in-net-2nd-edition-understanding-the-composition-root/) by Steven van Deursen & Mark Seemann.
 
 ## Inversion of Control (IoC)
 
