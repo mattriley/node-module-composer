@@ -64,7 +64,7 @@ This is analogous to calling a class constructor with dependencies and returning
 
 ## File system structure
 
-Module Composer influences (but does not necessitate) the file system structure toward file-per-function.
+Module Composer influences (but does not necessitate) the file system structure toward _file-per-function_.
 
 The module hierarchy can be easily represented by the file system:
 
@@ -94,7 +94,7 @@ The package `module-indexgen` is designed to do just that: https://github.com/ma
 
 ## Mermaid diagrams
 
-Module Composer can generate diagrams-as-code using Mermaid.
+Module Composer can generate diagrams-as-code using _Mermaid_.
 
 > Mermaid is a tool for creating diagrams and visualizations using text and code.<br/> https://mermaid-js.github.io • https://github.com/mermaid-js/mermaid
 
@@ -120,7 +120,7 @@ _If the diagram is not rendered, you might not be viewing this file in GitHub._
 
 For a less contrived example, see [Advanced example: Agile Avatars](#advanced-example-agile-avatars) below.
 
-## App config
+## Application configuration
 
 For convenience, config can be passed as the second and subsequent parameters to the composer function. These configs are merged using [Lodash merge](https://lodash.com/docs#merge) and returned along with the compose function.
 
@@ -156,7 +156,7 @@ Recommended reading:
 
 ## Inversion of Control (IoC)
 
-Module Composer enables Inversion of Control by externalising _other modules_ as dependencies. 
+Module Composer enables _Inversion of Control_ by externalising _other modules_ as dependencies. 
 
 Well known advantages of Inversion of Control include:
 
@@ -169,7 +169,7 @@ I want to stress that although Module Composer enables Inversion of Control, the
 
 ## Functional programming
 
-Module Composer is designed with a bias toward functional programming.
+Module Composer is designed with a bias toward _functional programming_.
 
 The closure-based approach is only possible thanks to JavaScript support for functions as first-class objects. That's not to suggest JavaScript or Module Composer are necessarily functional, but preferencing functions over classes (for instance) may encourage a more functional style.
 
