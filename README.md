@@ -23,8 +23,8 @@ If that sounds like a lot to wrap your head around, fear not! Implementation-wis
 - [Mermaid diagrams](#mermaid-diagrams)
 - [Dependency injection](#dependency-injection)
 - [Functional programming](#functional-programming)
-- [Fitness functions](#fitness-functions)
 - [Application configuration](#application-configuration)
+- [Fitness functions](#fitness-functions)
 - [Advanced example: Agile Avatars](#advanced-example-agile-avatars)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -262,6 +262,19 @@ Recommended reading:
 
 - [Pure-Impure Segregation Principle](https://tyrrrz.me/blog/pure-impure-segregation-principle) by Oleksii Holub
 
+## Application configuration
+
+For convenience, config can be passed as an option to the composer function. If `configs` is an array, they will be merged using [Lodash merge](https://lodash.com/docs#merge) and returned along with the compose function.
+
+In the next example, `defaultConfig`, `testConfig` and `userConfig` are merged to produce `config`, which is then passed as a dependency of the `components` module.
+
+```js
+const { compose, config } = composer(modules, { defaultConfig, configs: [testConfig, userConfig] });
+const { components } = compose('components', { config });
+```
+
+This can be especially useful during testing by applying test config.
+
 ## Fitness functions
 
 Module Composer can describe the dependency graph to enable _fitness functions_ for appropriate coupling.
@@ -286,19 +299,6 @@ test('components are not directly coupled to stores', t => {
     stores: []
 }
 ```
-
-## Application configuration
-
-For convenience, config can be passed as an option to the composer function. If `configs` is an array, they will be merged using [Lodash merge](https://lodash.com/docs#merge) and returned along with the compose function.
-
-In the next example, `defaultConfig`, `testConfig` and `userConfig` are merged to produce `config`, which is then passed as a dependency of the `components` module.
-
-```js
-const { compose, config } = composer(modules, { defaultConfig, configs: [testConfig, userConfig] });
-const { components } = compose('components', { config });
-```
-
-This can be especially useful during testing by applying test config.
 
 ## Advanced example: Agile Avatars
 

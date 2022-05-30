@@ -175,6 +175,19 @@ Recommended reading:
 
 - [Pure-Impure Segregation Principle](https://tyrrrz.me/blog/pure-impure-segregation-principle) by Oleksii Holub
 
+## Application configuration
+
+For convenience, config can be passed as an option to the composer function. If `configs` is an array, they will be merged using [Lodash merge](https://lodash.com/docs#merge) and returned along with the compose function.
+
+In the next example, `defaultConfig`, `testConfig` and `userConfig` are merged to produce `config`, which is then passed as a dependency of the `components` module.
+
+```js
+const { compose, config } = composer(modules, { defaultConfig, configs: [testConfig, userConfig] });
+const { components } = compose('components', { config });
+```
+
+This can be especially useful during testing by applying test config.
+
 ## Fitness functions
 
 Module Composer can describe the dependency graph to enable _fitness functions_ for appropriate coupling.
@@ -199,19 +212,6 @@ test('components are not directly coupled to stores', t => {
     stores: []
 }
 ```
-
-## Application configuration
-
-For convenience, config can be passed as an option to the composer function. If `configs` is an array, they will be merged using [Lodash merge](https://lodash.com/docs#merge) and returned along with the compose function.
-
-In the next example, `defaultConfig`, `testConfig` and `userConfig` are merged to produce `config`, which is then passed as a dependency of the `components` module.
-
-```js
-const { compose, config } = composer(modules, { defaultConfig, configs: [testConfig, userConfig] });
-const { components } = compose('components', { config });
-```
-
-This can be especially useful during testing by applying test config.
 
 ## Advanced example: Agile Avatars
 
