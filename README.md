@@ -277,9 +277,11 @@ This can be especially useful during testing by applying test config.
 
 ## Fitness functions
 
-Module Composer can describe the dependency graph to enable _fitness functions_ for appropriate coupling.
+Module Composer can describe the dependency graph to enable _fitness functions_ on coupling.
 
 > An architectural fitness function, as defined in Building Evolutionary Architectures, provides an objective integrity assessment of some architectural characteristics, which may encompass existing verification criteria, such as unit testing, metrics, monitors, and so on.<br/>[Thoughtworks](https://www.thoughtworks.com/en-au/radar/techniques/architectural-fitness-function)
+
+Inappropriate coupling leads to brittle designs that can be difficult to reason about, difficult to change and difficult to test.
 
 Here's an example fitness function in the form of a unit test that asserts the view layer is not directly coupled to the persistance layer. The `compose` function here refers to the composition root.
 
@@ -298,6 +300,22 @@ test('components are not directly coupled to stores', t => {
     services: ['stores'],
     stores: []
 }
+```
+
+The following design couples components to stores and should therefore fail the fitness function:
+
+```mermaid
+graph TD;
+    components-->stores;
+    services-->stores;
+```
+
+While this design should pass the fitness function:
+
+```mermaid
+graph TD;
+    components-->services;
+    services-->stores;
 ```
 
 ## Advanced example: Agile Avatars
