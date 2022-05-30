@@ -144,6 +144,37 @@ _If the diagram is not rendered, you might not be viewing this file in GitHub._
 
 For a less contrived example, see [Advanced example: Agile Avatars](#advanced-example-agile-avatars) below.
 
+## Dependency injection
+
+Module Composer achieves the equivalent of _dependency injection_ using closures (stateful functions).
+
+Well known advantages of dependency injection include:
+
+- Ability to swap implementations, e.g. repositories that integrate with different database engines.
+- Ability to stub/mock/fake dependencies for testing purposes.
+
+Dependency injection is a big (and sometimes controversial) topic and worth being familiar with.
+
+Although Module Composer enables dependency injection, remember that the primary aim is to encourage good modular design and intentionality for application architecture.
+
+Recommended reading:
+
+- [DIP in the Wild](https://martinfowler.com/articles/dipInTheWild.html) by Brett L. Schuchert on martinfowler.com
+- [Inversion of Control Containers and the Dependency Injection pattern](https://martinfowler.com/articles/injection.html) by Martin Fowler
+- [Partial application is dependency injection](https://blog.ploeh.dk/2017/01/30/partial-application-is-dependency-injection/) by Mark Seemann
+
+## Functional programming
+
+Module Composer is designed with a bias toward _functional programming_.
+
+The closure-based approach is only possible thanks to JavaScript support for functions as first-class objects. That's not to suggest JavaScript or Module Composer are necessarily functional, but preferencing functions over classes (for instance) may encourage a more functional design. It's entirely possible, and arguably desirable to design JavaScript applications without classes!
+
+An important consideration in functional design is the segregation of pure and impure functions. When designing modules, be intentional about purity and impurity.
+
+Recommended reading:
+
+- [Pure-Impure Segregation Principle](https://tyrrrz.me/blog/pure-impure-segregation-principle) by Oleksii Holub
+
 ## Fitness functions
 
 Module Composer can describe the dependency graph to enable _fitness functions_ for appropriate coupling.
@@ -168,27 +199,6 @@ test('components are not directly coupled to stores', t => {
     stores: []
 }
 ```
-
-## Dependency injection
-
-Module Composer enables _dependency injection_ of modules.
-
-Well known advantages of dependency injection include:
-
-- Ability to swap implementations, e.g. repositories that integrate with different database engines.
-- Ability to stub/mock/fake dependencies for testing purposes.
-
-Dependency injection is a big (and sometimes controversial) topic and worth being familiar with.
-
-I want to stress that although Module Composer enables dependency injection, the primary aim is to encourage good modular design and intentionality for application architecture.
-
-## Functional programming
-
-Module Composer is designed with a bias toward _functional programming_.
-
-The closure-based approach is only possible thanks to JavaScript support for functions as first-class objects. That's not to suggest JavaScript or Module Composer are necessarily functional, but preferencing functions over classes (for instance) may encourage a more functional style.
-
-It's entirely possible, and arguably desirable to design JavaScript applications without classes!
 
 ## Application configuration
 
