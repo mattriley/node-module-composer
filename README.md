@@ -237,7 +237,7 @@ Module Composer can describe the dependency graph to enable _fitness functions_ 
 
 > An architectural fitness function, as defined in Building Evolutionary Architectures, provides an objective integrity assessment of some architectural characteristics, which may encompass existing verification criteria, such as unit testing, metrics, monitors, and so on.<br/>[Thoughtworks](https://www.thoughtworks.com/en-au/radar/techniques/architectural-fitness-function)
 
-Here's an example fitness function in the form of a unit test that asserts the view layer is not directly coupled to the persistance layer.
+Here's an example fitness function in the form of a unit test that asserts the view layer is not directly coupled to the persistance layer. The `compose` function here refers to the composition root.
 
 ```js
 test('components are not directly coupled to stores', t => {
