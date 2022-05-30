@@ -2,7 +2,7 @@ const util = require('./util');
 
 module.exports = (target, options = {}) => {
     const modules = { ...target };
-    const configs = util.flattenDeep([options.config, options.configs]);
+    const configs = util.flattenDeep(util.pickValues(options, ['defaultConfig', 'config', 'configs']));
     const config = util.merge({}, ...configs);
     const dependencies = util.mapValues(modules, () => []);
     const mermaid = opts => util.mermaid(dependencies, opts);
@@ -16,7 +16,7 @@ module.exports = (target, options = {}) => {
         return Object.assign(product, newObj);
     };
 
-    const compose = (key, args = {}, customise = options.customiser ?? util.defaultCustomiser()) => {
+    const compose = (key, args = {}, customise = options.customiser ?? util.defaultCustomiser) => {
         const totalArgs = { ...options.defaults, ...args };
         const module = customise(recurse(target[key], totalArgs, key));
         modules[key] = util.override({ [key]: module }, options.overrides)[key];
