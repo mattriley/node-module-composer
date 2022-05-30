@@ -107,7 +107,7 @@ This is analogous to calling a class constructor with dependencies and returning
 
 Module Composer should be isolated to the _composition root_ of the application.
 
-> A Composition Root is a (preferably) unique location in an application where modules are composed together. [Mark Seeman](https://blog.ploeh.dk/2011/07/28/CompositionRoot/)
+> A Composition Root is a (preferably) unique location in an application where modules are composed together.<br/>[Mark Seeman](https://blog.ploeh.dk/2011/07/28/CompositionRoot/)
 
 Module composition should occur as close to the entry point of the application as possible.
 
@@ -235,7 +235,7 @@ For a less contrived example, see [Advanced example: Agile Avatars](#advanced-ex
 
 Module Composer can describe the dependency graph to enable _fitness functions_ for appropriate coupling.
 
-> An architectural fitness function, as defined in Building Evolutionary Architectures, provides an objective integrity assessment of some architectural characteristics, which may encompass existing verification criteria, such as unit testing, metrics, monitors, and so on. [Thoughtworks](https://www.thoughtworks.com/en-au/radar/techniques/architectural-fitness-function)
+> An architectural fitness function, as defined in Building Evolutionary Architectures, provides an objective integrity assessment of some architectural characteristics, which may encompass existing verification criteria, such as unit testing, metrics, monitors, and so on.<br/>[Thoughtworks](https://www.thoughtworks.com/en-au/radar/techniques/architectural-fitness-function)
 
 Here's an example fitness function in the form of a unit test that asserts the view layer is not directly coupled to the persistance layer.
 
