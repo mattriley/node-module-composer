@@ -1,5 +1,3 @@
-const mermaid = require('./mermaid');
-
 const flattenDeep = require('lodash/flattenDeep');
 const isFunction = require('lodash/isFunction');
 const isPlainObject = require('lodash/isPlainObject');
@@ -18,9 +16,7 @@ module.exports = {
     isPlainObject,
     mapValues,
     merge,
-    pick,
     pickValues,
     upperFirst,
-    mermaid,
     override
 };

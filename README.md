@@ -121,7 +121,7 @@ export default () => {
     const { compose } = composer(modules);
     const { stores } = compose('stores');
     const { services } = compose('services', { stores });
-    compose('components', { services });
+    const { components } = compose('components', { services });
     return compose;
 };
 ```
@@ -203,12 +203,12 @@ Module Composer provides a `mermaid` function to generate a Mermaid diagram as c
 import composer from 'module-composer';
 import modules from './modules';
 
-const { compose, mermaid } = composer(modules);
+const { compose } = composer(modules);
 const { stores } = compose('stores');
 const { services } = compose('services', { stores });
 const { components } = compose('components', { services });
 
-const diagram = mermaid();
+console.log(compose.mermaid);
 ```
 
 The value of `diagram` is:
@@ -303,9 +303,9 @@ import modules from './modules';
 import defaultConfig from './default-config';
 const { storage, util } = modules;
 
-export default ({ window, overrides, defaults, configs }) => {
+export default ({ window, overrides, configs }) => {
 
-    const { compose, config } = composer(modules, { overrides, defaults, configs: [defaultConfig, configs] });
+    const { compose, config } = composer(modules, { overrides, configs: [defaultConfig, configs] });
 
     // Data
     const { stores } = compose('stores', { storage, config });

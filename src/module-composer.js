@@ -1,3 +1,4 @@
+const generateMermaid = require('./generate-mermaid');
 const util = require('./util');
 
 module.exports = (target, options = {}) => {
@@ -12,7 +13,6 @@ module.exports = (target, options = {}) => {
     const config = util.merge({}, ...configs);
     const modules = { ...target };
     const dependencies = util.mapValues(modules, () => []);
-    const mermaid = opts => util.mermaid(dependencies, opts);
 
     const recurse = (target, args, parentKey) => {
         if (!util.isPlainObject(target)) return target;
@@ -28,16 +28,18 @@ module.exports = (target, options = {}) => {
         const module = customise(recurse(target[key], totalArgs, key) ?? {});
         modules[key] = util.override({ [key]: module }, options.overrides)[key];
         dependencies[key] = Object.keys(totalArgs);
-        return composition.modules;
+        return modules;
     };
 
     const props = Object.entries({ target, config, modules, dependencies }).flatMap(([key, val]) => [
-        [`get${util.upperFirst(key)}`, { enumerable: true, value: () => ({ ...val }) }],
-        [key, { enumerable: true, get() { return { ...val }; } }]
-    ]);
+        [`get${util.upperFirst(key)}`, { value: () => ({ ...val }) }],
+        [key, { get() { return { ...val }; } }]
+    ]).concat([
+        ['generateMermaid', { value: opts => generateMermaid(dependencies, opts) }],
+        ['mermaid', { get() { return generateMermaid(dependencies); } }]
+    ]).map(([key, def]) => [key, { ...def, enumerable: true }]);
 
-    const composition = Object.defineProperties({ mermaid }, Object.fromEntries(props));
-    Object.assign(compose, { composition, ...composition });
+    const composition = compose.composition = Object.defineProperties({}, Object.fromEntries(props));
     Object.defineProperties(compose, Object.fromEntries(props));
-    return { compose, ...compose };
+    return { compose, composition, config };
 };

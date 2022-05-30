@@ -2,69 +2,77 @@ const composer = require('../');
 
 module.exports = ({ test }) => {
 
+    test('can get composition', t => {
+        const target = { foo: {} };
+        const { compose, composition } = composer(target);
+        t.ok(composition);
+        t.equal(compose.composition, composition);
+    });
+
     test('can get target', t => {
         const target = { foo: {} };
-        const { composition } = composer(target);
-        t.equal(composition.target, target);
-        t.equal(composition.getTarget(), target);
+        const { compose } = composer(target);
+        t.equal(compose.target, target);
+        t.equal(compose.getTarget(), target);
     });
 
     test('accepts single config as an option', t => {
         const config1 = { a: { b: 'B', c: 'c' } };
-        const { composition } = composer({}, { config: config1 });
-        t.equal(composition.config, { a: { b: 'B', c: 'c' } });
+        const { compose, config } = composer({}, { config: config1 });
+        t.equal(config, { a: { b: 'B', c: 'c' } });
+        t.equal(compose.config, { a: { b: 'B', c: 'c' } });
     });
 
     test('merges config', t => {
         const config1 = { a: { b: 'B', c: 'c' } };
         const config2 = { a: { c: 'C', d: 'D' } };
-        const { composition } = composer({}, { configs: [config1, config2] });
-        t.equal(composition.config, { a: { b: 'B', c: 'C', d: 'D' } });
-        t.equal(composition.getConfig(), { a: { b: 'B', c: 'C', d: 'D' } });
+        const { compose } = composer({}, { configs: [config1, config2] });
+        t.equal(compose.config, { a: { b: 'B', c: 'C', d: 'D' } });
+        t.equal(compose.getConfig(), { a: { b: 'B', c: 'C', d: 'D' } });
     });
 
     test('target module unchanged if not composed', t => {
         const target = { foo: {}, bar: {} };
-        const { compose, composition } = composer(target);
+        const { compose } = composer(target);
         compose('foo');
-        t.equal(composition.modules, { foo: {}, bar: {} });
-        t.equal(composition.dependencies, { foo: [], bar: [] });
+        t.equal(compose.modules, { foo: {}, bar: {} });
+        t.equal(compose.dependencies, { foo: [], bar: [] });
     });
 
     test('args are optional', t => {
         const target = { foo: {} };
-        const { compose, composition } = composer(target);
+        const { compose } = composer(target);
         compose('foo');
-        t.equal(composition.modules, { foo: {} });
-        t.equal(composition.dependencies, { foo: [] });
+        t.equal(compose.modules, { foo: {} });
+        t.equal(compose.dependencies, { foo: [] });
     });
 
     test('args are applied', t => {
         const target = { foo: {} };
-        const { compose, composition } = composer(target);
+        const { compose } = composer(target);
         compose('foo', { bar: {} });
-        t.equal(composition.modules, { foo: {} });
-        t.equal(composition.getModules(), { foo: {} });
-        t.equal(composition.dependencies, { foo: ['bar'] });
-        t.equal(composition.getDependencies(), { foo: ['bar'] });
+        t.equal(compose.modules, { foo: {} });
+        t.equal(compose.getModules(), { foo: {} });
+        t.equal(compose.dependencies, { foo: ['bar'] });
+        t.equal(compose.getDependencies(), { foo: ['bar'] });
     });
 
     test('defaults are applied', t => {
         const target = { foo: {} };
         const defaults = { bar: {} };
-        const { compose, composition } = composer(target, { defaults });
+        const { compose } = composer(target, { defaults });
         compose('foo');
-        t.equal(composition.modules, { foo: {} });
-        t.equal(composition.dependencies, { foo: ['bar'] });
+        t.equal(compose.modules, { foo: {} });
+        t.equal(compose.dependencies, { foo: ['bar'] });
     });
 
     test('overrides are applied', t => {
         const target = { foo: {} };
         const overrides = { foo: { num: 1 } };
-        const { compose, composition } = composer(target, { overrides });
+        const { compose } = composer(target, { overrides });
         compose('foo');
-        t.equal(composition.modules, { foo: { num: 1 } });
-        t.equal(composition.dependencies, { foo: [] });
+        t.equal(compose.modules, { foo: { num: 1 } });
+        t.equal(compose.dependencies, { foo: [] });
     });
 
     test('customiser is invoked', t => {
@@ -73,10 +81,10 @@ module.exports = ({ test }) => {
                 customSetup: () => () => ({ bar: {} })
             }
         };
-        const { compose, composition } = composer(target);
+        const { compose } = composer(target);
         compose('foo', {}, foo => foo.customSetup());
-        t.equal(composition.modules, { foo: { bar: {} } });
-        t.equal(composition.dependencies, { foo: [] });
+        t.equal(compose.modules, { foo: { bar: {} } });
+        t.equal(compose.dependencies, { foo: [] });
     });
 
     test('default customiser is invoked', t => {
@@ -85,10 +93,10 @@ module.exports = ({ test }) => {
                 setup: () => () => ({ bar: {} })
             }
         };
-        const { compose, composition } = composer(target);
+        const { compose } = composer(target);
         compose('foo', {});
-        t.equal(composition.modules, { foo: { bar: {} } });
-        t.equal(composition.dependencies, { foo: [] });
+        t.equal(compose.modules, { foo: { bar: {} } });
+        t.equal(compose.dependencies, { foo: [] });
     });
 
     test('non-objects are returned as-is', t => {
@@ -105,10 +113,10 @@ module.exports = ({ test }) => {
                 undef: undefined
             }
         };
-        const { compose, composition } = composer(target);
+        const { compose } = composer(target);
         compose('foo');
-        t.equal(composition.modules, target);
-        t.equal(composition.dependencies, { foo: [] });
+        t.equal(compose.modules, target);
+        t.equal(compose.dependencies, { foo: [] });
     });
 
     test('peer function is invoked with args', t => {
@@ -155,16 +163,16 @@ module.exports = ({ test }) => {
 
     test('mermaid', t => {
         const target = { foo: {} };
-        const { compose, composition } = composer(target);
+        const { compose } = composer(target);
         compose('foo', { bar: {} });
-        t.equal(composition.mermaid(), 'graph TD;\n    foo-->bar;');
+        t.equal(compose.mermaid, 'graph TD;\n    foo-->bar;');
     });
 
     test('mermaid omit', t => {
         const target = { foo: {} };
-        const { compose, composition } = composer(target);
+        const { compose } = composer(target);
         compose('foo', { bar: {} });
-        t.equal(composition.mermaid({ omit: ['foo'] }), 'graph TD;');
+        t.equal(compose.generateMermaid({ omit: ['foo'] }), 'graph TD;');
     });
 
 };
