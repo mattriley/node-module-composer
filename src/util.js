@@ -12,10 +12,7 @@ const isPlainFunction = val => isFunction(val) && !(val.prototype && val.prototy
 const override = (obj, overrides = {}) => merge(obj, pick(overrides, Object.keys(obj)));
 const pickValues = (obj, keys) => Object.values(pick(obj, keys));
 
-const defaultCustomiser = m => m && isPlainFunction(m.setup) ? m.setup() : m;
-
 module.exports = {
-    defaultCustomiser,
     flattenDeep,
     isPlainFunction,
     isPlainObject,
