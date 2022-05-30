@@ -1,0 +1,9 @@
+#!/bin/bash
+  
+. $TASK_LIBRARY_SRC/load-task-vars
+
+set -ex
+
+npx task lint
+npx task cov-check
+# npx task readme-gen

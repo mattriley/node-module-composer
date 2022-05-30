@@ -9,10 +9,16 @@ module.exports = ({ test }) => {
         t.equal(composition.getTarget(), target);
     });
 
+    test('accepts single config as an option', t => {
+        const config1 = { a: { b: 'B', c: 'c' } };
+        const { composition } = composer({}, { config: config1 });
+        t.equal(composition.config, { a: { b: 'B', c: 'c' } });
+    });
+
     test('merges config', t => {
         const config1 = { a: { b: 'B', c: 'c' } };
         const config2 = { a: { c: 'C', d: 'D' } };
-        const { composition } = composer({}, config1, config2);
+        const { composition } = composer({}, { configs: [config1, config2] });
         t.equal(composition.config, { a: { b: 'B', c: 'C', d: 'D' } });
         t.equal(composition.getConfig(), { a: { b: 'B', c: 'C', d: 'D' } });
     });
@@ -46,8 +52,7 @@ module.exports = ({ test }) => {
     test('defaults are applied', t => {
         const target = { foo: {} };
         const defaults = { bar: {} };
-        const config = { moduleComposer: { defaults } };
-        const { compose, composition } = composer(target, config);
+        const { compose, composition } = composer(target, { defaults });
         compose('foo');
         t.equal(composition.modules, { foo: {} });
         t.equal(composition.dependencies, { foo: ['bar'] });
@@ -56,8 +61,7 @@ module.exports = ({ test }) => {
     test('overrides are applied', t => {
         const target = { foo: {} };
         const overrides = { foo: { num: 1 } };
-        const config = { moduleComposer: { overrides } };
-        const { compose, composition } = composer(target, config);
+        const { compose, composition } = composer(target, { overrides });
         compose('foo');
         t.equal(composition.modules, { foo: { num: 1 } });
         t.equal(composition.dependencies, { foo: [] });

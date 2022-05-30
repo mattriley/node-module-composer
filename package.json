@@ -1,6 +1,6 @@
 {
     "name": "module-composer",
-    "version": "0.22.0",
+    "version": "0.26.0",
     "description": "A tiny but powerful closure-based module composition utility.",
     "author": "Matt Riley",
     "license": "ISC",
@@ -22,7 +22,7 @@
         "eslint": "^8.16.0",
         "fast-glob": "^3.2.11",
         "husky": "^8.0.1",
-        "module-composer": "^0.22.0",
+        "module-composer": "file:.",
         "module-indexgen": "^0.14.1",
         "task-library": "^0.1.15",
         "zora": "^5.0.3",

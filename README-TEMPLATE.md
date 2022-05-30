@@ -192,12 +192,12 @@ It's entirely possible, and arguably desirable to design JavaScript applications
 
 ## Application configuration
 
-For convenience, config can be passed as the second and subsequent parameters to the composer function. These configs are merged using [Lodash merge](https://lodash.com/docs#merge) and returned along with the compose function.
+For convenience, config can be passed as an option to the composer function. If `config` is an array, they will be merged using [Lodash merge](https://lodash.com/docs#merge) and returned along with the compose function.
 
 In the next example, `defaultConfig` and `userConfig` are merged to produce `config`, which is then passed as a dependency of the `components` module.
 
 ```js
-const { compose, config } = composer(modules, defaultConfig, userConfig);
+const { compose, config } = composer(modules, { config: [defaultConfig, userConfig] });
 const { components } = compose('components', { config });
 ```
 
