@@ -22,7 +22,7 @@ If that sounds like a lot to wrap your head around, fear not! Implementation-wis
 - [File system](#file-system)
 - [Mermaid diagrams](#mermaid-diagrams)
 - [Fitness functions](#fitness-functions)
-- [Inversion of Control (IoC)](#inversion-of-control-ioc)
+- [Dependency injection](#dependency-injection)
 - [Functional programming](#functional-programming)
 - [Application configuration](#application-configuration)
 - [Advanced example: Agile Avatars](#advanced-example-agile-avatars)
@@ -256,18 +256,18 @@ test('components are not directly coupled to stores', t => {
 }
 ```
 
-## Inversion of Control (IoC)
+## Dependency injection
 
-Module Composer enables _Inversion of Control_ by externalising _other modules_ as dependencies. 
+Module Composer enables _dependency injection_ of modules.
 
-Well known advantages of Inversion of Control include:
+Well known advantages of dependency injection include:
 
-- Ability to switch implementations at runtime, e.g. repositories that integrate with different database technologies.
+- Ability to swap implementations, e.g. repositories that integrate with different database engines.
 - Ability to stub/mock/fake dependencies for testing purposes.
 
-Inversion of Control is a big (and sometimes controversial) topic and worth being familiar with.
+Dependency injection is a big (and sometimes controversial) topic and worth being familiar with.
 
-I want to stress that although Module Composer enables Inversion of Control, the primary aim is to encourage good modular design and intentionality for application architecture.
+I want to stress that although Module Composer enables dependency injection, the primary aim is to encourage good modular design and intentionality for application architecture.
 
 ## Functional programming
 
