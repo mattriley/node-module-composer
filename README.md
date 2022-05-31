@@ -324,6 +324,11 @@ graph TD;
 
 `util` is a module of _pure_ utility functions, and `io` is module is _impure_ io operations. It could be tempting to extend `util` with say file utilities that depend on `io`, however doing so would make `util` impure.
 
+```mermaid
+graph TD;
+    util-->|❌| services;
+```
+
 The following fitness function asserts that `util` is not coupled to `io`.
 
 ```js
