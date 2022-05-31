@@ -258,6 +258,10 @@ The closure-based approach is only possible thanks to JavaScript support for fun
 
 An important consideration in functional design is the segregation of pure and impure functions. When designing modules, be intentional about purity and impurity.
 
+> One very important characteristic of impurity is that it’s inherently contagious. Any function that depends on the execution of an impure function becomes impure as well.<br/>[Oleksii Holub](https://tyrrrz.me/blog/pure-impure-segregation-principle)
+
+See [Fitness functions](#fitness-functions) below to learn how Module Composer can help maintain pure-impure segregation.
+
 Recommended reading:
 
 - [Pure-Impure Segregation Principle](https://tyrrrz.me/blog/pure-impure-segregation-principle) by Oleksii Holub
@@ -283,9 +287,19 @@ Module Composer can describe the dependency graph to enable _fitness functions_ 
 
 Inappropriate coupling leads to brittle designs that can be difficult to reason about, difficult to change and difficult to test.
 
-The examples below demonstrate fitness function in the form of unit tests. The `compose` function here refers to the composition root.
+Use `compose.dependencies` to obtain a dependency graph similar to:
 
-### Example 1
+```js
+{
+    components: ['services'],
+    services: ['stores'],
+    stores: []
+}
+```
+
+The examples below leverage `compose.dependencies` to demonstrate fitness function in the form of unit tests.
+
+### Example 1: N-tier architecture
 
 Assuming an _n-tier_ architecture, where the `components` module resides in the _presentation_ layer, `services` in the _domain_ layer, and `stores` in the _persistence_ layer, it could be tempting to couple `components` to `stores`,  inadvertently bypassing the domain layer.
 
@@ -306,17 +320,7 @@ test('components is not coupled to stores in order to maintain layering', t => {
 });
 ```
 
-`dependencies` is an object that lists the dependencies for each module:
-
-```js
-{
-    components: ['services'],
-    services: ['stores'],
-    stores: []
-}
-```
-
-### Example 2
+### Example 2: Pure-impure segregation
 
 `util` is a module of _pure_ utility functions, and `io` is module is _impure_ io operations. It could be tempting to extend `util` with say file utilities that depend on `io`, however doing so would make `util` impure.
 
