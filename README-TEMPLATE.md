@@ -256,10 +256,10 @@ The solution introducing file utilities whilst maintaining purity would be to in
 
 ```mermaid
 graph TD;
-    io-->|OK!|util
+    io["io<br/>(impure)"]-->|OK!|util
     io-->|NOT OK!|fileUtil
-    util-->|NOT OK!|io
-    fileUtil-->|OK!|io
+    util["util<br/>(pure)"]-->|NOT OK!|io
+    fileUtil["fileUtil<br/>(impure)"]-->|OK!|io
 ```
 
 ## Advanced example: Agile Avatars
