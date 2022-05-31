@@ -273,7 +273,7 @@ For convenience, config can be passed as an option to the composer function. If 
 In the next example, `defaultConfig`, `testConfig` and `userConfig` are merged to produce `config`, which is then passed as a dependency of the `components` module.
 
 ```js
-const { compose, config } = composer(modules, { defaultConfig, configs: [testConfig, userConfig] });
+const { compose, config } = composer(modules, { configs: [defaultConfig, testConfig, userConfig] });
 const { components } = compose('components', { config });
 ```
 
