@@ -326,8 +326,8 @@ graph TD;
 
 ```mermaid
 graph TD;
-    io-->|OK!|util
-    util-->|NOT OK!|io
+    io["io<br/>(impure)"]-->|OK!|util
+    util["util<br/>(pure)"]-->|NOT OK!|io
 ```
 
 The following fitness function asserts that `util` is not coupled to `io`.
