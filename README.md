@@ -289,8 +289,6 @@ The examples below demonstrate fitness function in the form of unit tests. The `
 
 Assuming an _n-tier_ architecture, where the `components` module resides in the _presentation_ layer, `services` in the _domain_ layer, and `stores` in the _data_ layer, it could be tempting to couple `components` to `stores`,  inadvertently bypassing the domain layer.
 
-Here's an example fitness function in the form of a unit test that asserts the view layer is not directly coupled to the persistance layer. The `compose` function here refers to the composition root.
-
 ```mermaid
 graph TD;
     components-->|OK!|services;
