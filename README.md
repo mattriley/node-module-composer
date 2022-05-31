@@ -283,12 +283,25 @@ Module Composer can describe the dependency graph to enable _fitness functions_ 
 
 Inappropriate coupling leads to brittle designs that can be difficult to reason about, difficult to change and difficult to test.
 
+The examples below demonstrate fitness function in the form of unit tests. The `compose` function here refers to the composition root.
+
 ### Example 1
+
+Assuming an _n-tier_ architecture, where the `components` module resides in the _presentation_ layer, `services` in the _domain_ layer, and `stores` in the _data_ layer, it could be tempting to couple `components` to `stores`,  inadvertently bypassing the domain layer.
 
 Here's an example fitness function in the form of a unit test that asserts the view layer is not directly coupled to the persistance layer. The `compose` function here refers to the composition root.
 
+```mermaid
+graph TD;
+    components-->|OK!|services;
+    components-->|NOT OK!|stores;
+    services-->|OK!|stores;
+```
+
+The following fitness function asserts that `components` is not coupled to `stores`. 
+
 ```js
-test('components are not directly coupled to stores', t => {
+test('components is not coupled to stores in order to maintain layering', t => {
     const { dependencies } = compose();
     t.notOk(dependencies['components'].includes('stores'));
 });
@@ -302,22 +315,6 @@ test('components are not directly coupled to stores', t => {
     services: ['stores'],
     stores: []
 }
-```
-
-The following design couples components to stores and should therefore fail the fitness function:
-
-```mermaid
-graph TD;
-    components-->stores;
-    services-->stores;
-```
-
-While this design should pass:
-
-```mermaid
-graph TD;
-    components-->services;
-    services-->stores;
 ```
 
 ### Example 2
