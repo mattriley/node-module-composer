@@ -287,13 +287,14 @@ The examples below demonstrate fitness function in the form of unit tests. The `
 
 ### Example 1
 
-Assuming an _n-tier_ architecture, where the `components` module resides in the _presentation_ layer, `services` in the _domain_ layer, and `stores` in the _data_ layer, it could be tempting to couple `components` to `stores`,  inadvertently bypassing the domain layer.
+Assuming an _n-tier_ architecture, where the `components` module resides in the _presentation_ layer, `services` in the _domain_ layer, and `stores` in the _persistence_ layer, it could be tempting to couple `components` to `stores`,  inadvertently bypassing the domain layer.
 
 ```mermaid
 graph TD;
-    components-->|OK!|services;
+    components["components<br/>(presentation)"]-->|OK!|services;
     components-->|NOT OK!|stores;
-    services-->|OK!|stores;
+    services["services<br/>(domain)"]-->|OK!|stores;
+    stores["stores<br/>(persistence)"]
 ```
 
 The following fitness function asserts that `components` is not coupled to `stores`. 
