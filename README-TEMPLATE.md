@@ -46,16 +46,20 @@ Each module is simply an object containing an entry for each function of the mod
 
 Notice the _double arrow_ functions? That's syntactic sugar for _a function that returns another function_.
 
-Here's the equivalent _without_ double arrows, using `components` as an example:
+The following are equivalent:
 
 ```js
-export default {
-    components: {
-        productDetails: ({ services }) => {
-            return ({ product }) => { ... }
-        }
-    }
-}
+const getPrice = ({ stores }) => ({ productId }) => {
+    return stores.getProduct(productId).price;
+};
+```
+
+```js
+const getPrice = ({ stores }) => {
+    return ({ productId }) => {
+        return stores.getProduct(productId).price;
+    };
+};
 ```
 
 The `compose` function invokes the first arrow function with the specified modules for each entry in the module and returns the second arrow function.
@@ -80,8 +84,8 @@ And here's an example of an entry point for a single-page (web) application (SPA
 
 Recommended reading:
 
-- [Composition Root](https://blog.ploeh.dk/2011/07/28/CompositionRoot/) —Mark Seemann.
-- [Understanding the Composition Root](https://freecontent.manning.com/dependency-injection-in-net-2nd-edition-understanding-the-composition-root/) —Steven van Deursen & Mark Seemann.
+- [Composition Root](https://blog.ploeh.dk/2011/07/28/CompositionRoot/) —Mark Seemann
+- [Understanding the Composition Root](https://freecontent.manning.com/dependency-injection-in-net-2nd-edition-understanding-the-composition-root/) —Steven van Deursen & Mark Seemann
 
 ## File system
 
