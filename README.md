@@ -339,7 +339,6 @@ The solution introducing file utilities whilst maintaining purity would be to in
 ```mermaid
 graph TD;
     io["io<br/>(impure)"]-->|OK!|util
-    io-->|NOT OK!|fileUtil
     util["util<br/>(pure)"]-->|NOT OK!|io
     fileUtil["fileUtil<br/>(impure)"]-->|OK!|io
 ```
