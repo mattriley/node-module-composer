@@ -339,6 +339,16 @@ test('util is not coupled to io in order to maintain purity', t => {
 });
 ```
 
+The solution introducing file utilities whilst maintaining purity would be to introduce a new module, say `fileUtil`:
+
+```mermaid
+graph TD;
+    io-->|OK!|util
+    io-->|NOT OK!|fileUtil
+    util-->|NOT OK!|io
+    fileUtil-->|OK!|io
+```
+
 ## Advanced example: Agile Avatars
 
 > Great looking avatars for your agile board and experiment in FRAMEWORK-LESS, vanilla JavaScript.<br/>
