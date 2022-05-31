@@ -196,6 +196,8 @@ Module Composer can describe the dependency graph to enable _fitness functions_ 
 
 Inappropriate coupling leads to brittle designs that can be difficult to reason about, difficult to change and difficult to test.
 
+### Example 1
+
 Here's an example fitness function in the form of a unit test that asserts the view layer is not directly coupled to the persistance layer. The `compose` function here refers to the composition root.
 
 ```js
@@ -223,12 +225,25 @@ graph TD;
     services-->stores;
 ```
 
-While this design should pass the fitness function:
+While this design should pass:
 
 ```mermaid
 graph TD;
     components-->services;
     services-->stores;
+```
+
+### Example 2
+
+`util` is a module of _pure_ utility functions, and `io` is module is _impure_ io operations. It could be tempting to extend `util` with say file utilities that depend on `io`, however doing so would make `util` impure.
+
+The following fitness function asserts that `util` is not coupled to `io`.
+
+```js
+test('util is not coupled to io in order to maintain purity', t => {
+    const { dependencies } = compose();
+    t.notOk(dependencies['util'].includes('io'));
+});
 ```
 
 ## Advanced example: Agile Avatars
