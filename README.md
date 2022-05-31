@@ -107,7 +107,7 @@ This is analogous to calling a class constructor with dependencies and returning
 
 Module Composer should be isolated to the _composition root_ of the application.
 
-> A Composition Root is a (preferably) unique location in an application where modules are composed together.<br/>[Mark Seeman](https://blog.ploeh.dk/2011/07/28/CompositionRoot/)
+> A Composition Root is a (preferably) unique location in an application where modules are composed together.<br/>—[Mark Seeman](https://blog.ploeh.dk/2011/07/28/CompositionRoot/)
 
 Module composition should occur as close to the entry point of the application as possible.
 
@@ -137,8 +137,8 @@ document.getElementById('app').append(app);
 
 Recommended reading:
 
-- [Composition Root](https://blog.ploeh.dk/2011/07/28/CompositionRoot/) by Mark Seemann.
-- [Understanding the Composition Root](https://freecontent.manning.com/dependency-injection-in-net-2nd-edition-understanding-the-composition-root/) by Steven van Deursen & Mark Seemann.
+- [Composition Root](https://blog.ploeh.dk/2011/07/28/CompositionRoot/) —Mark Seemann.
+- [Understanding the Composition Root](https://freecontent.manning.com/dependency-injection-in-net-2nd-edition-understanding-the-composition-root/) —Steven van Deursen & Mark Seemann.
 
 ## File system
 
@@ -246,9 +246,9 @@ Although Module Composer enables dependency injection, remember that the primary
 
 Recommended reading:
 
-- [DIP in the Wild](https://martinfowler.com/articles/dipInTheWild.html) by Brett L. Schuchert on martinfowler.com
-- [Inversion of Control Containers and the Dependency Injection pattern](https://martinfowler.com/articles/injection.html) by Martin Fowler
-- [Partial application is dependency injection](https://blog.ploeh.dk/2017/01/30/partial-application-is-dependency-injection/) by Mark Seemann
+- [DIP in the Wild](https://martinfowler.com/articles/dipInTheWild.html) —Brett L. Schuchert on martinfowler.com
+- [Inversion of Control Containers and the Dependency Injection pattern](https://martinfowler.com/articles/injection.html) —Martin Fowler
+- [Partial application is dependency injection](https://blog.ploeh.dk/2017/01/30/partial-application-is-dependency-injection/) —Mark Seemann
 
 ## Functional programming
 
@@ -258,13 +258,13 @@ The closure-based approach is only possible thanks to JavaScript support for fun
 
 An important consideration in functional design is the segregation of pure and impure functions. When designing modules, be intentional about purity and impurity.
 
-> One very important characteristic of impurity is that it’s inherently contagious. Any function that depends on the execution of an impure function becomes impure as well.<br/>[Oleksii Holub](https://tyrrrz.me/blog/pure-impure-segregation-principle)
+> One very important characteristic of impurity is that it’s inherently contagious. Any function that depends on the execution of an impure function becomes impure as well.<br/>—[Oleksii Holub](https://tyrrrz.me/blog/pure-impure-segregation-principle)
 
 See [Fitness functions](#fitness-functions) below to learn how Module Composer can help maintain pure-impure segregation.
 
 Recommended reading:
 
-- [Pure-Impure Segregation Principle](https://tyrrrz.me/blog/pure-impure-segregation-principle) by Oleksii Holub
+- [Pure-Impure Segregation Principle](https://tyrrrz.me/blog/pure-impure-segregation-principle) —Oleksii Holub
 
 ## Application configuration
 
@@ -283,7 +283,7 @@ This can be especially useful during testing by applying test config.
 
 Module Composer can describe the dependency graph to enable _fitness functions_ on coupling.
 
-> An architectural fitness function, as defined in Building Evolutionary Architectures, provides an objective integrity assessment of some architectural characteristics, which may encompass existing verification criteria, such as unit testing, metrics, monitors, and so on.<br/>[Thoughtworks](https://www.thoughtworks.com/en-au/radar/techniques/architectural-fitness-function)
+> An architectural fitness function, as defined in Building Evolutionary Architectures, provides an objective integrity assessment of some architectural characteristics, which may encompass existing verification criteria, such as unit testing, metrics, monitors, and so on.<br/>—[Thoughtworks](https://www.thoughtworks.com/en-au/radar/techniques/architectural-fitness-function)
 
 Inappropriate coupling leads to brittle designs that can be difficult to reason about, difficult to change and difficult to test.
 
