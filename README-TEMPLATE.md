@@ -268,6 +268,22 @@ graph TD;
     fileUtil["fileUtil<br/>(impure)"]-->|OK!|io
 ```
 
+## Testability
+
+Module Composer encourages reasoning about _modules_ instead of _files_ and this principle also extends to testing.
+
+A common practice in unit testing, is to stub/mock/fake dependencies, especially those dependencies that are not deterministic, or cause _side-effects_, i.e. interact with databases or other external services. 
+
+In JavaScript, this is commonly achieved using a tool that intercepts the file imports of the dependendenies of the file under test. Digest that for a moment. Why on Earth should our test need to know and be coupled to the physical storage location of a unit's dependencies? No wonder these tests are so brittle.
+
+Here's how mocking is typically achieved with Jest:
+
+TODO: Insert Jest mock example
+
+Module Composer provides an `overrides` option to override any part of the dependency graph:
+
+TODO: Insert overrides example
+
 ## Advanced example: Agile Avatars
 
 > Great looking avatars for your agile board and experiment in FRAMEWORK-LESS, vanilla JavaScript.<br/>
