@@ -1,5 +1,6 @@
 const flattenDeep = require('lodash/flattenDeep');
 const get = require('lodash/get');
+const has = require('lodash/has');
 const isFunction = require('lodash/isFunction');
 const isPlainObject = require('lodash/isPlainObject');
 const mapValues = require('lodash/mapValues');
@@ -15,6 +16,7 @@ const pickValues = (obj, keys) => Object.values(pick(obj, keys));
 module.exports = {
     flattenDeep,
     get,
+    has,
     isPlainFunction,
     isPlainObject,
     mapValues,

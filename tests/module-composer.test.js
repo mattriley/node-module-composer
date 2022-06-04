@@ -39,6 +39,13 @@ module.exports = ({ test }) => {
         t.equal(compose.dependencies, { foo: [], bar: [] });
     });
 
+    test('key not found', t => {
+        const target = {};
+        const { compose } = composer(target);
+        t.throws(() => compose('foo'), 'foo not found');
+        t.throws(() => compose('foo.bar'), 'foo.bar not found');
+    });
+
     test('args are optional', t => {
         const target = { foo: {} };
         const { compose } = composer(target);

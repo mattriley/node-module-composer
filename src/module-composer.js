@@ -25,6 +25,7 @@ module.exports = (target, options = {}) => {
     };
 
     const compose = (key, args = {}, customise = opts.customiser) => {
+        if (!util.has(target, key)) throw new Error(`${key} not found`);
         const totalArgs = { ...options.defaults, ...args };
         const module = customise(recurse(util.get(target, key), totalArgs, key) ?? {});
         util.set(modules, key, util.override({ [key]: module }, options.overrides)[key]);
