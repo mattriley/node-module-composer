@@ -1,18 +1,37 @@
 export default ({ services }) => () => {
 
-    const emailInput = document.createElement('input');
-    emailInput.type = 'text';
+    const $container = document.createElement('div');
+
+    const $controls = document.createElement('div');
+
+    const $profile = document.createElement('div');
+
+    $container.append($controls);
+    $container.append($profile);
+
+
+    const $email = document.createElement('input');
+    $email.value = 'mattrileyaus@gmail.com';
+    $email.type = 'text';
+    $controls.append($email);
 
     const submitButton = document.createElement('button');
     submitButton.innerHTML = 'Submit';
     submitButton.addEventListener('click', async () => {
-        const email = 'mattrileyaus@gmail.com';
-        const profile = await services.fetchGravatarProfile(email);
-        div.innerHTML = JSON.stringify(profile);
+        const profile = await services.fetchGravatarProfile($email.value);
+
+        const $name = document.createElement('div');
+        $name.innerHTML = profile.name.formatted;
+
+        const $image = document.createElement('img');
+        $image.src = profile.thumbnailUrl;
+
+        $profile.append($name);
+        $profile.append($image);
     });
 
-    const div = document.createElement('div');
-    div.append(submitButton);
-    return div;
+    $controls.append(submitButton);
+
+    return $container;
 
 };

@@ -1,6 +1,5 @@
 export default {
     gravatar: {
-        domain: 'https://secure.gravatar.com',
-        size: 600
+        hostname: 'https://secure.gravatar.com'
     }
 };
