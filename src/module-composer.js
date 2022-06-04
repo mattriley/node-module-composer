@@ -17,7 +17,8 @@ module.exports = (target, options = {}) => {
     const recurse = (target, args, parentKey) => {
         if (!util.isPlainObject(target)) return target;
         const product = {};
-        const newArg = { [parentKey]: product, ...args };
+        const newArg = { ...args };
+        util.set(newArg, parentKey, product);
         const evaluate = (val, key) => util.isPlainFunction(val) ? val(newArg) : recurse(val, newArg, key);
         const newObj = util.mapValues(target, evaluate);
         return Object.assign(product, newObj);
@@ -25,8 +26,8 @@ module.exports = (target, options = {}) => {
 
     const compose = (key, args = {}, customise = opts.customiser) => {
         const totalArgs = { ...options.defaults, ...args };
-        const module = customise(recurse(target[key], totalArgs, key) ?? {});
-        modules[key] = util.override({ [key]: module }, options.overrides)[key];
+        const module = customise(recurse(util.get(target, key), totalArgs, key) ?? {});
+        util.set(modules, key, util.override({ [key]: module }, options.overrides)[key]);
         dependencies[key] = Object.keys(totalArgs);
         return modules;
     };

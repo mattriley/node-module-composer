@@ -57,6 +57,18 @@ module.exports = ({ test }) => {
         t.equal(compose.getDependencies(), { foo: ['bar'] });
     });
 
+    // todo: fail if key not exist
+
+    test('args are applied to nested object', t => {
+        const target = { foo: { bar: {} } };
+        const { compose } = composer(target);
+        compose('foo.bar', { baz: {} });
+        t.equal(compose.modules, { foo: { bar: {} } });
+        t.equal(compose.getModules(), { foo: { bar: {} } });
+        t.equal(compose.dependencies, { foo: [], 'foo.bar': ['baz'] });
+        t.equal(compose.getDependencies(), { foo: [], 'foo.bar': ['baz'] });
+    });
+
     test('defaults are applied', t => {
         const target = { foo: {} };
         const defaults = { bar: {} };
