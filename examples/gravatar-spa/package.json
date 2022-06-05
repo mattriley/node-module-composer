@@ -2,7 +2,7 @@
     "name": "gravatar-spa",
     "type": "module",
     "scripts": {
-        "start": "parcel public/index.html"
+        "start": "parcel src/index.html"
     },
     "devDependencies": {
         "blueimp-md5": "^2.19.0",
