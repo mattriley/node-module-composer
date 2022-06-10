@@ -194,4 +194,23 @@ module.exports = ({ test }) => {
         t.equal(compose.generateMermaid({ omit: ['foo'] }), 'graph TD;');
     });
 
+    test('[WIP] eject', t => {
+        const target = {
+            foo: {
+                getFoo: () => { },
+                setFoo: () => { }
+            }
+        };
+        const { compose } = composer(target);
+        compose('foo', { bar: {} });
+
+        const expected = `
+const foo = { ...target.foo };
+foo.getFoo = target.foo.getFoo({ foo, bar });
+foo.setFoo = target.foo.setFoo({ foo, bar });
+`.trim();
+
+        t.equal(compose.eject(), expected);
+    });
+
 };
