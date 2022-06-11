@@ -193,22 +193,42 @@ module.exports = ({ test }) => {
     });
 
     test('[WIP] eject', t => {
+        const bar = {
+            getBar: () => 'bar'
+        };
+
         const target = {
+            foobar: {
+                getFoo: ({ foo }) => () => foo.getFoo(),
+                getBar: ({ bar }) => () => bar.getBar(),
+                getFoobar: ({ foobar }) => () => foobar.getFoo() + foobar.getBar()
+            },
             foo: {
-                getFoo: () => { },
-                setFoo: () => { }
+                getFoo: () => () => 'foo',
             }
         };
-        const { compose } = composer(target);
-        compose('foo', { bar: {} });
 
-        const expected = `
-const foo = { ...target.foo };
-foo.getFoo = target.foo.getFoo({ foo, bar });
-foo.setFoo = target.foo.setFoo({ foo, bar });
+        const { compose } = composer(target);
+        const { foo } = compose('foo');
+        compose('foobar', { foo, bar });
+
+        const expectedCode = `
+(target, { bar }) => {
+    const foo = { ...target.foo };
+    foo.getFoo = target.foo.getFoo({ foo });
+    const foobar = { ...target.foobar };
+    foobar.getFoo = target.foobar.getFoo({ foobar, foo, bar });
+    foobar.getBar = target.foobar.getBar({ foobar, foo, bar });
+    foobar.getFoobar = target.foobar.getFoobar({ foobar, foo, bar });
+    return { ...target, foobar, foo };
+};
 `.trim();
 
-        t.equal(compose.eject(), expected);
+        const code = compose.eject();
+        // console.warn(code);
+        const modules = eval(code)(target, { bar });
+        t.equal(code, expectedCode);
+        t.equal(modules.foobar.getFoobar(), 'foobar');
     });
 
 };
