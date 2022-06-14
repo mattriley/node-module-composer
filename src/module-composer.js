@@ -40,7 +40,7 @@ module.exports = (target, options = {}) => {
     ]).concat([
         ['generateMermaid', { value: opts => generateMermaid(dependencies, opts) }],
         ['mermaid', { get() { return generateMermaid(dependencies); } }],
-        ['eject', { value: () => eject({ target, dependencies, util }) }]
+        ['eject', { value: () => eject({ target, dependencies }) }]
     ]).map(([key, def]) => [key, { ...def, enumerable: true }]);
 
     const composition = compose.composition = Object.defineProperties({}, Object.fromEntries(props));

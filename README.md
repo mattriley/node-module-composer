@@ -25,6 +25,8 @@ If that sounds like a lot to wrap your head around, fear not! Implementation-wis
 - [Functional programming](#functional-programming)
 - [Application configuration](#application-configuration)
 - [Fitness functions](#fitness-functions)
+- [Testability](#testability)
+- [Ejecting](#ejecting)
 - [Advanced example: Agile Avatars](#advanced-example-agile-avatars)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -225,11 +227,7 @@ graph TD;
 
 Which renders:
 
-```mermaid
-graph TD;
-    components-->services;
-    services-->stores;
-```
+
 
 _If the diagram is not rendered, you might not be viewing this file in GitHub._
 
@@ -355,6 +353,54 @@ graph TD;
     fileUtil["fileUtil<br/>(impure)"]-->|OK!|io
 ```
 
+## Testability
+
+Module Composer encourages reasoning about _modules_ instead of _files_ and this principle also extends to testing.
+
+A common practice in unit testing, is to stub/mock/fake dependencies, especially those dependencies that are not deterministic, or cause _side-effects_, i.e. interact with databases or other external services. 
+
+In JavaScript, this is commonly achieved using a tool that intercepts the file imports of the dependendenies of the file under test. Digest that for a moment. Why on Earth should our test need to know and be coupled to the physical storage location of a unit's dependencies? No wonder these tests are so brittle.
+
+Here's how mocking is typically achieved with Jest:
+
+TODO: Insert Jest mock example
+
+Module Composer provides an `overrides` option to override any part of the dependency graph:
+
+TODO: Insert overrides example
+
+## Ejecting
+
+Module Composer can be _ejected_ by generating code required to achieve the same result. Well, that's the vision anyway! The current implementation has some limitations. Please raise an issue if you'd like to see this developed further.
+
+Take the composition root of the Gravatar SPA example:
+
+```js
+import composer from 'module-composer';
+import modules from './modules';
+import defaultConfig from './default-config';
+
+export default ({ overrides } = {}) => {
+
+    const { compose, config } = composer(modules, { overrides, defaultConfig });
+    const io = { fetch: (...args) => window.fetch(...args) };
+    const { services } = compose('services', { io, config });
+    compose('components', { services });
+    return compose;
+
+};
+```
+
+To generate the equivalent code, insert the following line at the end of the function:
+
+```js
+console.log(compose.eject());
+```
+
+Logs the following:
+
+
+
 ## Advanced example: Agile Avatars
 
 > Great looking avatars for your agile board and experiment in FRAMEWORK-LESS, vanilla JavaScript.<br/>
@@ -401,54 +447,4 @@ export default ({ window, overrides, configs }) => {
 
 Mermaid digram:
 
-```mermaid
-graph TD;
-    components-->el;
-    components-->ui;
-    components-->elements;
-    components-->vendorComponents;
-    components-->vendorServices;
-    components-->services;
-    components-->subscriptions;
-    components-->util;
-    components-->config;
-    core-->util;
-    core-->config;
-    diagnostics-->stores;
-    diagnostics-->util;
-    elements-->el;
-    elements-->ui;
-    elements-->util;
-    io-->window;
-    services-->subscriptions;
-    services-->stores;
-    services-->core;
-    services-->io;
-    services-->util;
-    services-->config;
-    startup-->ui;
-    startup-->components;
-    startup-->styles;
-    startup-->services;
-    startup-->subscriptions;
-    startup-->stores;
-    startup-->util;
-    startup-->config;
-    startup-->window;
-    stores-->storage;
-    stores-->config;
-    styles-->el;
-    styles-->ui;
-    styles-->subscriptions;
-    styles-->config;
-    subscriptions-->stores;
-    subscriptions-->util;
-    ui-->window;
-    vendorComponents-->el;
-    vendorComponents-->ui;
-    vendorComponents-->config;
-    vendorComponents-->window;
-    vendorServices-->io;
-    vendorServices-->config;
-    vendorServices-->window;
-```
+
