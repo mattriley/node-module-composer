@@ -213,14 +213,14 @@ module.exports = ({ test }) => {
         compose('foobar', { foo, bar });
 
         const expectedCode = `
-(target, { bar }) => {
-    const foo = { ...target.foo };
-    foo.getFoo = target.foo.getFoo({ foo });
-    const foobar = { ...target.foobar };
-    foobar.getFoo = target.foobar.getFoo({ foobar, foo, bar });
-    foobar.getBar = target.foobar.getBar({ foobar, foo, bar });
-    foobar.getFoobar = target.foobar.getFoobar({ foobar, foo, bar });
-    return { ...target, foobar, foo };
+(modules, { bar }) => {
+    const foo = { ...modules.foo };
+    foo.getFoo = modules.foo.getFoo({ foo });
+    const foobar = { ...modules.foobar };
+    foobar.getFoo = modules.foobar.getFoo({ foobar, foo, bar });
+    foobar.getBar = modules.foobar.getBar({ foobar, foo, bar });
+    foobar.getFoobar = modules.foobar.getFoobar({ foobar, foo, bar });
+    return { ...modules, foobar, foo };
 };
 `.trim();
 

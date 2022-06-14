@@ -398,12 +398,12 @@ export default ({ overrides } = {}) => {
 Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 
 ```js
-(target, { io, config }) => {
-    const services = { ...target.services };
-    services.fetchGravatarProfile = target.services.fetchGravatarProfile({ services, io, config });
-    const components = { ...target.components };
-    components.app = target.components.app({ components, services });
-    return { ...target, components, services };
+(modules, { io, config }) => {
+    const services = { ...modules.services };
+    services.fetchGravatarProfile = modules.services.fetchGravatarProfile({ services, io, config });
+    const components = { ...modules.components };
+    components.app = modules.components.app({ components, services });
+    return { ...modules, components, services };
 };
 ```
 
