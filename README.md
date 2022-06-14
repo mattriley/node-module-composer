@@ -227,7 +227,11 @@ graph TD;
 
 Which renders:
 
-
+```mermaid
+graph TD;
+    components-->services;
+    services-->stores;
+```
 
 _If the diagram is not rendered, you might not be viewing this file in GitHub._
 
@@ -371,7 +375,7 @@ TODO: Insert overrides example
 
 ## Ejecting
 
-Module Composer can be _ejected_ by generating code required to achieve the same result. Well, that's the vision anyway! The current implementation has some limitations. Please raise an issue if you'd like to see this developed further.
+Module Composer can be _ejected_ by generating the equivalent vanilla JavaScript code. Well, that's the vision anyway! The current implementation has some limitations. Please raise an issue if you'd like to see this developed further.
 
 Take the composition root of the Gravatar SPA example:
 
@@ -391,15 +395,17 @@ export default ({ overrides } = {}) => {
 };
 ```
 
-To generate the equivalent code, insert the following line at the end of the function:
+Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 
 ```js
-console.log(compose.eject());
+(target, { io, config }) => {
+    const services = { ...target.services };
+    services.fetchGravatarProfile = target.services.fetchGravatarProfile({ services, io, config });
+    const components = { ...target.components };
+    components.app = target.components.app({ components, services });
+    return { ...target, components, services };
+};
 ```
-
-Logs the following:
-
-
 
 ## Advanced example: Agile Avatars
 
@@ -447,4 +453,9 @@ export default ({ window, overrides, configs }) => {
 
 Mermaid digram:
 
-
+```mermaid
+graph TD;
+    components-->services;
+    services-->io;
+    services-->config;
+```

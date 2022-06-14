@@ -142,7 +142,7 @@ graph TD;
 
 Which renders:
 
-<%- await moduleGraph('./examples/basic/compose.js') %>
+<%- renderCode((await compose('./examples/basic/compose.js')).mermaid, 'mermaid') %>
 
 _If the diagram is not rendered, you might not be viewing this file in GitHub._
 
@@ -286,21 +286,15 @@ TODO: Insert overrides example
 
 ## Ejecting
 
-Module Composer can be _ejected_ by generating code required to achieve the same result. Well, that's the vision anyway! The current implementation has some limitations. Please raise an issue if you'd like to see this developed further.
+Module Composer can be _ejected_ by generating the equivalent vanilla JavaScript code. Well, that's the vision anyway! The current implementation has some limitations. Please raise an issue if you'd like to see this developed further.
 
 Take the composition root of the Gravatar SPA example:
 
 <%- await readCode(['./examples/gravatar-spa/src/compose.js']) %>
 
-To generate the equivalent code, insert the following line at the end of the function:
+Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 
-```js
-console.log(compose.eject());
-```
-
-Logs the following:
-
-<%- await compose(c => { return renderCode(c.eject(), 'js') }, './examples/gravatar-spa/src/compose.js') %>
+<%- renderCode((await compose('./examples/gravatar-spa/src/compose.js')).eject(), 'js') %>
 
 ## Advanced example: Agile Avatars
 
@@ -313,4 +307,4 @@ Module composition:
 
 Mermaid digram:
 
-<%- await moduleGraph('../agileavatars/src/compose.js') %>
+<%- renderCode((await compose('./examples/gravatar-spa/src/compose.js')).mermaid, 'mermaid') %>
