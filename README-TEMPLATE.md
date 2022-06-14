@@ -300,7 +300,7 @@ console.log(compose.eject());
 
 Logs the following:
 
-<%- await compose(c => renderCode(c.eject(), 'js'), './examples/gravatar-spa/src/compose.js') %>
+<%- await compose(c => { return renderCode(c.eject(), 'js') }, './examples/gravatar-spa/src/compose.js') %>
 
 ## Advanced example: Agile Avatars
 
