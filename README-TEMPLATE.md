@@ -307,4 +307,4 @@ Module composition:
 
 Mermaid digram:
 
-<%- renderCode((await compose('./examples/gravatar-spa/src/compose.js')).mermaid, 'mermaid') %>
+<%- renderCode((await compose('../agileavatars/src/compose.js')).mermaid, 'mermaid') %>
