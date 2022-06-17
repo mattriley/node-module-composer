@@ -4,14 +4,12 @@ module.exports = ({ target, dependencies }) => {
 
     const targetKeys = Object.keys(dependencies);
 
-    const lines = Object.entries(dependencies).reverse().flatMap(([key, deps]) => {
-        const members = Object.keys(flatten(target[key]));
+    const lines = Object.entries(dependencies).reverse().flatMap(([moduleName, deps]) => {
+        const keys = Object.keys(flatten({ [moduleName]: target[moduleName] }));
         return [
             '',
-            `const ${key} = { ...modules.${key} };`,
-            ...members.map(member =>
-                `${key}.${member} = modules.${key}.${member}({ ${[key, ...deps].join(', ')} });`
-            )
+            `const ${moduleName} = { ...modules.${moduleName} };`,
+            ...keys.map(key => `${key} = modules.${key}({ ${[moduleName, ...deps].join(', ')} });`)
         ];
     }).concat(
         '',

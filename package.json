@@ -1,6 +1,6 @@
 {
     "name": "module-composer",
-    "version": "0.28.2",
+    "version": "0.28.3",
     "description": "A tiny but powerful closure-based module composition utility.",
     "author": "Matt Riley",
     "license": "ISC",
@@ -11,6 +11,7 @@
         "src/**/*"
     ],
     "dependencies": {
+        "flat": "^5.0.2",
         "lodash": "^4.17.21"
     },
     "devDependencies": {
