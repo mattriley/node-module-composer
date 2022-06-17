@@ -1,12 +1,12 @@
-export default () => ({ profile }) => {
+export default () => ({ contact }) => {
 
     const $contactView = document.createElement('div');
 
     const $name = document.createElement('div');
-    $name.innerHTML = profile.name.formatted;
+    $name.innerHTML = contact.name;
 
     const $image = document.createElement('img');
-    $image.src = profile.thumbnailUrl;
+    $image.src = contact.thumbnailUrl;
 
     $contactView.append($name);
     $contactView.append($image);
