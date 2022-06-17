@@ -92,18 +92,6 @@ module.exports = ({ test }) => {
         t.equal(compose.dependencies, { foo: [] });
     });
 
-    test('customiser is invoked', t => {
-        const target = {
-            foo: {
-                customSetup: () => () => ({ bar: {} })
-            }
-        };
-        const { compose } = composer(target);
-        compose('foo', {}, foo => foo.customSetup());
-        t.equal(compose.modules, { foo: { bar: {} } });
-        t.equal(compose.dependencies, { foo: [] });
-    });
-
     test('default customiser is invoked', t => {
         const target = {
             foo: {

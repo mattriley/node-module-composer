@@ -17,22 +17,23 @@ module.exports = (target, options = {}) => {
     const composedDependencies = {};
     const propTargets = { target, config, modules, dependencies, composedDependencies };
 
-    const recurse = (target, args, parentKey) => {
+    const recurse = (target, parentKey, [moduleArgs, ...otherArgs]) => {
         if (!util.isPlainObject(target)) return target;
         const product = {};
-        const newArg = { ...args };
-        util.set(newArg, parentKey, product);
-        const evaluate = (val, key) => util.isPlainFunction(val) ? val(newArg) : recurse(val, newArg, key);
+        const newModulesArgs = { ...moduleArgs };
+        util.set(newModulesArgs, parentKey, product);
+        const newArgs = [newModulesArgs, ...otherArgs];
+        const evaluate = (val, key) => util.isPlainFunction(val) ? val(...newArgs) : recurse(val, key, newArgs);
         const newObj = util.mapValues(target, evaluate);
         return Object.assign(product, newObj);
     };
 
-    const compose = (key, args = {}, customise = opts.customiser) => {
+    const compose = (key, moduleArgs = {}, ...otherArgs) => {
         if (!util.has(target, key)) throw new Error(`${key} not found`);
-        const totalArgs = { ...options.defaults, ...args };
-        const module = customise(recurse(util.get(target, key), totalArgs, key) ?? {});
+        const moduleArgsWithDefaults = { ...options.defaults, ...moduleArgs };
+        const module = opts.customiser(recurse(util.get(target, key), key, [moduleArgsWithDefaults, ...otherArgs]) ?? {});
         util.set(modules, key, util.override({ [key]: module }, options.overrides)[key]);
-        dependencies[key] = composedDependencies[key] = Object.keys(totalArgs);
+        dependencies[key] = composedDependencies[key] = Object.keys(moduleArgsWithDefaults);
         return modules;
     };
 
