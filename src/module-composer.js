@@ -1,4 +1,4 @@
-const generateMermaid = require('./generate-mermaid');
+const mermaid = require('./mermaid');
 const eject = require('./eject');
 const util = require('./util');
 
@@ -40,9 +40,8 @@ module.exports = (target, options = {}) => {
         [`get${util.upperFirst(key)}`, { value: () => ({ ...val }) }],
         [key, { get() { return { ...val }; } }]
     ]).concat([
-        ['generateMermaid', { value: opts => generateMermaid(dependencies, opts) }],
-        ['mermaid', { get() { return generateMermaid(dependencies); } }],
-        ['eject', { value: () => eject({ target, dependencies: composedDependencies }) }]
+        ['mermaid', { value: opts => mermaid(dependencies, opts) }],
+        ['eject', { value: () => eject(target, composedDependencies) }]
     ]).map(([key, def]) => [key, { ...def, enumerable: true }]);
 
     const composition = compose.composition = Object.defineProperties({}, Object.fromEntries(props));

@@ -182,14 +182,14 @@ module.exports = ({ test }) => {
         const target = { foo: {} };
         const { compose } = composer(target);
         compose('foo', { bar: {} });
-        t.equal(compose.mermaid, 'graph TD;\n    foo-->bar;');
+        t.equal(compose.mermaid(), 'graph TD;\n    foo-->bar;');
     });
 
     test('mermaid omit', t => {
         const target = { foo: {} };
         const { compose } = composer(target);
         compose('foo', { bar: {} });
-        t.equal(compose.generateMermaid({ omit: ['foo'] }), 'graph TD;');
+        t.equal(compose.mermaid({ omit: ['foo'] }), 'graph TD;');
     });
 
     test('[WIP] eject', t => {

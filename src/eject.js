@@ -1,7 +1,7 @@
 const util = require('./util');
 const flatten = require('flat');
 
-module.exports = ({ target, dependencies }) => {
+module.exports = (target, dependencies) => {
 
     const targetKeys = Object.keys(dependencies);
 

@@ -128,7 +128,7 @@ Module Composer can generate diagrams-as-code using _Mermaid_.
 
 GitHub can render diagrams directly from Mermaid syntax in markdown files. See [Include diagrams in your Markdown files with Mermaid](https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/) for more information.
 
-Use `compose.mermaid` to generate a Mermaid diagram:
+Use `compose.mermaid()` to generate a Mermaid diagram:
 
 <%- await readCode('./examples/basic/compose-mermaid.js') %>
 
@@ -142,7 +142,7 @@ graph TD;
 
 Which renders:
 
-<%- renderCode((await compose('./examples/basic/compose.js')).mermaid, 'mermaid') %>
+<%- renderCode((await compose('./examples/basic/compose.js')).mermaid(), 'mermaid') %>
 
 _If the diagram is not rendered, you might not be viewing this file in GitHub._
 
@@ -294,7 +294,7 @@ Take the composition root of the Gravatar SPA example:
 
 Mermaid digram:
 
-<%- renderCode((await compose('./examples/gravatar-spa/src/compose.js')).mermaid, 'mermaid') %>
+<%- renderCode((await compose('./examples/gravatar-spa/src/compose.js')).mermaid(), 'mermaid') %>
 
 Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 
@@ -311,7 +311,7 @@ Module composition:
 
 Mermaid digram:
 
-<%- renderCode((await compose('../agileavatars/src/compose.js')).mermaid, 'mermaid') %>
+<%- renderCode((await compose('../agileavatars/src/compose.js')).mermaid(), 'mermaid') %>
 
 Ejected output:
 
