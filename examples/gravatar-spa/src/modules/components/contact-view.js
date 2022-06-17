@@ -1,6 +1,6 @@
 export default () => ({ profile }) => {
 
-    const $profile = document.createElement('div');
+    const $contactView = document.createElement('div');
 
     const $name = document.createElement('div');
     $name.innerHTML = profile.name.formatted;
@@ -8,9 +8,9 @@ export default () => ({ profile }) => {
     const $image = document.createElement('img');
     $image.src = profile.thumbnailUrl;
 
-    $profile.append($name);
-    $profile.append($image);
+    $contactView.append($name);
+    $contactView.append($image);
 
-    return $profile;
+    return $contactView;
 
 };

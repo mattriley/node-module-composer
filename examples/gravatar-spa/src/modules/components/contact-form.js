@@ -1,17 +1,22 @@
 export default () => ({ onSubmit }) => {
-    const $form = document.createElement('div');
+
+    const handleSubmit = () => {
+        const email = $email.value;
+        onSubmit({ email });
+    };
+
+    const $contactForm = document.createElement('div');
 
     const $email = document.createElement('input');
+    $email.placeholder = 'Email address';
     $email.type = 'text';
-    $form.append($email);
+    $contactForm.append($email);
 
     const $submit = document.createElement('button');
     $submit.innerHTML = 'Submit';
-    $submit.addEventListener('click', () => {
-        const email = $email.value;
-        onSubmit({ email });
-    });
-    $form.append($submit);
+    $submit.addEventListener('click', handleSubmit);
+    $contactForm.append($submit);
 
-    return $form;
+    return $contactForm;
+
 };

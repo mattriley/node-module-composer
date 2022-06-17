@@ -1,23 +1,15 @@
 export default ({ components, services }) => () => {
 
     const onSubmit = async ({ email }) => {
-
         const profile = await services.fetchGravatarProfile(email);
-
         const $profile = components.contactView({ profile });
-
-        $container.append($profile);
+        $app.append($profile);
     };
 
+    const $app = document.createElement('div');
+    const $contactForm = components.contactForm({ onSubmit });
+    $app.append($contactForm);
 
-    const $container = document.createElement('div');
-
-    const $controls = components.contactForm({ onSubmit });
-
-
-    $container.append($controls);
-
-
-    return $container;
+    return $app;
 
 };
