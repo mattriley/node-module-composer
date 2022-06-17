@@ -1,24 +1,7 @@
-export default ({ services }) => () => {
+export default ({ components, services }) => () => {
 
-    const $container = document.createElement('div');
-
-    const $controls = document.createElement('div');
-
-    const $profile = document.createElement('div');
-
-    $container.append($controls);
-    $container.append($profile);
-
-
-    const $email = document.createElement('input');
-    $email.value = 'mattrileyaus@gmail.com';
-    $email.type = 'text';
-    $controls.append($email);
-
-    const submitButton = document.createElement('button');
-    submitButton.innerHTML = 'Submit';
-    submitButton.addEventListener('click', async () => {
-        const profile = await services.fetchGravatarProfile($email.value);
+    const onSubmit = async ({ email }) => {
+        const profile = await services.fetchGravatarProfile(email);
 
         const $name = document.createElement('div');
         $name.innerHTML = profile.name.formatted;
@@ -28,9 +11,19 @@ export default ({ services }) => () => {
 
         $profile.append($name);
         $profile.append($image);
-    });
+    };
 
-    $controls.append(submitButton);
+
+    const $container = document.createElement('div');
+
+    const $controls = components.contactForm({ onSubmit });
+
+    const $profile = document.createElement('div');
+
+    $container.append($controls);
+    $container.append($profile);
+
+
 
     return $container;
 
