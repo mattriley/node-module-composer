@@ -1,16 +1,12 @@
 export default ({ components, services }) => () => {
 
     const onSubmit = async ({ email }) => {
+
         const profile = await services.fetchGravatarProfile(email);
 
-        const $name = document.createElement('div');
-        $name.innerHTML = profile.name.formatted;
+        const $profile = components.contactView({ profile });
 
-        const $image = document.createElement('img');
-        $image.src = profile.thumbnailUrl;
-
-        $profile.append($name);
-        $profile.append($image);
+        $container.append($profile);
     };
 
 
@@ -18,11 +14,8 @@ export default ({ components, services }) => () => {
 
     const $controls = components.contactForm({ onSubmit });
 
-    const $profile = document.createElement('div');
 
     $container.append($controls);
-    $container.append($profile);
-
 
 
     return $container;
