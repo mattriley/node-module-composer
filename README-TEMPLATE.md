@@ -292,6 +292,10 @@ Take the composition root of the Gravatar SPA example:
 
 <%- await readCode(['./examples/gravatar-spa/src/compose.js']) %>
 
+Mermaid digram:
+
+<%- renderCode((await compose('./examples/gravatar-spa/src/compose.js')).mermaid, 'mermaid') %>
+
 Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 
 <%- renderCode((await compose('./examples/gravatar-spa/src/compose.js')).eject(), 'js') %>
@@ -308,3 +312,7 @@ Module composition:
 Mermaid digram:
 
 <%- renderCode((await compose('../agileavatars/src/compose.js')).mermaid, 'mermaid') %>
+
+Ejected output:
+
+<%- renderCode((await compose('../agileavatars/src/compose.js')).eject(), 'js') %>

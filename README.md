@@ -395,6 +395,15 @@ export default ({ overrides } = {}) => {
 };
 ```
 
+Mermaid digram:
+
+```mermaid
+graph TD;
+    components-->services;
+    services-->io;
+    services-->config;
+```
+
 Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 
 ```js
@@ -509,4 +518,97 @@ graph TD;
     vendorServices-->io;
     vendorServices-->config;
     vendorServices-->window;
+```
+
+Ejected output:
+
+```js
+(modules, { el, config, window }) => {
+    
+    const vendorServices = { ...modules.vendorServices };
+    vendorServices.gtag = modules.vendorServices.gtag({ vendorServices, io, config, window });
+    vendorServices.sentry = modules.vendorServices.sentry({ vendorServices, io, config, window });
+    
+    const vendorComponents = { ...modules.vendorComponents };
+    vendorComponents.gtagScript = modules.vendorComponents.gtagScript({ vendorComponents, el, ui, config, window });
+    vendorComponents.vanillaPicker = modules.vendorComponents.vanillaPicker({ vendorComponents, el, ui, config, window });
+    
+    const util = { ...modules.util };
+    util.debounce = modules.util.debounce({ util });
+    util.mapValues = modules.util.mapValues({ util });
+    util.pipe = modules.util.pipe({ util });
+    util.splitAt = modules.util.splitAt({ util });
+    util.upperFirst = modules.util.upperFirst({ util });
+    
+    const ui = { ...modules.ui };
+    ui.appendToHead = modules.ui.appendToHead({ ui, window });
+    ui.el = modules.ui.el({ ui, window });
+    ui.event = modules.ui.event({ ui, window });
+    ui.refocus = modules.ui.refocus({ ui, window });
+    ui.toggleBoolClass = modules.ui.toggleBoolClass({ ui, window });
+    
+    const subscriptions = { ...modules.subscriptions };
+    subscriptions.setup = modules.subscriptions.setup({ subscriptions, stores, util });
+    
+    const styles = { ...modules.styles };
+    styles.roleColor = modules.styles.roleColor({ styles, el, ui, subscriptions, config });
+    styles.tagImage = modules.styles.tagImage({ styles, el, ui, subscriptions, config });
+    styles.tagOutline = modules.styles.tagOutline({ styles, el, ui, subscriptions, config });
+    styles.tagShape = modules.styles.tagShape({ styles, el, ui, subscriptions, config });
+    styles.tagSize = modules.styles.tagSize({ styles, el, ui, subscriptions, config });
+    styles.tagSpacing = modules.styles.tagSpacing({ styles, el, ui, subscriptions, config });
+    styles.vanillaPicker = modules.styles.vanillaPicker({ styles, el, ui, subscriptions, config });
+    
+    const stores = { ...modules.stores };
+    stores.setup = modules.stores.setup({ stores, storage, config });
+    
+    const storage = { ...modules.storage };
+    storage.stateStore = modules.storage.stateStore({ storage });
+    
+    const startup = { ...modules.startup };
+    startup.createHandlers = modules.startup.createHandlers({ startup, ui, components, styles, services, subscriptions, stores, util, config, window });
+    startup.createStyleManager = modules.startup.createStyleManager({ startup, ui, components, styles, services, subscriptions, stores, util, config, window });
+    startup.insertNilRole = modules.startup.insertNilRole({ startup, ui, components, styles, services, subscriptions, stores, util, config, window });
+    startup.start = modules.startup.start({ startup, ui, components, styles, services, subscriptions, stores, util, config, window });
+    
+    const services = { ...modules.services };
+    services.gravatar = modules.services.gravatar({ services, subscriptions, stores, core, io, util, config });
+    services.roles = modules.services.roles({ services, subscriptions, stores, core, io, util, config });
+    services.settings = modules.services.settings({ services, subscriptions, stores, core, io, util, config });
+    services.tags = modules.services.tags({ services, subscriptions, stores, core, io, util, config });
+    
+    const io = { ...modules.io };
+    io.setup = modules.io.setup({ io, window });
+    
+    const elements = { ...modules.elements };
+    elements.dropzone = modules.elements.dropzone({ elements, el, ui, util });
+    elements.editableSpan = modules.elements.editableSpan({ elements, el, ui, util });
+    elements.label = modules.elements.label({ elements, el, ui, util });
+    elements.layout = modules.elements.layout({ elements, el, ui, util });
+    elements.modal = modules.elements.modal({ elements, el, ui, util });
+    elements.number = modules.elements.number({ elements, el, ui, util });
+    
+    const diagnostics = { ...modules.diagnostics };
+    diagnostics.dumpState = modules.diagnostics.dumpState({ diagnostics, stores, util });
+    
+    const core = { ...modules.core };
+    core.gravatar = modules.core.gravatar({ core, util, config });
+    core.roles = modules.core.roles({ core, util, config });
+    core.tags = modules.core.tags({ core, util, config });
+    
+    const components = { ...modules.components };
+    components.app = modules.components.app({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.dropzone = modules.components.dropzone({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.gravatar = modules.components.gravatar({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.header = modules.components.header({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.imageUploadOptions = modules.components.imageUploadOptions({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.modal = modules.components.modal({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.modals = modules.components.modals({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.optionsBar = modules.components.optionsBar({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.roleList = modules.components.roleList({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.tagList = modules.components.tagList({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.tips = modules.components.tips({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    
+    return { ...modules, components, core, diagnostics, elements, io, services, startup, storage, stores, styles, subscriptions, ui, util, vendorComponents, vendorServices };
+};
 ```
