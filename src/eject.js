@@ -9,7 +9,8 @@ module.exports = ({ target, dependencies }) => {
         return [
             '',
             `const ${moduleName} = { ...modules.${moduleName} };`,
-            ...keys.map(key => `${key} = modules.${key}({ ${[moduleName, ...deps].join(', ')} });`)
+            `const ${moduleName}Dependencies = { ${[moduleName, ...deps].join(', ')} };`,
+            ...keys.map(key => `${key} = modules.${key}({ ...${moduleName}Dependencies });`)
         ];
     }).concat(
         '',

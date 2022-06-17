@@ -219,13 +219,15 @@ module.exports = ({ test }) => {
 (modules, { bar }) => {
     
     const foo = { ...modules.foo };
-    foo.getFoo = modules.foo.getFoo({ foo });
-    foo.nested.getNested = modules.foo.nested.getNested({ foo });
+    const fooDependencies = { foo };
+    foo.getFoo = modules.foo.getFoo({ ...fooDependencies });
+    foo.nested.getNested = modules.foo.nested.getNested({ ...fooDependencies });
     
     const foobar = { ...modules.foobar };
-    foobar.getFoo = modules.foobar.getFoo({ foobar, foo, bar });
-    foobar.getBar = modules.foobar.getBar({ foobar, foo, bar });
-    foobar.getFoobar = modules.foobar.getFoobar({ foobar, foo, bar });
+    const foobarDependencies = { foobar, foo, bar };
+    foobar.getFoo = modules.foobar.getFoo({ ...foobarDependencies });
+    foobar.getBar = modules.foobar.getBar({ ...foobarDependencies });
+    foobar.getFoobar = modules.foobar.getFoobar({ ...foobarDependencies });
     
     return { ...modules, foobar, foo };
     
