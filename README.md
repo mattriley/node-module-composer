@@ -454,15 +454,16 @@ export default ({ window, overrides, configs }) => {
 
     // Presentation
     const { ui } = compose('ui', { window });
-    const { el } = ui;
-    const { elements } = compose('elements', { el, ui, util });
-    const { vendorComponents } = compose('vendorComponents', { el, ui, config, window });
-    const { components } = compose('components', { el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
-    const { styles } = compose('styles', { el, ui, subscriptions, config });
+    const { elements } = compose('elements', { ui, util });
+    const { vendorComponents } = compose('vendorComponents', { ui, config, window });
+    const { components } = compose('components', { ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    const { styles } = compose('styles', { ui, subscriptions, config });
 
     // Startup    
     compose('diagnostics', { stores, util });
-    compose('startup', { ui, components, styles, services, subscriptions, stores, util, config, window });
+    const { startup } = compose('startup', { ui, components, styles, services, subscriptions, stores, util, config, window });
+
+    console.warn(startup);
 
     return compose;
 
@@ -473,7 +474,6 @@ Mermaid digram:
 
 ```mermaid
 graph TD;
-    components-->el;
     components-->ui;
     components-->elements;
     components-->vendorComponents;
@@ -486,7 +486,6 @@ graph TD;
     core-->config;
     diagnostics-->stores;
     diagnostics-->util;
-    elements-->el;
     elements-->ui;
     elements-->util;
     io-->window;
@@ -507,14 +506,12 @@ graph TD;
     startup-->window;
     stores-->storage;
     stores-->config;
-    styles-->el;
     styles-->ui;
     styles-->subscriptions;
     styles-->config;
     subscriptions-->stores;
     subscriptions-->util;
     ui-->window;
-    vendorComponents-->el;
     vendorComponents-->ui;
     vendorComponents-->config;
     vendorComponents-->window;
@@ -526,7 +523,7 @@ graph TD;
 Ejected output:
 
 ```js
-(modules, { config, window, el }) => {
+(modules, { config, window }) => {
 
     const stores = { ...modules.stores };
     const storesDependencies = { stores, storage, config };
@@ -608,7 +605,7 @@ Ejected output:
     ui.toggleBoolClass = ui.toggleBoolClass({ ...uiDependencies });
 
     const elements = { ...modules.elements };
-    const elementsDependencies = { elements, el, ui, util };
+    const elementsDependencies = { elements, ui, util };
     elements.dropzone = elements.dropzone({ ...elementsDependencies });
     elements.editableSpan = elements.editableSpan({ ...elementsDependencies });
     elements.label = elements.label({ ...elementsDependencies });
@@ -617,12 +614,12 @@ Ejected output:
     elements.number = elements.number({ ...elementsDependencies });
 
     const vendorComponents = { ...modules.vendorComponents };
-    const vendorComponentsDependencies = { vendorComponents, el, ui, config, window };
+    const vendorComponentsDependencies = { vendorComponents, ui, config, window };
     vendorComponents.gtagScript = vendorComponents.gtagScript({ ...vendorComponentsDependencies });
     vendorComponents.vanillaPicker = vendorComponents.vanillaPicker({ ...vendorComponentsDependencies });
 
     const components = { ...modules.components };
-    const componentsDependencies = { components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config };
+    const componentsDependencies = { components, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config };
     components.app = components.app({ ...componentsDependencies });
     components.dropzone = components.dropzone({ ...componentsDependencies });
     components.gravatar.actions.container = components.gravatar.actions.container({ ...componentsDependencies });
@@ -669,7 +666,7 @@ Ejected output:
     components.tips.roleShortcut = components.tips.roleShortcut({ ...componentsDependencies });
 
     const styles = { ...modules.styles };
-    const stylesDependencies = { styles, el, ui, subscriptions, config };
+    const stylesDependencies = { styles, ui, subscriptions, config };
     styles.roleColor = styles.roleColor({ ...stylesDependencies });
     styles.tagImage = styles.tagImage({ ...stylesDependencies });
     styles.tagOutline = styles.tagOutline({ ...stylesDependencies });
