@@ -210,31 +210,37 @@ module.exports = ({ test }) => {
                 nested: {
                     getNested: () => () => 'nested'
                 }
+            },
+            nestedTarget: {
+                nestedFoo: {
+                    getNestedFoo: () => () => 'nested-foo'
+                }
             }
         };
 
         const { compose } = composer(target);
         const { foo } = compose('foo');
         compose('foobar', { foo, bar });
+        compose('nestedTarget.nestedFoo');
 
         const expectedCode = `
 (modules, { bar }) => {
 
-    const nested = { ...modules.nested };
-    const nestedDependencies = { nested };
-    nested.nested.getNested = modules.nested.nested.getNested({ ...nestedDependencies });
-
     const foo = { ...modules.foo };
     const fooDependencies = { foo };
-    foo.getFoo = modules.foo.getFoo({ ...fooDependencies });
+    foo.getFoo = foo.getFoo({ ...fooDependencies });
 
     const foobar = { ...modules.foobar };
     const foobarDependencies = { foobar, foo, bar };
-    foobar.getFoo = modules.foobar.getFoo({ ...foobarDependencies });
-    foobar.getBar = modules.foobar.getBar({ ...foobarDependencies });
-    foobar.getFoobar = modules.foobar.getFoobar({ ...foobarDependencies });
+    foobar.getFoo = foobar.getFoo({ ...foobarDependencies });
+    foobar.getBar = foobar.getBar({ ...foobarDependencies });
+    foobar.getFoobar = foobar.getFoobar({ ...foobarDependencies });
 
-    return { ...modules, foobar, foo, nested };
+    const nestedFoo = { ...modules.nestedTarget.nestedFoo };
+    const nestedFooDependencies = { nestedFoo };
+    nestedFoo.getNestedFoo = nestedFoo.getNestedFoo({ ...nestedFooDependencies });
+
+    return { ...modules, foo, foobar, nestedFoo };
 
 };
 `.trim();

@@ -408,20 +408,20 @@ Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 
 ```js
 (modules, { io, config }) => {
-    
+
     const services = { ...modules.services };
     const servicesDependencies = { services, io, config };
-    services.fetchContact = modules.services.fetchContact({ ...servicesDependencies });
-    services.fetchGravatarProfile = modules.services.fetchGravatarProfile({ ...servicesDependencies });
-    
+    services.fetchContact = services.fetchContact({ ...servicesDependencies });
+    services.fetchGravatarProfile = services.fetchGravatarProfile({ ...servicesDependencies });
+
     const components = { ...modules.components };
     const componentsDependencies = { components, services };
-    components.app = modules.components.app({ ...componentsDependencies });
-    components.contactForm = modules.components.contactForm({ ...componentsDependencies });
-    components.contactView = modules.components.contactView({ ...componentsDependencies });
-    
-    return { ...modules, components, services };
-    
+    components.app = components.app({ ...componentsDependencies });
+    components.contactForm = components.contactForm({ ...componentsDependencies });
+    components.contactView = components.contactView({ ...componentsDependencies });
+
+    return { ...modules, services, components };
+
 };
 ```
 
@@ -526,182 +526,170 @@ graph TD;
 Ejected output:
 
 ```js
-(modules, { el, config, window }) => {
-    
-    const vendorServices = { ...modules.vendorServices };
-    const vendorServicesDependencies = { vendorServices, io, config, window };
-    vendorServices.gtag = modules.vendorServices.gtag({ ...vendorServicesDependencies });
-    vendorServices.sentry = modules.vendorServices.sentry({ ...vendorServicesDependencies });
-    
-    const vendorComponents = { ...modules.vendorComponents };
-    const vendorComponentsDependencies = { vendorComponents, el, ui, config, window };
-    vendorComponents.gtagScript = modules.vendorComponents.gtagScript({ ...vendorComponentsDependencies });
-    vendorComponents.vanillaPicker = modules.vendorComponents.vanillaPicker({ ...vendorComponentsDependencies });
-    
-    const util = { ...modules.util };
-    const utilDependencies = { util };
-    util.debounce = modules.util.debounce({ ...utilDependencies });
-    util.mapValues = modules.util.mapValues({ ...utilDependencies });
-    util.pipe = modules.util.pipe({ ...utilDependencies });
-    util.splitAt = modules.util.splitAt({ ...utilDependencies });
-    util.upperFirst = modules.util.upperFirst({ ...utilDependencies });
-    
-    const ui = { ...modules.ui };
-    const uiDependencies = { ui, window };
-    ui.appendToHead = modules.ui.appendToHead({ ...uiDependencies });
-    ui.el = modules.ui.el({ ...uiDependencies });
-    ui.event = modules.ui.event({ ...uiDependencies });
-    ui.refocus = modules.ui.refocus({ ...uiDependencies });
-    ui.toggleBoolClass = modules.ui.toggleBoolClass({ ...uiDependencies });
-    
-    const subscriptions = { ...modules.subscriptions };
-    const subscriptionsDependencies = { subscriptions, stores, util };
-    subscriptions.setup = modules.subscriptions.setup({ ...subscriptionsDependencies });
-    
-    const styles = { ...modules.styles };
-    const stylesDependencies = { styles, el, ui, subscriptions, config };
-    styles.roleColor = modules.styles.roleColor({ ...stylesDependencies });
-    styles.tagImage = modules.styles.tagImage({ ...stylesDependencies });
-    styles.tagOutline = modules.styles.tagOutline({ ...stylesDependencies });
-    styles.tagShape = modules.styles.tagShape({ ...stylesDependencies });
-    styles.tagSize = modules.styles.tagSize({ ...stylesDependencies });
-    styles.tagSpacing = modules.styles.tagSpacing({ ...stylesDependencies });
-    styles.vanillaPicker = modules.styles.vanillaPicker({ ...stylesDependencies });
-    
+(modules, { config, window, el }) => {
+
     const stores = { ...modules.stores };
     const storesDependencies = { stores, storage, config };
-    stores.setup = modules.stores.setup({ ...storesDependencies });
-    
-    const storage = { ...modules.storage };
-    const storageDependencies = { storage };
-    storage.stateStore = modules.storage.stateStore({ ...storageDependencies });
-    
-    const startup = { ...modules.startup };
-    const startupDependencies = { startup, ui, components, styles, services, subscriptions, stores, util, config, window };
-    startup.createHandlers = modules.startup.createHandlers({ ...startupDependencies });
-    startup.createStyleManager = modules.startup.createStyleManager({ ...startupDependencies });
-    startup.insertNilRole = modules.startup.insertNilRole({ ...startupDependencies });
-    startup.start = modules.startup.start({ ...startupDependencies });
-    
-    const services = { ...modules.services };
-    const servicesDependencies = { services, subscriptions, stores, core, io, util, config };
-    services.gravatar.changeFallback = modules.services.gravatar.changeFallback({ ...servicesDependencies });
-    services.gravatar.changeFreetext = modules.services.gravatar.changeFreetext({ ...servicesDependencies });
-    services.gravatar.fetchImageAsync = modules.services.gravatar.fetchImageAsync({ ...servicesDependencies });
-    services.gravatar.fetchProfileAsync = modules.services.gravatar.fetchProfileAsync({ ...servicesDependencies });
-    services.gravatar.status = modules.services.gravatar.status({ ...servicesDependencies });
-    services.roles.changeRoleColor = modules.services.roles.changeRoleColor({ ...servicesDependencies });
-    services.roles.changeRoleName = modules.services.roles.changeRoleName({ ...servicesDependencies });
-    services.roles.findOrInsertRoleWithName = modules.services.roles.findOrInsertRoleWithName({ ...servicesDependencies });
-    services.roles.getNilRoleId = modules.services.roles.getNilRoleId({ ...servicesDependencies });
-    services.roles.getRole = modules.services.roles.getRole({ ...servicesDependencies });
-    services.roles.insertRole = modules.services.roles.insertRole({ ...servicesDependencies });
-    services.roles.isNilRole = modules.services.roles.isNilRole({ ...servicesDependencies });
-    services.roles.setupRolePropagation = modules.services.roles.setupRolePropagation({ ...servicesDependencies });
-    services.settings.changeModal = modules.services.settings.changeModal({ ...servicesDependencies });
-    services.settings.changeOption = modules.services.settings.changeOption({ ...servicesDependencies });
-    services.settings.clearModal = modules.services.settings.clearModal({ ...servicesDependencies });
-    services.settings.getGravatar = modules.services.settings.getGravatar({ ...servicesDependencies });
-    services.tags.adjustTagInstanceCounts = modules.services.tags.adjustTagInstanceCounts({ ...servicesDependencies });
-    services.tags.attachImageAsync = modules.services.tags.attachImageAsync({ ...servicesDependencies });
-    services.tags.buildTagInstance = modules.services.tags.buildTagInstance({ ...servicesDependencies });
-    services.tags.changeTagName = modules.services.tags.changeTagName({ ...servicesDependencies });
-    services.tags.changeTagRole = modules.services.tags.changeTagRole({ ...servicesDependencies });
-    services.tags.getTagInstance = modules.services.tags.getTagInstance({ ...servicesDependencies });
-    services.tags.insertFileAsync = modules.services.tags.insertFileAsync({ ...servicesDependencies });
-    services.tags.insertFileBatchAsync = modules.services.tags.insertFileBatchAsync({ ...servicesDependencies });
-    services.tags.insertGravatarAsync = modules.services.tags.insertGravatarAsync({ ...servicesDependencies });
-    services.tags.insertGravatarBatchAsync = modules.services.tags.insertGravatarBatchAsync({ ...servicesDependencies });
-    services.tags.insertTag = modules.services.tags.insertTag({ ...servicesDependencies });
-    services.tags.insertTagInstance = modules.services.tags.insertTagInstance({ ...servicesDependencies });
-    services.tags.removeTagInstance = modules.services.tags.removeTagInstance({ ...servicesDependencies });
-    services.tags.setupRolePropagation = modules.services.tags.setupRolePropagation({ ...servicesDependencies });
-    services.tags.setupTagPropagation = modules.services.tags.setupTagPropagation({ ...servicesDependencies });
-    services.tags.sortTagInstances = modules.services.tags.sortTagInstances({ ...servicesDependencies });
-    
-    const io = { ...modules.io };
-    const ioDependencies = { io, window };
-    io.setup = modules.io.setup({ ...ioDependencies });
-    
-    const elements = { ...modules.elements };
-    const elementsDependencies = { elements, el, ui, util };
-    elements.dropzone = modules.elements.dropzone({ ...elementsDependencies });
-    elements.editableSpan = modules.elements.editableSpan({ ...elementsDependencies });
-    elements.label = modules.elements.label({ ...elementsDependencies });
-    elements.layout = modules.elements.layout({ ...elementsDependencies });
-    elements.modal = modules.elements.modal({ ...elementsDependencies });
-    elements.number = modules.elements.number({ ...elementsDependencies });
-    
-    const diagnostics = { ...modules.diagnostics };
-    const diagnosticsDependencies = { diagnostics, stores, util };
-    diagnostics.dumpState = modules.diagnostics.dumpState({ ...diagnosticsDependencies });
-    
+    stores.setup = stores.setup({ ...storesDependencies });
+
+    const subscriptions = { ...modules.subscriptions };
+    const subscriptionsDependencies = { subscriptions, stores, util };
+    subscriptions.setup = subscriptions.setup({ ...subscriptionsDependencies });
+
     const core = { ...modules.core };
     const coreDependencies = { core, util, config };
-    core.gravatar.buildImageUrl = modules.core.gravatar.buildImageUrl({ ...coreDependencies });
-    core.gravatar.buildProfileUrl = modules.core.gravatar.buildProfileUrl({ ...coreDependencies });
-    core.gravatar.getNameFromProfile = modules.core.gravatar.getNameFromProfile({ ...coreDependencies });
-    core.gravatar.hashEmail = modules.core.gravatar.hashEmail({ ...coreDependencies });
-    core.roles.assignColor = modules.core.roles.assignColor({ ...coreDependencies });
-    core.roles.buildRole = modules.core.roles.buildRole({ ...coreDependencies });
-    core.roles.randomColor = modules.core.roles.randomColor({ ...coreDependencies });
-    core.tags.buildTag = modules.core.tags.buildTag({ ...coreDependencies });
-    core.tags.parseEmailExpression = modules.core.tags.parseEmailExpression({ ...coreDependencies });
-    core.tags.parseFileExpression = modules.core.tags.parseFileExpression({ ...coreDependencies });
-    core.tags.parseTagExpression = modules.core.tags.parseTagExpression({ ...coreDependencies });
-    core.tags.planTagInstanceAdjustment = modules.core.tags.planTagInstanceAdjustment({ ...coreDependencies });
-    core.tags.sortTagInstancesByTagThenMode = modules.core.tags.sortTagInstancesByTagThenMode({ ...coreDependencies });
-    core.tags.sortTagsByName = modules.core.tags.sortTagsByName({ ...coreDependencies });
-    core.tags.sortTagsByRoleThenName = modules.core.tags.sortTagsByRoleThenName({ ...coreDependencies });
-    
+    core.gravatar.buildImageUrl = core.gravatar.buildImageUrl({ ...coreDependencies });
+    core.gravatar.buildProfileUrl = core.gravatar.buildProfileUrl({ ...coreDependencies });
+    core.gravatar.getNameFromProfile = core.gravatar.getNameFromProfile({ ...coreDependencies });
+    core.gravatar.hashEmail = core.gravatar.hashEmail({ ...coreDependencies });
+    core.roles.assignColor = core.roles.assignColor({ ...coreDependencies });
+    core.roles.buildRole = core.roles.buildRole({ ...coreDependencies });
+    core.roles.randomColor = core.roles.randomColor({ ...coreDependencies });
+    core.tags.buildTag = core.tags.buildTag({ ...coreDependencies });
+    core.tags.parseEmailExpression = core.tags.parseEmailExpression({ ...coreDependencies });
+    core.tags.parseFileExpression = core.tags.parseFileExpression({ ...coreDependencies });
+    core.tags.parseTagExpression = core.tags.parseTagExpression({ ...coreDependencies });
+    core.tags.planTagInstanceAdjustment = core.tags.planTagInstanceAdjustment({ ...coreDependencies });
+    core.tags.sortTagInstancesByTagThenMode = core.tags.sortTagInstancesByTagThenMode({ ...coreDependencies });
+    core.tags.sortTagsByName = core.tags.sortTagsByName({ ...coreDependencies });
+    core.tags.sortTagsByRoleThenName = core.tags.sortTagsByRoleThenName({ ...coreDependencies });
+
+    const io = { ...modules.io };
+    const ioDependencies = { io, window };
+    io.setup = io.setup({ ...ioDependencies });
+
+    const services = { ...modules.services };
+    const servicesDependencies = { services, subscriptions, stores, core, io, util, config };
+    services.gravatar.changeFallback = services.gravatar.changeFallback({ ...servicesDependencies });
+    services.gravatar.changeFreetext = services.gravatar.changeFreetext({ ...servicesDependencies });
+    services.gravatar.fetchImageAsync = services.gravatar.fetchImageAsync({ ...servicesDependencies });
+    services.gravatar.fetchProfileAsync = services.gravatar.fetchProfileAsync({ ...servicesDependencies });
+    services.gravatar.status = services.gravatar.status({ ...servicesDependencies });
+    services.roles.changeRoleColor = services.roles.changeRoleColor({ ...servicesDependencies });
+    services.roles.changeRoleName = services.roles.changeRoleName({ ...servicesDependencies });
+    services.roles.findOrInsertRoleWithName = services.roles.findOrInsertRoleWithName({ ...servicesDependencies });
+    services.roles.getNilRoleId = services.roles.getNilRoleId({ ...servicesDependencies });
+    services.roles.getRole = services.roles.getRole({ ...servicesDependencies });
+    services.roles.insertRole = services.roles.insertRole({ ...servicesDependencies });
+    services.roles.isNilRole = services.roles.isNilRole({ ...servicesDependencies });
+    services.roles.setupRolePropagation = services.roles.setupRolePropagation({ ...servicesDependencies });
+    services.settings.changeModal = services.settings.changeModal({ ...servicesDependencies });
+    services.settings.changeOption = services.settings.changeOption({ ...servicesDependencies });
+    services.settings.clearModal = services.settings.clearModal({ ...servicesDependencies });
+    services.settings.getGravatar = services.settings.getGravatar({ ...servicesDependencies });
+    services.tags.adjustTagInstanceCounts = services.tags.adjustTagInstanceCounts({ ...servicesDependencies });
+    services.tags.attachImageAsync = services.tags.attachImageAsync({ ...servicesDependencies });
+    services.tags.buildTagInstance = services.tags.buildTagInstance({ ...servicesDependencies });
+    services.tags.changeTagName = services.tags.changeTagName({ ...servicesDependencies });
+    services.tags.changeTagRole = services.tags.changeTagRole({ ...servicesDependencies });
+    services.tags.getTagInstance = services.tags.getTagInstance({ ...servicesDependencies });
+    services.tags.insertFileAsync = services.tags.insertFileAsync({ ...servicesDependencies });
+    services.tags.insertFileBatchAsync = services.tags.insertFileBatchAsync({ ...servicesDependencies });
+    services.tags.insertGravatarAsync = services.tags.insertGravatarAsync({ ...servicesDependencies });
+    services.tags.insertGravatarBatchAsync = services.tags.insertGravatarBatchAsync({ ...servicesDependencies });
+    services.tags.insertTag = services.tags.insertTag({ ...servicesDependencies });
+    services.tags.insertTagInstance = services.tags.insertTagInstance({ ...servicesDependencies });
+    services.tags.removeTagInstance = services.tags.removeTagInstance({ ...servicesDependencies });
+    services.tags.setupRolePropagation = services.tags.setupRolePropagation({ ...servicesDependencies });
+    services.tags.setupTagPropagation = services.tags.setupTagPropagation({ ...servicesDependencies });
+    services.tags.sortTagInstances = services.tags.sortTagInstances({ ...servicesDependencies });
+
+    const vendorServices = { ...modules.vendorServices };
+    const vendorServicesDependencies = { vendorServices, io, config, window };
+    vendorServices.gtag = vendorServices.gtag({ ...vendorServicesDependencies });
+    vendorServices.sentry = vendorServices.sentry({ ...vendorServicesDependencies });
+
+    const ui = { ...modules.ui };
+    const uiDependencies = { ui, window };
+    ui.appendToHead = ui.appendToHead({ ...uiDependencies });
+    ui.el = ui.el({ ...uiDependencies });
+    ui.event = ui.event({ ...uiDependencies });
+    ui.refocus = ui.refocus({ ...uiDependencies });
+    ui.toggleBoolClass = ui.toggleBoolClass({ ...uiDependencies });
+
+    const elements = { ...modules.elements };
+    const elementsDependencies = { elements, el, ui, util };
+    elements.dropzone = elements.dropzone({ ...elementsDependencies });
+    elements.editableSpan = elements.editableSpan({ ...elementsDependencies });
+    elements.label = elements.label({ ...elementsDependencies });
+    elements.layout = elements.layout({ ...elementsDependencies });
+    elements.modal = elements.modal({ ...elementsDependencies });
+    elements.number = elements.number({ ...elementsDependencies });
+
+    const vendorComponents = { ...modules.vendorComponents };
+    const vendorComponentsDependencies = { vendorComponents, el, ui, config, window };
+    vendorComponents.gtagScript = vendorComponents.gtagScript({ ...vendorComponentsDependencies });
+    vendorComponents.vanillaPicker = vendorComponents.vanillaPicker({ ...vendorComponentsDependencies });
+
     const components = { ...modules.components };
     const componentsDependencies = { components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config };
-    components.app = modules.components.app({ ...componentsDependencies });
-    components.dropzone = modules.components.dropzone({ ...componentsDependencies });
-    components.gravatar.actions.container = modules.components.gravatar.actions.container({ ...componentsDependencies });
-    components.gravatar.actions.error = modules.components.gravatar.actions.error({ ...componentsDependencies });
-    components.gravatar.actions.importButton = modules.components.gravatar.actions.importButton({ ...componentsDependencies });
-    components.gravatar.actions.loading = modules.components.gravatar.actions.loading({ ...componentsDependencies });
-    components.gravatar.content.container = modules.components.gravatar.content.container({ ...componentsDependencies });
-    components.gravatar.content.fallback = modules.components.gravatar.content.fallback({ ...componentsDependencies });
-    components.gravatar.content.fallbacks = modules.components.gravatar.content.fallbacks({ ...componentsDependencies });
-    components.gravatar.content.freetext = modules.components.gravatar.content.freetext({ ...componentsDependencies });
-    components.gravatar.title = modules.components.gravatar.title({ ...componentsDependencies });
-    components.header.container = modules.components.header.container({ ...componentsDependencies });
-    components.header.titleBar = modules.components.header.titleBar({ ...componentsDependencies });
-    components.imageUploadOptions.chooseImages = modules.components.imageUploadOptions.chooseImages({ ...componentsDependencies });
-    components.imageUploadOptions.container = modules.components.imageUploadOptions.container({ ...componentsDependencies });
-    components.imageUploadOptions.gravatar = modules.components.imageUploadOptions.gravatar({ ...componentsDependencies });
-    components.modal = modules.components.modal({ ...componentsDependencies });
-    components.modals.gravatar = modules.components.modals.gravatar({ ...componentsDependencies });
-    components.modals.tips = modules.components.modals.tips({ ...componentsDependencies });
-    components.modals.welcome = modules.components.modals.welcome({ ...componentsDependencies });
-    components.optionsBar.container = modules.components.optionsBar.container({ ...componentsDependencies });
-    components.optionsBar.numberOption = modules.components.optionsBar.numberOption({ ...componentsDependencies });
-    components.optionsBar.options.modes = modules.components.optionsBar.options.modes({ ...componentsDependencies });
-    components.optionsBar.options.outline = modules.components.optionsBar.options.outline({ ...componentsDependencies });
-    components.optionsBar.options.shapes = modules.components.optionsBar.options.shapes({ ...componentsDependencies });
-    components.optionsBar.options.size = modules.components.optionsBar.options.size({ ...componentsDependencies });
-    components.optionsBar.options.sort = modules.components.optionsBar.options.sort({ ...componentsDependencies });
-    components.optionsBar.options.spacing = modules.components.optionsBar.options.spacing({ ...componentsDependencies });
-    components.optionsBar.shapeOption = modules.components.optionsBar.shapeOption({ ...componentsDependencies });
-    components.roleList.container = modules.components.roleList.container({ ...componentsDependencies });
-    components.roleList.roleCustomiser.container = modules.components.roleList.roleCustomiser.container({ ...componentsDependencies });
-    components.roleList.roleCustomiser.masterRoleName = modules.components.roleList.roleCustomiser.masterRoleName({ ...componentsDependencies });
-    components.roleList.roleCustomiser.roleColorPicker = modules.components.roleList.roleCustomiser.roleColorPicker({ ...componentsDependencies });
-    components.tagList.container = modules.components.tagList.container({ ...componentsDependencies });
-    components.tagList.tag.components.roleName = modules.components.tagList.tag.components.roleName({ ...componentsDependencies });
-    components.tagList.tag.components.tagImage = modules.components.tagList.tag.components.tagImage({ ...componentsDependencies });
-    components.tagList.tag.components.tagName = modules.components.tagList.tag.components.tagName({ ...componentsDependencies });
-    components.tagList.tag.container = modules.components.tagList.tag.container({ ...componentsDependencies });
-    components.tips.badges = modules.components.tips.badges({ ...componentsDependencies });
-    components.tips.images = modules.components.tips.images({ ...componentsDependencies });
-    components.tips.laminating = modules.components.tips.laminating({ ...componentsDependencies });
-    components.tips.multiples = modules.components.tips.multiples({ ...componentsDependencies });
-    components.tips.naming = modules.components.tips.naming({ ...componentsDependencies });
-    components.tips.roleShortcut = modules.components.tips.roleShortcut({ ...componentsDependencies });
-    
-    return { ...modules, components, core, diagnostics, elements, io, services, startup, storage, stores, styles, subscriptions, ui, util, vendorComponents, vendorServices };
-    
+    components.app = components.app({ ...componentsDependencies });
+    components.dropzone = components.dropzone({ ...componentsDependencies });
+    components.gravatar.actions.container = components.gravatar.actions.container({ ...componentsDependencies });
+    components.gravatar.actions.error = components.gravatar.actions.error({ ...componentsDependencies });
+    components.gravatar.actions.importButton = components.gravatar.actions.importButton({ ...componentsDependencies });
+    components.gravatar.actions.loading = components.gravatar.actions.loading({ ...componentsDependencies });
+    components.gravatar.content.container = components.gravatar.content.container({ ...componentsDependencies });
+    components.gravatar.content.fallback = components.gravatar.content.fallback({ ...componentsDependencies });
+    components.gravatar.content.fallbacks = components.gravatar.content.fallbacks({ ...componentsDependencies });
+    components.gravatar.content.freetext = components.gravatar.content.freetext({ ...componentsDependencies });
+    components.gravatar.title = components.gravatar.title({ ...componentsDependencies });
+    components.header.container = components.header.container({ ...componentsDependencies });
+    components.header.titleBar = components.header.titleBar({ ...componentsDependencies });
+    components.imageUploadOptions.chooseImages = components.imageUploadOptions.chooseImages({ ...componentsDependencies });
+    components.imageUploadOptions.container = components.imageUploadOptions.container({ ...componentsDependencies });
+    components.imageUploadOptions.gravatar = components.imageUploadOptions.gravatar({ ...componentsDependencies });
+    components.modal = components.modal({ ...componentsDependencies });
+    components.modals.gravatar = components.modals.gravatar({ ...componentsDependencies });
+    components.modals.tips = components.modals.tips({ ...componentsDependencies });
+    components.modals.welcome = components.modals.welcome({ ...componentsDependencies });
+    components.optionsBar.container = components.optionsBar.container({ ...componentsDependencies });
+    components.optionsBar.numberOption = components.optionsBar.numberOption({ ...componentsDependencies });
+    components.optionsBar.options.modes = components.optionsBar.options.modes({ ...componentsDependencies });
+    components.optionsBar.options.outline = components.optionsBar.options.outline({ ...componentsDependencies });
+    components.optionsBar.options.shapes = components.optionsBar.options.shapes({ ...componentsDependencies });
+    components.optionsBar.options.size = components.optionsBar.options.size({ ...componentsDependencies });
+    components.optionsBar.options.sort = components.optionsBar.options.sort({ ...componentsDependencies });
+    components.optionsBar.options.spacing = components.optionsBar.options.spacing({ ...componentsDependencies });
+    components.optionsBar.shapeOption = components.optionsBar.shapeOption({ ...componentsDependencies });
+    components.roleList.container = components.roleList.container({ ...componentsDependencies });
+    components.roleList.roleCustomiser.container = components.roleList.roleCustomiser.container({ ...componentsDependencies });
+    components.roleList.roleCustomiser.masterRoleName = components.roleList.roleCustomiser.masterRoleName({ ...componentsDependencies });
+    components.roleList.roleCustomiser.roleColorPicker = components.roleList.roleCustomiser.roleColorPicker({ ...componentsDependencies });
+    components.tagList.container = components.tagList.container({ ...componentsDependencies });
+    components.tagList.tag.components.roleName = components.tagList.tag.components.roleName({ ...componentsDependencies });
+    components.tagList.tag.components.tagImage = components.tagList.tag.components.tagImage({ ...componentsDependencies });
+    components.tagList.tag.components.tagName = components.tagList.tag.components.tagName({ ...componentsDependencies });
+    components.tagList.tag.container = components.tagList.tag.container({ ...componentsDependencies });
+    components.tips.badges = components.tips.badges({ ...componentsDependencies });
+    components.tips.images = components.tips.images({ ...componentsDependencies });
+    components.tips.laminating = components.tips.laminating({ ...componentsDependencies });
+    components.tips.multiples = components.tips.multiples({ ...componentsDependencies });
+    components.tips.naming = components.tips.naming({ ...componentsDependencies });
+    components.tips.roleShortcut = components.tips.roleShortcut({ ...componentsDependencies });
+
+    const styles = { ...modules.styles };
+    const stylesDependencies = { styles, el, ui, subscriptions, config };
+    styles.roleColor = styles.roleColor({ ...stylesDependencies });
+    styles.tagImage = styles.tagImage({ ...stylesDependencies });
+    styles.tagOutline = styles.tagOutline({ ...stylesDependencies });
+    styles.tagShape = styles.tagShape({ ...stylesDependencies });
+    styles.tagSize = styles.tagSize({ ...stylesDependencies });
+    styles.tagSpacing = styles.tagSpacing({ ...stylesDependencies });
+    styles.vanillaPicker = styles.vanillaPicker({ ...stylesDependencies });
+
+    const diagnostics = { ...modules.diagnostics };
+    const diagnosticsDependencies = { diagnostics, stores, util };
+    diagnostics.dumpState = diagnostics.dumpState({ ...diagnosticsDependencies });
+
+    const startup = { ...modules.startup };
+    const startupDependencies = { startup, ui, components, styles, services, subscriptions, stores, util, config, window };
+    startup.createHandlers = startup.createHandlers({ ...startupDependencies });
+    startup.createStyleManager = startup.createStyleManager({ ...startupDependencies });
+    startup.insertNilRole = startup.insertNilRole({ ...startupDependencies });
+    startup.start = startup.start({ ...startupDependencies });
+
+    return { ...modules, stores, subscriptions, core, io, services, vendorServices, ui, elements, vendorComponents, components, styles, diagnostics, startup };
+
 };
 ```

@@ -14,6 +14,8 @@ module.exports = (target, options = {}) => {
     const config = util.merge({}, ...configs);
     const modules = { ...target };
     const dependencies = util.mapValues(modules, () => []);
+    const composedDependencies = {};
+    const propTargets = { target, config, modules, dependencies, composedDependencies };
 
     const recurse = (target, args, parentKey) => {
         if (!util.isPlainObject(target)) return target;
@@ -30,17 +32,17 @@ module.exports = (target, options = {}) => {
         const totalArgs = { ...options.defaults, ...args };
         const module = customise(recurse(util.get(target, key), totalArgs, key) ?? {});
         util.set(modules, key, util.override({ [key]: module }, options.overrides)[key]);
-        dependencies[key] = Object.keys(totalArgs);
+        dependencies[key] = composedDependencies[key] = Object.keys(totalArgs);
         return modules;
     };
 
-    const props = Object.entries({ target, config, modules, dependencies }).flatMap(([key, val]) => [
+    const props = Object.entries(propTargets).flatMap(([key, val]) => [
         [`get${util.upperFirst(key)}`, { value: () => ({ ...val }) }],
         [key, { get() { return { ...val }; } }]
     ]).concat([
         ['generateMermaid', { value: opts => generateMermaid(dependencies, opts) }],
         ['mermaid', { get() { return generateMermaid(dependencies); } }],
-        ['eject', { value: () => eject({ target, dependencies }) }]
+        ['eject', { value: () => eject({ target, dependencies: composedDependencies }) }]
     ]).map(([key, def]) => [key, { ...def, enumerable: true }]);
 
     const composition = compose.composition = Object.defineProperties({}, Object.fromEntries(props));

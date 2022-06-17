@@ -1,20 +1,22 @@
+const util = require('./util');
 const flatten = require('flat');
 
 module.exports = ({ target, dependencies }) => {
 
     const targetKeys = Object.keys(dependencies);
 
-    const lines = Object.entries(dependencies).reverse().flatMap(([moduleName, deps]) => {
-        const keys = Object.keys(flatten({ [moduleName]: target[moduleName] }));
+    const lines = Object.entries(dependencies).flatMap(([targetKey, deps]) => {
+        const moduleName = targetKey.split('.').pop();
+        const keys = Object.keys(flatten({ [moduleName]: util.get(target, targetKey) }));
         return [
             '',
-            `const ${moduleName} = { ...modules.${moduleName} };`,
+            `const ${moduleName} = { ...modules.${targetKey} };`,
             `const ${moduleName}Dependencies = { ${[moduleName, ...deps].join(', ')} };`,
-            ...keys.map(key => `${key} = modules.${key}({ ...${moduleName}Dependencies });`)
+            ...keys.map(key => `${key} = ${key}({ ...${moduleName}Dependencies });`)
         ];
     }).concat(
         '',
-        `return { ${['...modules', ...targetKeys].join(', ')} };`,
+        `return { ${['...modules', ...targetKeys.map(key => key.split('.').pop())].join(', ')} };`,
         ''
     );
 
