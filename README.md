@@ -419,6 +419,7 @@ Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
     components.contactView = modules.components.contactView({ components, services });
     
     return { ...modules, components, services };
+    
 };
 ```
 
@@ -572,10 +573,39 @@ Ejected output:
     startup.start = modules.startup.start({ startup, ui, components, styles, services, subscriptions, stores, util, config, window });
     
     const services = { ...modules.services };
-    services.gravatar = modules.services.gravatar({ services, subscriptions, stores, core, io, util, config });
-    services.roles = modules.services.roles({ services, subscriptions, stores, core, io, util, config });
-    services.settings = modules.services.settings({ services, subscriptions, stores, core, io, util, config });
-    services.tags = modules.services.tags({ services, subscriptions, stores, core, io, util, config });
+    services.gravatar.changeFallback = modules.services.gravatar.changeFallback({ services, subscriptions, stores, core, io, util, config });
+    services.gravatar.changeFreetext = modules.services.gravatar.changeFreetext({ services, subscriptions, stores, core, io, util, config });
+    services.gravatar.fetchImageAsync = modules.services.gravatar.fetchImageAsync({ services, subscriptions, stores, core, io, util, config });
+    services.gravatar.fetchProfileAsync = modules.services.gravatar.fetchProfileAsync({ services, subscriptions, stores, core, io, util, config });
+    services.gravatar.status = modules.services.gravatar.status({ services, subscriptions, stores, core, io, util, config });
+    services.roles.changeRoleColor = modules.services.roles.changeRoleColor({ services, subscriptions, stores, core, io, util, config });
+    services.roles.changeRoleName = modules.services.roles.changeRoleName({ services, subscriptions, stores, core, io, util, config });
+    services.roles.findOrInsertRoleWithName = modules.services.roles.findOrInsertRoleWithName({ services, subscriptions, stores, core, io, util, config });
+    services.roles.getNilRoleId = modules.services.roles.getNilRoleId({ services, subscriptions, stores, core, io, util, config });
+    services.roles.getRole = modules.services.roles.getRole({ services, subscriptions, stores, core, io, util, config });
+    services.roles.insertRole = modules.services.roles.insertRole({ services, subscriptions, stores, core, io, util, config });
+    services.roles.isNilRole = modules.services.roles.isNilRole({ services, subscriptions, stores, core, io, util, config });
+    services.roles.setupRolePropagation = modules.services.roles.setupRolePropagation({ services, subscriptions, stores, core, io, util, config });
+    services.settings.changeModal = modules.services.settings.changeModal({ services, subscriptions, stores, core, io, util, config });
+    services.settings.changeOption = modules.services.settings.changeOption({ services, subscriptions, stores, core, io, util, config });
+    services.settings.clearModal = modules.services.settings.clearModal({ services, subscriptions, stores, core, io, util, config });
+    services.settings.getGravatar = modules.services.settings.getGravatar({ services, subscriptions, stores, core, io, util, config });
+    services.tags.adjustTagInstanceCounts = modules.services.tags.adjustTagInstanceCounts({ services, subscriptions, stores, core, io, util, config });
+    services.tags.attachImageAsync = modules.services.tags.attachImageAsync({ services, subscriptions, stores, core, io, util, config });
+    services.tags.buildTagInstance = modules.services.tags.buildTagInstance({ services, subscriptions, stores, core, io, util, config });
+    services.tags.changeTagName = modules.services.tags.changeTagName({ services, subscriptions, stores, core, io, util, config });
+    services.tags.changeTagRole = modules.services.tags.changeTagRole({ services, subscriptions, stores, core, io, util, config });
+    services.tags.getTagInstance = modules.services.tags.getTagInstance({ services, subscriptions, stores, core, io, util, config });
+    services.tags.insertFileAsync = modules.services.tags.insertFileAsync({ services, subscriptions, stores, core, io, util, config });
+    services.tags.insertFileBatchAsync = modules.services.tags.insertFileBatchAsync({ services, subscriptions, stores, core, io, util, config });
+    services.tags.insertGravatarAsync = modules.services.tags.insertGravatarAsync({ services, subscriptions, stores, core, io, util, config });
+    services.tags.insertGravatarBatchAsync = modules.services.tags.insertGravatarBatchAsync({ services, subscriptions, stores, core, io, util, config });
+    services.tags.insertTag = modules.services.tags.insertTag({ services, subscriptions, stores, core, io, util, config });
+    services.tags.insertTagInstance = modules.services.tags.insertTagInstance({ services, subscriptions, stores, core, io, util, config });
+    services.tags.removeTagInstance = modules.services.tags.removeTagInstance({ services, subscriptions, stores, core, io, util, config });
+    services.tags.setupRolePropagation = modules.services.tags.setupRolePropagation({ services, subscriptions, stores, core, io, util, config });
+    services.tags.setupTagPropagation = modules.services.tags.setupTagPropagation({ services, subscriptions, stores, core, io, util, config });
+    services.tags.sortTagInstances = modules.services.tags.sortTagInstances({ services, subscriptions, stores, core, io, util, config });
     
     const io = { ...modules.io };
     io.setup = modules.io.setup({ io, window });
@@ -592,23 +622,69 @@ Ejected output:
     diagnostics.dumpState = modules.diagnostics.dumpState({ diagnostics, stores, util });
     
     const core = { ...modules.core };
-    core.gravatar = modules.core.gravatar({ core, util, config });
-    core.roles = modules.core.roles({ core, util, config });
-    core.tags = modules.core.tags({ core, util, config });
+    core.gravatar.buildImageUrl = modules.core.gravatar.buildImageUrl({ core, util, config });
+    core.gravatar.buildProfileUrl = modules.core.gravatar.buildProfileUrl({ core, util, config });
+    core.gravatar.getNameFromProfile = modules.core.gravatar.getNameFromProfile({ core, util, config });
+    core.gravatar.hashEmail = modules.core.gravatar.hashEmail({ core, util, config });
+    core.roles.assignColor = modules.core.roles.assignColor({ core, util, config });
+    core.roles.buildRole = modules.core.roles.buildRole({ core, util, config });
+    core.roles.randomColor = modules.core.roles.randomColor({ core, util, config });
+    core.tags.buildTag = modules.core.tags.buildTag({ core, util, config });
+    core.tags.parseEmailExpression = modules.core.tags.parseEmailExpression({ core, util, config });
+    core.tags.parseFileExpression = modules.core.tags.parseFileExpression({ core, util, config });
+    core.tags.parseTagExpression = modules.core.tags.parseTagExpression({ core, util, config });
+    core.tags.planTagInstanceAdjustment = modules.core.tags.planTagInstanceAdjustment({ core, util, config });
+    core.tags.sortTagInstancesByTagThenMode = modules.core.tags.sortTagInstancesByTagThenMode({ core, util, config });
+    core.tags.sortTagsByName = modules.core.tags.sortTagsByName({ core, util, config });
+    core.tags.sortTagsByRoleThenName = modules.core.tags.sortTagsByRoleThenName({ core, util, config });
     
     const components = { ...modules.components };
     components.app = modules.components.app({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
     components.dropzone = modules.components.dropzone({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
-    components.gravatar = modules.components.gravatar({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
-    components.header = modules.components.header({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
-    components.imageUploadOptions = modules.components.imageUploadOptions({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.gravatar.actions.container = modules.components.gravatar.actions.container({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.gravatar.actions.error = modules.components.gravatar.actions.error({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.gravatar.actions.importButton = modules.components.gravatar.actions.importButton({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.gravatar.actions.loading = modules.components.gravatar.actions.loading({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.gravatar.content.container = modules.components.gravatar.content.container({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.gravatar.content.fallback = modules.components.gravatar.content.fallback({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.gravatar.content.fallbacks = modules.components.gravatar.content.fallbacks({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.gravatar.content.freetext = modules.components.gravatar.content.freetext({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.gravatar.title = modules.components.gravatar.title({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.header.container = modules.components.header.container({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.header.titleBar = modules.components.header.titleBar({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.imageUploadOptions.chooseImages = modules.components.imageUploadOptions.chooseImages({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.imageUploadOptions.container = modules.components.imageUploadOptions.container({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.imageUploadOptions.gravatar = modules.components.imageUploadOptions.gravatar({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
     components.modal = modules.components.modal({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
-    components.modals = modules.components.modals({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
-    components.optionsBar = modules.components.optionsBar({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
-    components.roleList = modules.components.roleList({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
-    components.tagList = modules.components.tagList({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
-    components.tips = modules.components.tips({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.modals.gravatar = modules.components.modals.gravatar({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.modals.tips = modules.components.modals.tips({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.modals.welcome = modules.components.modals.welcome({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.optionsBar.container = modules.components.optionsBar.container({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.optionsBar.numberOption = modules.components.optionsBar.numberOption({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.optionsBar.options.modes = modules.components.optionsBar.options.modes({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.optionsBar.options.outline = modules.components.optionsBar.options.outline({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.optionsBar.options.shapes = modules.components.optionsBar.options.shapes({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.optionsBar.options.size = modules.components.optionsBar.options.size({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.optionsBar.options.sort = modules.components.optionsBar.options.sort({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.optionsBar.options.spacing = modules.components.optionsBar.options.spacing({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.optionsBar.shapeOption = modules.components.optionsBar.shapeOption({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.roleList.container = modules.components.roleList.container({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.roleList.roleCustomiser.container = modules.components.roleList.roleCustomiser.container({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.roleList.roleCustomiser.masterRoleName = modules.components.roleList.roleCustomiser.masterRoleName({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.roleList.roleCustomiser.roleColorPicker = modules.components.roleList.roleCustomiser.roleColorPicker({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.tagList.container = modules.components.tagList.container({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.tagList.tag.components.roleName = modules.components.tagList.tag.components.roleName({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.tagList.tag.components.tagImage = modules.components.tagList.tag.components.tagImage({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.tagList.tag.components.tagName = modules.components.tagList.tag.components.tagName({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.tagList.tag.container = modules.components.tagList.tag.container({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.tips.badges = modules.components.tips.badges({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.tips.images = modules.components.tips.images({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.tips.laminating = modules.components.tips.laminating({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.tips.multiples = modules.components.tips.multiples({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.tips.naming = modules.components.tips.naming({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    components.tips.roleShortcut = modules.components.tips.roleShortcut({ components, el, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
     
     return { ...modules, components, core, diagnostics, elements, io, services, startup, storage, stores, styles, subscriptions, ui, util, vendorComponents, vendorServices };
+    
 };
 ```
