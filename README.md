@@ -399,13 +399,16 @@ Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 
 ```js
 (modules, { io, config }) => {
+    
     const services = { ...modules.services };
     services.fetchContact = modules.services.fetchContact({ services, io, config });
     services.fetchGravatarProfile = modules.services.fetchGravatarProfile({ services, io, config });
+    
     const components = { ...modules.components };
     components.app = modules.components.app({ components, services });
     components.contactForm = modules.components.contactForm({ components, services });
     components.contactView = modules.components.contactView({ components, services });
+    
     return { ...modules, components, services };
 };
 ```

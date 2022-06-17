@@ -214,12 +214,15 @@ module.exports = ({ test }) => {
 
         const expectedCode = `
 (modules, { bar }) => {
+    
     const foo = { ...modules.foo };
     foo.getFoo = modules.foo.getFoo({ foo });
+    
     const foobar = { ...modules.foobar };
     foobar.getFoo = modules.foobar.getFoo({ foobar, foo, bar });
     foobar.getBar = modules.foobar.getBar({ foobar, foo, bar });
     foobar.getFoobar = modules.foobar.getFoobar({ foobar, foo, bar });
+    
     return { ...modules, foobar, foo };
 };
 `.trim();

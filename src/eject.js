@@ -5,8 +5,9 @@ module.exports = ({ target, dependencies }) => {
     const lines = Object.entries(dependencies).reverse().flatMap(([key, deps]) => {
         const members = Object.keys(target[key]);
         const lines = members.map(member => `${key}.${member} = modules.${key}.${member}({ ${[key, ...deps].join(', ')} });`);
-        return [`const ${key} = { ...modules.${key} };`, ...lines];
+        return ['', `const ${key} = { ...modules.${key} };`, ...lines];
     }).concat(
+        '',
         `return { ${['...modules', ...targetKeys].join(', ')} };`,
     );
 
