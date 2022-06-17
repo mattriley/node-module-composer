@@ -204,7 +204,9 @@ module.exports = ({ test }) => {
                 getFoobar: ({ foobar }) => () => foobar.getFoo() + foobar.getBar()
             },
             foo: {
-                getFoo: () => () => 'foo',
+                getFoo: () => () => 'foo'
+            },
+            nested: {
                 nested: {
                     getNested: () => () => 'nested'
                 }
@@ -217,20 +219,23 @@ module.exports = ({ test }) => {
 
         const expectedCode = `
 (modules, { bar }) => {
-    
+
+    const nested = { ...modules.nested };
+    const nestedDependencies = { nested };
+    nested.nested.getNested = modules.nested.nested.getNested({ ...nestedDependencies });
+
     const foo = { ...modules.foo };
     const fooDependencies = { foo };
     foo.getFoo = modules.foo.getFoo({ ...fooDependencies });
-    foo.nested.getNested = modules.foo.nested.getNested({ ...fooDependencies });
-    
+
     const foobar = { ...modules.foobar };
     const foobarDependencies = { foobar, foo, bar };
     foobar.getFoo = modules.foobar.getFoo({ ...foobarDependencies });
     foobar.getBar = modules.foobar.getBar({ ...foobarDependencies });
     foobar.getFoobar = modules.foobar.getFoobar({ ...foobarDependencies });
-    
-    return { ...modules, foobar, foo };
-    
+
+    return { ...modules, foobar, foo, nested };
+
 };
 `.trim();
 

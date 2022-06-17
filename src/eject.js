@@ -23,7 +23,7 @@ module.exports = ({ target, dependencies }) => {
 
     return [
         `(modules, { ${args.join(', ')} }) => {`,
-        `${lines.map(line => `    ${line}`).join('\n')}`,
+        `${lines.map(line => ' '.repeat(line ? 4 : 0) + line).join('\n')}`,
         '};'
     ].join('\n');
 
