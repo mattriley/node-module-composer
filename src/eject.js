@@ -1,14 +1,22 @@
+const flatten = require('flat');
+
 module.exports = ({ target, dependencies }) => {
 
     const targetKeys = Object.keys(dependencies);
 
     const lines = Object.entries(dependencies).reverse().flatMap(([key, deps]) => {
-        const members = Object.keys(target[key]);
-        const lines = members.map(member => `${key}.${member} = modules.${key}.${member}({ ${[key, ...deps].join(', ')} });`);
-        return ['', `const ${key} = { ...modules.${key} };`, ...lines];
+        const members = Object.keys(flatten(target[key]));
+        return [
+            '',
+            `const ${key} = { ...modules.${key} };`,
+            ...members.map(member =>
+                `${key}.${member} = modules.${key}.${member}({ ${[key, ...deps].join(', ')} });`
+            )
+        ];
     }).concat(
         '',
         `return { ${['...modules', ...targetKeys].join(', ')} };`,
+        ''
     );
 
     const uniqDeps = Array.from(new Set(Object.values(dependencies).flat()));

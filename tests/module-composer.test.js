@@ -205,6 +205,9 @@ module.exports = ({ test }) => {
             },
             foo: {
                 getFoo: () => () => 'foo',
+                nested: {
+                    getNested: () => () => 'nested'
+                }
             }
         };
 
@@ -217,6 +220,7 @@ module.exports = ({ test }) => {
     
     const foo = { ...modules.foo };
     foo.getFoo = modules.foo.getFoo({ foo });
+    foo.nested.getNested = modules.foo.nested.getNested({ foo });
     
     const foobar = { ...modules.foobar };
     foobar.getFoo = modules.foobar.getFoo({ foobar, foo, bar });
@@ -224,6 +228,7 @@ module.exports = ({ test }) => {
     foobar.getFoobar = modules.foobar.getFoobar({ foobar, foo, bar });
     
     return { ...modules, foobar, foo };
+    
 };
 `.trim();
 
