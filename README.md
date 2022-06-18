@@ -50,7 +50,7 @@ const { stores } = compose('stores');
 const { services } = compose('services', { stores });
 const { components } = compose('components', { services });
 ```
-<div align="center"><a href="examples/basic/compose-no-export.js">View source</a></div>
+<p align="right"><a href="examples/basic/compose-no-export.js">View source</a></p>
 
 `modules` is simply an object containing an entry for each module:
 
@@ -87,7 +87,7 @@ export default {
     }
 };
 ```
-<div align="center"><a href="examples/basic/modules.js">View source</a></div>
+<p align="right"><a href="examples/basic/modules.js">View source</a></p>
 
 Notice the _double arrow_ functions? That's syntactic sugar for _a function that returns another function_.
 
@@ -133,7 +133,7 @@ export default () => {
     return compose;
 };
 ```
-<div align="center"><a href="examples/basic/compose.js">View source</a></div>
+<p align="right"><a href="examples/basic/compose.js">View source</a></p>
 
 And here's an example of an entry point for a single-page (web) application (SPA):
 
@@ -143,7 +143,7 @@ const { modules } = compose();
 const app = modules.components.app();
 document.getElementById('app').append(app);
 ```
-<div align="center"><a href="examples/basic/app.js">View source</a></div>
+<p align="right"><a href="examples/basic/app.js">View source</a></p>
 
 Recommended reading:
 
@@ -186,7 +186,7 @@ export default {
     stores
 };
 ```
-<div align="center"><a href="examples/basic/modules/index.js">View source</a></div>
+<p align="right"><a href="examples/basic/modules/index.js">View source</a></p>
 
 ```js
 import productDetails from './product-details';
@@ -195,7 +195,7 @@ export default {
     productDetails
 };
 ```
-<div align="center"><a href="examples/basic/modules/components/index.js">View source</a></div>
+<p align="right"><a href="examples/basic/modules/components/index.js">View source</a></p>
 
 This pattern opens the possibility of generating `index.js` files. This means that not only is each file only ever imported once, a developer needn't write import statements at all.
 
@@ -222,7 +222,7 @@ const { components } = compose('components', { services });
 
 console.log(compose.mermaid);
 ```
-<div align="center"><a href="examples/basic/compose-mermaid.js">View source</a></div>
+<p align="right"><a href="examples/basic/compose-mermaid.js">View source</a></p>
 
 Output:
 
@@ -401,7 +401,7 @@ export default ({ overrides } = {}) => {
 
 };
 ```
-<div align="center"><a href="examples/gravatar-spa/src/compose.js">View source</a></div>
+<p align="right"><a href="examples/gravatar-spa/src/compose.js">View source</a></p>
 
 Mermaid digram:
 
