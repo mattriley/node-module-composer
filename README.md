@@ -234,12 +234,12 @@ graph TD;
 
 Which renders:
 
+###### <p id="code-9" align="right"><em>Can't see the diagram?</em> <a href="https://github.com/mattriley/node-module-composer#user-content-code-9">View it on GitHub</a></p>
 ```mermaid
 graph TD;
     components-->services;
     services-->stores;
 ```
-<p align="right"><em>Diagram not rendering?</em> <a href="https://github.com/mattriley/node-module-composer">View on GitHub</a></p>
 
 For a less contrived example, see [Advanced example: Agile Avatars](#advanced-example-agile-avatars) below.
 
@@ -318,6 +318,7 @@ The examples below leverage `compose.dependencies` to demonstrate fitness functi
 
 Assuming an _n-tier_ architecture, where the `components` module resides in the _presentation_ layer, `services` in the _domain_ layer, and `stores` in the _persistence_ layer, it could be tempting to couple `components` to `stores`,  inadvertently bypassing the domain layer.
 
+###### <p id="code-10" align="right"><em>Can't see the diagram?</em> <a href="https://github.com/mattriley/node-module-composer#user-content-code-10">View it on GitHub</a></p>
 ```mermaid
 graph TD;
     components["components<br/>(presentation)"]-->|OK!|services;
@@ -325,7 +326,6 @@ graph TD;
     services["services<br/>(domain)"]-->|OK!|stores;
     stores["stores<br/>(persistence)"]
 ```
-<p align="right"><em>Diagram not rendering?</em> <a href="https://github.com/mattriley/node-module-composer">View on GitHub</a></p>
 
 The following fitness function asserts that `components` is not coupled to `stores`. 
 
@@ -340,12 +340,12 @@ test('components is not coupled to stores in order to maintain layering', t => {
 
 `util` is a module of _pure_ utility functions, and `io` is module is _impure_ io operations. It could be tempting to extend `util` with say file utilities that depend on `io`, however doing so would make `util` impure.
 
+###### <p id="code-11" align="right"><em>Can't see the diagram?</em> <a href="https://github.com/mattriley/node-module-composer#user-content-code-11">View it on GitHub</a></p>
 ```mermaid
 graph TD;
     io["io<br/>(impure)"]-->|OK!|util
     util["util<br/>(pure)"]-->|NOT OK!|io
 ```
-<p align="right"><em>Diagram not rendering?</em> <a href="https://github.com/mattriley/node-module-composer">View on GitHub</a></p>
 
 The following fitness function asserts that `util` is not coupled to `io`.
 
@@ -358,13 +358,13 @@ test('util is not coupled to io in order to maintain purity', t => {
 
 The solution introducing file utilities whilst maintaining purity would be to introduce a new module, say `fileUtil`:
 
+###### <p id="code-12" align="right"><em>Can't see the diagram?</em> <a href="https://github.com/mattriley/node-module-composer#user-content-code-12">View it on GitHub</a></p>
 ```mermaid
 graph TD;
     io["io<br/>(impure)"]-->|OK!|util
     util["util<br/>(pure)"]-->|NOT OK!|io
     fileUtil["fileUtil<br/>(impure)"]-->|OK!|io
 ```
-<p align="right"><em>Diagram not rendering?</em> <a href="https://github.com/mattriley/node-module-composer">View on GitHub</a></p>
 
 ## Testability
 
@@ -407,13 +407,13 @@ export default ({ overrides } = {}) => {
 
 Mermaid digram:
 
+###### <p id="code-14" align="right"><em>Can't see the diagram?</em> <a href="https://github.com/mattriley/node-module-composer#user-content-code-14">View it on GitHub</a></p>
 ```mermaid
 graph TD;
     components-->services;
     services-->io;
     services-->config;
 ```
-<p align="right"><em>Diagram not rendering?</em> <a href="https://github.com/mattriley/node-module-composer">View on GitHub</a></p>
 
 Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 
@@ -481,6 +481,7 @@ export default ({ window, overrides, configs }) => {
 
 Mermaid digram:
 
+###### <p id="code-17" align="right"><em>Can't see the diagram?</em> <a href="https://github.com/mattriley/node-module-composer#user-content-code-17">View it on GitHub</a></p>
 ```mermaid
 graph TD;
     components-->ui;
@@ -528,7 +529,6 @@ graph TD;
     vendorServices-->config;
     vendorServices-->window;
 ```
-<p align="right"><em>Diagram not rendering?</em> <a href="https://github.com/mattriley/node-module-composer">View on GitHub</a></p>
 
 Ejected output:
 
