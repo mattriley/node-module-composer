@@ -443,6 +443,7 @@ https://agileavatars.com • https://github.com/mattriley/agileavatars
 
 Module composition:
 
+###### <p id="code-16" align="right">https://raw.githubusercontent.com/mattriley/agileavatars/master/src/compose.js • <a href="https://raw.githubusercontent.com/mattriley/agileavatars/master/src/compose.js" target="_blank">View source</a></p>
 ```js
 import composer from 'module-composer';
 import modules from './modules';
