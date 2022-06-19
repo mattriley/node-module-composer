@@ -41,16 +41,9 @@ npm install module-composer
 
 Consider the following example:
 
-```js
-import composer from 'module-composer';
-import modules from './modules';
-
-const { compose } = composer(modules);
-const { stores } = compose('stores');
-const { services } = compose('services', { stores });
-const { components } = compose('components', { services });
+```undefined
+./examples/basic/compose-no-export.js
 ```
-<p align="right"><a href="examples/basic/compose-no-export.js">View source</a></p>
 
 `modules` is simply an object containing an entry for each module:
 
@@ -66,28 +59,9 @@ The first step is to create a `compose` function for the given _uncomposed_ modu
 
 Each module is simply an object containing an entry for each function of the module:
 
-```js
-export default {
-    components: {
-        productDetails: ({ services }) => ({ product }) => {
-            // When Add to Cart button clicked...
-            services.addToCart({ product, quantity: 1 });
-        }
-    },
-    services: {
-        addToCart: ({ stores }) => ({ productId, quantity }) => {
-            // Use productId and quantity to produce items and totalCost...
-            stores.setCart({ items, totalCost });
-        }
-    },
-    stores: {
-        setCart: () => ({ items, totalCost }) => {
-            // Store items and totalCost...
-        }
-    }
-};
+```undefined
+./examples/basic/modules.js
 ```
-<p align="right"><a href="examples/basic/modules.js">View source</a></p>
 
 Notice the _double arrow_ functions? That's syntactic sugar for _a function that returns another function_.
 
@@ -121,29 +95,15 @@ Module composition should occur as close to the entry point of the application a
 
 Here's an example of a composition root isolated to a separate file named `compose.js`: 
 
-```js
-import composer from 'module-composer';
-import modules from './modules';
-
-export default () => {
-    const { compose } = composer(modules);
-    const { stores } = compose('stores');
-    const { services } = compose('services', { stores });
-    const { components } = compose('components', { services });
-    return compose;
-};
+```undefined
+./examples/basic/compose.js
 ```
-<p align="right"><a href="examples/basic/compose.js">View source</a></p>
 
 And here's an example of an entry point for a single-page (web) application (SPA):
 
-```js
-import compose from './compose';
-const { modules } = compose();
-const app = modules.components.app();
-document.getElementById('app').append(app);
+```undefined
+./examples/basic/app.js
 ```
-<p align="right"><a href="examples/basic/app.js">View source</a></p>
 
 Recommended reading:
 
@@ -175,27 +135,13 @@ src/
 
 This hierarchy can be mirrored in code by rolling up each file in each directory using `index.js` files. This approach leads to a design where any file is only ever imported once regardless of the number of usages. It also reduces or eliminates the large blocks of import statements typically found at the top of each file, and eliminates any need for path backtracking, i.e. `../../../`. Path backtracking is a potential code smell due to the risk of inappropriate coupling. Instead, the relationships between each module are explicitly established during at application initialisation time.
 
-```js
-import components from './components';
-import services from './services';
-import stores from './stores';
-
-export default {
-    components,
-    services,
-    stores
-};
+```undefined
+./examples/basic/modules/index.js
 ```
-<p align="right"><a href="examples/basic/modules/index.js">View source</a></p>
 
-```js
-import productDetails from './product-details';
-
-export default {
-    productDetails
-};
+```undefined
+./examples/basic/modules/components/index.js
 ```
-<p align="right"><a href="examples/basic/modules/components/index.js">View source</a></p>
 
 This pattern opens the possibility of generating `index.js` files. This means that not only is each file only ever imported once, a developer needn't write import statements at all.
 
@@ -211,18 +157,9 @@ GitHub can render diagrams directly from Mermaid syntax in markdown files. See [
 
 Use `compose.mermaid()` to generate a Mermaid diagram:
 
-```js
-import composer from 'module-composer';
-import modules from './modules';
-
-const { compose } = composer(modules);
-const { stores } = compose('stores');
-const { services } = compose('services', { stores });
-const { components } = compose('components', { services });
-
-console.log(compose.mermaid);
+```undefined
+./examples/basic/compose-mermaid.js
 ```
-<p align="right"><a href="examples/basic/compose-mermaid.js">View source</a></p>
 
 Output:
 
@@ -240,8 +177,6 @@ graph TD;
     services-->stores;
 ```
 <p align="right"><em>Diagram not rendering?</em> <a href="https://github.com/mattriley/node-module-composer">View on GitHub</a></p>
-
-_If the diagram is not rendered, you might not be viewing this file in GitHub._
 
 For a less contrived example, see [Advanced example: Agile Avatars](#advanced-example-agile-avatars) below.
 
@@ -327,6 +262,7 @@ graph TD;
     services["services<br/>(domain)"]-->|OK!|stores;
     stores["stores<br/>(persistence)"]
 ```
+<p align="right"><em>Diagram not rendering?</em> <a href="https://github.com/mattriley/node-module-composer">View on GitHub</a></p>
 
 The following fitness function asserts that `components` is not coupled to `stores`. 
 
@@ -346,6 +282,7 @@ graph TD;
     io["io<br/>(impure)"]-->|OK!|util
     util["util<br/>(pure)"]-->|NOT OK!|io
 ```
+<p align="right"><em>Diagram not rendering?</em> <a href="https://github.com/mattriley/node-module-composer">View on GitHub</a></p>
 
 The following fitness function asserts that `util` is not coupled to `io`.
 
@@ -364,6 +301,15 @@ graph TD;
     util["util<br/>(pure)"]-->|NOT OK!|io
     fileUtil["fileUtil<br/>(impure)"]-->|OK!|io
 ```
+<p align="right"><em>Diagram not rendering?</em> <a href="https://github.com/mattriley/node-module-composer">View on GitHub</a></p>
+
+```mermaid
+graph TD;
+    io["io<br/>(impure)"]-->|OK!|util
+    util["util<br/>(pure)"]-->|NOT OK!|io
+    fileUtil["fileUtil<br/>(impure)"]-->|OK!|io
+```
+<p align="right"><em>Diagram not rendering?</em> <a href="https://github.com/mattriley/node-module-composer">View on GitHub</a></p>
 
 ## Testability
 

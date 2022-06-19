@@ -26,7 +26,7 @@ npm install module-composer
 
 Consider the following example:
 
-<%- await readCode('./examples/basic/compose-no-export.js') %>
+<%- await code('./examples/basic/compose-no-export.js') %>
 
 `modules` is simply an object containing an entry for each module:
 
@@ -42,7 +42,7 @@ The first step is to create a `compose` function for the given _uncomposed_ modu
 
 Each module is simply an object containing an entry for each function of the module:
 
-<%- await readCode('./examples/basic/modules.js') %>
+<%- await code('./examples/basic/modules.js') %>
 
 Notice the _double arrow_ functions? That's syntactic sugar for _a function that returns another function_.
 
@@ -76,11 +76,11 @@ Module composition should occur as close to the entry point of the application a
 
 Here's an example of a composition root isolated to a separate file named `compose.js`: 
 
-<%- await readCode('./examples/basic/compose.js') %>
+<%- await code('./examples/basic/compose.js') %>
 
 And here's an example of an entry point for a single-page (web) application (SPA):
 
-<%- await readCode('./examples/basic/app.js') %>
+<%- await code('./examples/basic/app.js') %>
 
 Recommended reading:
 
@@ -112,9 +112,9 @@ src/
 
 This hierarchy can be mirrored in code by rolling up each file in each directory using `index.js` files. This approach leads to a design where any file is only ever imported once regardless of the number of usages. It also reduces or eliminates the large blocks of import statements typically found at the top of each file, and eliminates any need for path backtracking, i.e. `../../../`. Path backtracking is a potential code smell due to the risk of inappropriate coupling. Instead, the relationships between each module are explicitly established during at application initialisation time.
 
-<%- await readCode('./examples/basic/modules/index.js') %>
+<%- await code('./examples/basic/modules/index.js') %>
 
-<%- await readCode('./examples/basic/modules/components/index.js') %>
+<%- await code('./examples/basic/modules/components/index.js') %>
 
 This pattern opens the possibility of generating `index.js` files. This means that not only is each file only ever imported once, a developer needn't write import statements at all.
 
@@ -130,17 +130,15 @@ GitHub can render diagrams directly from Mermaid syntax in markdown files. See [
 
 Use `compose.mermaid()` to generate a Mermaid diagram:
 
-<%- await readCode('./examples/basic/compose-mermaid.js') %>
+<%- await code('./examples/basic/compose-mermaid.js') %>
 
 Output:
 
-<%- renderCode((await compose('./examples/basic/compose.js')).mermaid(), '') %>
+<%- code((await compose('./examples/basic/compose.js')).mermaid(), '') %>
 
 Which renders:
 
-<%- renderCode((await compose('./examples/basic/compose.js')).mermaid(), 'mermaid') %>
-
-_If the diagram is not rendered, you might not be viewing this file in GitHub._
+<%- mermaid((await compose('./examples/basic/compose.js')).mermaid()) %>
 
 For a less contrived example, see [Advanced example: Agile Avatars](#advanced-example-agile-avatars) below.
 
@@ -219,13 +217,13 @@ The examples below leverage `compose.dependencies` to demonstrate fitness functi
 
 Assuming an _n-tier_ architecture, where the `components` module resides in the _presentation_ layer, `services` in the _domain_ layer, and `stores` in the _persistence_ layer, it could be tempting to couple `components` to `stores`,  inadvertently bypassing the domain layer.
 
-```mermaid
+<%- mermaid(`
 graph TD;
     components["components<br/>(presentation)"]-->|OK!|services;
     components-->|NOT OK!|stores;
     services["services<br/>(domain)"]-->|OK!|stores;
     stores["stores<br/>(persistence)"]
-```
+`) %>
 
 The following fitness function asserts that `components` is not coupled to `stores`. 
 
@@ -240,11 +238,11 @@ test('components is not coupled to stores in order to maintain layering', t => {
 
 `util` is a module of _pure_ utility functions, and `io` is module is _impure_ io operations. It could be tempting to extend `util` with say file utilities that depend on `io`, however doing so would make `util` impure.
 
-```mermaid
+<%- mermaid(`
 graph TD;
     io["io<br/>(impure)"]-->|OK!|util
     util["util<br/>(pure)"]-->|NOT OK!|io
-```
+`) %>
 
 The following fitness function asserts that `util` is not coupled to `io`.
 
@@ -257,12 +255,19 @@ test('util is not coupled to io in order to maintain purity', t => {
 
 The solution introducing file utilities whilst maintaining purity would be to introduce a new module, say `fileUtil`:
 
-```mermaid
+<%- mermaid(`
 graph TD;
     io["io<br/>(impure)"]-->|OK!|util
     util["util<br/>(pure)"]-->|NOT OK!|io
     fileUtil["fileUtil<br/>(impure)"]-->|OK!|io
-```
+`) %>
+
+<%- mermaid(`
+graph TD;
+    io["io<br/>(impure)"]-->|OK!|util
+    util["util<br/>(pure)"]-->|NOT OK!|io
+    fileUtil["fileUtil<br/>(impure)"]-->|OK!|io
+`) %>
 
 ## Testability
 
@@ -290,11 +295,11 @@ Take the composition root of the Gravatar SPA example:
 
 Mermaid digram:
 
-<%- renderCode((await compose('./examples/gravatar-spa/src/compose.js')).mermaid(), 'mermaid') %>
+<%- mermaid((await compose('./examples/gravatar-spa/src/compose.js')).mermaid()) %>
 
 Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 
-<%- renderCode((await compose('./examples/gravatar-spa/src/compose.js')).eject(), 'js') %>
+<%- code((await compose('./examples/gravatar-spa/src/compose.js')).eject(), 'js') %>
 
 ## Advanced example: Agile Avatars
 
@@ -307,8 +312,8 @@ Module composition:
 
 Mermaid digram:
 
-<%- renderCode((await compose('../agileavatars/src/compose.js')).mermaid(), 'mermaid') %>
+<%- mermaid((await compose('../agileavatars/src/compose.js')).mermaid()) %>
 
 Ejected output:
 
-<%- renderCode((await compose('../agileavatars/src/compose.js')).eject(), 'js') %>
+<%- code((await compose('../agileavatars/src/compose.js')).eject(), 'js') %>
