@@ -262,13 +262,6 @@ graph TD;
     fileUtil["fileUtil<br/>(impure)"]-->|OK!|io
 `) %>
 
-<%- mermaid(`
-graph TD;
-    io["io<br/>(impure)"]-->|OK!|util
-    util["util<br/>(pure)"]-->|NOT OK!|io
-    fileUtil["fileUtil<br/>(impure)"]-->|OK!|io
-`) %>
-
 ## Testability
 
 Module Composer encourages reasoning about _modules_ instead of _files_ and this principle also extends to testing.

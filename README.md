@@ -366,14 +366,6 @@ graph TD;
 ```
 <p align="right"><em>Diagram not rendering?</em> <a href="https://github.com/mattriley/node-module-composer">View on GitHub</a></p>
 
-```mermaid
-graph TD;
-    io["io<br/>(impure)"]-->|OK!|util
-    util["util<br/>(pure)"]-->|NOT OK!|io
-    fileUtil["fileUtil<br/>(impure)"]-->|OK!|io
-```
-<p align="right"><em>Diagram not rendering?</em> <a href="https://github.com/mattriley/node-module-composer">View on GitHub</a></p>
-
 ## Testability
 
 Module Composer encourages reasoning about _modules_ instead of _files_ and this principle also extends to testing.
