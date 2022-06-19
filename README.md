@@ -239,7 +239,7 @@ graph TD;
     components-->services;
     services-->stores;
 ```
-<p align="right">_Diagram not rendering?_ <a href="https://github.com/mattriley/node-module-composer">View on GitHub</a></p>
+<p align="right"><em>Diagram not rendering?</em> <a href="https://github.com/mattriley/node-module-composer">View on GitHub</a></p>
 
 _If the diagram is not rendered, you might not be viewing this file in GitHub._
 
@@ -412,7 +412,7 @@ graph TD;
     services-->io;
     services-->config;
 ```
-<p align="right">_Diagram not rendering?_ <a href="https://github.com/mattriley/node-module-composer">View on GitHub</a></p>
+<p align="right"><em>Diagram not rendering?</em> <a href="https://github.com/mattriley/node-module-composer">View on GitHub</a></p>
 
 Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 
@@ -527,7 +527,7 @@ graph TD;
     vendorServices-->config;
     vendorServices-->window;
 ```
-<p align="right">_Diagram not rendering?_ <a href="https://github.com/mattriley/node-module-composer">View on GitHub</a></p>
+<p align="right"><em>Diagram not rendering?</em> <a href="https://github.com/mattriley/node-module-composer">View on GitHub</a></p>
 
 Ejected output:
 
