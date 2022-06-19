@@ -134,11 +134,7 @@ Use `compose.mermaid()` to generate a Mermaid diagram:
 
 Output:
 
-```
-graph TD;
-    components-->services;
-    services-->stores;
-```
+<%- renderCode((await compose('./examples/basic/compose.js')).mermaid(), '') %>
 
 Which renders:
 
