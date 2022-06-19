@@ -41,7 +41,7 @@ npm install module-composer
 
 Consider the following example:
 
-<p id="code-1">examples/basic/compose-no-export.js</p>
+<span id="code-1">examples/basic/compose-no-export.js</span>
 
 ```js
 import composer from 'module-composer';
@@ -68,7 +68,7 @@ The first step is to create a `compose` function for the given _uncomposed_ modu
 
 Each module is simply an object containing an entry for each function of the module:
 
-<p id="code-2">examples/basic/modules.js</p>
+<span id="code-2">examples/basic/modules.js</span>
 
 ```js
 export default {
@@ -125,7 +125,7 @@ Module composition should occur as close to the entry point of the application a
 
 Here's an example of a composition root isolated to a separate file named `compose.js`: 
 
-<p id="code-3">examples/basic/compose.js</p>
+<span id="code-3">examples/basic/compose.js</span>
 
 ```js
 import composer from 'module-composer';
@@ -143,7 +143,7 @@ export default () => {
 
 And here's an example of an entry point for a single-page (web) application (SPA):
 
-<p id="code-4">examples/basic/app.js</p>
+<span id="code-4">examples/basic/app.js</span>
 
 ```js
 import compose from './compose';
@@ -183,7 +183,7 @@ src/
 
 This hierarchy can be mirrored in code by rolling up each file in each directory using `index.js` files. This approach leads to a design where any file is only ever imported once regardless of the number of usages. It also reduces or eliminates the large blocks of import statements typically found at the top of each file, and eliminates any need for path backtracking, i.e. `../../../`. Path backtracking is a potential code smell due to the risk of inappropriate coupling. Instead, the relationships between each module are explicitly established during at application initialisation time.
 
-<p id="code-5">examples/basic/modules/index.js</p>
+<span id="code-5">examples/basic/modules/index.js</span>
 
 ```js
 import components from './components';
@@ -198,7 +198,7 @@ export default {
 ```
 <p align="right"><a href="examples/basic/modules/index.js">View source</a></p>
 
-<p id="code-6">examples/basic/modules/components/index.js</p>
+<span id="code-6">examples/basic/modules/components/index.js</span>
 
 ```js
 import productDetails from './product-details';
@@ -223,7 +223,7 @@ GitHub can render diagrams directly from Mermaid syntax in markdown files. See [
 
 Use `compose.mermaid()` to generate a Mermaid diagram:
 
-<p id="code-7">examples/basic/compose-mermaid.js</p>
+<span id="code-7">examples/basic/compose-mermaid.js</span>
 
 ```js
 import composer from 'module-composer';
@@ -240,7 +240,7 @@ console.log(compose.mermaid);
 
 Output:
 
-<p id="code-8">undefined</p>
+<span id="code-8">undefined</span>
 
 ```undefined
 graph TD;
@@ -250,7 +250,7 @@ graph TD;
 
 Which renders:
 
-<p id="code-9">undefined</p>
+<span id="code-9">undefined</span>
 
 ```mermaid
 graph TD;
@@ -336,7 +336,7 @@ The examples below leverage `compose.dependencies` to demonstrate fitness functi
 
 Assuming an _n-tier_ architecture, where the `components` module resides in the _presentation_ layer, `services` in the _domain_ layer, and `stores` in the _persistence_ layer, it could be tempting to couple `components` to `stores`,  inadvertently bypassing the domain layer.
 
-<p id="code-10">undefined</p>
+<span id="code-10">undefined</span>
 
 ```mermaid
 graph TD;
@@ -360,7 +360,7 @@ test('components is not coupled to stores in order to maintain layering', t => {
 
 `util` is a module of _pure_ utility functions, and `io` is module is _impure_ io operations. It could be tempting to extend `util` with say file utilities that depend on `io`, however doing so would make `util` impure.
 
-<p id="code-11">undefined</p>
+<span id="code-11">undefined</span>
 
 ```mermaid
 graph TD;
@@ -380,7 +380,7 @@ test('util is not coupled to io in order to maintain purity', t => {
 
 The solution introducing file utilities whilst maintaining purity would be to introduce a new module, say `fileUtil`:
 
-<p id="code-12">undefined</p>
+<span id="code-12">undefined</span>
 
 ```mermaid
 graph TD;
@@ -412,7 +412,7 @@ Module Composer can be _ejected_ by generating the equivalent vanilla JavaScript
 
 Take the composition root of the Gravatar SPA example:
 
-<p id="code-13">examples/gravatar-spa/src/compose.js</p>
+<span id="code-13">examples/gravatar-spa/src/compose.js</span>
 
 ```js
 import composer from 'module-composer';
@@ -433,7 +433,7 @@ export default ({ overrides } = {}) => {
 
 Mermaid digram:
 
-<p id="code-14">undefined</p>
+<span id="code-14">undefined</span>
 
 ```mermaid
 graph TD;
@@ -445,7 +445,7 @@ graph TD;
 
 Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 
-<p id="code-15">undefined</p>
+<span id="code-15">undefined</span>
 
 ```js
 (modules, { io, config }) => {
@@ -473,7 +473,7 @@ https://agileavatars.com • https://github.com/mattriley/agileavatars
 
 Module composition:
 
-<p id="code-16">.agileavatars/src/compose.js</p>
+<span id="code-16">.agileavatars/src/compose.js</span>
 
 ```js
 import composer from 'module-composer';
@@ -513,7 +513,7 @@ export default ({ window, overrides, configs }) => {
 
 Mermaid digram:
 
-<p id="code-17">undefined</p>
+<span id="code-17">undefined</span>
 
 ```mermaid
 graph TD;
@@ -566,7 +566,7 @@ graph TD;
 
 Ejected output:
 
-<p id="code-18">undefined</p>
+<span id="code-18">undefined</span>
 
 ```js
 (modules, { config, window }) => {
