@@ -41,7 +41,7 @@ npm install module-composer
 
 Consider the following example:
 
-###### <p id="code-1" align="right">examples/basic/compose-no-export.js • <a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/compose-no-export.js" target="_blank">View source</a></p>
+###### <p id="code-1" align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/compose-no-export.js" target="_blank">examples/basic/compose-no-export.js</a></p>
 ```js
 import composer from 'module-composer';
 import modules from './modules';
@@ -66,7 +66,7 @@ The first step is to create a `compose` function for the given _uncomposed_ modu
 
 Each module is simply an object containing an entry for each function of the module:
 
-###### <p id="code-2" align="right">examples/basic/modules.js • <a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/modules.js" target="_blank">View source</a></p>
+###### <p id="code-2" align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/modules.js" target="_blank">examples/basic/modules.js</a></p>
 ```js
 export default {
     components: {
@@ -121,7 +121,7 @@ Module composition should occur as close to the entry point of the application a
 
 Here's an example of a composition root isolated to a separate file named `compose.js`: 
 
-###### <p id="code-3" align="right">examples/basic/compose.js • <a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/compose.js" target="_blank">View source</a></p>
+###### <p id="code-3" align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/compose.js" target="_blank">examples/basic/compose.js</a></p>
 ```js
 import composer from 'module-composer';
 import modules from './modules';
@@ -137,7 +137,7 @@ export default () => {
 
 And here's an example of an entry point for a single-page (web) application (SPA):
 
-###### <p id="code-4" align="right">examples/basic/app.js • <a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/app.js" target="_blank">View source</a></p>
+###### <p id="code-4" align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/app.js" target="_blank">examples/basic/app.js</a></p>
 ```js
 import compose from './compose';
 const { modules } = compose();
@@ -175,7 +175,7 @@ src/
 
 This hierarchy can be mirrored in code by rolling up each file in each directory using `index.js` files. This approach leads to a design where any file is only ever imported once regardless of the number of usages. It also reduces or eliminates the large blocks of import statements typically found at the top of each file, and eliminates any need for path backtracking, i.e. `../../../`. Path backtracking is a potential code smell due to the risk of inappropriate coupling. Instead, the relationships between each module are explicitly established during at application initialisation time.
 
-###### <p id="code-5" align="right">examples/basic/modules/index.js • <a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/modules/index.js" target="_blank">View source</a></p>
+###### <p id="code-5" align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/modules/index.js" target="_blank">examples/basic/modules/index.js</a></p>
 ```js
 import components from './components';
 import services from './services';
@@ -188,7 +188,7 @@ export default {
 };
 ```
 
-###### <p id="code-6" align="right">examples/basic/modules/components/index.js • <a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/modules/components/index.js" target="_blank">View source</a></p>
+###### <p id="code-6" align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/modules/components/index.js" target="_blank">examples/basic/modules/components/index.js</a></p>
 ```js
 import productDetails from './product-details';
 
@@ -211,7 +211,7 @@ GitHub can render diagrams directly from Mermaid syntax in markdown files. See [
 
 Use `compose.mermaid()` to generate a Mermaid diagram:
 
-###### <p id="code-7" align="right">examples/basic/compose-mermaid.js • <a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/compose-mermaid.js" target="_blank">View source</a></p>
+###### <p id="code-7" align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/compose-mermaid.js" target="_blank">examples/basic/compose-mermaid.js</a></p>
 ```js
 import composer from 'module-composer';
 import modules from './modules';
@@ -388,7 +388,7 @@ Module Composer can be _ejected_ by generating the equivalent vanilla JavaScript
 
 Take the composition root of the Gravatar SPA example:
 
-###### <p id="code-13" align="right">examples/gravatar-spa/src/compose.js • <a href="https://github.com/mattriley/node-module-composer/blob/master/examples/gravatar-spa/src/compose.js" target="_blank">View source</a></p>
+###### <p id="code-13" align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/gravatar-spa/src/compose.js" target="_blank">examples/gravatar-spa/src/compose.js</a></p>
 ```js
 import composer from 'module-composer';
 import modules from './modules';
@@ -443,7 +443,7 @@ https://agileavatars.com • https://github.com/mattriley/agileavatars
 
 Module composition:
 
-###### <p id="code-16" align="right">https://raw.githubusercontent.com/mattriley/agileavatars/master/src/compose.js • <a href="https://raw.githubusercontent.com/mattriley/agileavatars/master/src/compose.js" target="_blank">View source</a></p>
+###### <p id="code-16" align="right"><a href="https://raw.githubusercontent.com/mattriley/agileavatars/master/src/compose.js" target="_blank">https://raw.githubusercontent.com/mattriley/agileavatars/master/src/compose.js</a></p>
 ```js
 import composer from 'module-composer';
 import modules from './modules';
