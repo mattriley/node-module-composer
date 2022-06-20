@@ -134,11 +134,11 @@ Use `compose.mermaid()` to generate a Mermaid diagram:
 
 Output:
 
-<%- code((await compose('./examples/basic/compose.js')).mermaid()) %>
+<%- await compose(c => code(c.mermaid()), './examples/basic/compose.js') %>
 
 Which renders:
 
-<%- mermaid((await compose('./examples/basic/compose.js')).mermaid()) %>
+<%- await compose(c => code(c.mermaid(), 'mermaid'), './examples/basic/compose.js') %>
 
 For a less contrived example, see [Advanced example: Agile Avatars](#advanced-example-agile-avatars) below.
 
@@ -217,13 +217,13 @@ The examples below leverage `compose.dependencies` to demonstrate fitness functi
 
 Assuming an _n-tier_ architecture, where the `components` module resides in the _presentation_ layer, `services` in the _domain_ layer, and `stores` in the _persistence_ layer, it could be tempting to couple `components` to `stores`,  inadvertently bypassing the domain layer.
 
-<%- mermaid(`
+<%- code(`
 graph TD;
     components["components<br/>(presentation)"]-->|OK!|services;
     components-->|NOT OK!|stores;
     services["services<br/>(domain)"]-->|OK!|stores;
     stores["stores<br/>(persistence)"]
-`) %>
+`, 'mermaid') %>
 
 The following fitness function asserts that `components` is not coupled to `stores`. 
 
@@ -238,11 +238,11 @@ test('components is not coupled to stores in order to maintain layering', t => {
 
 `util` is a module of _pure_ utility functions, and `io` is module is _impure_ io operations. It could be tempting to extend `util` with say file utilities that depend on `io`, however doing so would make `util` impure.
 
-<%- mermaid(`
+<%- code(`
 graph TD;
     io["io<br/>(impure)"]-->|OK!|util
     util["util<br/>(pure)"]-->|NOT OK!|io
-`) %>
+`, 'mermaid') %>
 
 The following fitness function asserts that `util` is not coupled to `io`.
 
@@ -255,12 +255,12 @@ test('util is not coupled to io in order to maintain purity', t => {
 
 The solution introducing file utilities whilst maintaining purity would be to introduce a new module, say `fileUtil`:
 
-<%- mermaid(`
+<%- code(`
 graph TD;
     io["io<br/>(impure)"]-->|OK!|util
     util["util<br/>(pure)"]-->|NOT OK!|io
     fileUtil["fileUtil<br/>(impure)"]-->|OK!|io
-`) %>
+`, 'mermaid') %>
 
 ## Testability
 
@@ -288,11 +288,11 @@ Take the composition root of the Gravatar SPA example:
 
 Mermaid digram:
 
-<%- mermaid((await compose('./examples/gravatar-spa/src/compose.js')).mermaid()) %>
+<%- await compose(c => code(c.mermaid(), 'mermaid'), './examples/gravatar-spa/src/compose.js') %>
 
 Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 
-<%- code((await compose('./examples/gravatar-spa/src/compose.js')).eject(), 'js') %>
+<%- await compose(c => code(c.eject(), 'js'), './examples/gravatar-spa/src/compose.js') %>
 
 ## Advanced example: Agile Avatars
 
@@ -301,12 +301,14 @@ https://agileavatars.com • https://github.com/mattriley/agileavatars
 
 Module composition:
 
-<%- await readCode(['../agileavatars', './src/compose.js']) %>
+<% vars.agileavatars = { composeFile: '../agileavatars/src/compose.js' } %>
+
+<%- await readCode(vars.agileavatars.composeFile) %>
 
 Mermaid digram:
 
-<%- mermaid((await compose('../agileavatars/src/compose.js')).mermaid()) %>
+<%- await compose(c => code(c.mermaid(), 'mermaid'), vars.agileavatars.composeFile) %>
 
 Ejected output:
 
-<%- code((await compose('../agileavatars/src/compose.js')).eject(), 'js') %>
+<%- await compose(c => code(c.eject(), 'js'), vars.agileavatars.composeFile) %>
