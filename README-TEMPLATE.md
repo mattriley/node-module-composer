@@ -301,7 +301,7 @@ https://agileavatars.com • https://github.com/mattriley/agileavatars
 
 Module composition:
 
-<%- await renderCode(fetchCode('src/compose.js', '../agileavatars', 'https://github.com/mattriley/agileavatars')) %>
+<%- await renderCode(fetchCode('src/compose.js', '../agileavatars', 'https://github.com/mattriley/agileavatars/tree/master')) %>
 
 Mermaid digram:
 
