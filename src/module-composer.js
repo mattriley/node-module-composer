@@ -1,6 +1,7 @@
-const mermaid = require('./mermaid');
-const eject = require('./eject');
 const util = require('./util');
+const eject = require('./eject');
+const mermaid = require('./mermaid');
+const performance = require('./performance');
 
 module.exports = (target, options = {}) => {
     const defaultOptions = {
@@ -15,7 +16,8 @@ module.exports = (target, options = {}) => {
     const modules = { ...target };
     const dependencies = util.mapValues(modules, () => []);
     const composedDependencies = {};
-    const propTargets = { target, config, modules, dependencies, composedDependencies };
+    const durations = {};
+    const propTargets = { target, config, modules, dependencies, composedDependencies, durations };
 
     const recurse = (target, parentKey, [moduleArgs, ...otherArgs]) => {
         if (!util.isPlainObject(target)) return target;
@@ -29,11 +31,13 @@ module.exports = (target, options = {}) => {
     };
 
     const compose = (key, moduleArgs = {}, ...otherArgs) => {
+        const startTime = performance.now();
         if (!util.has(target, key)) throw new Error(`${key} not found`);
         const moduleArgsWithDefaults = { ...options.defaults, ...moduleArgs };
         const module = opts.customiser(recurse(util.get(target, key), key, [moduleArgsWithDefaults, ...otherArgs]) ?? {});
         util.set(modules, key, util.override({ [key]: module }, options.overrides)[key]);
         dependencies[key] = composedDependencies[key] = Object.keys(moduleArgsWithDefaults);
+        durations[key] = performance.now() - startTime;
         return modules;
     };
 
@@ -42,7 +46,8 @@ module.exports = (target, options = {}) => {
         [key, { get() { return { ...val }; } }]
     ]).concat([
         ['mermaid', { value: opts => mermaid(dependencies, opts) }],
-        ['eject', { value: () => eject(target, composedDependencies) }]
+        ['eject', { value: () => eject(target, composedDependencies) }],
+        ['duration', { value: () => Object.values(durations).reduce((sum, ms) => sum + ms, 0) }]
     ]).map(([key, def]) => [key, { ...def, enumerable: true }]);
 
     const composition = compose.composition = Object.defineProperties({}, Object.fromEntries(props));

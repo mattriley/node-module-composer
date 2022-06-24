@@ -7,4 +7,5 @@ export READMEGEN_REPO_ROOT="https://github.com/mattriley/node-module-composer"
 export READMEGEN_CODE_ROOT="$READMEGEN_REPO_ROOT/blob/master"
 export READMEGEN_REPLACE="../agileavatars https://github.com/mattriley/agileavatars/blob/master"
 
-export COV_BRANCHES=96
+export COV_BRANCHES=95
+export COV_FUNCTIONS=93
