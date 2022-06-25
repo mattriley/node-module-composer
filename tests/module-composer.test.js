@@ -44,6 +44,15 @@ module.exports = ({ test }) => {
         t.throws(() => compose('foo.bar'), 'foo.bar not found');
     });
 
+    test('composition ended', t => {
+        const target = { foo: {} };
+        const { compose } = composer(target);
+        compose('foo');
+        const composition = compose.end();
+        t.equal(composition.modules, { foo: {} });
+        t.throws(() => compose('bar'), 'Composition has ended');
+    });
+
     test('args are optional', t => {
         const target = { foo: {} };
         const { compose } = composer(target);

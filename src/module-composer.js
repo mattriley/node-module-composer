@@ -10,6 +10,7 @@ module.exports = (target, options = {}) => {
         customiser: m => m[opts.customiserFunction] ? m[opts.customiserFunction]() : m
     };
 
+    let ended = false;
     const opts = util.merge({}, defaultOptions, options);
     const configs = util.flattenDeep(util.pickValues(options, opts.configKeys));
     const config = util.merge({}, ...configs);
@@ -31,8 +32,9 @@ module.exports = (target, options = {}) => {
     };
 
     const compose = (key, moduleArgs = {}, ...otherArgs) => {
-        const startTime = performance.now();
+        if (ended) throw new Error('Composition has ended');
         if (!util.has(target, key)) throw new Error(`${key} not found`);
+        const startTime = performance.now();
         const moduleArgsWithDefaults = { ...options.defaults, ...moduleArgs };
         const module = opts.customiser(recurse(util.get(target, key), key, [moduleArgsWithDefaults, ...otherArgs]) ?? {});
         util.set(modules, key, util.override({ [key]: module }, options.overrides)[key]);
@@ -53,5 +55,6 @@ module.exports = (target, options = {}) => {
     const props = Object.fromEntries(propEntries);
     const composition = compose.composition = Object.defineProperties({}, props);
     Object.defineProperties(compose, props);
+    compose.end = () => { ended = true; return composition; };
     return { compose, composition, config };
 };
