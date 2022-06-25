@@ -43,15 +43,15 @@ module.exports = (target, options = {}) => {
         return modules;
     };
 
-    const props = Object.entries(propTargets).flatMap(([key, val]) => [
-        [`get${util.upperFirst(key)}`, { value: () => ({ ...val }) }],
+    const propEntries = Object.entries(propTargets).flatMap(([key, val]) => [
         [key, { get() { return { ...val }; } }]
     ]).concat([
         ['mermaid', { value: opts => mermaid(dependencies, opts) }],
         ['eject', { value: () => eject(target, composedDependencies) }]
     ]).map(([key, def]) => [key, { ...def, enumerable: true }]);
 
-    const composition = compose.composition = Object.defineProperties({}, Object.fromEntries(props));
-    Object.defineProperties(compose, Object.fromEntries(props));
+    const props = Object.fromEntries(propEntries);
+    const composition = compose.composition = Object.defineProperties({}, props);
+    Object.defineProperties(compose, props);
     return { compose, composition, config };
 };

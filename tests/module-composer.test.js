@@ -13,7 +13,6 @@ module.exports = ({ test }) => {
         const target = { foo: {} };
         const { compose } = composer(target);
         t.equal(compose.target, target);
-        t.equal(compose.getTarget(), target);
     });
 
     test('accepts single config as an option', t => {
@@ -28,7 +27,6 @@ module.exports = ({ test }) => {
         const config2 = { a: { c: 'C', d: 'D' } };
         const { compose } = composer({}, { configs: [config1, config2] });
         t.equal(compose.config, { a: { b: 'B', c: 'C', d: 'D' } });
-        t.equal(compose.getConfig(), { a: { b: 'B', c: 'C', d: 'D' } });
     });
 
     test('target module unchanged if not composed', t => {
@@ -59,9 +57,7 @@ module.exports = ({ test }) => {
         const { compose } = composer(target);
         compose('foo', { bar: {} });
         t.equal(compose.modules, { foo: {} });
-        t.equal(compose.getModules(), { foo: {} });
         t.equal(compose.dependencies, { foo: ['bar'] });
-        t.equal(compose.getDependencies(), { foo: ['bar'] });
     });
 
     test('args are applied to nested object', t => {
@@ -69,9 +65,7 @@ module.exports = ({ test }) => {
         const { compose } = composer(target);
         compose('foo.bar', { baz: {} });
         t.equal(compose.modules, { foo: { bar: {} } });
-        t.equal(compose.getModules(), { foo: { bar: {} } });
         t.equal(compose.dependencies, { foo: [], 'foo.bar': ['baz'] });
-        t.equal(compose.getDependencies(), { foo: [], 'foo.bar': ['baz'] });
     });
 
     test('defaults are applied', t => {
