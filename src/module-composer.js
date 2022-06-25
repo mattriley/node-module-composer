@@ -16,8 +16,8 @@ module.exports = (target, options = {}) => {
     const modules = { ...target };
     const dependencies = util.mapValues(modules, () => []);
     const composedDependencies = {};
-    const durations = {};
-    const propTargets = { target, config, modules, dependencies, composedDependencies, durations };
+    const stats = { totalDuration: 0, modules: {} };
+    const propTargets = { target, config, modules, dependencies, composedDependencies, stats };
 
     const recurse = (target, parentKey, [moduleArgs, ...otherArgs]) => {
         if (!util.isPlainObject(target)) return target;
@@ -37,7 +37,9 @@ module.exports = (target, options = {}) => {
         const module = opts.customiser(recurse(util.get(target, key), key, [moduleArgsWithDefaults, ...otherArgs]) ?? {});
         util.set(modules, key, util.override({ [key]: module }, options.overrides)[key]);
         dependencies[key] = composedDependencies[key] = Object.keys(moduleArgsWithDefaults);
-        durations[key] = performance.now() - startTime;
+        const duration = performance.now() - startTime;
+        util.set(stats.modules, [key, 'duration'], duration);
+        stats.totalDuration += duration;
         return modules;
     };
 
@@ -46,8 +48,7 @@ module.exports = (target, options = {}) => {
         [key, { get() { return { ...val }; } }]
     ]).concat([
         ['mermaid', { value: opts => mermaid(dependencies, opts) }],
-        ['eject', { value: () => eject(target, composedDependencies) }],
-        ['duration', { value: () => Object.values(durations).reduce((sum, ms) => sum + ms, 0) }]
+        ['eject', { value: () => eject(target, composedDependencies) }]
     ]).map(([key, def]) => [key, { ...def, enumerable: true }]);
 
     const composition = compose.composition = Object.defineProperties({}, Object.fromEntries(props));
