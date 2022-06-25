@@ -4,6 +4,7 @@ const mermaid = require('./mermaid');
 const performance = require('./performance');
 
 module.exports = (target, options = {}) => {
+
     const defaultOptions = {
         configKeys: ['defaultConfig', 'config', 'configs'],
         customiserFunction: 'setup',
@@ -50,11 +51,11 @@ module.exports = (target, options = {}) => {
     ]).concat([
         ['mermaid', { value: opts => mermaid(dependencies, opts) }],
         ['eject', { value: () => eject(target, composedDependencies) }]
-    ]).map(([key, def]) => [key, { ...def, enumerable: true }]);
+    ]);
 
     const props = Object.fromEntries(propEntries);
-    const composition = compose.composition = Object.defineProperties({}, props);
     Object.defineProperties(compose, props);
-    compose.end = () => { ended = true; return composition; };
-    return { compose, composition, config };
+    compose.end = () => { ended = true; return Object.defineProperties({}, props); };
+    return { compose, config };
+
 };

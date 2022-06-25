@@ -2,13 +2,6 @@ const composer = require('../');
 
 module.exports = ({ test }) => {
 
-    test('can get composition', t => {
-        const target = { foo: {} };
-        const { compose, composition } = composer(target);
-        t.ok(composition);
-        t.equal(compose.composition, composition);
-    });
-
     test('can get target', t => {
         const target = { foo: {} };
         const { compose } = composer(target);
