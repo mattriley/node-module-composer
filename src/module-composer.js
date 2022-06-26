@@ -1,9 +1,10 @@
 const util = require('./util');
 const eject = require('./eject');
 const mermaid = require('./mermaid');
-const performance = require('./performance');
 
 module.exports = (target, options = {}) => {
+
+    const { performance } = globalThis.window ?? require('perf_hooks');
 
     const defaultOptions = {
         configKeys: ['defaultConfig', 'config', 'configs'],
