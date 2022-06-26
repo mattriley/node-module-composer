@@ -14,6 +14,7 @@ const defineGetters = (obj, propTargets) => Object.defineProperties(obj, Object.
 ));
 
 const isPlainFunction = val => isFunction(val) && !(val.prototype && val.prototype.constructor === val);
+const mergeConfig = (obj, keys) => merge({}, ...flattenDeep(pickValues(obj, keys)));
 const override = (obj, overrides = {}) => merge(obj, pick(overrides, Object.keys(obj)));
 const pickValues = (obj, keys) => Object.values(pick(obj, keys));
 
@@ -27,6 +28,7 @@ module.exports = {
     isPlainObject,
     mapValues,
     merge,
+    mergeConfig,
     pickValues,
     set,
     upperFirst,
