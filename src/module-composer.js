@@ -39,9 +39,9 @@ module.exports = (target, userOptions = {}) => {
     const baseCompose = (key, moduleArgs = {}, ...otherArgs) => {
         if (ended) throw new Error('Composition has ended');
         if (!util.has(target, key)) throw new Error(`${key} not found`);
-        const moduleArgsWithDefaults = { ...userOptions.defaults, ...moduleArgs };
+        const moduleArgsWithDefaults = { ...options.defaults, ...moduleArgs };
         const module = options.customiser(recurse(util.get(target, key), key, [moduleArgsWithDefaults, ...otherArgs]) ?? {});
-        util.set(props.modules, key, util.override({ [key]: module }, userOptions.overrides)[key]);
+        util.set(props.modules, key, util.override({ [key]: module }, options.overrides)[key]);
         props.dependencies[key] = props.composedDependencies[key] = Object.keys(moduleArgsWithDefaults);
         return props.modules;
     };
