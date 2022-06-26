@@ -18,11 +18,7 @@ If that sounds like a lot to wrap your head around, fear not! Implementation-wis
 
 ## Install
 
-```
-npm install module-composer
-```
-
-https://www.npmjs.com/package/module-composer
+<%- await renderCode('npm install module-composer', 'sh', 'https://www.npmjs.com/package/module-composer') %>
 
 ## Basic example
 
