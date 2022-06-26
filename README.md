@@ -37,6 +37,8 @@ If that sounds like a lot to wrap your head around, fear not! Implementation-wis
 npm install module-composer
 ```
 
+https://www.npmjs.com/package/module-composer
+
 ## Basic example
 
 Consider the following example:
@@ -130,8 +132,8 @@ export default () => {
     const { compose } = composer(modules);
     const { stores } = compose('stores');
     const { services } = compose('services', { stores });
-    const { components } = compose('components', { services });
-    return compose;
+    compose('components', { services });
+    return compose.end();
 };
 ```
 
@@ -395,13 +397,11 @@ import modules from './modules';
 import defaultConfig from './default-config';
 
 export default ({ overrides } = {}) => {
-
     const { compose, config } = composer(modules, { overrides, defaultConfig });
     const io = { fetch: (...args) => window.fetch(...args) };
     const { services } = compose('services', { io, config });
     compose('components', { services });
-    return compose;
-
+    return compose.end();
 };
 ```
 
@@ -475,7 +475,7 @@ export default ({ window, overrides, configs }) => {
     compose('diagnostics', { stores, util });
     compose('startup', { ui, components, styles, services, subscriptions, stores, util, config, window });
 
-    return compose;
+    return compose.end();
 
 };
 ```

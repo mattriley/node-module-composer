@@ -22,6 +22,8 @@ If that sounds like a lot to wrap your head around, fear not! Implementation-wis
 npm install module-composer
 ```
 
+https://www.npmjs.com/package/module-composer
+
 ## Basic example
 
 Consider the following example:

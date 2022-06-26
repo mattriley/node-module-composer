@@ -1,6 +1,6 @@
 {
     "name": "module-composer",
-    "version": "0.38.0",
+    "version": "0.39.0",
     "description": "A tiny but powerful closure-based module composition utility.",
     "author": "Matt Riley",
     "license": "ISC",
@@ -16,7 +16,7 @@
     },
     "devDependencies": {
         "module-composer": "file:.",
-        "task-library": "^0.0.22",
+        "task-library": "^0.2.2",
         "zora": "^5.0.3",
         "zora-reporters": "^1.3.2"
     },
