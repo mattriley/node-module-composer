@@ -4,8 +4,6 @@ const mermaid = require('./mermaid');
 
 module.exports = (target, options = {}) => {
 
-    const { performance } = globalThis.window ?? require('perf_hooks');
-
     const defaultOptions = {
         configKeys: ['defaultConfig', 'config', 'configs'],
         customiserFunction: 'setup',
@@ -33,18 +31,23 @@ module.exports = (target, options = {}) => {
         return Object.assign(product, newObj);
     };
 
-    const compose = (key, moduleArgs = {}, ...otherArgs) => {
+    const baseCompose = (key, moduleArgs = {}, ...otherArgs) => {
         if (ended) throw new Error('Composition has ended');
         if (!util.has(target, key)) throw new Error(`${key} not found`);
-        const startTime = performance.now();
         const moduleArgsWithDefaults = { ...options.defaults, ...moduleArgs };
         const module = opts.customiser(recurse(util.get(target, key), key, [moduleArgsWithDefaults, ...otherArgs]) ?? {});
         util.set(modules, key, util.override({ [key]: module }, options.overrides)[key]);
         dependencies[key] = composedDependencies[key] = Object.keys(moduleArgsWithDefaults);
-        const duration = performance.now() - startTime;
-        util.set(stats.modules, [key, 'duration'], duration);
-        stats.totalDuration += duration;
         return modules;
+    };
+
+    const timedCompose = (...args) => {
+        const startTime = performance.now();
+        const result = baseCompose(...args);
+        const duration = performance.now() - startTime;
+        util.set(stats.modules, [args[0], 'duration'], duration);
+        stats.totalDuration += duration;
+        return result;
     };
 
     const propEntries = Object.entries(propTargets).flatMap(([key, val]) => [
@@ -55,8 +58,10 @@ module.exports = (target, options = {}) => {
     ]);
 
     const props = Object.fromEntries(propEntries);
-    Object.defineProperties(compose, props);
+    const compose = performance ? timedCompose : baseCompose;
     compose.end = () => { ended = true; return Object.defineProperties({}, props); };
+    Object.defineProperties(compose, props);
+
     return { compose, config };
 
 };
