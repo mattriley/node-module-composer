@@ -14,7 +14,7 @@ module.exports = (target, options = {}) => {
     let ended = false;
     const opts = util.merge({}, defaultOptions, options);
     const configs = util.flattenDeep(util.pickValues(options, opts.configKeys));
-    const config = util.merge({}, ...configs);
+    const config = Object.freeze(util.merge({}, ...configs));
     const modules = { ...target };
     const dependencies = util.mapValues(modules, () => []);
     const composedDependencies = {};
@@ -51,18 +51,13 @@ module.exports = (target, options = {}) => {
         return result;
     };
 
-    const propEntries = Object.entries(propTargets).flatMap(([key, val]) => [
-        [key, { get() { return { ...val }; } }]
-    ]).concat([
-        ['mermaid', { value: opts => mermaid(dependencies, opts) }],
-        ['eject', { value: () => eject(target, composedDependencies) }]
-    ]);
+    const assignProps = obj => Object.assign(util.defineGetters(obj, propTargets), {
+        mermaid: opts => mermaid(dependencies, opts),
+        eject: () => eject(target, composedDependencies)
+    });
 
-    const props = Object.fromEntries(propEntries);
-    const compose = opts.stats ? timedCompose : baseCompose;
-    compose.end = () => { ended = true; return Object.defineProperties({}, props); };
-    Object.defineProperties(compose, props);
-
+    const compose = assignProps(opts.stats ? timedCompose : baseCompose);
+    compose.end = () => { ended = true; return assignProps({}); };
     return { compose, config };
 
 };
