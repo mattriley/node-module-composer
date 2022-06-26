@@ -30,11 +30,24 @@ module.exports = ({ test }) => {
         t.equal(compose.dependencies, { foo: [], bar: [] });
     });
 
+    test('key not provided', t => {
+        const target = {};
+        const { compose } = composer(target);
+        t.throws(() => compose(), 'key is required');
+    });
+
     test('key not found', t => {
         const target = {};
         const { compose } = composer(target);
         t.throws(() => compose('foo'), 'foo not found');
         t.throws(() => compose('foo.bar'), 'foo.bar not found');
+    });
+
+    test('already composed', t => {
+        const target = { foo: {} };
+        const { compose } = composer(target);
+        compose('foo');
+        t.throws(() => compose('foo'), 'foo already composed');
     });
 
     test('composition ended', t => {

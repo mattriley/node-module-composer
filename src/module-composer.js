@@ -4,6 +4,8 @@ const mermaid = require('./mermaid');
 
 module.exports = (target, userOptions = {}) => {
 
+    let ended = false;
+
     const defaultOptions = {
         stats: true,
         configKeys: ['defaultConfig', 'config', 'configs'],
@@ -11,18 +13,20 @@ module.exports = (target, userOptions = {}) => {
         customiser: m => m[options.customiserFunction] ? m[options.customiserFunction]() : m
     };
 
-    let ended = false;
     const options = util.merge({}, defaultOptions, userOptions);
+    const config = util.mergeConfig(options, options.configKeys);
+
     const props = {
-        defaultOptions,
-        userOptions,
-        options,
-        target,
-        config: util.mergeConfig(userOptions, options.configKeys),
+        defaultOptions, userOptions, options, config, target,
         modules: { ...target },
         dependencies: util.mapValues(target, () => []),
         composedDependencies: {},
         stats: { totalDuration: 0, modules: {} }
+    };
+
+    const funcs = {
+        mermaid: opts => mermaid(props.dependencies, opts),
+        eject: () => eject(target, props.composedDependencies)
     };
 
     const recurse = (target, parentKey, [moduleArgs, ...otherArgs]) => {
@@ -38,7 +42,9 @@ module.exports = (target, userOptions = {}) => {
 
     const baseCompose = (key, moduleArgs = {}, ...otherArgs) => {
         if (ended) throw new Error('Composition has ended');
+        if (!key) throw new Error('key is required');
         if (!util.has(target, key)) throw new Error(`${key} not found`);
+        if (props.composedDependencies[key]) throw new Error(`${key} already composed`);
         const moduleArgsWithDefaults = { ...options.defaults, ...moduleArgs };
         const module = options.customiser(recurse(util.get(target, key), key, [moduleArgsWithDefaults, ...otherArgs]) ?? {});
         util.set(props.modules, key, util.override({ [key]: module }, options.overrides)[key]);
@@ -55,13 +61,9 @@ module.exports = (target, userOptions = {}) => {
         return result;
     };
 
-    const assignProps = obj => Object.assign(util.defineGetters(obj, props), {
-        mermaid: opts => mermaid(props.dependencies, opts),
-        eject: () => eject(target, props.composedDependencies)
-    });
-
+    const assignProps = obj => Object.assign(util.defineGetters(obj, props), funcs);
     const compose = assignProps(options.stats ? timedCompose : baseCompose);
     compose.end = () => { ended = true; return assignProps({}); };
-    return { compose, config: props.config };
+    return { compose, config };
 
 };
