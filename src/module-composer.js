@@ -22,8 +22,7 @@ module.exports = (target, userOptions = {}) => {
         composedDependencies: {},
         stats: { totalDuration: 0, modules: {} },
         mermaid: opts => mermaid(props.dependencies, opts),
-        eject: () => eject(target, props.composedDependencies),
-        end: () => { ended = true; return props; }
+        eject: () => eject(target, props.composedDependencies)
     };
 
     const recurse = (target, parentKey, [moduleArgs, ...otherArgs]) => {
@@ -58,8 +57,9 @@ module.exports = (target, userOptions = {}) => {
         return result;
     };
 
+    const end = () => { ended = true; return props; };
     const compose = options.stats ? timedCompose : baseCompose;
-    Object.assign(compose, props);
+    Object.assign(compose, props, { end });
     return { compose, config };
 
 };
