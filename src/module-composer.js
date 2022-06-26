@@ -5,6 +5,7 @@ const mermaid = require('./mermaid');
 module.exports = (target, options = {}) => {
 
     const defaultOptions = {
+        stats: true,
         configKeys: ['defaultConfig', 'config', 'configs'],
         customiserFunction: 'setup',
         customiser: m => m[opts.customiserFunction] ? m[opts.customiserFunction]() : m
@@ -41,11 +42,11 @@ module.exports = (target, options = {}) => {
         return modules;
     };
 
-    const timedCompose = (...args) => {
+    const timedCompose = (key, moduleArgs = {}, ...otherArgs) => {
         const startTime = performance.now();
-        const result = baseCompose(...args);
+        const result = baseCompose(key, moduleArgs, ...otherArgs);
         const duration = performance.now() - startTime;
-        util.set(stats.modules, [args[0], 'duration'], duration);
+        util.set(stats.modules, [key, 'duration'], duration);
         stats.totalDuration += duration;
         return result;
     };
@@ -58,7 +59,7 @@ module.exports = (target, options = {}) => {
     ]);
 
     const props = Object.fromEntries(propEntries);
-    const compose = performance ? timedCompose : baseCompose;
+    const compose = opts.stats ? timedCompose : baseCompose;
     compose.end = () => { ended = true; return Object.defineProperties({}, props); };
     Object.defineProperties(compose, props);
 
