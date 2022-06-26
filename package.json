@@ -1,6 +1,6 @@
 {
     "name": "module-composer",
-    "version": "0.37.0",
+    "version": "0.38.0",
     "description": "A tiny but powerful closure-based module composition utility.",
     "author": "Matt Riley",
     "license": "ISC",
@@ -22,5 +22,24 @@
     },
     "publishConfig": {
         "access": "public"
-    }
+    },
+    "keywords": [
+        "application-architecture",
+        "software-design",
+        "modular-design",
+        "module-composition",
+        "composition-root",
+        "dependency-inversion",
+        "dependency-injection",
+        "functional-dependency-injection",
+        "higher-order-functions",
+        "stateful-functions",
+        "closures",
+        "fitness-functions",
+        "mermaid",
+        "small",
+        "fast",
+        "browser",
+        "ejectable"
+    ]
 }
