@@ -1,17 +1,9 @@
 const util = require('./util');
 const eject = require('./eject');
 const mermaid = require('./mermaid');
+const defaultOptions = require('./default-options');
 
 module.exports = (target, userOptions = {}) => {
-
-    const defaultOptions = {
-        stats: true,
-        configKeys: ['defaultConfig', 'config', 'configs'],
-        defaults: {},
-        overrides: {},
-        customiserFunction: 'setup',
-        customiser: m => m[options.customiserFunction] ? m[options.customiserFunction]() : m
-    };
 
     let ended = false;
     const options = util.merge({}, defaultOptions, userOptions);
@@ -42,7 +34,7 @@ module.exports = (target, userOptions = {}) => {
         if (props.composedDependencies[key]) throw new Error(`${key} already composed`);
         deps = { ...options.defaults, ...deps };
         const recursed = recurse(util.get(target, key), key, deps);
-        const customised = options.customiser(recursed);
+        const customised = util.invoke(recursed, options.customiser, recursed) ?? recursed;
         const overridden = util.merge(customised, util.get(options.overrides, key));
         util.set(props.modules, key, overridden);
         props.dependencies[key] = props.composedDependencies[key] = Object.keys(deps);
