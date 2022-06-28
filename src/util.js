@@ -11,7 +11,6 @@ const upperFirst = require('lodash/upperFirst');
 
 const isPlainFunction = val => isFunction(val) && !(val.prototype && val.prototype.constructor === val);
 const mergeConfig = (obj, keys) => merge({}, ...flattenDeep(pickValues(obj, keys)));
-const override = (obj, overrides) => merge(obj, pick(overrides, Object.keys(obj)));
 const pickValues = (obj, keys) => Object.values(pick(obj, keys));
 
 module.exports = {
@@ -19,7 +18,6 @@ module.exports = {
     has,
     isPlainFunction,
     isPlainObject,
-    override,
     mapValues,
     merge,
     mergeConfig,

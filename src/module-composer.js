@@ -41,9 +41,10 @@ module.exports = (target, userOptions = {}) => {
         if (!util.has(target, key)) throw new Error(`${key} not found`);
         if (props.composedDependencies[key]) throw new Error(`${key} already composed`);
         deps = { ...options.defaults, ...deps };
-        const intermediate = recurse(util.get(target, key), key, deps) ?? {};
-        const module = options.customiser(intermediate);
-        util.set(props.modules, key, util.override({ [key]: module }, options.overrides)[key]);
+        const recursed = recurse(util.get(target, key), key, deps) ?? {};
+        const customised = options.customiser(recursed);
+        const overridden = util.merge(customised, util.get(options.overrides, key));
+        util.set(props.modules, key, overridden);
         props.dependencies[key] = props.composedDependencies[key] = Object.keys(deps);
         return props.modules;
     };
