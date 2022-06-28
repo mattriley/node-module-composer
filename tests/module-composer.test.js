@@ -59,6 +59,14 @@ module.exports = ({ test }) => {
         t.throws(() => compose('bar'), 'Composition has ended');
     });
 
+    test('no stats when stats option is false', t => {
+        const target = { foo: {} };
+        const { compose } = composer(target, { stats: false });
+        compose('foo');
+        const composition = compose.end();
+        t.notOk('stats' in composition);
+    });
+
     test('args are optional', t => {
         const target = { foo: {} };
         const { compose } = composer(target);
