@@ -25,33 +25,30 @@ module.exports = (target, userOptions = {}) => {
         eject: () => eject(target, props.composedDependencies)
     };
 
-    const recurse = (target, parentKey, [deps, ...args]) => {
+    const recurse = (target, parentKey, deps) => {
         if (!util.isPlainObject(target)) return target;
         const product = {};
-        const newModulesArgs = { ...deps };
-        util.set(newModulesArgs, parentKey, product);
-        const newArgs = [newModulesArgs, ...args];
-        const evaluate = (val, key) => util.isPlainFunction(val) ? val(...newArgs) : recurse(val, key, newArgs);
-        const newObj = util.mapValues(target, evaluate);
-        return Object.assign(product, newObj);
+        deps = util.set({ ...deps }, parentKey, product);
+        const evaluate = (val, key) => util.isPlainFunction(val) ? val(deps) : recurse(val, key, deps);
+        return Object.assign(product, util.mapValues(target, evaluate));
     };
 
-    const baseCompose = (key, deps = {}, ...args) => {
+    const baseCompose = (key, deps = {}) => {
         if (ended) throw new Error('Composition has ended');
         if (!key) throw new Error('key is required');
         if (!util.has(target, key)) throw new Error(`${key} not found`);
         if (props.composedDependencies[key]) throw new Error(`${key} already composed`);
         deps = { ...options.defaults, ...deps };
-        const intermediate = recurse(util.get(target, key), key, [deps, ...args]) ?? {};
+        const intermediate = recurse(util.get(target, key), key, deps) ?? {};
         const module = options.customiser(intermediate);
         util.set(props.modules, key, util.override({ [key]: module }, options.overrides)[key]);
         props.dependencies[key] = props.composedDependencies[key] = Object.keys(deps);
         return props.modules;
     };
 
-    const timedCompose = (key, deps = {}, ...args) => {
+    const timedCompose = (key, deps = {}) => {
         const startTime = performance.now();
-        const result = baseCompose(key, deps, ...args);
+        const result = baseCompose(key, deps);
         const duration = performance.now() - startTime;
         util.set(props.stats.modules, [key, 'duration'], duration);
         props.stats.totalDuration += duration;
