@@ -1,11 +1,11 @@
 const util = require('./util');
 const flatten = require('flat');
 
-module.exports = (target, dependencies) => {
+module.exports = (target, deps) => {
 
-    const targetKeys = Object.keys(dependencies);
+    const targetKeys = Object.keys(deps);
 
-    const lines = Object.entries(dependencies).flatMap(([targetKey, deps]) => {
+    const lines = Object.entries(deps).flatMap(([targetKey, deps]) => {
         const moduleName = targetKey.split('.').pop();
         const keys = Object.keys(flatten({ [moduleName]: util.get(target, targetKey) }));
         return [
@@ -20,7 +20,7 @@ module.exports = (target, dependencies) => {
         ''
     );
 
-    const uniqDeps = Array.from(new Set(Object.values(dependencies).flat()));
+    const uniqDeps = Array.from(new Set(Object.values(deps).flat()));
     const args = uniqDeps.filter(dep => !target[dep]);
 
     return [

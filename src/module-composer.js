@@ -5,7 +5,7 @@ const initialiseProps = require('./initialise-props');
 module.exports = (target, userOptions = {}) => {
 
     let ended = false;
-    const { props, options, config } = initialiseProps({ target, userOptions });
+    const { props, options, config } = initialiseProps(target, userOptions);
 
     const baseCompose = (key, deps = {}) => {
         if (ended) throw new Error('Composition has ended');
