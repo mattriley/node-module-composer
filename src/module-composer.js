@@ -1,6 +1,7 @@
 const util = require('./util');
 const eject = require('./eject');
 const mermaid = require('./mermaid');
+const timedCompose = require('./timed-compose');
 const defaultOptions = require('./default-options');
 
 module.exports = (target, userOptions = {}) => {
@@ -19,14 +20,6 @@ module.exports = (target, userOptions = {}) => {
         eject: () => eject(target, props.composedDependencies)
     };
 
-    const recurse = (target, parentKey, deps) => {
-        if (!util.isPlainObject(target)) return target;
-        const product = {};
-        deps = util.set({ ...deps }, parentKey, product);
-        const evaluate = (val, key) => util.isPlainFunction(val) ? val(deps) : recurse(val, key, deps);
-        return Object.assign(product, util.mapValues(target, evaluate));
-    };
-
     const baseCompose = (key, deps = {}) => {
         if (ended) throw new Error('Composition has ended');
         if (!key) throw new Error('key is required');
@@ -41,17 +34,16 @@ module.exports = (target, userOptions = {}) => {
         return props.modules;
     };
 
-    const timedCompose = (key, deps = {}) => {
-        const startTime = performance.now();
-        const result = baseCompose(key, deps);
-        const duration = performance.now() - startTime;
-        util.set(props.stats.modules, [key, 'duration'], duration);
-        props.stats.totalDuration += duration;
-        return result;
+    const recurse = (target, parentKey, deps) => {
+        if (!util.isPlainObject(target)) return target;
+        const product = {};
+        deps = util.set({ ...deps }, parentKey, product);
+        const evaluate = (val, key) => util.isPlainFunction(val) ? val(deps) : recurse(val, key, deps);
+        return Object.assign(product, util.mapValues(target, evaluate));
     };
 
     const end = () => { ended = true; return props; };
-    const compose = options.stats ? timedCompose : baseCompose;
+    const compose = options.stats ? timedCompose(baseCompose, props.stats) : baseCompose;
     Object.assign(compose, props, { end });
     return { compose, config };
 
