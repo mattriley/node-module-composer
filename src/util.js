@@ -11,7 +11,7 @@ const set = require('lodash/set');
 const upperFirst = require('lodash/upperFirst');
 
 const isPlainFunction = val => isFunction(val) && !(val.prototype && val.prototype.constructor === val);
-const mergeConfig = (obj, keys) => merge({}, ...flattenDeep(pickValues(obj, keys)));
+const mergeValues = (target, obj, keys) => merge(target, ...flattenDeep(pickValues(obj, keys)));
 const pickValues = (obj, keys) => Object.values(pick(obj, keys));
 
 module.exports = {
@@ -22,7 +22,7 @@ module.exports = {
     isPlainObject,
     mapValues,
     merge,
-    mergeConfig,
+    mergeValues,
     set,
     upperFirst
 };

@@ -7,7 +7,7 @@ module.exports = (target, userOptions = {}) => {
 
     let ended = false;
     const options = util.merge({}, defaultOptions, userOptions);
-    const config = util.mergeConfig(options, options.configKeys);
+    const config = util.mergeValues({}, options, options.configKeys);
 
     const props = {
         defaultOptions, userOptions, options, config, target,
@@ -35,7 +35,7 @@ module.exports = (target, userOptions = {}) => {
         deps = { ...options.defaults, ...deps };
         const recursed = recurse(util.get(target, key), key, deps);
         const customised = util.invoke(recursed, options.customiser, recursed) ?? recursed;
-        const overridden = util.merge(customised, util.get(options.overrides, key));
+        const overridden = util.merge({}, customised, util.get(options.overrides, key));
         util.set(props.modules, key, overridden);
         props.dependencies[key] = props.composedDependencies[key] = Object.keys(deps);
         return props.modules;
