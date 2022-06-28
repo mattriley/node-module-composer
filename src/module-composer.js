@@ -7,6 +7,8 @@ module.exports = (target, userOptions = {}) => {
     const defaultOptions = {
         stats: true,
         configKeys: ['defaultConfig', 'config', 'configs'],
+        defaults: {},
+        overrides: {},
         customiserFunction: 'setup',
         customiser: m => m[options.customiserFunction] ? m[options.customiserFunction]() : m
     };
