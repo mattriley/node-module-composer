@@ -1,6 +1,6 @@
 # Module Composer
 
-Bring order to chaos. Level up your JS application architecture with Module Composer. A tiny but powerful module composition utility based on functional dependency injection.
+Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
 Why is it so common for JavaScript applications these days (backend _and_ frontend) to be organised and reasoned about in terms of scripts and files, and navigated via a convoluted maze of file imports?
 
@@ -210,22 +210,23 @@ Module Composer can generate diagrams-as-code using _Mermaid_.
 
 GitHub can render diagrams directly from Mermaid syntax in markdown files. See [Include diagrams in your Markdown files with Mermaid](https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/) for more information.
 
-Use `compose.mermaid()` to generate a Mermaid diagram:
+Given the following composition:
 
-###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/compose-mermaid.js">examples/basic/compose-mermaid.js</a></p>
+###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/compose.js">examples/basic/compose.js</a></p>
 ```js
 import composer from 'module-composer';
 import modules from './modules';
 
-const { compose } = composer(modules);
-const { stores } = compose('stores');
-const { services } = compose('services', { stores });
-const { components } = compose('components', { services });
-
-console.log(compose.mermaid);
+export default () => {
+    const { compose } = composer(modules);
+    const { stores } = compose('stores');
+    const { services } = compose('services', { stores });
+    compose('components', { services });
+    return compose.end();
+};
 ```
 
-Output:
+Use `compose.mermaid()` to generate the following Mermaid diagram-as-code:
 
 ```
 graph TD;
@@ -233,7 +234,7 @@ graph TD;
     services-->stores;
 ```
 
-Which renders:
+Which Mermaid renders as:
 
 ###### <p align="right"><em>Can't see the diagram?</em> <a id="link-1" href="https://github.com/mattriley/node-module-composer#user-content-link-1">View it on GitHub</a></p>
 ```mermaid

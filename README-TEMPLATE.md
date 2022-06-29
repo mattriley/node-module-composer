@@ -126,15 +126,15 @@ Module Composer can generate diagrams-as-code using _Mermaid_.
 
 GitHub can render diagrams directly from Mermaid syntax in markdown files. See [Include diagrams in your Markdown files with Mermaid](https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/) for more information.
 
-Use `compose.mermaid()` to generate a Mermaid diagram:
+Given the following composition:
 
-<%- await renderCode(fetchCode('examples/basic/compose-mermaid.js')) %>
+<%- await renderCode(fetchCode('examples/basic/compose.js')) %>
 
-Output:
+Use `compose.mermaid()` to generate the following Mermaid diagram-as-code:
 
 <%- await compose(c => renderCode(c.mermaid()), 'examples/basic/compose.js') %>
 
-Which renders:
+Which Mermaid renders as:
 
 <%- await compose(c => renderCode(c.mermaid(), 'mermaid'), 'examples/basic/compose.js') %>
 
