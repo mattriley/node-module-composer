@@ -1,6 +1,6 @@
 # Module Composer
 
-Bring order to chaos. Level up your JS application architecture with Module Composer. A tiny but powerful module composition utility based on functional dependency injection.
+Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
 Why is it so common for JavaScript applications these days (backend _and_ frontend) to be organised and reasoned about in terms of scripts and files, and navigated via a convoluted maze of file imports?
 
