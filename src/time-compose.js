@@ -1,7 +1,8 @@
 const util = require('./util');
 
-module.exports = (compose, stats) => (key, deps = {}) => {
+module.exports = (props, compose) => (key, deps) => {
 
+    const { stats } = props;
     const startTime = performance.now();
     const result = compose(key, deps);
     const duration = performance.now() - startTime;
