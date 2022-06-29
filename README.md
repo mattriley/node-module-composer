@@ -27,6 +27,7 @@ If that sounds like a lot to wrap your head around, fear not! Implementation-wis
 - [Fitness functions](#fitness-functions)
 - [Testability](#testability)
 - [Ejecting](#ejecting)
+- [Performance](#performance)
 - [Advanced example: Agile Avatars](#advanced-example-agile-avatars)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -436,12 +437,32 @@ Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 };
 ```
 
+## Performance
+
+Module Composer is fast, and measures performance by default for easy analysis.
+
+Use `compose.stats` to see the total composition duration, and a break down of duration per module:
+
+```js
+{
+    "totalDuration": 0.022541046142578125,
+    "modules": {
+        "services": {
+            "duration": 0.013250350952148438
+        },
+        "components": {
+            "duration": 0.009290695190429688
+        }
+    }
+}
+```
+
 ## Advanced example: Agile Avatars
 
 > Great looking avatars for your agile board and experiment in FRAMEWORK-LESS, vanilla JavaScript.<br/>
 https://agileavatars.com • https://github.com/mattriley/agileavatars
 
-Module composition:
+Composition root:
 
 ###### <p align="right"><a href="https://github.com/mattriley/agileavatars/tree/master/src/compose.js">https://github.com/mattriley/agileavatars/tree/master/src/compose.js</a></p>
 ```js
@@ -480,7 +501,106 @@ export default ({ window, overrides, configs }) => {
 };
 ```
 
-Mermaid digram:
+Performance measurements captured with `stats`:
+
+```js
+{
+    "totalDuration": 2.7744994163513184,
+    "modules": {
+        "stores": {
+            "duration": 0.3570828437805176
+        },
+        "subscriptions": {
+            "duration": 0.07216691970825195
+        },
+        "core": {
+            "duration": 0.22754192352294922
+        },
+        "io": {
+            "duration": 0.035124778747558594
+        },
+        "services": {
+            "duration": 0.4470829963684082
+        },
+        "vendorServices": {
+            "duration": 0.665708065032959
+        },
+        "ui": {
+            "duration": 0.09783315658569336
+        },
+        "elements": {
+            "duration": 0.09208297729492188
+        },
+        "vendorComponents": {
+            "duration": 0.031416893005371094
+        },
+        "components": {
+            "duration": 0.5966248512268066
+        },
+        "styles": {
+            "duration": 0.08241701126098633
+        },
+        "diagnostics": {
+            "duration": 0.02045917510986328
+        },
+        "startup": {
+            "duration": 0.04895782470703125
+        }
+    }
+}
+```
+
+Mermaid diagram-as-code generated with `mermaid()`:
+
+```
+graph TD;
+    components-->ui;
+    components-->elements;
+    components-->vendorComponents;
+    components-->vendorServices;
+    components-->services;
+    components-->subscriptions;
+    components-->util;
+    components-->config;
+    core-->util;
+    core-->config;
+    diagnostics-->stores;
+    diagnostics-->util;
+    elements-->ui;
+    elements-->util;
+    io-->window;
+    services-->subscriptions;
+    services-->stores;
+    services-->core;
+    services-->io;
+    services-->util;
+    services-->config;
+    startup-->ui;
+    startup-->components;
+    startup-->styles;
+    startup-->services;
+    startup-->subscriptions;
+    startup-->stores;
+    startup-->util;
+    startup-->config;
+    startup-->window;
+    stores-->storage;
+    stores-->config;
+    styles-->ui;
+    styles-->subscriptions;
+    styles-->config;
+    subscriptions-->stores;
+    subscriptions-->util;
+    ui-->window;
+    vendorComponents-->ui;
+    vendorComponents-->config;
+    vendorComponents-->window;
+    vendorServices-->io;
+    vendorServices-->config;
+    vendorServices-->window;
+```
+
+Mermaid diagram:
 
 ###### <p align="right"><em>Can't see the diagram?</em> <a id="link-6" href="https://github.com/mattriley/node-module-composer#user-content-link-6">View it on GitHub</a></p>
 ```mermaid
@@ -531,7 +651,7 @@ graph TD;
     vendorServices-->window;
 ```
 
-Ejected output:
+Code generated with `eject()`:
 
 ```js
 (modules, { config, window }) => {
