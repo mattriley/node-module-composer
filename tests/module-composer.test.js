@@ -59,6 +59,13 @@ module.exports = ({ test }) => {
         t.throws(() => compose('bar'), 'Composition has ended');
     });
 
+    test('composition already ended', t => {
+        const target = { foo: {} };
+        const { compose } = composer(target);
+        compose.end();
+        t.throws(() => compose.end(), 'Composition has already ended');
+    });
+
     test('no stats when stats option is false', t => {
         const target = { foo: {} };
         const { compose } = composer(target, { stats: false });
