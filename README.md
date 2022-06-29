@@ -439,19 +439,22 @@ Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 
 ## Performance
 
-Module Composer is fast, and measures performance by default for easy analysis.
+Module Composer is fast. In fact, so fast that it needs to be measured with sub-millisecond precision. Performance is measured by default for easy analysis.
 
-Use `compose.stats` to see the total composition duration, and a break down of duration per module:
+Use `compose.stats` to see the total composition duration, and a break down of duration per module.
+
+#### gravatar-spa example stats
 
 ```js
 {
-    "totalDuration": 0.022541046142578125,
+    "durationUnit": "ms",
+    "totalDuration": 0.02362537384033203,
     "modules": {
         "services": {
-            "duration": 0.013250350952148438
+            "duration": 0.01399993896484375
         },
         "components": {
-            "duration": 0.009290695190429688
+            "duration": 0.009625434875488281
         }
     }
 }
@@ -462,7 +465,7 @@ Use `compose.stats` to see the total composition duration, and a break down of d
 > Great looking avatars for your agile board and experiment in FRAMEWORK-LESS, vanilla JavaScript.<br/>
 https://agileavatars.com • https://github.com/mattriley/agileavatars
 
-Composition root:
+#### Composition root
 
 ###### <p align="right"><a href="https://github.com/mattriley/agileavatars/tree/master/src/compose.js">https://github.com/mattriley/agileavatars/tree/master/src/compose.js</a></p>
 ```js
@@ -501,56 +504,56 @@ export default ({ window, overrides, configs }) => {
 };
 ```
 
-Performance measurements captured with `stats`:
+#### Performance measurements captured with `stats`
 
 ```js
 {
-    "totalDuration": 2.7744994163513184,
+    "totalDuration": 2.7324562072753906,
     "modules": {
         "stores": {
-            "duration": 0.3570828437805176
+            "duration": 0.37229061126708984
         },
         "subscriptions": {
-            "duration": 0.07216691970825195
+            "duration": 0.07516622543334961
         },
         "core": {
-            "duration": 0.22754192352294922
+            "duration": 0.2072920799255371
         },
         "io": {
-            "duration": 0.035124778747558594
+            "duration": 0.036624908447265625
         },
         "services": {
-            "duration": 0.4470829963684082
+            "duration": 0.4070000648498535
         },
         "vendorServices": {
-            "duration": 0.665708065032959
+            "duration": 0.6945829391479492
         },
         "ui": {
-            "duration": 0.09783315658569336
+            "duration": 0.10325002670288086
         },
         "elements": {
-            "duration": 0.09208297729492188
+            "duration": 0.09499979019165039
         },
         "vendorComponents": {
-            "duration": 0.031416893005371094
+            "duration": 0.031332969665527344
         },
         "components": {
-            "duration": 0.5966248512268066
+            "duration": 0.5626249313354492
         },
         "styles": {
-            "duration": 0.08241701126098633
+            "duration": 0.07499980926513672
         },
         "diagnostics": {
-            "duration": 0.02045917510986328
+            "duration": 0.022124767303466797
         },
         "startup": {
-            "duration": 0.04895782470703125
+            "duration": 0.050167083740234375
         }
     }
 }
 ```
 
-Mermaid diagram-as-code generated with `mermaid()`:
+#### Mermaid diagram-as-code generated with `mermaid()`
 
 ```
 graph TD;
@@ -600,7 +603,7 @@ graph TD;
     vendorServices-->window;
 ```
 
-Mermaid diagram:
+#### Mermaid diagram
 
 ###### <p align="right"><em>Can't see the diagram?</em> <a id="link-6" href="https://github.com/mattriley/node-module-composer#user-content-link-6">View it on GitHub</a></p>
 ```mermaid
@@ -651,7 +654,7 @@ graph TD;
     vendorServices-->window;
 ```
 
-Code generated with `eject()`:
+#### Code generated with `eject()`
 
 ```js
 (modules, { config, window }) => {

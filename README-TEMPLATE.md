@@ -294,9 +294,11 @@ Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 
 ## Performance
 
-Module Composer is fast, and measures performance by default for easy analysis.
+Module Composer is fast. In fact, so fast that it needs to be measured with sub-millisecond precision. Performance is measured by default for easy analysis.
 
-Use `compose.stats` to see the total composition duration, and a break down of duration per module:
+Use `compose.stats` to see the total composition duration, and a break down of duration per module.
+
+#### gravatar-spa example stats
 
 <%- await compose(c => renderCode(JSON.stringify(c.stats, null, 4), 'js'), 'examples/gravatar-spa/src/compose.js') %>
 
@@ -305,22 +307,22 @@ Use `compose.stats` to see the total composition duration, and a break down of d
 > Great looking avatars for your agile board and experiment in FRAMEWORK-LESS, vanilla JavaScript.<br/>
 https://agileavatars.com • https://github.com/mattriley/agileavatars
 
-Composition root:
+#### Composition root
 
 <%- await renderCode(fetchCode('src/compose.js', '../agileavatars', 'https://github.com/mattriley/agileavatars/tree/master')) %>
 
-Performance measurements captured with `stats`:
+#### Performance measurements captured with `stats`
 
 <%- await compose(c => renderCode(JSON.stringify(c.stats, null, 4), 'js'), '../agileavatars/src/compose.js') %>
 
-Mermaid diagram-as-code generated with `mermaid()`:
+#### Mermaid diagram-as-code generated with `mermaid()`
 
 <%- await compose(c => renderCode(c.mermaid(), ''), '../agileavatars/src/compose.js') %>
 
-Mermaid diagram:
+#### Mermaid diagram
 
 <%- await compose(c => renderCode(c.mermaid(), 'mermaid'), '../agileavatars/src/compose.js') %>
 
-Code generated with `eject()`:
+#### Code generated with `eject()`
 
 <%- await compose(c => renderCode(c.eject(), 'js'), '../agileavatars/src/compose.js') %>
