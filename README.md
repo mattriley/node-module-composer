@@ -10,6 +10,8 @@ So what is a module? Not to be confused with JavaScript CJS or ESM modules, a mo
 
 If that sounds like a lot to wrap your head around, fear not! Implementation-wise it's actually rather simple. See the [basic example](#basic-example) below to see it in action.
 
+<!-- json(await sloc()) -->
+
 ## Table of Contents
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -397,10 +399,10 @@ import composer from 'module-composer';
 import modules from './modules';
 import defaultConfig from './default-config';
 
-export default ({ overrides } = {}) => {
+export default ({ md5, overrides } = {}) => {
     const { compose, config } = composer(modules, { overrides, defaultConfig });
     const io = { fetch: (...args) => window.fetch(...args) };
-    const { services } = compose('services', { io, config });
+    const { services } = compose('services', { md5, io, config });
     compose('components', { services });
     return compose.end();
 };
@@ -412,6 +414,7 @@ Mermaid digram:
 ```mermaid
 graph TD;
     components-->services;
+    services-->md5;
     services-->io;
     services-->config;
 ```
@@ -419,10 +422,10 @@ graph TD;
 Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 
 ```js
-(modules, { io, config }) => {
+(modules, { md5, io, config }) => {
 
     const services = { ...modules.services };
-    const servicesDependencies = { services, io, config };
+    const servicesDependencies = { services, md5, io, config };
     services.fetchContact = services.fetchContact({ ...servicesDependencies });
     services.fetchGravatarProfile = services.fetchGravatarProfile({ ...servicesDependencies });
 
@@ -448,13 +451,13 @@ Use `compose.stats` to see the total composition duration, and a break down of d
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.02362537384033203,
+    "totalDuration": 0.06639403104782104,
     "modules": {
         "services": {
-            "duration": 0.01399993896484375
+            "duration": 0.04098600149154663
         },
         "components": {
-            "duration": 0.009625434875488281
+            "duration": 0.025408029556274414
         }
     }
 }
@@ -508,46 +511,46 @@ export default ({ window, overrides, configs }) => {
 
 ```js
 {
-    "totalDuration": 2.7324562072753906,
+    "totalDuration": 6.8397969007492065,
     "modules": {
         "stores": {
-            "duration": 0.37229061126708984
+            "duration": 1.0485000014305115
         },
         "subscriptions": {
-            "duration": 0.07516622543334961
+            "duration": 0.2066969871520996
         },
         "core": {
-            "duration": 0.2072920799255371
+            "duration": 0.5063949823379517
         },
         "io": {
-            "duration": 0.036624908447265625
+            "duration": 0.1036759614944458
         },
         "services": {
-            "duration": 0.4070000648498535
+            "duration": 1.0632639527320862
         },
         "vendorServices": {
-            "duration": 0.6945829391479492
+            "duration": 1.5682610273361206
         },
         "ui": {
-            "duration": 0.10325002670288086
+            "duration": 0.22231298685073853
         },
         "elements": {
-            "duration": 0.09499979019165039
+            "duration": 0.2418609857559204
         },
         "vendorComponents": {
-            "duration": 0.031332969665527344
+            "duration": 0.09506803750991821
         },
         "components": {
-            "duration": 0.5626249313354492
+            "duration": 1.3963679671287537
         },
         "styles": {
-            "duration": 0.07499980926513672
+            "duration": 0.2045939564704895
         },
         "diagnostics": {
-            "duration": 0.022124767303466797
+            "duration": 0.05833899974822998
         },
         "startup": {
-            "duration": 0.050167083740234375
+            "duration": 0.12446105480194092
         }
     }
 }

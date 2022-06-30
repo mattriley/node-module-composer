@@ -10,6 +10,8 @@ So what is a module? Not to be confused with JavaScript CJS or ESM modules, a mo
 
 If that sounds like a lot to wrap your head around, fear not! Implementation-wise it's actually rather simple. See the [basic example](#basic-example) below to see it in action.
 
+<!-- json(await sloc()) -->
+
 ## Table of Contents
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -313,7 +315,7 @@ https://agileavatars.com • https://github.com/mattriley/agileavatars
 
 #### Performance measurements captured with `stats`
 
-<%- await compose(c => renderCode(JSON.stringify(c.stats, null, 4), 'js'), '../agileavatars/src/compose.js') %>
+<%- await compose(c => renderCode(json(c.stats), 'js'), '../agileavatars/src/compose.js') %>
 
 #### Mermaid diagram-as-code generated with `mermaid()`
 
