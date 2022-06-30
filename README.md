@@ -1,5 +1,7 @@
 # Module Composer
 
+<p align="right"><code>144 sloc</code></p>
+
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
 Why is it so common for JavaScript applications these days (backend _and_ frontend) to be organised and reasoned about in terms of scripts and files, and navigated via a convoluted maze of file imports?
@@ -10,7 +12,24 @@ So what is a module? Not to be confused with JavaScript CJS or ESM modules, a mo
 
 If that sounds like a lot to wrap your head around, fear not! Implementation-wise it's actually rather simple. See the [basic example](#basic-example) below to see it in action.
 
-<!-- json(await sloc()) -->
+{
+    "paths": [
+        "src/base-compose.js",
+        "src/composers.js",
+        "src/default-options.js",
+        "src/eject.js",
+        "src/initialise-props.js",
+        "src/mermaid.js",
+        "src/module-composer.js",
+        "src/time-compose.js",
+        "src/util.js"
+    ],
+    "sloc": 144,
+    "loc": 144,
+    "blank": 32,
+    "comments": 0,
+    "files": 9
+}
 
 ## Table of Contents
 
@@ -451,13 +470,13 @@ Use `compose.stats` to see the total composition duration, and a break down of d
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.06639403104782104,
+    "totalDuration": 0.02833414077758789,
     "modules": {
         "services": {
-            "duration": 0.04098600149154663
+            "duration": 0.01641702651977539
         },
         "components": {
-            "duration": 0.025408029556274414
+            "duration": 0.0119171142578125
         }
     }
 }
@@ -511,46 +530,46 @@ export default ({ window, overrides, configs }) => {
 
 ```js
 {
-    "totalDuration": 6.8397969007492065,
+    "totalDuration": 2.5649571418762207,
     "modules": {
         "stores": {
-            "duration": 1.0485000014305115
+            "duration": 0.35066699981689453
         },
         "subscriptions": {
-            "duration": 0.2066969871520996
+            "duration": 0.07029104232788086
         },
         "core": {
-            "duration": 0.5063949823379517
+            "duration": 0.1972498893737793
         },
         "io": {
-            "duration": 0.1036759614944458
+            "duration": 0.034667015075683594
         },
         "services": {
-            "duration": 1.0632639527320862
+            "duration": 0.3969593048095703
         },
         "vendorServices": {
-            "duration": 1.5682610273361206
+            "duration": 0.6300420761108398
         },
         "ui": {
-            "duration": 0.22231298685073853
+            "duration": 0.0948328971862793
         },
         "elements": {
-            "duration": 0.2418609857559204
+            "duration": 0.08825016021728516
         },
         "vendorComponents": {
-            "duration": 0.09506803750991821
+            "duration": 0.028416156768798828
         },
         "components": {
-            "duration": 1.3963679671287537
+            "duration": 0.5339999198913574
         },
         "styles": {
-            "duration": 0.2045939564704895
+            "duration": 0.07716608047485352
         },
         "diagnostics": {
-            "duration": 0.05833899974822998
+            "duration": 0.018582820892333984
         },
         "startup": {
-            "duration": 0.12446105480194092
+            "duration": 0.04383277893066406
         }
     }
 }
