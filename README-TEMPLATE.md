@@ -13,8 +13,6 @@ So what is a module? Not to be confused with JavaScript CJS or ESM modules, a mo
 
 If that sounds like a lot to wrap your head around, fear not! Implementation-wise it's actually rather simple. See the [basic example](#basic-example) below to see it in action.
 
-<%- json(await sloc()) %>
-
 ## Table of Contents
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->

@@ -12,25 +12,6 @@ So what is a module? Not to be confused with JavaScript CJS or ESM modules, a mo
 
 If that sounds like a lot to wrap your head around, fear not! Implementation-wise it's actually rather simple. See the [basic example](#basic-example) below to see it in action.
 
-{
-    "paths": [
-        "src/base-compose.js",
-        "src/composers.js",
-        "src/default-options.js",
-        "src/eject.js",
-        "src/initialise-props.js",
-        "src/mermaid.js",
-        "src/module-composer.js",
-        "src/time-compose.js",
-        "src/util.js"
-    ],
-    "sloc": 144,
-    "loc": 144,
-    "blank": 32,
-    "comments": 0,
-    "files": 9
-}
-
 ## Table of Contents
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -470,13 +451,13 @@ Use `compose.stats` to see the total composition duration, and a break down of d
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.02833414077758789,
+    "totalDuration": 0.022625446319580078,
     "modules": {
         "services": {
-            "duration": 0.01641702651977539
+            "duration": 0.013250350952148438
         },
         "components": {
-            "duration": 0.0119171142578125
+            "duration": 0.00937509536743164
         }
     }
 }
@@ -530,46 +511,46 @@ export default ({ window, overrides, configs }) => {
 
 ```js
 {
-    "totalDuration": 2.5649571418762207,
+    "totalDuration": 2.698040008544922,
     "modules": {
         "stores": {
-            "duration": 0.35066699981689453
+            "duration": 0.3621668815612793
         },
         "subscriptions": {
-            "duration": 0.07029104232788086
+            "duration": 0.07445764541625977
         },
         "core": {
-            "duration": 0.1972498893737793
+            "duration": 0.21300029754638672
         },
         "io": {
-            "duration": 0.034667015075683594
+            "duration": 0.03516721725463867
         },
         "services": {
-            "duration": 0.3969593048095703
+            "duration": 0.3968329429626465
         },
         "vendorServices": {
-            "duration": 0.6300420761108398
+            "duration": 0.6661667823791504
         },
         "ui": {
-            "duration": 0.0948328971862793
+            "duration": 0.10183286666870117
         },
         "elements": {
-            "duration": 0.08825016021728516
+            "duration": 0.0931253433227539
         },
         "vendorComponents": {
-            "duration": 0.028416156768798828
+            "duration": 0.031624794006347656
         },
         "components": {
-            "duration": 0.5339999198913574
+            "duration": 0.5812497138977051
         },
         "styles": {
-            "duration": 0.07716608047485352
+            "duration": 0.06937456130981445
         },
         "diagnostics": {
-            "duration": 0.018582820892333984
+            "duration": 0.018374919891357422
         },
         "startup": {
-            "duration": 0.04383277893066406
+            "duration": 0.05466604232788086
         }
     }
 }
