@@ -4,13 +4,14 @@
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
-Why is it so common for JavaScript applications these days (backend _and_ frontend) to be organised and reasoned about in terms of scripts and files, and navigated via a convoluted maze of file imports?
+NOTE: Module Composer is NOT a DI Container but rather a utility for making Pure DI easy.
 
-Module Composer aims to encourage good modular design and intentionality for application architecture by making it easier to design and reason about applications at a higher level, in this case, as a composition of _modules_.
+## Install
 
-So what is a module? Not to be confused with JavaScript CJS or ESM modules, a module in this context is simply a plain old JavaScript object (a POJO!) with functions that accept a very explicitly defined set of _other_ modules. These functions are _higher-order_ in that they return another function whose invocation may be deferred to later in the application lifecycle, while retaining access to the provided modules thanks to the power of closures (stateful functions). Closures are a native feature of JavaScript.
-
-If that sounds like a lot to wrap your head around, fear not! Implementation-wise it's actually rather simple. See the [basic example](#basic-example) below to see it in action.
+###### <p align="right"><a href="https://www.npmjs.com/package/module-composer">https://www.npmjs.com/package/module-composer</a></p>
+```sh
+npm install module-composer
+```
 
 ## Table of Contents
 
@@ -18,7 +19,7 @@ If that sounds like a lot to wrap your head around, fear not! Implementation-wis
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-- [Install](#install)
+- [Background](#background)
 - [Basic example](#basic-example)
 - [Composition root](#composition-root)
 - [File system](#file-system)
@@ -34,12 +35,17 @@ If that sounds like a lot to wrap your head around, fear not! Implementation-wis
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Install
+## Background
 
-###### <p align="right"><a href="https://www.npmjs.com/package/module-composer">https://www.npmjs.com/package/module-composer</a></p>
-```sh
-npm install module-composer
-```
+Why is it so common for JavaScript applications these days (backend _and_ frontend) to be organised and reasoned about in terms of scripts and files, and navigated via a convoluted maze of file imports?
+
+Module Composer aims to encourage good modular design and intentionality for application architecture by making it easier to design and reason about applications at a higher level, in this case, as a composition of _modules_.
+
+So what is a module? Not to be confused with JavaScript CJS or ESM modules, a module in this context is simply a plain old JavaScript object (a POJO!) with functions that accept a very explicitly defined set of _other_ modules. These functions are _higher-order_ in that they return another function whose invocation may be deferred to later in the application lifecycle, while retaining access to the provided modules thanks to the power of closures (stateful functions). Closures are a native feature of JavaScript.
+
+If that sounds like a lot to wrap your head around, fear not! Implementation-wise it's actually rather simple. 
+
+See the [basic example](#basic-example) below to see it in action.
 
 ## Basic example
 
@@ -254,8 +260,13 @@ Module Composer achieves the equivalent of _dependency injection_ using closures
 
 Well known advantages of dependency injection include:
 
+- Enables Inversion of Control (IoC). Hollywood principle: Don't call us, we'll call you!
 - Ability to swap implementations, e.g. repositories that integrate with different database engines.
 - Ability to stub/mock/fake dependencies for testing purposes.
+
+A DI Container is a framework to create dependencies and inject them automatically when required.
+
+Please note, Module Composer is NOT a _DI Container_. A DI Container is a tool that creates dependencies and injects them automatically when required. Module Composer is a utility for making _Pure DI_ easy.
 
 Dependency injection is a big (and sometimes controversial) topic and worth being familiar with.
 
@@ -263,12 +274,13 @@ Although Module Composer enables dependency injection, remember that the primary
 
 Recommended reading:
 
+- [Pure DI](https://blog.ploeh.dk/2014/06/10/pure-di/) — Mark Seemann
+- [When to use a DI Container](https://blog.ploeh.dk/2012/11/06/WhentouseaDIContainer/) — Mark Seeman
 - [Partial application is dependency injection](https://blog.ploeh.dk/2017/01/30/partial-application-is-dependency-injection/) — Mark Seemann
 - [DIP in the Wild](https://martinfowler.com/articles/dipInTheWild.html) — Brett L. Schuchert on martinfowler.com
 - [Inversion of Control Containers and the Dependency Injection pattern](https://martinfowler.com/articles/injection.html) — Martin Fowler
 - [Dependency Injection Inversion](https://sites.google.com/site/unclebobconsultingllc/home/articles/dependency-injection-inversion) — Robert C. "Uncle Bob" Martin
-- [The Dependency Inversion
-Principle](https://drive.google.com/file/d/0BwhCYaYDn8EgMjdlMWIzNGUtZTQ0NC00ZjQ5LTkwYzQtZjRhMDRlNTQ3ZGMz/view)  — Robert C. "Uncle Bob" Martin
+- [The Dependency Inversion Principle](https://drive.google.com/file/d/0BwhCYaYDn8EgMjdlMWIzNGUtZTQ0NC00ZjQ5LTkwYzQtZjRhMDRlNTQ3ZGMz/view) — Robert C. "Uncle Bob" Martin
 
 ## Functional programming
 
@@ -452,13 +464,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.02274942398071289,
+    "totalDuration": 0.023040294647216797,
     "modules": {
         "services": {
-            "duration": 0.01329183578491211
+            "duration": 0.01362466812133789
         },
         "components": {
-            "duration": 0.009457588195800781
+            "duration": 0.009415626525878906
         }
     }
 }
@@ -514,46 +526,46 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 
 ```js
 {
-    "totalDuration": 2.6760425567626953,
+    "totalDuration": 2.672832489013672,
     "modules": {
         "stores": {
-            "duration": 0.3615412712097168
+            "duration": 0.35633277893066406
         },
         "subscriptions": {
-            "duration": 0.0705423355102539
+            "duration": 0.08295822143554688
         },
         "core": {
-            "duration": 0.22779178619384766
+            "duration": 0.21108293533325195
         },
         "io": {
-            "duration": 0.03566741943359375
+            "duration": 0.03541707992553711
         },
         "services": {
-            "duration": 0.4118328094482422
+            "duration": 0.4089169502258301
         },
         "vendorServices": {
-            "duration": 0.6692500114440918
+            "duration": 0.6810832023620605
         },
         "ui": {
-            "duration": 0.0950002670288086
+            "duration": 0.10099983215332031
         },
         "elements": {
-            "duration": 0.09062480926513672
+            "duration": 0.09479188919067383
         },
         "vendorComponents": {
-            "duration": 0.028416156768798828
+            "duration": 0.02870798110961914
         },
         "components": {
-            "duration": 0.5540838241577148
+            "duration": 0.5323338508605957
         },
         "styles": {
-            "duration": 0.07016706466674805
+            "duration": 0.07524967193603516
         },
         "diagnostics": {
-            "duration": 0.01862478256225586
+            "duration": 0.018332958221435547
         },
         "startup": {
-            "duration": 0.04250001907348633
+            "duration": 0.04662513732910156
         }
     }
 }
