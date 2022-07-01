@@ -1,0 +1,18 @@
+{
+    "paths": [
+        "src/base-compose.js",
+        "src/composers.js",
+        "src/default-options.js",
+        "src/eject.js",
+        "src/initialise-props.js",
+        "src/mermaid.js",
+        "src/module-composer.js",
+        "src/time-compose.js",
+        "src/util.js"
+    ],
+    "sloc": 144,
+    "loc": 144,
+    "blank": 32,
+    "comments": 0,
+    "files": 9
+}
