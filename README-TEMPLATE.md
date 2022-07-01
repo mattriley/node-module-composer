@@ -303,6 +303,8 @@ Use `compose.stats` to see the total composition duration, and a break down of d
 
 #### gravatar-spa example stats
 
+<%- process.env.COMPUTER_HARDWARE %>
+
 <%- await compose(c => renderCode(JSON.stringify(c.stats, null, 4), 'js'), 'examples/gravatar-spa/src/compose.js') %>
 
 ## Advanced example: Agile Avatars
@@ -315,6 +317,8 @@ https://agileavatars.com • https://github.com/mattriley/agileavatars
 <%- await renderCode(fetchCode('src/compose.js', '../agileavatars', 'https://github.com/mattriley/agileavatars/tree/master')) %>
 
 #### Performance measurements captured with `stats`
+
+<%- process.env.COMPUTER_HARDWARE %>
 
 <%- await compose(c => renderCode(json(c.stats), 'js'), '../agileavatars/src/compose.js') %>
 

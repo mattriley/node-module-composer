@@ -447,16 +447,18 @@ Use `compose.stats` to see the total composition duration, and a break down of d
 
 #### gravatar-spa example stats
 
+MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
+
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.029581546783447266,
+    "totalDuration": 0.02274942398071289,
     "modules": {
         "services": {
-            "duration": 0.01691579818725586
+            "duration": 0.01329183578491211
         },
         "components": {
-            "duration": 0.012665748596191406
+            "duration": 0.009457588195800781
         }
     }
 }
@@ -508,48 +510,50 @@ export default ({ window, overrides, configs }) => {
 
 #### Performance measurements captured with `stats`
 
+MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
+
 ```js
 {
-    "totalDuration": 2.607039451599121,
+    "totalDuration": 2.6760425567626953,
     "modules": {
         "stores": {
-            "duration": 0.35416698455810547
+            "duration": 0.3615412712097168
         },
         "subscriptions": {
-            "duration": 0.0705409049987793
+            "duration": 0.0705423355102539
         },
         "core": {
-            "duration": 0.20345783233642578
+            "duration": 0.22779178619384766
         },
         "io": {
-            "duration": 0.036624908447265625
+            "duration": 0.03566741943359375
         },
         "services": {
-            "duration": 0.3938331604003906
+            "duration": 0.4118328094482422
         },
         "vendorServices": {
-            "duration": 0.6679997444152832
+            "duration": 0.6692500114440918
         },
         "ui": {
-            "duration": 0.09425020217895508
+            "duration": 0.0950002670288086
         },
         "elements": {
-            "duration": 0.09108304977416992
+            "duration": 0.09062480926513672
         },
         "vendorComponents": {
-            "duration": 0.028458118438720703
+            "duration": 0.028416156768798828
         },
         "components": {
-            "duration": 0.5305418968200684
+            "duration": 0.5540838241577148
         },
         "styles": {
-            "duration": 0.0753331184387207
+            "duration": 0.07016706466674805
         },
         "diagnostics": {
-            "duration": 0.017915725708007812
+            "duration": 0.01862478256225586
         },
         "startup": {
-            "duration": 0.042833805084228516
+            "duration": 0.04250001907348633
         }
     }
 }
