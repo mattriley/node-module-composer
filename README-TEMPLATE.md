@@ -1,7 +1,11 @@
 # Module Composer
 
-<% const slocResult = await sloc() -%>
-<p align="right"><code><%- `${slocResult.sloc} sloc` %></code></p>
+<% const m = await metrics() -%>
+<p align="right">
+    <code><%- `${m.cov}% cov` %></code>
+    &nbsp;
+    <code><%- `${m.loc} loc` %></code>
+</p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
