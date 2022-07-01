@@ -464,13 +464,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.023040294647216797,
+    "totalDuration": 0.025125980377197266,
     "modules": {
         "services": {
-            "duration": 0.01362466812133789
+            "duration": 0.015459060668945312
         },
         "components": {
-            "duration": 0.009415626525878906
+            "duration": 0.009666919708251953
         }
     }
 }
@@ -526,46 +526,46 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 
 ```js
 {
-    "totalDuration": 2.672832489013672,
+    "totalDuration": 2.7810797691345215,
     "modules": {
         "stores": {
-            "duration": 0.35633277893066406
+            "duration": 0.36516666412353516
         },
         "subscriptions": {
-            "duration": 0.08295822143554688
+            "duration": 0.07412481307983398
         },
         "core": {
-            "duration": 0.21108293533325195
+            "duration": 0.22766685485839844
         },
         "io": {
-            "duration": 0.03541707992553711
+            "duration": 0.03887510299682617
         },
         "services": {
-            "duration": 0.4089169502258301
+            "duration": 0.41345787048339844
         },
         "vendorServices": {
-            "duration": 0.6810832023620605
+            "duration": 0.6946659088134766
         },
         "ui": {
-            "duration": 0.10099983215332031
+            "duration": 0.12054109573364258
         },
         "elements": {
-            "duration": 0.09479188919067383
+            "duration": 0.11204099655151367
         },
         "vendorComponents": {
-            "duration": 0.02870798110961914
+            "duration": 0.029666900634765625
         },
         "components": {
-            "duration": 0.5323338508605957
+            "duration": 0.5660829544067383
         },
         "styles": {
-            "duration": 0.07524967193603516
+            "duration": 0.07483291625976562
         },
         "diagnostics": {
-            "duration": 0.018332958221435547
+            "duration": 0.019041061401367188
         },
         "startup": {
-            "duration": 0.04662513732910156
+            "duration": 0.044916629791259766
         }
     }
 }
