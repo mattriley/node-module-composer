@@ -1,5 +1,4 @@
-import md5 from 'blueimp-md5';
 import compose from './compose';
 
-const { modules } = compose({ md5 });
+const { modules } = compose();
 document.getElementById('app').append(modules.components.app());

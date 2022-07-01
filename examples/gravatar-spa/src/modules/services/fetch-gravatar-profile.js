@@ -1,4 +1,6 @@
-export default ({ md5, io, config }) => async email => {
+import md5 from 'blueimp-md5';
+
+export default ({ io, config }) => async email => {
 
     const emailHash = md5(email.trim().toLowerCase());
     const url = `${config.gravatar.hostname}/${emailHash}.json`;

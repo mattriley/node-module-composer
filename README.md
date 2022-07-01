@@ -399,10 +399,10 @@ import composer from 'module-composer';
 import modules from './modules';
 import defaultConfig from './default-config';
 
-export default ({ md5, overrides } = {}) => {
+export default ({ overrides } = {}) => {
     const { compose, config } = composer(modules, { overrides, defaultConfig });
     const io = { fetch: (...args) => window.fetch(...args) };
-    const { services } = compose('services', { md5, io, config });
+    const { services } = compose('services', { io, config });
     compose('components', { services });
     return compose.end();
 };
@@ -414,7 +414,6 @@ Mermaid digram:
 ```mermaid
 graph TD;
     components-->services;
-    services-->md5;
     services-->io;
     services-->config;
 ```
@@ -422,10 +421,10 @@ graph TD;
 Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 
 ```js
-(modules, { md5, io, config }) => {
+(modules, { io, config }) => {
 
     const services = { ...modules.services };
-    const servicesDependencies = { services, md5, io, config };
+    const servicesDependencies = { services, io, config };
     services.fetchContact = services.fetchContact({ ...servicesDependencies });
     services.fetchGravatarProfile = services.fetchGravatarProfile({ ...servicesDependencies });
 
@@ -451,13 +450,13 @@ Use `compose.stats` to see the total composition duration, and a break down of d
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.022625446319580078,
+    "totalDuration": 0.029581546783447266,
     "modules": {
         "services": {
-            "duration": 0.013250350952148438
+            "duration": 0.01691579818725586
         },
         "components": {
-            "duration": 0.00937509536743164
+            "duration": 0.012665748596191406
         }
     }
 }
@@ -511,46 +510,46 @@ export default ({ window, overrides, configs }) => {
 
 ```js
 {
-    "totalDuration": 2.698040008544922,
+    "totalDuration": 2.607039451599121,
     "modules": {
         "stores": {
-            "duration": 0.3621668815612793
+            "duration": 0.35416698455810547
         },
         "subscriptions": {
-            "duration": 0.07445764541625977
+            "duration": 0.0705409049987793
         },
         "core": {
-            "duration": 0.21300029754638672
+            "duration": 0.20345783233642578
         },
         "io": {
-            "duration": 0.03516721725463867
+            "duration": 0.036624908447265625
         },
         "services": {
-            "duration": 0.3968329429626465
+            "duration": 0.3938331604003906
         },
         "vendorServices": {
-            "duration": 0.6661667823791504
+            "duration": 0.6679997444152832
         },
         "ui": {
-            "duration": 0.10183286666870117
+            "duration": 0.09425020217895508
         },
         "elements": {
-            "duration": 0.0931253433227539
+            "duration": 0.09108304977416992
         },
         "vendorComponents": {
-            "duration": 0.031624794006347656
+            "duration": 0.028458118438720703
         },
         "components": {
-            "duration": 0.5812497138977051
+            "duration": 0.5305418968200684
         },
         "styles": {
-            "duration": 0.06937456130981445
+            "duration": 0.0753331184387207
         },
         "diagnostics": {
-            "duration": 0.018374919891357422
+            "duration": 0.017915725708007812
         },
         "startup": {
-            "duration": 0.05466604232788086
+            "duration": 0.042833805084228516
         }
     }
 }
