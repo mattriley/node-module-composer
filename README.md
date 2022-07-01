@@ -460,13 +460,13 @@ Use `compose.stats` to see the total composition duration, and a break down of d
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.023958206176757812,
+    "totalDuration": 0.025416851043701172,
     "modules": {
         "services": {
-            "duration": 0.01399993896484375
+            "duration": 0.01604175567626953
         },
         "components": {
-            "duration": 0.009958267211914062
+            "duration": 0.00937509536743164
         }
     }
 }
@@ -522,46 +522,47 @@ export default ({ window, overrides, configs }) => {
 
 ```js
 {
-    "totalDuration": 2.6404995918273926,
+    "durationUnit": "ms",
+    "totalDuration": 2.6959972381591797,
     "modules": {
         "stores": {
-            "duration": 0.3470001220703125
+            "duration": 0.3473329544067383
         },
         "subscriptions": {
-            "duration": 0.07195806503295898
+            "duration": 0.07191610336303711
         },
         "core": {
-            "duration": 0.20949983596801758
+            "duration": 0.21537494659423828
         },
         "io": {
-            "duration": 0.0351252555847168
+            "duration": 0.03479194641113281
         },
         "services": {
-            "duration": 0.3927497863769531
+            "duration": 0.40974998474121094
         },
         "vendorServices": {
-            "duration": 0.6709580421447754
+            "duration": 0.6788749694824219
         },
         "ui": {
-            "duration": 0.09675025939941406
+            "duration": 0.09833288192749023
         },
         "elements": {
-            "duration": 0.09087467193603516
+            "duration": 0.09524965286254883
         },
         "vendorComponents": {
-            "duration": 0.02937459945678711
+            "duration": 0.03470802307128906
         },
         "components": {
-            "duration": 0.5641250610351562
+            "duration": 0.5725417137145996
         },
         "styles": {
-            "duration": 0.06954193115234375
+            "duration": 0.07341575622558594
         },
         "diagnostics": {
-            "duration": 0.019958972930908203
+            "duration": 0.01879119873046875
         },
         "startup": {
-            "duration": 0.04258298873901367
+            "duration": 0.04491710662841797
         }
     }
 }
