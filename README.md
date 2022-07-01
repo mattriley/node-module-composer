@@ -4,10 +4,6 @@
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
-NOTE: Module Composer is NOT a DI Container but rather a utility for making Pure DI easy.
-
-## Install
-
 ###### <p align="right"><a href="https://www.npmjs.com/package/module-composer">https://www.npmjs.com/package/module-composer</a></p>
 ```sh
 npm install module-composer
@@ -464,13 +460,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.025125980377197266,
+    "totalDuration": 0.022834300994873047,
     "modules": {
         "services": {
-            "duration": 0.015459060668945312
+            "duration": 0.013375282287597656
         },
         "components": {
-            "duration": 0.009666919708251953
+            "duration": 0.00945901870727539
         }
     }
 }
@@ -526,46 +522,46 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 
 ```js
 {
-    "totalDuration": 2.7810797691345215,
+    "totalDuration": 2.8245019912719727,
     "modules": {
         "stores": {
-            "duration": 0.36516666412353516
+            "duration": 0.38633298873901367
         },
         "subscriptions": {
-            "duration": 0.07412481307983398
+            "duration": 0.07824993133544922
         },
         "core": {
-            "duration": 0.22766685485839844
+            "duration": 0.22645902633666992
         },
         "io": {
-            "duration": 0.03887510299682617
+            "duration": 0.040250301361083984
         },
         "services": {
-            "duration": 0.41345787048339844
+            "duration": 0.42770910263061523
         },
         "vendorServices": {
-            "duration": 0.6946659088134766
+            "duration": 0.7143330574035645
         },
         "ui": {
-            "duration": 0.12054109573364258
+            "duration": 0.1025838851928711
         },
         "elements": {
-            "duration": 0.11204099655151367
+            "duration": 0.10212516784667969
         },
         "vendorComponents": {
-            "duration": 0.029666900634765625
+            "duration": 0.03504228591918945
         },
         "components": {
-            "duration": 0.5660829544067383
+            "duration": 0.5718750953674316
         },
         "styles": {
-            "duration": 0.07483291625976562
+            "duration": 0.07412481307983398
         },
         "diagnostics": {
-            "duration": 0.019041061401367188
+            "duration": 0.019124984741210938
         },
         "startup": {
-            "duration": 0.044916629791259766
+            "duration": 0.046291351318359375
         }
     }
 }

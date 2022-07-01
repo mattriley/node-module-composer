@@ -5,10 +5,6 @@
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
-NOTE: Module Composer is NOT a DI Container but rather a utility for making Pure DI easy.
-
-## Install
-
 <%- await renderCode('npm install module-composer', 'sh', 'https://www.npmjs.com/package/module-composer') %>
 
 ## Table of Contents
