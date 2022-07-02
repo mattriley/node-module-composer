@@ -4,7 +4,9 @@
 <p align="right">
     <code><%- `${m.cov}% cov` %></code>
     &nbsp;
-    <code><%- `${m.loc} loc` %></code>
+    <code><%- `${m.sloc} sloc` %></code>
+    &nbsp;
+    <code><%- `${m.files} files` %></code>
 </p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
