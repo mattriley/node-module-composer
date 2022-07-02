@@ -1,12 +1,9 @@
 # Module Composer
 
 <p align="right">
-    <code>100% cov</code>
-    &nbsp;
-    <code>144 sloc</code>
-    &nbsp;
-    <code>9 files</code>
-</p>
+    <code>100% cov</code>&nbsp;
+    <code>144 sloc</code>&nbsp;
+    <code>9 files</code></p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
@@ -101,7 +98,7 @@ export default {
 };
 ```
 
-Notice the _double arrow_ functions? That's syntactic sugar for _a function that returns another function_.
+Notice the _double arrow_ functions? That's syntactic sugar for a _higher order function_ (a function that returns another function).
 
 The following are equivalent:
 
@@ -109,9 +106,7 @@ The following are equivalent:
 const getPrice = ({ stores }) => ({ productId }) => {
     return stores.getProduct(productId).price;
 };
-```
 
-```js
 const getPrice = ({ stores }) => {
     return ({ productId }) => {
         return stores.getProduct(productId).price;
@@ -466,13 +461,13 @@ Use `compose.stats` to see the total composition duration, and a break down of d
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.025166988372802734,
+    "totalDuration": 0.024873733520507812,
     "modules": {
         "services": {
-            "duration": 0.014874935150146484
+            "duration": 0.013041019439697266
         },
         "components": {
-            "duration": 0.01029205322265625
+            "duration": 0.011832714080810547
         }
     }
 }
@@ -529,46 +524,46 @@ export default ({ window, overrides, configs }) => {
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 2.670332431793213,
+    "totalDuration": 2.6854591369628906,
     "modules": {
         "stores": {
-            "duration": 0.35495805740356445
+            "duration": 0.3531670570373535
         },
         "subscriptions": {
-            "duration": 0.07279205322265625
+            "duration": 0.06987476348876953
         },
         "core": {
-            "duration": 0.2099161148071289
+            "duration": 0.2015833854675293
         },
         "io": {
-            "duration": 0.0371251106262207
+            "duration": 0.04229164123535156
         },
         "services": {
-            "duration": 0.42424964904785156
+            "duration": 0.3960838317871094
         },
         "vendorServices": {
-            "duration": 0.6614999771118164
+            "duration": 0.6845831871032715
         },
         "ui": {
-            "duration": 0.09920835494995117
+            "duration": 0.1078329086303711
         },
         "elements": {
-            "duration": 0.09216690063476562
+            "duration": 0.09291696548461914
         },
         "vendorComponents": {
-            "duration": 0.02950000762939453
+            "duration": 0.03366708755493164
         },
         "components": {
-            "duration": 0.5595831871032715
+            "duration": 0.5679168701171875
         },
         "styles": {
-            "duration": 0.06912469863891602
+            "duration": 0.07041597366333008
         },
         "diagnostics": {
-            "duration": 0.017750263214111328
+            "duration": 0.020208358764648438
         },
         "startup": {
-            "duration": 0.04245805740356445
+            "duration": 0.04491710662841797
         }
     }
 }
