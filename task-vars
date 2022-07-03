@@ -1,5 +1,4 @@
 #!/bin/bash
 
+export PROJECT_NAME="Module Composer"
 export ITERMOCIL_TASKS=("edit" "test-watch")
-export READMEGEN_REPO_ROOT="https://github.com/mattriley/node-module-composer"
-export READMEGEN_CODE_ROOT="$READMEGEN_REPO_ROOT/blob/master"

@@ -3,21 +3,18 @@
 <p align="right">
     <code>100% cov</code>&nbsp;
     <code>144 sloc</code>&nbsp;
-    <code>9 files</code></p>
+    <code>9 files</code>&nbsp;
+    <code>2 deps</code>&nbsp;
+    <code>5 dev deps</code></p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
-
-###### <p align="right"><a href="https://www.npmjs.com/package/module-composer">https://www.npmjs.com/package/module-composer</a></p>
-```sh
-npm install module-composer
-```
 
 ## Table of Contents
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+- [Install](#install)
 - [Background](#background)
 - [Basic example](#basic-example)
 - [Composition root](#composition-root)
@@ -33,6 +30,13 @@ npm install module-composer
 - [Advanced example: Agile Avatars](#advanced-example-agile-avatars)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Install
+
+###### <p align="right"><a href="https://www.npmjs.com/package/module-composer">https://www.npmjs.com/package/module-composer</a></p>
+```sh
+npm install module-composer
+```
 
 ## Background
 
@@ -461,13 +465,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.018375873565673828,
+    "totalDuration": 0.01970815658569336,
     "modules": {
         "services": {
-            "duration": 0.010541915893554688
+            "duration": 0.0123748779296875
         },
         "components": {
-            "duration": 0.00783395767211914
+            "duration": 0.007333278656005859
         }
     }
 }
@@ -524,46 +528,46 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 2.5088343620300293,
+    "totalDuration": 2.653374195098877,
     "modules": {
         "stores": {
-            "duration": 0.3327913284301758
+            "duration": 0.34549999237060547
         },
         "subscriptions": {
-            "duration": 0.057791709899902344
+            "duration": 0.058791160583496094
         },
         "core": {
-            "duration": 0.20145797729492188
+            "duration": 0.21491718292236328
         },
         "io": {
-            "duration": 0.030791759490966797
+            "duration": 0.03183317184448242
         },
         "services": {
-            "duration": 0.3562917709350586
+            "duration": 0.4127497673034668
         },
         "vendorServices": {
-            "duration": 0.6782917976379395
+            "duration": 0.6973328590393066
         },
         "ui": {
-            "duration": 0.05033397674560547
+            "duration": 0.05162525177001953
         },
         "elements": {
-            "duration": 0.09137535095214844
+            "duration": 0.0872502326965332
         },
         "vendorComponents": {
-            "duration": 0.06429100036621094
+            "duration": 0.0710000991821289
         },
         "components": {
-            "duration": 0.5168752670288086
+            "duration": 0.5442919731140137
         },
         "styles": {
-            "duration": 0.07058334350585938
+            "duration": 0.07279109954833984
         },
         "diagnostics": {
-            "duration": 0.016499996185302734
+            "duration": 0.01683330535888672
         },
         "startup": {
-            "duration": 0.041459083557128906
+            "duration": 0.048458099365234375
         }
     }
 }
