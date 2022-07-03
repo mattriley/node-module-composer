@@ -50,10 +50,10 @@ See the [basic example](#basic-example) below to see it in action.
 
 Consider the following example:
 
-###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/compose-no-export.js">examples/basic/compose-no-export.js</a></p>
-```js
+###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/compose-no-export.mjs">examples/basic/compose-no-export.mjs</a></p>
+```mjs
 import composer from 'module-composer';
-import modules from './modules';
+import modules from './modules/index.mjs';
 
 const { compose } = composer(modules);
 const { stores } = compose('stores');
@@ -75,8 +75,8 @@ The first step is to create a `compose` function for the given _uncomposed_ modu
 
 Each module is simply an object containing an entry for each function of the module:
 
-###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/modules.js">examples/basic/modules.js</a></p>
-```js
+###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/modules.mjs">examples/basic/modules.mjs</a></p>
+```mjs
 export default {
     components: {
         productDetails: ({ services }) => ({ product }) => {
@@ -128,10 +128,10 @@ Module composition should occur as close to the entry point of the application a
 
 Here's an example of a composition root isolated to a separate file named `compose.js`: 
 
-###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/compose.js">examples/basic/compose.js</a></p>
-```js
+###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/compose.mjs">examples/basic/compose.mjs</a></p>
+```mjs
 import composer from 'module-composer';
-import modules from './modules';
+import modules from './modules/index.mjs';
 
 export default () => {
     const { compose } = composer(modules);
@@ -144,9 +144,9 @@ export default () => {
 
 And here's an example of an entry point for a single-page (web) application (SPA):
 
-###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/app.js">examples/basic/app.js</a></p>
-```js
-import compose from './compose';
+###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/app.mjs">examples/basic/app.mjs</a></p>
+```mjs
+import compose from './compose.mjs';
 const { modules } = compose();
 const app = modules.components.app();
 document.getElementById('app').append(app);
@@ -182,11 +182,11 @@ src/
 
 This hierarchy can be mirrored in code by rolling up each file in each directory using `index.js` files. This approach leads to a design where any file is only ever imported once regardless of the number of usages. It also reduces or eliminates the large blocks of import statements typically found at the top of each file, and eliminates any need for path backtracking, i.e. `../../../`. Path backtracking is a potential code smell due to the risk of inappropriate coupling. Instead, the relationships between each module are explicitly established during at application initialisation time.
 
-###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/modules/index.js">examples/basic/modules/index.js</a></p>
-```js
-import components from './components';
-import services from './services';
-import stores from './stores';
+###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/modules/index.mjs">examples/basic/modules/index.mjs</a></p>
+```mjs
+import components from './components/index.mjs';
+import services from './services/index.mjs';
+import stores from './stores/index.mjs';
 
 export default {
     components,
@@ -195,9 +195,9 @@ export default {
 };
 ```
 
-###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/modules/components/index.js">examples/basic/modules/components/index.js</a></p>
-```js
-import productDetails from './product-details';
+###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/modules/components/index.mjs">examples/basic/modules/components/index.mjs</a></p>
+```mjs
+import productDetails from './product-details.mjs';
 
 export default {
     productDetails
@@ -218,10 +218,10 @@ GitHub can render diagrams directly from Mermaid syntax in markdown files. See [
 
 Given the following composition:
 
-###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/compose.js">examples/basic/compose.js</a></p>
-```js
+###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/basic/compose.mjs">examples/basic/compose.mjs</a></p>
+```mjs
 import composer from 'module-composer';
-import modules from './modules';
+import modules from './modules/index.mjs';
 
 export default () => {
     const { compose } = composer(modules);
@@ -402,11 +402,11 @@ Module Composer can be _ejected_ by generating the equivalent vanilla JavaScript
 
 Take the composition root of the Gravatar SPA example:
 
-###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/gravatar-spa/src/compose.js">examples/gravatar-spa/src/compose.js</a></p>
-```js
+###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/master/examples/gravatar-spa/src/compose.mjs">examples/gravatar-spa/src/compose.mjs</a></p>
+```mjs
 import composer from 'module-composer';
-import modules from './modules';
-import defaultConfig from './default-config';
+import modules from './modules/index.mjs';
+import defaultConfig from './default-config.mjs';
 
 export default ({ overrides } = {}) => {
     const { compose, config } = composer(modules, { overrides, defaultConfig });
@@ -461,13 +461,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.019375324249267578,
+    "totalDuration": 0.018375873565673828,
     "modules": {
         "services": {
-            "duration": 0.011625289916992188
+            "duration": 0.010541915893554688
         },
         "components": {
-            "duration": 0.007750034332275391
+            "duration": 0.00783395767211914
         }
     }
 }
@@ -483,8 +483,8 @@ https://agileavatars.com • https://github.com/mattriley/agileavatars
 ###### <p align="right"><a href="https://github.com/mattriley/agileavatars/tree/master/src/compose.js">https://github.com/mattriley/agileavatars/tree/master/src/compose.js</a></p>
 ```js
 import composer from 'module-composer';
-import modules from './modules';
-import defaultConfig from './default-config';
+import modules from './modules/index.js';
+import defaultConfig from './default-config.js';
 const { storage, util } = modules;
 
 export default ({ window, overrides, configs }) => {
@@ -524,46 +524,46 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 2.6152501106262207,
+    "totalDuration": 2.5088343620300293,
     "modules": {
         "stores": {
-            "duration": 0.34375
+            "duration": 0.3327913284301758
         },
         "subscriptions": {
-            "duration": 0.07245922088623047
+            "duration": 0.057791709899902344
         },
         "core": {
-            "duration": 0.20504188537597656
+            "duration": 0.20145797729492188
         },
         "io": {
-            "duration": 0.03474998474121094
+            "duration": 0.030791759490966797
         },
         "services": {
-            "duration": 0.40491580963134766
+            "duration": 0.3562917709350586
         },
         "vendorServices": {
-            "duration": 0.6356253623962402
+            "duration": 0.6782917976379395
         },
         "ui": {
-            "duration": 0.09395790100097656
+            "duration": 0.05033397674560547
         },
         "elements": {
-            "duration": 0.09000015258789062
+            "duration": 0.09137535095214844
         },
         "vendorComponents": {
-            "duration": 0.03220796585083008
+            "duration": 0.06429100036621094
         },
         "components": {
-            "duration": 0.565709114074707
+            "duration": 0.5168752670288086
         },
         "styles": {
-            "duration": 0.07145833969116211
+            "duration": 0.07058334350585938
         },
         "diagnostics": {
-            "duration": 0.0214996337890625
+            "duration": 0.016499996185302734
         },
         "startup": {
-            "duration": 0.04387474060058594
+            "duration": 0.041459083557128906
         }
     }
 }

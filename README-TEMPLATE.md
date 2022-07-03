@@ -28,7 +28,7 @@ See the [basic example](#basic-example) below to see it in action.
 
 Consider the following example:
 
-<%- await lib.renderCode(lib.fetchCode('examples/basic/compose-no-export.js')) %>
+<%- await lib.renderCode(lib.fetchCode('examples/basic/compose-no-export.mjs')) %>
 
 `modules` is simply an object containing an entry for each module:
 
@@ -44,7 +44,7 @@ The first step is to create a `compose` function for the given _uncomposed_ modu
 
 Each module is simply an object containing an entry for each function of the module:
 
-<%- await lib.renderCode(lib.fetchCode('examples/basic/modules.js')) %>
+<%- await lib.renderCode(lib.fetchCode('examples/basic/modules.mjs')) %>
 
 Notice the _double arrow_ functions? That's syntactic sugar for a _higher order function_ (a function that returns another function).
 
@@ -76,11 +76,11 @@ Module composition should occur as close to the entry point of the application a
 
 Here's an example of a composition root isolated to a separate file named `compose.js`: 
 
-<%- await lib.renderCode(lib.fetchCode('examples/basic/compose.js')) %>
+<%- await lib.renderCode(lib.fetchCode('examples/basic/compose.mjs')) %>
 
 And here's an example of an entry point for a single-page (web) application (SPA):
 
-<%- await lib.renderCode(lib.fetchCode('examples/basic/app.js')) %>
+<%- await lib.renderCode(lib.fetchCode('examples/basic/app.mjs')) %>
 
 Recommended reading:
 
@@ -112,9 +112,9 @@ src/
 
 This hierarchy can be mirrored in code by rolling up each file in each directory using `index.js` files. This approach leads to a design where any file is only ever imported once regardless of the number of usages. It also reduces or eliminates the large blocks of import statements typically found at the top of each file, and eliminates any need for path backtracking, i.e. `../../../`. Path backtracking is a potential code smell due to the risk of inappropriate coupling. Instead, the relationships between each module are explicitly established during at application initialisation time.
 
-<%- await lib.renderCode(lib.fetchCode('examples/basic/modules/index.js')) %>
+<%- await lib.renderCode(lib.fetchCode('examples/basic/modules/index.mjs')) %>
 
-<%- await lib.renderCode(lib.fetchCode('examples/basic/modules/components/index.js')) %>
+<%- await lib.renderCode(lib.fetchCode('examples/basic/modules/components/index.mjs')) %>
 
 This pattern opens the possibility of generating `index.js` files. This means that not only is each file only ever imported once, a developer needn't write import statements at all.
 
@@ -130,15 +130,15 @@ GitHub can render diagrams directly from Mermaid syntax in markdown files. See [
 
 Given the following composition:
 
-<%- await lib.renderCode(lib.fetchCode('examples/basic/compose.js')) %>
+<%- await lib.renderCode(lib.fetchCode('examples/basic/compose.mjs')) %>
 
 Use `compose.mermaid()` to generate the following Mermaid diagram-as-code:
 
-<%- await lib.compose(c => lib.renderCode(c.mermaid()), 'examples/basic/compose.js') %>
+<%- await lib.compose(c => lib.renderCode(c.mermaid()), 'examples/basic/compose.mjs') %>
 
 Which Mermaid renders as:
 
-<%- await lib.compose(c => lib.renderCode(c.mermaid(), 'mermaid'), 'examples/basic/compose.js') %>
+<%- await lib.compose(c => lib.renderCode(c.mermaid(), 'mermaid'), 'examples/basic/compose.mjs') %>
 
 For a less contrived example, see [Advanced example: Agile Avatars](#advanced-example-agile-avatars) below.
 
@@ -290,15 +290,15 @@ Module Composer can be _ejected_ by generating the equivalent vanilla JavaScript
 
 Take the composition root of the Gravatar SPA example:
 
-<%- await lib.renderCode(lib.fetchCode('examples/gravatar-spa/src/compose.js')) %>
+<%- await lib.renderCode(lib.fetchCode('examples/gravatar-spa/src/compose.mjs')) %>
 
 Mermaid digram:
 
-<%- await lib.compose(c => lib.renderCode(c.mermaid(), 'mermaid'), 'examples/gravatar-spa/src/compose.js') %>
+<%- await lib.compose(c => lib.renderCode(c.mermaid(), 'mermaid'), 'examples/gravatar-spa/src/compose.mjs') %>
 
 Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 
-<%- await lib.compose(c => lib.renderCode(c.eject(), 'js'), 'examples/gravatar-spa/src/compose.js') %>
+<%- await lib.compose(c => lib.renderCode(c.eject(), 'js'), 'examples/gravatar-spa/src/compose.mjs') %>
 
 ## Performance
 
@@ -310,7 +310,7 @@ Use `compose.stats` to see the total composition duration, and a break down of d
 
 <%- process.env.COMPUTER_HARDWARE %>
 
-<%- await lib.compose(c => lib.renderCode(JSON.stringify(c.stats, null, 4), 'js'), 'examples/gravatar-spa/src/compose.js') %>
+<%- await lib.compose(c => lib.renderCode(JSON.stringify(c.stats, null, 4), 'js'), 'examples/gravatar-spa/src/compose.mjs') %>
 
 ## Advanced example: Agile Avatars
 

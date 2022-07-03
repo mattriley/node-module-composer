@@ -1,6 +1,6 @@
 import composer from 'module-composer';
-import modules from './modules';
-import defaultConfig from './default-config';
+import modules from './modules/index.mjs';
+import defaultConfig from './default-config.mjs';
 
 export default ({ overrides } = {}) => {
     const { compose, config } = composer(modules, { overrides, defaultConfig });

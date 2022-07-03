@@ -1,29 +1,7 @@
 {
     "name": "module-composer",
-    "version": "0.51.0",
+    "version": "0.52.0",
     "description": "Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.",
-    "author": "Matt Riley",
-    "license": "ISC",
-    "repository": "github:mattriley/node-module-composer",
-    "homepage": "https://github.com/mattriley/node-module-composer",
-    "main": "src/module-composer.js",
-    "files": [
-        "src/**/*"
-    ],
-    "dependencies": {
-        "flat": "^5.0.2",
-        "lodash": "^4.17.21"
-    },
-    "devDependencies": {
-        "module-composer": "file:.",
-        "node-sloc": "^0.2.1",
-        "task-library": "^0.3.11",
-        "zora": "^5.0.4",
-        "zora-reporters": "^1.3.2"
-    },
-    "publishConfig": {
-        "access": "public"
-    },
     "keywords": [
         "application-architecture",
         "software-design",
@@ -42,5 +20,27 @@
         "fast",
         "browser",
         "ejectable"
-    ]
+    ],
+    "author": "Matt Riley",
+    "license": "ISC",
+    "homepage": "https://github.com/mattriley/node-module-composer",
+    "repository": "github:mattriley/node-module-composer",
+    "main": "src/module-composer.js",
+    "files": [
+        "src/**/*"
+    ],
+    "dependencies": {
+        "flat": "^5.0.2",
+        "lodash": "^4.17.21"
+    },
+    "devDependencies": {
+        "module-composer": "file:.",
+        "node-sloc": "^0.2.1",
+        "task-library": "^0.3.20",
+        "zora": "^5.0.4",
+        "zora-reporters": "^1.3.2"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
 }
