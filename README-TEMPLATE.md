@@ -86,20 +86,20 @@ Module Composer influences (but does not necessitate) the file system toward _fi
 The module hierarchy can be easily represented by the file system:
 
 ```
-src/
-    app.js
-    compose.js
-    modules/
-        index.js
-        stores/
-            index.js
-            add-to-cart.js        
-        services/
-            index.js
-            order-product.js        
-        components/
-            index.js
-            product-details.js
+src
+└── app.js
+└── compose.js
+└── modules
+    └── index.js
+    └── stores
+        └── index.js
+        └── add-to-cart.js        
+    └── services
+        └── index.js
+        └── order-product.js        
+    └── components
+        └── index.js
+        └── product-details.js
 ```
 
 This hierarchy can be mirrored in code by rolling up each file in each directory using `index.js` files. This approach leads to a design where any file is only ever imported once regardless of the number of usages. It also reduces or eliminates the large blocks of import statements typically found at the top of each file, and eliminates any need for path backtracking, i.e. `../../../`. Path backtracking is a potential code smell due to the risk of inappropriate coupling. Instead, the relationships between each module are explicitly established during at application initialisation time.

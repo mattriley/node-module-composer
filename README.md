@@ -168,20 +168,20 @@ Module Composer influences (but does not necessitate) the file system toward _fi
 The module hierarchy can be easily represented by the file system:
 
 ```
-src/
-    app.js
-    compose.js
-    modules/
-        index.js
-        stores/
-            index.js
-            add-to-cart.js        
-        services/
-            index.js
-            order-product.js        
-        components/
-            index.js
-            product-details.js
+src
+└── app.js
+└── compose.js
+└── modules
+    └── index.js
+    └── stores
+        └── index.js
+        └── add-to-cart.js        
+    └── services
+        └── index.js
+        └── order-product.js        
+    └── components
+        └── index.js
+        └── product-details.js
 ```
 
 This hierarchy can be mirrored in code by rolling up each file in each directory using `index.js` files. This approach leads to a design where any file is only ever imported once regardless of the number of usages. It also reduces or eliminates the large blocks of import statements typically found at the top of each file, and eliminates any need for path backtracking, i.e. `../../../`. Path backtracking is a potential code smell due to the risk of inappropriate coupling. Instead, the relationships between each module are explicitly established during at application initialisation time.
@@ -465,13 +465,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.01970815658569336,
+    "totalDuration": 0.01975107192993164,
     "modules": {
         "services": {
-            "duration": 0.0123748779296875
+            "duration": 0.012334346771240234
         },
         "components": {
-            "duration": 0.007333278656005859
+            "duration": 0.007416725158691406
         }
     }
 }
@@ -493,7 +493,7 @@ const { storage, util } = modules;
 
 export default ({ window, overrides, configs }) => {
 
-    const { compose, config } = composer(modules, { overrides, defaultConfig, configs });
+    const { compose, config } = composer({ window, ...modules }, { overrides, defaultConfig, configs });
 
     // Data
     const { stores } = compose('stores', { storage, config });
@@ -528,46 +528,46 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 2.653374195098877,
+    "totalDuration": 2.4894566535949707,
     "modules": {
         "stores": {
-            "duration": 0.34549999237060547
+            "duration": 0.31724977493286133
         },
         "subscriptions": {
-            "duration": 0.058791160583496094
+            "duration": 0.05791664123535156
         },
         "core": {
-            "duration": 0.21491718292236328
+            "duration": 0.18849992752075195
         },
         "io": {
-            "duration": 0.03183317184448242
+            "duration": 0.02920818328857422
         },
         "services": {
-            "duration": 0.4127497673034668
+            "duration": 0.3488750457763672
         },
         "vendorServices": {
-            "duration": 0.6973328590393066
+            "duration": 0.6357078552246094
         },
         "ui": {
-            "duration": 0.05162525177001953
+            "duration": 0.053041934967041016
         },
         "elements": {
-            "duration": 0.0872502326965332
+            "duration": 0.08650016784667969
         },
         "vendorComponents": {
-            "duration": 0.0710000991821289
+            "duration": 0.06804180145263672
         },
         "components": {
-            "duration": 0.5442919731140137
+            "duration": 0.5615410804748535
         },
         "styles": {
-            "duration": 0.07279109954833984
+            "duration": 0.07666635513305664
         },
         "diagnostics": {
-            "duration": 0.01683330535888672
+            "duration": 0.018000125885009766
         },
         "startup": {
-            "duration": 0.048458099365234375
+            "duration": 0.048207759857177734
         }
     }
 }
