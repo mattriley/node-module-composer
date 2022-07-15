@@ -1,4 +1,3 @@
 #!/bin/bash
 
-export EXTERNAL_NAME="Module Composer"
-export ITERMOCIL_TASKS=("edit" "test-watch")
+export ITERMOCIL_TASKS="edit | test-watch"
