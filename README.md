@@ -1,18 +1,19 @@
-# Module Composer
+# module-composer
+
 
 <p align="right">
     <code>100% cov</code>&nbsp;
     <code>144 sloc</code>&nbsp;
     <code>9 files</code>&nbsp;
     <code>2 deps</code>&nbsp;
-    <code>5 dev deps</code></p>
+    <code>5 dev deps</code>
+</p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
-## Table of Contents
-
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table of Contents
 
 - [Install](#install)
 - [Background](#background)
@@ -465,13 +466,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.01975107192993164,
+    "totalDuration": 0.019083023071289062,
     "modules": {
         "services": {
-            "duration": 0.012334346771240234
+            "duration": 0.011750012636184692
         },
         "components": {
-            "duration": 0.007416725158691406
+            "duration": 0.00733301043510437
         }
     }
 }
@@ -528,46 +529,46 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 2.4894566535949707,
+    "totalDuration": 2.4667530953884125,
     "modules": {
         "stores": {
-            "duration": 0.31724977493286133
+            "duration": 0.31470799446105957
         },
         "subscriptions": {
-            "duration": 0.05791664123535156
+            "duration": 0.055833011865615845
         },
         "core": {
-            "duration": 0.18849992752075195
+            "duration": 0.18975001573562622
         },
         "io": {
-            "duration": 0.02920818328857422
+            "duration": 0.03258401155471802
         },
         "services": {
-            "duration": 0.3488750457763672
+            "duration": 0.35029202699661255
         },
         "vendorServices": {
-            "duration": 0.6357078552246094
+            "duration": 0.6574169993400574
         },
         "ui": {
-            "duration": 0.053041934967041016
+            "duration": 0.059749990701675415
         },
         "elements": {
-            "duration": 0.08650016784667969
+            "duration": 0.09766700863838196
         },
         "vendorComponents": {
-            "duration": 0.06804180145263672
+            "duration": 0.07050001621246338
         },
         "components": {
-            "duration": 0.5615410804748535
+            "duration": 0.49958398938179016
         },
         "styles": {
-            "duration": 0.07666635513305664
+            "duration": 0.07770901918411255
         },
         "diagnostics": {
-            "duration": 0.018000125885009766
+            "duration": 0.016084015369415283
         },
         "startup": {
-            "duration": 0.048207759857177734
+            "duration": 0.044874995946884155
         }
     }
 }

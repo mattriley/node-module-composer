@@ -6,7 +6,8 @@
         "es2021": true
     },
     "extends": [
-        "eslint:recommended"
+        "eslint:recommended",
+        "plugin:import/recommended"
     ],
     "settings": {
         "react": {
@@ -17,7 +18,8 @@
         "ecmaVersion": "latest",
         "ecmaFeatures": {
             "jsx": true
-        }
+        },
+        "allowImportExportEverywhere": true
     },
     "rules": {
         "indent": [
@@ -35,6 +37,10 @@
         "semi": [
             "error",
             "always"
+        ],
+        "comma-dangle": [
+            "error",
+            "never"
         ],
         "arrow-parens": [
             "error",
