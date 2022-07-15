@@ -3,7 +3,7 @@
 
 <p align="right">
     <code>100% cov</code>&nbsp;
-    <code>144 sloc</code>&nbsp;
+    <code>154 sloc</code>&nbsp;
     <code>9 files</code>&nbsp;
     <code>2 deps</code>&nbsp;
     <code>5 dev deps</code>
@@ -466,13 +466,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.01862502098083496,
+    "totalDuration": 0.02216598391532898,
     "modules": {
         "services": {
-            "duration": 0.011375010013580322
+            "duration": 0.012874990701675415
         },
         "components": {
-            "duration": 0.007250010967254639
+            "duration": 0.009290993213653564
         }
     }
 }
@@ -529,46 +529,46 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 2.4786660075187683,
+    "totalDuration": 2.5661689043045044,
     "modules": {
         "stores": {
-            "duration": 0.33320802450180054
+            "duration": 0.3395420014858246
         },
         "subscriptions": {
-            "duration": 0.05683299899101257
+            "duration": 0.05825001001358032
         },
         "core": {
-            "duration": 0.19533300399780273
+            "duration": 0.19362500309944153
         },
         "io": {
-            "duration": 0.03025001287460327
+            "duration": 0.036125004291534424
         },
         "services": {
-            "duration": 0.36716699600219727
+            "duration": 0.3915409743785858
         },
         "vendorServices": {
-            "duration": 0.671875
+            "duration": 0.6674999892711639
         },
         "ui": {
-            "duration": 0.047875016927719116
+            "duration": 0.04899999499320984
         },
         "elements": {
-            "duration": 0.0833750069141388
+            "duration": 0.0942089855670929
         },
         "vendorComponents": {
-            "duration": 0.06616699695587158
+            "duration": 0.07658398151397705
         },
         "components": {
-            "duration": 0.5020830035209656
+            "duration": 0.5349589884281158
         },
         "styles": {
-            "duration": 0.06766697764396667
+            "duration": 0.06624999642372131
         },
         "diagnostics": {
-            "duration": 0.016582995653152466
+            "duration": 0.01658397912979126
         },
         "startup": {
-            "duration": 0.04024997353553772
+            "duration": 0.041999995708465576
         }
     }
 }

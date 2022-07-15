@@ -20,7 +20,8 @@ module.exports = props => {
         const recursed = recurse(util.get(target, key), key, deps);
         const customised = util.invoke(recursed, options.customiser, recursed) ?? recursed;
         const overridden = util.merge(customised, util.get(options.overrides, key));
-        util.set(props.modules, key, overridden);
+        const omitted = util.deepOmitKeys(overridden, key => key.match(options.omitPattern));
+        util.set(props.modules, key, omitted);
         props.dependencies[key] = props.composedDependencies[key] = Object.keys(deps);
         return props.modules;
     };

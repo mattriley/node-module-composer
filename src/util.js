@@ -14,7 +14,16 @@ const isPlainFunction = val => isFunction(val) && !(val.prototype && val.prototy
 const mergeValues = (target, obj, keys) => merge(target, ...flattenDeep(pickValues(obj, keys)));
 const pickValues = (obj, keys) => Object.values(pick(obj, keys));
 
+const deepOmitKeys = (obj, omit) => {
+    return Object.fromEntries(Object.entries(obj).flatMap(([key, val]) => {
+        if (omit(key)) return [];
+        const newVal = isPlainObject(val) ? deepOmitKeys(val, omit) : val;
+        return [[key, newVal]];
+    }));
+};
+
 module.exports = {
+    deepOmitKeys,
     get,
     has,
     invoke,

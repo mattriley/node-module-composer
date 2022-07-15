@@ -190,6 +190,27 @@ module.exports = ({ test }) => {
         t.ok(fun2Called);
     });
 
+    test('privates', t => {
+        let fun2Called = false;
+
+        const target = {
+            foo: {
+                fun1: ({ foo }) => () => {
+                    foo._fun2();
+                },
+                _fun2: () => () => {
+                    fun2Called = true;
+                }
+            }
+        };
+
+        const { compose } = composer(target);
+        const { foo } = compose('foo');
+        foo.fun1();
+        t.notOk(foo._fun2);
+        t.ok(fun2Called);
+    });
+
     test('mermaid', t => {
         const target = { foo: {} };
         const { compose } = composer(target);
