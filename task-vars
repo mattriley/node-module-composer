@@ -1,3 +1,4 @@
 #!/bin/bash
 
+export DISPLAY_NAME="Module Composer"
 export ITERMOCIL_TASKS="edit | test-watch"
