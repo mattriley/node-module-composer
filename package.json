@@ -19,18 +19,25 @@
     ],
     "main": "src/module-composer.js",
     "scripts": {
-        "test": "npx task test",
+        "cov": "npx task cov",
+        "deploy": "npx task deploy",
+        "lint": "npx task lint",
+        "pre": "npx task pre",
         "start": "npx task start",
-        "deploy": "npx task deploy"
+        "test": "npx task test"
     },
     "dependencies": {
         "flat": "^5.0.2",
         "lodash": "^4.17.21"
     },
     "devDependencies": {
+        "cloc": "^2.10.0",
+        "doctoc": "^2.2.0",
+        "eslint": "^8.20.0",
+        "husky": "^8.0.1",
         "module-composer": "file:.",
         "node-sloc": "^0.2.1",
-        "task-library": "^0.6.6",
+        "task-library": "^0.40.0",
         "zora": "^5.0.4",
         "zora-reporters": "^1.3.2"
     },
