@@ -211,6 +211,25 @@ module.exports = ({ test }) => {
         t.ok(fun2Called);
     });
 
+    test('register on window', t => {
+        const target = { foo: {}, window: {} };
+        const { compose } = composer(target);
+        compose('foo', { bar: {} });
+        const composition = compose.end();
+        composition.register('foobar');
+        t.deepEqual(composition.modules.window.apps, [{ foobar: composition }]);
+    });
+
+    test('register on target', t => {
+        const target = { foo: {} };
+        const { compose } = composer(target);
+        compose('foo', { bar: {} });
+        const composition = compose.end();
+        const obj = {};
+        composition.register('foobar', obj);
+        t.deepEqual(obj.apps, [{ foobar: composition }]);
+    });
+
     test('mermaid', t => {
         const target = { foo: {} };
         const { compose } = composer(target);

@@ -3,7 +3,7 @@
 
 <p align="right">
     <code>100% cov</code>&nbsp;
-    <code>154 sloc</code>&nbsp;
+    <code>155 sloc</code>&nbsp;
     <code>9 files</code>&nbsp;
     <code>2 deps</code>&nbsp;
     <code>9 dev deps</code>
@@ -466,13 +466,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.0313740074634552,
+    "totalDuration": 0.03095799684524536,
     "modules": {
         "services": {
-            "duration": 0.021708011627197266
+            "duration": 0.01933300495147705
         },
         "components": {
-            "duration": 0.009665995836257935
+            "duration": 0.01162499189376831
         }
     }
 }
@@ -492,9 +492,12 @@ import modules from './modules/index.js';
 import defaultConfig from './default-config.js';
 const { storage, util } = modules;
 
-export default ({ window, overrides, configs }) => {
+export default ({ window, mixpanel, overrides, configs }) => {
 
-    const { compose, config } = composer({ window, ...modules }, { overrides, defaultConfig, configs });
+    const mixpanelStub = { track: () => { } };
+    mixpanel = mixpanel ?? mixpanelStub;
+
+    const { compose, config } = composer({ window, mixpanel, ...modules }, { overrides, defaultConfig, configs });
 
     // Data
     const { stores } = compose('stores', { storage, config });
@@ -504,13 +507,12 @@ export default ({ window, overrides, configs }) => {
     const { core } = compose('core', { util, config });
     const { io } = compose('io', { window });
     const { services } = compose('services', { subscriptions, stores, core, io, util, config });
-    const { vendorServices } = compose('vendorServices', { io, config, window });
 
     // Presentation
     const { ui } = compose('ui', { window });
     const { elements } = compose('elements', { ui, util });
     const { vendorComponents } = compose('vendorComponents', { ui, config, window });
-    const { components } = compose('components', { ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config });
+    const { components } = compose('components', { mixpanel, ui, elements, vendorComponents, services, subscriptions, util, config });
     const { styles } = compose('styles', { ui, subscriptions, config });
 
     // Startup    
@@ -529,46 +531,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 2.8322090059518814,
+    "totalDuration": 1.9939560294151306,
     "modules": {
         "stores": {
-            "duration": 0.45183299481868744
+            "duration": 0.42658305168151855
         },
         "subscriptions": {
-            "duration": 0.07129199802875519
+            "duration": 0.07691603899002075
         },
         "core": {
-            "duration": 0.2128330022096634
+            "duration": 0.232915997505188
         },
         "io": {
-            "duration": 0.03875000774860382
+            "duration": 0.032917022705078125
         },
         "services": {
-            "duration": 0.4301670044660568
-        },
-        "vendorServices": {
-            "duration": 0.6922079920768738
+            "duration": 0.34345799684524536
         },
         "ui": {
-            "duration": 0.059042006731033325
+            "duration": 0.08587497472763062
         },
         "elements": {
-            "duration": 0.0988750010728836
+            "duration": 0.08258402347564697
         },
         "vendorComponents": {
-            "duration": 0.060791999101638794
+            "duration": 0.01995795965194702
         },
         "components": {
-            "duration": 0.5707090049982071
+            "duration": 0.47162503004074097
         },
         "styles": {
-            "duration": 0.0768750011920929
+            "duration": 0.1088329553604126
         },
         "diagnostics": {
-            "duration": 0.017707988619804382
+            "duration": 0.06362497806549072
         },
         "startup": {
-            "duration": 0.05112500488758087
+            "duration": 0.04866600036621094
         }
     }
 }
@@ -578,10 +577,10 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 
 ```
 graph TD;
+    components-->mixpanel;
     components-->ui;
     components-->elements;
     components-->vendorComponents;
-    components-->vendorServices;
     components-->services;
     components-->subscriptions;
     components-->util;
@@ -619,9 +618,6 @@ graph TD;
     vendorComponents-->ui;
     vendorComponents-->config;
     vendorComponents-->window;
-    vendorServices-->io;
-    vendorServices-->config;
-    vendorServices-->window;
 ```
 
 #### Mermaid diagram
@@ -629,10 +625,10 @@ graph TD;
 ###### <p align="right"><em>Can't see the diagram?</em> <a id="link-6" href="https://github.com/mattriley/node-module-composer#user-content-link-6">View it on GitHub</a></p>
 ```mermaid
 graph TD;
+    components-->mixpanel;
     components-->ui;
     components-->elements;
     components-->vendorComponents;
-    components-->vendorServices;
     components-->services;
     components-->subscriptions;
     components-->util;
@@ -670,9 +666,6 @@ graph TD;
     vendorComponents-->ui;
     vendorComponents-->config;
     vendorComponents-->window;
-    vendorServices-->io;
-    vendorServices-->config;
-    vendorServices-->window;
 ```
 
 #### Code generated with `eject()`
@@ -746,11 +739,6 @@ graph TD;
     services.tags.setupTagPropagation = services.tags.setupTagPropagation({ ...servicesDependencies });
     services.tags.sortTagInstances = services.tags.sortTagInstances({ ...servicesDependencies });
 
-    const vendorServices = { ...modules.vendorServices };
-    const vendorServicesDependencies = { vendorServices, io, config, window };
-    vendorServices.gtag = vendorServices.gtag({ ...vendorServicesDependencies });
-    vendorServices.sentry = vendorServices.sentry({ ...vendorServicesDependencies });
-
     const ui = { ...modules.ui };
     const uiDependencies = { ui, window };
     ui.appendToHead = ui.appendToHead({ ...uiDependencies });
@@ -770,11 +758,10 @@ graph TD;
 
     const vendorComponents = { ...modules.vendorComponents };
     const vendorComponentsDependencies = { vendorComponents, ui, config, window };
-    vendorComponents.gtagScript = vendorComponents.gtagScript({ ...vendorComponentsDependencies });
     vendorComponents.vanillaPicker = vendorComponents.vanillaPicker({ ...vendorComponentsDependencies });
 
     const components = { ...modules.components };
-    const componentsDependencies = { components, ui, elements, vendorComponents, vendorServices, services, subscriptions, util, config };
+    const componentsDependencies = { components, mixpanel, ui, elements, vendorComponents, services, subscriptions, util, config };
     components.app = components.app({ ...componentsDependencies });
     components.dropzone = components.dropzone({ ...componentsDependencies });
     components.gravatar.actions.container = components.gravatar.actions.container({ ...componentsDependencies });
@@ -841,7 +828,7 @@ graph TD;
     startup.insertNilRole = startup.insertNilRole({ ...startupDependencies });
     startup.start = startup.start({ ...startupDependencies });
 
-    return { ...modules, stores, subscriptions, core, io, services, vendorServices, ui, elements, vendorComponents, components, styles, diagnostics, startup };
+    return { ...modules, stores, subscriptions, core, io, services, ui, elements, vendorComponents, components, styles, diagnostics, startup };
 
 };
 ```

@@ -17,7 +17,8 @@ module.exports = (target, userOptions) => {
         composedDependencies: {},
         ...optionalStats,
         mermaid: opts => mermaid(props.dependencies, opts),
-        eject: () => eject(target, props.composedDependencies)
+        eject: () => eject(target, props.composedDependencies),
+        register: (key, target = props.modules.window) => target.apps = [target.apps ?? []].flat().concat({ [key]: props })
     };
 
     return { ...props, props };
