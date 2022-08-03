@@ -129,15 +129,23 @@ module.exports = ({ test }) => {
     });
 
     test('non-objects are returned as-is', t => {
-        class Classy { }
+        class Class {
+            constructor() {
+                t.fail('Shouldn\'t get here');
+            }
+        }
+        const Prototype = function () {
+            t.fail('Shouldn\'t get here');
+        };
+        Prototype.prototype = {};
         const target = {
             foo: {
                 num: 1,
                 str: 'str',
                 bool: true,
                 regex: /abc/,
-                Classy,
-                inst: new Classy(),
+                Class,
+                Prototype,
                 null: null,
                 undef: undefined
             }

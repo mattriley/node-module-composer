@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 const flattenDeep = require('lodash/flattenDeep');
 const get = require('lodash/get');
 const has = require('lodash/has');
@@ -10,7 +11,7 @@ const pick = require('lodash/pick');
 const set = require('lodash/set');
 const upperFirst = require('lodash/upperFirst');
 
-const isPlainFunction = val => isFunction(val) && !(val.prototype && val.prototype.constructor === val);
+const isPlainFunction = val => isFunction(val) && !val.hasOwnProperty('prototype');
 const mergeValues = (target, obj, keys) => merge(target, ...flattenDeep(pickValues(obj, keys)));
 const pickValues = (obj, keys) => Object.values(pick(obj, keys));
 
