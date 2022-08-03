@@ -21,6 +21,9 @@ module.exports = (target, userOptions = {}) => {
         return composeFunc(key, deps);
     };
 
+    if (!globalThis.compositions) globalThis.compositions = [];
+    globalThis.compositions.push(props);
+
     Object.assign(compose, props, { end });
     return { compose, config };
 

@@ -3,7 +3,7 @@
 
 <p align="right">
     <code>100% cov</code>&nbsp;
-    <code>155 sloc</code>&nbsp;
+    <code>157 sloc</code>&nbsp;
     <code>9 files</code>&nbsp;
     <code>2 deps</code>&nbsp;
     <code>9 dev deps</code>
@@ -466,13 +466,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.024792015552520752,
+    "totalDuration": 0.022125065326690674,
     "modules": {
         "services": {
-            "duration": 0.013709008693695068
+            "duration": 0.012875020503997803
         },
         "components": {
-            "duration": 0.011083006858825684
+            "duration": 0.009250044822692871
         }
     }
 }
@@ -531,43 +531,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 1.9461689591407776,
+    "totalDuration": 1.9441258907318115,
     "modules": {
         "stores": {
-            "duration": 0.41200000047683716
+            "duration": 0.40962499380111694
         },
         "subscriptions": {
-            "duration": 0.06908398866653442
+            "duration": 0.06995797157287598
         },
         "core": {
-            "duration": 0.23708301782608032
+            "duration": 0.2362920045852661
         },
         "io": {
-            "duration": 0.03275001049041748
+            "duration": 0.0361669659614563
         },
         "services": {
-            "duration": 0.328624963760376
+            "duration": 0.329708993434906
         },
         "ui": {
-            "duration": 0.08783304691314697
+            "duration": 0.08675003051757812
         },
         "elements": {
-            "duration": 0.08320897817611694
+            "duration": 0.08079200983047485
         },
         "vendorComponents": {
-            "duration": 0.019250035285949707
+            "duration": 0.019708991050720215
         },
         "components": {
-            "duration": 0.46516698598861694
+            "duration": 0.4601249694824219
         },
         "styles": {
-            "duration": 0.10170900821685791
+            "duration": 0.1072080135345459
         },
         "diagnostics": {
-            "duration": 0.06283396482467651
+            "duration": 0.06316596269607544
         },
         "startup": {
-            "duration": 0.046624958515167236
+            "duration": 0.04462498426437378
         }
     }
 }

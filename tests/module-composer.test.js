@@ -211,23 +211,24 @@ module.exports = ({ test }) => {
         t.ok(fun2Called);
     });
 
-    test('register on window', t => {
+    test('register unnamed composition', t => {
         const target = { foo: {}, window: {} };
         const { compose } = composer(target);
         compose('foo', { bar: {} });
         const composition = compose.end();
-        composition.register('foobar');
-        t.deepEqual(composition.modules.window.apps, [{ foobar: composition }]);
+        const matchedComposition = globalThis.compositions.find(c => c === composition);
+        t.equal(composition, matchedComposition);
+        t.equal(matchedComposition.compositionName, undefined);
     });
 
-    test('register on target', t => {
+    test('register named composition', t => {
         const target = { foo: {} };
-        const { compose } = composer(target);
+        const { compose } = composer(target, { compositionName: 'foobar' });
         compose('foo', { bar: {} });
         const composition = compose.end();
-        const obj = {};
-        composition.register('foobar', obj);
-        t.deepEqual(obj.apps, [{ foobar: composition }]);
+        const matchedComposition = globalThis.compositions.find(c => c === composition);
+        t.equal(composition, matchedComposition);
+        t.equal(matchedComposition.compositionName, 'foobar');
     });
 
     test('mermaid', t => {

@@ -11,14 +11,14 @@ module.exports = (target, userOptions) => {
     const optionalStats = options.stats ? { stats } : {};
 
     const props = {
+        compositionName: userOptions.compositionName,
         defaultOptions, userOptions, options, config, target,
         modules: { ...target },
         dependencies: util.mapValues(target, () => []),
         composedDependencies: {},
         ...optionalStats,
         mermaid: opts => mermaid(props.dependencies, opts),
-        eject: () => eject(target, props.composedDependencies),
-        register: (key, target = props.modules.window) => target.apps = [target.apps ?? []].flat().concat({ [key]: props })
+        eject: () => eject(target, props.composedDependencies)
     };
 
     return { ...props, props };
