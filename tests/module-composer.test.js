@@ -128,6 +128,20 @@ module.exports = ({ test }) => {
         t.equal(compose.dependencies, { foo: [] });
     });
 
+    test('default customiser is invoked returning nested array', t => {
+        const target = {
+            foo: {
+                setup: () => () => {
+                    return [[1], [2]];
+                }
+            }
+        };
+        const { compose } = composer(target);
+        compose('foo', {});
+        t.equal(compose.modules, { foo: [[1], [2]] });
+        t.equal(compose.dependencies, { foo: [] });
+    });
+
     test('non-objects are returned as-is', t => {
         class Class {
             constructor() {
@@ -144,6 +158,8 @@ module.exports = ({ test }) => {
                 str: 'str',
                 bool: true,
                 regex: /abc/,
+                arr: [],
+                arrOfObj: [{ foo: 'bar' }],
                 Class,
                 Prototype,
                 null: null,

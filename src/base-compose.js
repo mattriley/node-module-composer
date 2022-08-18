@@ -18,10 +18,11 @@ module.exports = props => {
         if (props.composedDependencies[key]) throw new Error(`${key} already composed`);
         deps = { ...options.defaults, ...deps };
         const recursed = recurse(util.get(target, key), key, deps);
-        const customised = util.invoke(recursed, options.customiser, recursed) ?? recursed;
-        const overridden = util.merge(customised, util.get(options.overrides, key));
+        const customised = util.invoke(recursed, options.customiser, recursed);
+        const overridden = util.merge(recursed, util.get(options.overrides, key));
         const omitted = util.deepOmitKeys(overridden, key => key.match(options.omitPattern));
-        util.set(props.modules, key, omitted);
+        const module = customised ?? omitted;
+        util.set(props.modules, key, module);
         props.dependencies[key] = props.composedDependencies[key] = Object.keys(deps);
         return props.modules;
     };
