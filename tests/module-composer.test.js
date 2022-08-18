@@ -128,7 +128,7 @@ module.exports = ({ test }) => {
         t.equal(compose.dependencies, { foo: [] });
     });
 
-    test('default customiser is invoked returning nested array', t => {
+    test('default customiser returns non-plain object', t => {
         const target = {
             foo: {
                 setup: () => () => {
@@ -137,9 +137,7 @@ module.exports = ({ test }) => {
             }
         };
         const { compose } = composer(target);
-        compose('foo', {});
-        t.equal(compose.modules, { foo: [[1], [2]] });
-        t.equal(compose.dependencies, { foo: [] });
+        t.throws(() => compose('foo', {}), 'key customiser must return plain object');
     });
 
     test('non-objects are returned as-is', t => {

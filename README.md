@@ -3,7 +3,7 @@
 
 <p align="right">
     <code>100% cov</code>&nbsp;
-    <code>157 sloc</code>&nbsp;
+    <code>159 sloc</code>&nbsp;
     <code>9 files</code>&nbsp;
     <code>2 deps</code>&nbsp;
     <code>9 dev deps</code>
@@ -466,13 +466,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.02941596508026123,
+    "totalDuration": 0.07745897769927979,
     "modules": {
         "services": {
-            "duration": 0.019707977771759033
+            "duration": 0.0620419979095459
         },
         "components": {
-            "duration": 0.009707987308502197
+            "duration": 0.015416979789733887
         }
     }
 }
@@ -492,12 +492,13 @@ import modules from './modules/index.js';
 import defaultConfig from './default-config.js';
 const { storage, util } = modules;
 
-export default ({ window, mixpanel, overrides, configs }) => {
+export default ({ compositionName, window, mixpanel, overrides, configs }) => {
 
     const mixpanelStub = { track: () => { } };
     mixpanel = mixpanel ?? mixpanelStub;
 
-    const { compose, config } = composer({ window, mixpanel, ...modules }, { overrides, defaultConfig, configs });
+    const options = { compositionName, overrides, defaultConfig, configs };
+    const { compose, config } = composer({ window, mixpanel, ...modules }, options);
 
     // Data
     const { stores } = compose('stores', { storage, config });
@@ -531,43 +532,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 2.1109989881515503,
+    "totalDuration": 1.915459930896759,
     "modules": {
         "stores": {
-            "duration": 0.45104098320007324
+            "duration": 0.38337498903274536
         },
         "subscriptions": {
-            "duration": 0.07516604661941528
+            "duration": 0.11116701364517212
         },
         "core": {
-            "duration": 0.26045799255371094
+            "duration": 0.1917080283164978
         },
         "io": {
-            "duration": 0.036083996295928955
+            "duration": 0.034334003925323486
         },
         "services": {
-            "duration": 0.3565410375595093
+            "duration": 0.3600419759750366
         },
         "ui": {
-            "duration": 0.09133297204971313
+            "duration": 0.046999990940093994
         },
         "elements": {
-            "duration": 0.08925002813339233
+            "duration": 0.0834999680519104
         },
         "vendorComponents": {
-            "duration": 0.02574998140335083
+            "duration": 0.02041703462600708
         },
         "components": {
-            "duration": 0.49279195070266724
+            "duration": 0.4698749780654907
         },
         "styles": {
-            "duration": 0.111083984375
+            "duration": 0.10558396577835083
         },
         "diagnostics": {
-            "duration": 0.06970804929733276
+            "duration": 0.061832964420318604
         },
         "startup": {
-            "duration": 0.0517919659614563
+            "duration": 0.04662501811981201
         }
     }
 }

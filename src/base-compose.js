@@ -19,9 +19,10 @@ module.exports = props => {
         deps = { ...options.defaults, ...deps };
         const recursed = recurse(util.get(target, key), key, deps);
         const customised = util.invoke(recursed, options.customiser, recursed);
-        const overridden = util.merge(recursed, util.get(options.overrides, key));
+        if (customised && !util.isPlainObject(customised)) throw new Error(`${key} customiser must return plain object`);
+        const overridden = util.merge(customised ?? recursed, util.get(options.overrides, key));
         const omitted = util.deepOmitKeys(overridden, key => key.match(options.omitPattern));
-        const module = customised ?? omitted;
+        const module = omitted;
         util.set(props.modules, key, module);
         props.dependencies[key] = props.composedDependencies[key] = Object.keys(deps);
         return props.modules;
