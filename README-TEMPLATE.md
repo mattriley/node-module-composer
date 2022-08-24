@@ -307,26 +307,26 @@ Use `compose.stats` to see the total composition duration, and a break down of d
 ## Advanced example: Agile Avatars
 
 > Great looking avatars for your agile board and experiment in FRAMEWORK-LESS, vanilla JavaScript.<br/>
-https://agileavatars.com • https://github.com/mattriley/agileavatars
+https://agileavatars.com • https://github.com/mattriley/agile-avatars
 
 #### Composition root
 
-<%- await lib.renderCode(lib.fetchCode('src/compose.js', '../agileavatars', 'https://github.com/mattriley/agileavatars/tree/master')) %>
+<%- await lib.renderCode(lib.fetchCode('src/compose.js', '../agile-avatars', 'https://github.com/mattriley/agile-avatars/tree/master')) %>
 
 #### Performance measurements captured with `stats`
 
 <%- process.env.COMPUTER_HARDWARE %>
 
-<%- await lib.compose(c => lib.renderCode(lib.json(c.stats), 'js'), '../agileavatars/src/compose.js') %>
+<%- await lib.compose(c => lib.renderCode(lib.json(c.stats), 'js'), '../agile-avatars/src/compose.js') %>
 
 #### Mermaid diagram-as-code generated with `mermaid()`
 
-<%- await lib.compose(c => lib.renderCode(c.mermaid(), ''), '../agileavatars/src/compose.js') %>
+<%- await lib.compose(c => lib.renderCode(c.mermaid(), ''), '../agile-avatars/src/compose.js') %>
 
 #### Mermaid diagram
 
-<%- await lib.compose(c => lib.renderCode(c.mermaid(), 'mermaid'), '../agileavatars/src/compose.js') %>
+<%- await lib.compose(c => lib.renderCode(c.mermaid(), 'mermaid'), '../agile-avatars/src/compose.js') %>
 
 #### Code generated with `eject()`
 
-<%- await lib.compose(c => lib.renderCode(c.eject(), 'js'), '../agileavatars/src/compose.js') %>
+<%- await lib.compose(c => lib.renderCode(c.eject(), 'js'), '../agile-avatars/src/compose.js') %>
