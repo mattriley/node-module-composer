@@ -1,4 +1,4 @@
 #!/bin/bash
 
-export ITERMOCIL_TASKS="edit | test-watch"
+export DEV_TASKS="edit | test-watch"
 export TEST_RUNNER="zora"
