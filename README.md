@@ -461,13 +461,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.37212491035461426,
+    "totalDuration": 0.08045804500579834,
     "modules": {
         "services": {
-            "duration": 0.34762489795684814
+            "duration": 0.06483304500579834
         },
         "components": {
-            "duration": 0.024500012397766113
+            "duration": 0.015625
         }
     }
 }
@@ -527,43 +527,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 2.4387500286102295,
+    "totalDuration": 2.6244161128997803,
     "modules": {
         "stores": {
-            "duration": 0.384708046913147
+            "duration": 0.40262508392333984
         },
         "subscriptions": {
-            "duration": 0.120292067527771
+            "duration": 0.11754190921783447
         },
         "core": {
-            "duration": 0.6239999532699585
+            "duration": 0.20512497425079346
         },
         "io": {
-            "duration": 0.04504203796386719
+            "duration": 0.03429102897644043
         },
         "services": {
-            "duration": 0.393125057220459
+            "duration": 0.38999998569488525
         },
         "ui": {
-            "duration": 0.05270791053771973
+            "duration": 0.05033302307128906
         },
         "elements": {
-            "duration": 0.0829169750213623
+            "duration": 0.08675003051757812
         },
         "vendorComponents": {
-            "duration": 0.020624995231628418
+            "duration": 0.022834062576293945
         },
         "components": {
-            "duration": 0.48133301734924316
+            "duration": 0.998291015625
         },
         "styles": {
-            "duration": 0.1099998950958252
+            "duration": 0.17512500286102295
         },
         "diagnostics": {
-            "duration": 0.0726250410079956
+            "duration": 0.07816696166992188
         },
         "startup": {
-            "duration": 0.05137503147125244
+            "duration": 0.06333303451538086
         }
     }
 }
