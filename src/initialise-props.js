@@ -21,6 +21,8 @@ module.exports = (target, userOptions) => {
         eject: () => eject(target, props.composedDependencies)
     };
 
+    if (Object.keys(config).length && !props.modules.config) props.modules.config = config;
+
     return { ...props, props };
 
 };
