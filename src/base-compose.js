@@ -12,13 +12,13 @@ module.exports = props => {
         return Object.assign(product, util.mapValues(target, evaluate));
     };
 
-    return (key, deps) => {
+    return (key, deps, opts = {}) => {
         if (!key) throw new Error('key is required');
         if (!util.has(target, key)) throw new Error(`${key} not found`);
         if (props.composedDependencies[key]) throw new Error(`${key} already composed`);
         deps = { ...options.defaults, ...deps };
         const recursed = recurse(util.get(target, key), key, deps);
-        const customised = util.invoke(recursed, options.customiser, recursed);
+        const customised = opts.customiser?.(recursed) ?? util.invoke(recursed, options.customiser, recursed);
         if (customised && !util.isPlainObject(customised)) throw new Error(`${key} customiser must return plain object`);
         const overridden = util.merge(customised ?? recursed, util.get(options.overrides, key));
         const omitted = util.deepOmitKeys(overridden, key => key.match(options.omitPattern));

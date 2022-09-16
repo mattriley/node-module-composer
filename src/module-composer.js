@@ -16,9 +16,9 @@ module.exports = (target, userOptions = {}) => {
         return props;
     };
 
-    const compose = (key, deps = {}) => {
+    const compose = (key, deps = {}, opts = {}) => {
         if (ended) throw new Error('Composition has ended');
-        return composeFunc(key, deps);
+        return composeFunc(key, deps, opts);
     };
 
     if (!globalThis.compositions) globalThis.compositions = [];
