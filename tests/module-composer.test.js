@@ -98,15 +98,6 @@ module.exports = ({ test }) => {
         t.equal(compose.dependencies, { foo: [], 'foo.bar': ['baz'] });
     });
 
-    test('defaults are applied', t => {
-        const target = { foo: {} };
-        const defaults = { bar: {} };
-        const { compose } = composer(target, { defaults });
-        compose('foo');
-        t.equal(compose.modules, { foo: {} });
-        t.equal(compose.dependencies, { foo: ['bar'] });
-    });
-
     test('overrides are applied', t => {
         const target = { foo: {} };
         const overrides = { foo: { num: 1 } };

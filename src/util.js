@@ -15,27 +15,28 @@ const isPlainFunction = val => isFunction(val) && !val.hasOwnProperty('prototype
 const mergeValues = (target, obj, keys) => merge(target, ...flattenDeep(pickValues(obj, keys)));
 const pickValues = (obj, keys) => Object.values(pick(obj, keys));
 
-const deepOmitKeys = (obj, pattern) => {
+const deepAddUnprefixedKeys = (obj, prefix) => {
     return Object.fromEntries(Object.entries(obj).flatMap(([key, val]) => {
-        const privateName = key.match(pattern) ? key : `_${key}`;
-        if (key === privateName || obj[privateName]) return [];
-        const newVal = isPlainObject(val) ? deepOmitKeys(val, pattern) : val;
+        const pattern = new RegExp(`^${prefix}`);
+        const newKey = key.replace(pattern, '');
+        if (key.match(prefix)) return [[newKey, val]];
+        const newVal = isPlainObject(val) ? deepAddUnprefixedKeys(val, prefix) : val;
         return [[key, newVal]];
     }));
 };
 
-const deepDupeKeys = (obj, pattern) => {
+const deepRemPrefixedKeys = (obj, prefix) => {
     return Object.fromEntries(Object.entries(obj).flatMap(([key, val]) => {
-        const newKey = key.replace(pattern, '');
-        if (key.match(pattern)) return [[key, val], [newKey, val]];
-        const newVal = isPlainObject(val) ? deepDupeKeys(val, pattern) : val;
+        const prefixName = key.startsWith(prefix) ? key : prefix + key;
+        if (key === prefixName || obj[prefixName]) return [];
+        const newVal = isPlainObject(val) ? deepRemPrefixedKeys(val, prefix) : val;
         return [[key, newVal]];
     }));
 };
 
 module.exports = {
-    deepDupeKeys,
-    deepOmitKeys,
+    deepAddUnprefixedKeys,
+    deepRemPrefixedKeys,
     get,
     has,
     invoke,

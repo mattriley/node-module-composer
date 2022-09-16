@@ -2,3 +2,5 @@
 
 export DEV_TASKS="edit | test-watch"
 export TEST_RUNNER="zora"
+
+export COV_BRANCHES="97"
