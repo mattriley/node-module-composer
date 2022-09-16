@@ -17,15 +17,16 @@ module.exports = props => {
         if (!util.has(target, key)) throw new Error(`${key} not found`);
         if (props.composedDependencies[key]) throw new Error(`${key} already composed`);
         deps = { ...options.defaults, ...deps };
-        const recursed = recurse(util.get(target, key), key, deps, args);
+        const targetModule1 = util.get(target, key);
+        const targetModule = util.deepDupeKeys(targetModule1, options.omitPattern);
+        const recursed = recurse(targetModule, key, deps, args);
         const customised = util.invoke(recursed, options.customiser, recursed);
         if (customised && !util.isPlainObject(customised)) throw new Error(`${key} customiser must return plain object`);
         const privateModule = util.merge(customised ?? recursed, util.get(options.overrides, key));
-        const publicModule = util.deepOmitKeys(privateModule, key => key.match(options.omitPattern));
+        const publicModule = util.deepOmitKeys(privateModule, options.omitPattern);
         util.set(props.modules, key, publicModule);
-        util.set(props.privateModules, key, privateModule);
         props.dependencies[key] = props.composedDependencies[key] = Object.keys(deps);
-        return props.privateModules;
+        return props.modules;
     };
 
 };
