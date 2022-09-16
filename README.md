@@ -1,6 +1,6 @@
 # Module Composer
 
-<p align="right"><code>98.64% cov</code>&nbsp;<code>160 sloc</code>&nbsp;<code>9 files</code>&nbsp;<code>2 deps</code>&nbsp;<code>14 dev deps</code></p>
+<p align="right"><code>100% cov</code>&nbsp;<code>160 sloc</code>&nbsp;<code>9 files</code>&nbsp;<code>2 deps</code>&nbsp;<code>14 dev deps</code></p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
@@ -461,13 +461,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.07899999618530273,
+    "totalDuration": 0.09333300590515137,
     "modules": {
         "services": {
-            "duration": 0.06375002861022949
+            "duration": 0.07691597938537598
         },
         "components": {
-            "duration": 0.015249967575073242
+            "duration": 0.01641702651977539
         }
     }
 }
@@ -527,43 +527,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 2.002209186553955,
+    "totalDuration": 1.9899170398712158,
     "modules": {
         "stores": {
-            "duration": 0.3955838680267334
+            "duration": 0.38883304595947266
         },
         "subscriptions": {
-            "duration": 0.1165001392364502
+            "duration": 0.11770915985107422
         },
         "core": {
-            "duration": 0.19837498664855957
+            "duration": 0.20600008964538574
         },
         "io": {
-            "duration": 0.03345894813537598
+            "duration": 0.03458285331726074
         },
         "services": {
-            "duration": 0.38125014305114746
+            "duration": 0.3819999694824219
         },
         "ui": {
-            "duration": 0.048333168029785156
+            "duration": 0.05370903015136719
         },
         "elements": {
-            "duration": 0.08720803260803223
+            "duration": 0.08429098129272461
         },
         "vendorComponents": {
-            "duration": 0.023166894912719727
+            "duration": 0.02070903778076172
         },
         "components": {
-            "duration": 0.4907081127166748
+            "duration": 0.47983288764953613
         },
         "styles": {
-            "duration": 0.10916686058044434
+            "duration": 0.10924983024597168
         },
         "diagnostics": {
-            "duration": 0.0659170150756836
+            "duration": 0.06275010108947754
         },
         "startup": {
-            "duration": 0.05254101753234863
+            "duration": 0.05025005340576172
         }
     }
 }
