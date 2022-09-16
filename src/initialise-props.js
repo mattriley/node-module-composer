@@ -13,6 +13,7 @@ module.exports = (target, userOptions) => {
     const props = {
         compositionName: userOptions.compositionName,
         defaultOptions, userOptions, options, config, target,
+        privateModules: { ...target },
         modules: { ...target },
         dependencies: util.mapValues(target, () => []),
         composedDependencies: {},

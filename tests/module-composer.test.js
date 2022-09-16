@@ -213,24 +213,19 @@ module.exports = ({ test }) => {
     });
 
     test('privates', t => {
-        let fun2Called = false;
-
         const target = {
             foo: {
-                fun1: ({ foo }) => () => {
-                    foo._fun2();
+                fun1: () => () => {
                 },
                 _fun2: () => () => {
-                    fun2Called = true;
                 }
             }
         };
 
         const { compose } = composer(target);
         const { foo } = compose('foo');
-        foo.fun1();
-        t.notOk(foo._fun2);
-        t.ok(fun2Called);
+        t.ok(foo._fun2);
+        t.notOk(compose.modules.foo._fun2);
     });
 
     test('register unnamed composition', t => {
