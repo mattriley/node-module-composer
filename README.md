@@ -461,13 +461,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.07745814323425293,
+    "totalDuration": 0.07899999618530273,
     "modules": {
         "services": {
-            "duration": 0.0625
+            "duration": 0.06375002861022949
         },
         "components": {
-            "duration": 0.01495814323425293
+            "duration": 0.015249967575073242
         }
     }
 }
@@ -527,43 +527,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 2.5186657905578613,
+    "totalDuration": 2.002209186553955,
     "modules": {
         "stores": {
-            "duration": 0.4104158878326416
+            "duration": 0.3955838680267334
         },
         "subscriptions": {
-            "duration": 0.11870789527893066
+            "duration": 0.1165001392364502
         },
         "core": {
-            "duration": 0.5895421504974365
+            "duration": 0.19837498664855957
         },
         "io": {
-            "duration": 0.041500091552734375
+            "duration": 0.03345894813537598
         },
         "services": {
-            "duration": 0.43491697311401367
+            "duration": 0.38125014305114746
         },
         "ui": {
-            "duration": 0.05162501335144043
+            "duration": 0.048333168029785156
         },
         "elements": {
-            "duration": 0.0850830078125
+            "duration": 0.08720803260803223
         },
         "vendorComponents": {
-            "duration": 0.020917177200317383
+            "duration": 0.023166894912719727
         },
         "components": {
-            "duration": 0.518333911895752
+            "duration": 0.4907081127166748
         },
         "styles": {
-            "duration": 0.12441587448120117
+            "duration": 0.10916686058044434
         },
         "diagnostics": {
-            "duration": 0.06799983978271484
+            "duration": 0.0659170150756836
         },
         "startup": {
-            "duration": 0.05520796775817871
+            "duration": 0.05254101753234863
         }
     }
 }
