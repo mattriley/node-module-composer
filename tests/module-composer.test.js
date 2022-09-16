@@ -216,7 +216,9 @@ module.exports = ({ test }) => {
         const { compose } = composer(target);
         const { foo } = compose('foo');
         t.notOk(foo._fun2);
+        t.notOk(foo.fun2);
         t.notOk(compose.modules.foo._fun2);
+        t.notOk(compose.modules.foo.fun2);
     });
 
     test('register unnamed composition', t => {

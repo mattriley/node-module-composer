@@ -19,7 +19,7 @@ const deepAddUnprefixedKeys = (obj, prefix) => {
     return Object.fromEntries(Object.entries(obj).flatMap(([key, val]) => {
         const pattern = new RegExp(`^${prefix}`);
         const newKey = key.replace(pattern, '');
-        if (key.match(prefix)) return [[newKey, val]];
+        if (key.match(prefix)) return [[key, val], [newKey, val]];
         const newVal = isPlainObject(val) ? deepAddUnprefixedKeys(val, prefix) : val;
         return [[key, newVal]];
     }));
@@ -27,8 +27,7 @@ const deepAddUnprefixedKeys = (obj, prefix) => {
 
 const deepRemPrefixedKeys = (obj, prefix) => {
     return Object.fromEntries(Object.entries(obj).flatMap(([key, val]) => {
-        const prefixName = key.startsWith(prefix) ? key : prefix + key;
-        if (key === prefixName || obj[prefixName]) return [];
+        if (key.startsWith(prefix) || obj[prefix + key]) return [];
         const newVal = isPlainObject(val) ? deepRemPrefixedKeys(val, prefix) : val;
         return [[key, newVal]];
     }));
