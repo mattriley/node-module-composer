@@ -23,7 +23,8 @@ module.exports = props => {
         const privateModule = util.merge(customised ?? recursed, util.get(options.overrides, key));
         const publicModule = util.deepRemPrefixedKeys(privateModule, options.privatePrefix);
         util.set(props.modules, key, publicModule);
-        props.dependencies[key] = props.composedDependencies[key] = Object.keys(deps);
+        const depKeys = Object.keys(deps).filter(k => k !== key);
+        props.dependencies[key] = props.composedDependencies[key] = depKeys;
         return props.modules;
     };
 
