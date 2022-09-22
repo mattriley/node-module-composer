@@ -197,7 +197,7 @@ module.exports = ({ test }) => {
             }
         };
 
-        const { compose } = composer(modules);
+        const { compose } = composer(modules, { depth: 2 });
         const { foo } = compose('foo');
         foo.fun1();
         t.ok(fun2Called);
