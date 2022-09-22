@@ -6,10 +6,10 @@ module.exports = props => {
 
     const recurse = (target, parentKey, deps, args) => {
         if (!util.isPlainObject(target)) return target;
-        const product = {};
-        deps = util.set({ ...deps }, parentKey, product);
+        const self = {};
+        deps = util.set({ self, ...deps }, parentKey, self);
         const evaluate = (val, key) => util.isPlainFunction(val) ? val(deps, args) : recurse(val, key, deps, args);
-        return Object.assign(product, util.mapValues(target, evaluate));
+        return Object.assign(self, util.mapValues(target, evaluate));
     };
 
     return (key, deps, args) => {
