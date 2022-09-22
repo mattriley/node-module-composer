@@ -1,5 +1,6 @@
 const composers = require('./composers');
 const initialiseProps = require('./initialise-props');
+const util = require('./util');
 
 module.exports = (target, userOptions = {}) => {
 
@@ -19,6 +20,11 @@ module.exports = (target, userOptions = {}) => {
     const compose = (key, deps = {}, args = {}, opts = {}) => {
         if (ended) throw new Error('Composition has ended');
         return composeFunc(key, deps, args, opts);
+    };
+
+    compose.deep = (key, deps = {}, args = {}, opts = {}) => {
+        const optsMod = util.merge({ depth: Infinity }, opts);
+        return compose(key, deps, args, optsMod);
     };
 
     if (!globalThis.compositions) globalThis.compositions = [];
