@@ -8,62 +8,12 @@ module.exports = ({ test }) => {
         t.equal(compose.target, target);
     });
 
-    test('accepts single config as an option', t => {
-        const config1 = { a: { b: 'B', c: 'c' } };
-        const { compose, config } = composer({}, { config: config1 });
-        t.equal(config, { a: { b: 'B', c: 'c' } });
-        t.equal(compose.config, { a: { b: 'B', c: 'c' } });
-    });
-
-    test('merges config', t => {
-        const config1 = { a: { b: 'B', c: 'c' } };
-        const config2 = { a: { c: 'C', d: 'D' } };
-        const { compose } = composer({}, { configs: [config1, config2] });
-        t.equal(compose.config, { a: { b: 'B', c: 'C', d: 'D' } });
-    });
-
     test('target module unchanged if not composed', t => {
         const target = { foo: {}, bar: {} };
         const { compose } = composer(target);
         compose('foo');
         t.equal(compose.modules, { foo: {}, bar: {} });
         t.equal(compose.dependencies, { foo: [], bar: [] });
-    });
-
-    test('key not provided', t => {
-        const target = {};
-        const { compose } = composer(target);
-        t.throws(() => compose(), 'key is required');
-    });
-
-    test('key not found', t => {
-        const target = {};
-        const { compose } = composer(target);
-        t.throws(() => compose('foo'), 'foo not found');
-        t.throws(() => compose('foo.bar'), 'foo.bar not found');
-    });
-
-    test('already composed', t => {
-        const target = { foo: {} };
-        const { compose } = composer(target);
-        compose('foo');
-        t.throws(() => compose('foo'), 'foo already composed');
-    });
-
-    test('composition ended', t => {
-        const target = { foo: {} };
-        const { compose } = composer(target);
-        compose('foo');
-        const composition = compose.end();
-        t.equal(composition.modules, { foo: {} });
-        t.throws(() => compose('bar'), 'Composition has ended');
-    });
-
-    test('composition already ended', t => {
-        const target = { foo: {} };
-        const { compose } = composer(target);
-        compose.end();
-        t.throws(() => compose.end(), 'Composition has already ended');
     });
 
     test('args are optional', t => {
