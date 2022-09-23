@@ -461,13 +461,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.13745802640914917,
+    "totalDuration": 0.12245899438858032,
     "modules": {
         "services": {
-            "duration": 0.10491597652435303
+            "duration": 0.0910000205039978
         },
         "components": {
-            "duration": 0.03254204988479614
+            "duration": 0.03145897388458252
         }
     }
 }
@@ -527,43 +527,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 2.6217508912086487,
+    "totalDuration": 2.019167900085449,
     "modules": {
         "stores": {
-            "duration": 0.8367919921875
+            "duration": 0.3960840106010437
         },
         "subscriptions": {
-            "duration": 0.15104204416275024
+            "duration": 0.11941701173782349
         },
         "core": {
-            "duration": 0.23066598176956177
+            "duration": 0.19712495803833008
         },
         "io": {
-            "duration": 0.038999974727630615
+            "duration": 0.03508394956588745
         },
         "services": {
-            "duration": 0.40766698122024536
+            "duration": 0.38016700744628906
         },
         "ui": {
-            "duration": 0.058375000953674316
+            "duration": 0.0500829815864563
         },
         "elements": {
-            "duration": 0.09595799446105957
+            "duration": 0.0846250057220459
         },
         "vendorComponents": {
-            "duration": 0.02424997091293335
+            "duration": 0.020749986171722412
         },
         "components": {
-            "duration": 0.5289170145988464
+            "duration": 0.5009999871253967
         },
         "styles": {
-            "duration": 0.12087500095367432
+            "duration": 0.11354094743728638
         },
         "diagnostics": {
-            "duration": 0.06904196739196777
+            "duration": 0.06679201126098633
         },
         "startup": {
-            "duration": 0.05916696786880493
+            "duration": 0.054500043392181396
         }
     }
 }

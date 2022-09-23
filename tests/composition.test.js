@@ -2,18 +2,17 @@ const composer = require('../');
 
 module.exports = ({ test }) => {
 
-    test('can get target', t => {
-        const target = { foo: {} };
+    test('accessing original target reference', t => {
+        const target = { mod: {} };
         const { compose } = composer(target);
-        t.equal(compose.target, target);
+        t.is(compose.target, target);
     });
 
-    test('target module unchanged if not composed', t => {
-        const target = { foo: {}, bar: {} };
+    test('default composition is copy of target', t => {
+        const target = { mod: {} };
         const { compose } = composer(target);
-        compose('foo');
-        t.equal(compose.modules, { foo: {}, bar: {} });
-        t.equal(compose.dependencies, { foo: [], bar: [] });
+        t.equal(compose.modules, target);
+        t.isNot(compose.modules, target);
     });
 
     test('args are optional', t => {
