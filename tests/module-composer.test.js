@@ -119,6 +119,19 @@ module.exports = ({ test }) => {
         t.equal(compose.dependencies, { foo: [] });
     });
 
+    test('default customiser is invoked async', async t => {
+        const target = {
+            foo: {
+                setup: () => async () => ({})
+            }
+        };
+        const { compose } = composer(target);
+        const modules = await compose('foo', {});
+        t.equal(compose.modules, modules);
+        t.equal(compose.modules, { foo: {} });
+        t.equal(compose.dependencies, { foo: [] });
+    });
+
     test('default customiser returns non-plain object', t => {
         const target = {
             foo: {
