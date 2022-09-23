@@ -4,6 +4,6 @@ export DEV_TASKS="edit | test-watch"
 export TEST_RUNNER="zora"
 
 export COV_STATEMENTS="99"
-export COV_BRANCHES="98"
+export COV_BRANCHES="97"
 export COV_FUNCTIONS="94"
 export COV_LINES="99"

@@ -12,8 +12,10 @@ const set = require('lodash/set');
 const upperFirst = require('lodash/upperFirst');
 
 const isPlainFunction = val => isFunction(val) && !val.hasOwnProperty('prototype');
+const isPromise = val => val && typeof val.then == 'function';
 const mergeValues = (target, obj, keys) => merge(target, ...flattenDeep(pickValues(obj, keys)));
 const pickValues = (obj, keys) => Object.values(pick(obj, keys));
+
 
 const deepAddUnprefixedKeys = (obj, prefix) => {
     return Object.fromEntries(Object.entries(obj).flatMap(([key, val]) => {
@@ -41,6 +43,7 @@ module.exports = {
     invoke,
     isPlainFunction,
     isPlainObject,
+    isPromise,
     mapValues,
     merge,
     mergeValues,

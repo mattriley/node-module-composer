@@ -20,12 +20,17 @@ module.exports = props => (key, deps, args, opts) => {
     const targetModule = util.deepAddUnprefixedKeys(util.get(target, key), privatePrefix);
     const recursed = recurse(targetModule, key, deps);
     const customised = util.invoke(recursed, customiser, args);
-    if (customised && !util.isPlainObject(customised)) throw new Error(`${key} customiser must return plain object`);
-    const privateModule = util.merge(customised ?? recursed, util.get(overrides, key));
-    const publicModule = util.deepRemPrefixedKeys(privateModule, privatePrefix);
-    util.set(props.modules, key, publicModule);
-    const depKeys = Object.keys(deps).filter(k => k !== key);
-    props.dependencies[key] = props.composedDependencies[key] = depKeys;
-    return props.modules;
+
+    const next = customised => {
+        if (customised && !util.isPlainObject(customised)) throw new Error(`${key} customiser must return plain object`);
+        const privateModule = util.merge(customised ?? recursed, util.get(overrides, key));
+        const publicModule = util.deepRemPrefixedKeys(privateModule, privatePrefix);
+        util.set(props.modules, key, publicModule);
+        const depKeys = Object.keys(deps).filter(k => k !== key);
+        props.dependencies[key] = props.composedDependencies[key] = depKeys;
+        return props.modules;
+    };
+
+    return util.isPromise(customised) ? customised.then(next) : next(customised);
 
 };
