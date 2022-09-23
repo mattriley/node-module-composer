@@ -20,7 +20,7 @@ module.exports = ({ test }) => {
         const { compose } = composer(target);
         const { mod1, mod2 } = compose('mod1');
         t.notEqual(mod1, target.mod1);
-        t.equal(mod2, target.mod2);
+        t.is(mod2, target.mod2);
     });
 
     test('args are optional', t => {
