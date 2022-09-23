@@ -15,6 +15,14 @@ module.exports = ({ test }) => {
         t.isNot(compose.modules, target);
     });
 
+    test('composition overrides target', t => {
+        const target = { mod1: { fun: () => () => 1 }, mod2: {} };
+        const { compose } = composer(target);
+        const { mod1, mod2 } = compose('mod1');
+        t.notEqual(mod1, target.mod1);
+        t.equal(mod2, target.mod2);
+    });
+
     test('args are optional', t => {
         const target = { foo: {} };
         const { compose } = composer(target);
