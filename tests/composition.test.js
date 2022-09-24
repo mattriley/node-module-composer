@@ -45,12 +45,21 @@ module.exports = ({ test }) => {
         t.equal(compose.dependencies, { mod1: [], mod2: ['mod1'] });
     });
 
-    test('args are applied to nested object', t => {
-        const target = { foo: { bar: {} } };
+    test('deps are applied to nested modules', t => {
+        const target = {
+            mod1: { modA: { fun: () => () => 2 } },
+            mod2: { modB: { fun: ({ mod1 }) => () => mod1.modA.fun() } }
+        };
         const { compose } = composer(target);
-        compose('foo.bar', { baz: {} });
-        t.equal(compose.modules, { foo: { bar: {} } });
-        t.equal(compose.dependencies, { foo: [], 'foo.bar': ['baz'] });
+        const { mod1 } = compose('mod1.modA');
+        const { mod2 } = compose('mod2.modB', { mod1 });
+        t.equal(mod2.modB.fun(), 2);
+        t.equal(compose.dependencies, {
+            'mod1': [],
+            'mod1.modA': [],
+            'mod2': [],
+            'mod2.modB': ['mod1']
+        });
     });
 
     test('non-objects are returned as-is', t => {
@@ -81,48 +90,6 @@ module.exports = ({ test }) => {
         compose('foo');
         t.equal(compose.modules, target);
         t.equal(compose.dependencies, { foo: [] });
-    });
-
-    test('peer function is invoked with args', t => {
-        let fun2Called = false;
-
-        const target = {
-            foo: {
-                fun1: ({ foo }) => () => {
-                    foo.fun2();
-                },
-                fun2: () => () => {
-                    fun2Called = true;
-                }
-            }
-        };
-
-        const { compose } = composer(target);
-        const { foo } = compose('foo');
-        foo.fun1();
-        t.ok(fun2Called);
-    });
-
-    test('nested function is invoked', t => {
-        let fun2Called = false;
-
-        const modules = {
-            foo: {
-                bar: {
-                    fun2: () => () => {
-                        fun2Called = true;
-                    }
-                },
-                fun1: ({ foo }) => () => {
-                    foo.bar.fun2();
-                }
-            }
-        };
-
-        const { compose } = composer(modules, { depth: 2 });
-        const { foo } = compose('foo');
-        foo.fun1();
-        t.ok(fun2Called);
     });
 
 };
