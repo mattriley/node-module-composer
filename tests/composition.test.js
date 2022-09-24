@@ -26,11 +26,11 @@ module.exports = ({ test }) => {
     });
 
     test('deps are optional', t => {
-        const target = { mod1: { fun: () => () => 1 } };
+        const target = { mod: { fun: () => () => 1 } };
         const { compose } = composer(target);
-        const { mod1 } = compose('mod1');
-        t.equal(mod1.fun(), 1);
-        t.equal(compose.dependencies, { mod1: [] });
+        const { mod } = compose('mod');
+        t.equal(mod.fun(), 1);
+        t.equal(compose.dependencies, { mod: [] });
     });
 
     test('deps are applied', t => {
