@@ -13,22 +13,24 @@ module.exports = ({ test }) => {
         const { compose } = composer(target);
         t.equal(compose.modules, target);
         t.isNot(compose.modules, target);
+        t.equal(compose.dependencies, { mod: [] });
     });
 
     test('composition overrides target', t => {
-        const target = { mod1: { fun: () => () => 1 }, mod2: {} };
+        const target = { mod1: { fun: () => 1 }, mod2: {} };
         const { compose } = composer(target);
         const { mod1, mod2 } = compose('mod1');
         t.notEqual(mod1, target.mod1);
         t.is(mod2, target.mod2);
+        t.equal(compose.dependencies, { mod1: [], mod2: [] });
     });
 
-    test('args are optional', t => {
-        const target = { foo: {} };
+    test('deps are optional', t => {
+        const target = { mod1: { fun: () => 1 } };
         const { compose } = composer(target);
-        compose('foo');
-        t.equal(compose.modules, { foo: {} });
-        t.equal(compose.dependencies, { foo: [] });
+        const { mod1 } = compose('mod1');
+        t.equal(mod1, { fun: 1 });
+        t.equal(compose.dependencies, { mod1: [] });
     });
 
     test('args are applied', t => {
