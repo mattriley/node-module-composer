@@ -17,7 +17,7 @@ module.exports = ({ test }) => {
     });
 
     test('composition overrides target', t => {
-        const target = { mod1: { fun: () => 1 }, mod2: {} };
+        const target = { mod1: { fun: () => () => 1 }, mod2: {} };
         const { compose } = composer(target);
         const { mod1, mod2 } = compose('mod1');
         t.notEqual(mod1, target.mod1);
@@ -26,10 +26,10 @@ module.exports = ({ test }) => {
     });
 
     test('deps are optional', t => {
-        const target = { mod1: { fun: () => 1 } };
+        const target = { mod1: { fun: () => () => 1 } };
         const { compose } = composer(target);
         const { mod1 } = compose('mod1');
-        t.equal(mod1, { fun: 1 });
+        t.equal(mod1.fun(), 1);
         t.equal(compose.dependencies, { mod1: [] });
     });
 
