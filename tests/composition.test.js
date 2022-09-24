@@ -17,7 +17,10 @@ module.exports = ({ test }) => {
     });
 
     test('composition overrides target', t => {
-        const target = { mod1: { fun: () => () => 1 }, mod2: {} };
+        const target = {
+            mod1: { fun: () => () => 1 },
+            mod2: {}
+        };
         const { compose } = composer(target);
         const { mod1, mod2 } = compose('mod1');
         t.notEqual(mod1, target.mod1);
@@ -60,6 +63,30 @@ module.exports = ({ test }) => {
             'mod2': [],
             'mod2.modB': ['mod1']
         });
+    });
+
+    test('module can be accessed internally by name', t => {
+        const target = {
+            mod: {
+                fun1: () => () => 1,
+                fun2: ({ mod }) => () => mod.fun1()
+            }
+        };
+        const { compose } = composer(target);
+        const { mod } = compose('mod');
+        t.equal(mod.fun2(), 1);
+    });
+
+    test('module can be accessed internally using self', t => {
+        const target = {
+            mod: {
+                fun1: () => () => 1,
+                fun2: ({ self }) => () => self.fun1()
+            }
+        };
+        const { compose } = composer(target);
+        const { mod } = compose('mod');
+        t.equal(mod.fun2(), 1);
     });
 
     test('non-objects are returned as-is', t => {
