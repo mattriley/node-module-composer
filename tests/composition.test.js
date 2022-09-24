@@ -33,12 +33,16 @@ module.exports = ({ test }) => {
         t.equal(compose.dependencies, { mod1: [] });
     });
 
-    test('args are applied', t => {
-        const target = { foo: {} };
+    test('deps are applied', t => {
+        const target = {
+            mod1: { fun: () => () => 2 },
+            mod2: { fun: ({ mod1 }) => () => mod1.fun() }
+        };
         const { compose } = composer(target);
-        compose('foo', { bar: {} });
-        t.equal(compose.modules, { foo: {} });
-        t.equal(compose.dependencies, { foo: ['bar'] });
+        const { mod1 } = compose('mod1');
+        const { mod2 } = compose('mod2', { mod1 });
+        t.equal(mod2.fun(), 2);
+        t.equal(compose.dependencies, { mod1: [], mod2: ['mod1'] });
     });
 
     test('args are applied to nested object', t => {
