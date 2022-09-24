@@ -96,12 +96,15 @@ module.exports = ({ test }) => {
         };
 
         const target = {
-            mod: nonPlainObjects,
+            mod1: {
+                modA: nonPlainObjects,
+                ...nonPlainObjects
+            },
             ...nonPlainObjects
         };
         const { compose } = composer(target);
-        const { mod } = compose('mod');
-        t.equal(mod, nonPlainObjects);
+        const { mod1 } = compose.deep('mod1');
+        t.equal(mod1.modA, nonPlainObjects);
     });
 
 };
