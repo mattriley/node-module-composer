@@ -65,34 +65,43 @@ module.exports = ({ test }) => {
         });
     });
 
-    test('non-objects are returned as-is', t => {
-        class Class {
-            constructor() {
-                t.fail('Shouldn\'t get here');
-            }
-        }
-        const Prototype = function () {
-            t.fail('Shouldn\'t get here');
-        };
-        Prototype.prototype = {};
+    test('standard non-arrow functions are not invoked', t => {
         const target = {
-            foo: {
-                num: 1,
-                str: 'str',
-                bool: true,
-                regex: /abc/,
-                arr: [],
-                arrOfObj: [{ foo: 'bar' }],
-                Class,
-                Prototype,
-                null: null,
-                undef: undefined
+            mod: {
+                fun: function () { t.fail('Unexpected invocation'); }
             }
         };
         const { compose } = composer(target);
-        compose('foo');
-        t.equal(compose.modules, target);
-        t.equal(compose.dependencies, { foo: [] });
+        const { mod } = compose('mod');
+        t.is(mod.fun, target.mod.fun);
+    });
+
+    test('non-plain-objects are returned as-is', t => {
+        class Class {
+            constructor() {
+                t.fail('Unexpected invocation');
+            }
+        }
+
+        const nonPlainObjects = {
+            num: 1,
+            str: 'str',
+            bool: true,
+            regex: /abc/,
+            arr: [],
+            arrOfObj: [{ foo: 'bar' }],
+            Class,
+            null: null,
+            undef: undefined
+        };
+
+        const target = {
+            mod: nonPlainObjects,
+            ...nonPlainObjects
+        };
+        const { compose } = composer(target);
+        const { mod } = compose('mod');
+        t.equal(mod, nonPlainObjects);
     });
 
 };
