@@ -16,13 +16,18 @@ module.exports = props => (key, deps, args, opts) => {
 
     if (!key) throw new Error('key is required');
     if (!util.has(target, key)) throw new Error(`${key} not found`);
-    if (props.composedDependencies[key]) throw new Error(`${key} already composed`);
-    const targetModule = util.deepAddUnprefixedKeys(util.get(target, key), privatePrefix);
-    const recursed = recurse(targetModule, key, deps);
+
+    const targetModule = util.get(target, key);
+
+    if (!util.isPlainObject(targetModule)) throw new Error(`${key} is not a plain object`);
+    if (props.composedDependencies[key]) throw new Error(`${key} is already composed`);
+
+    const internal = util.deepAddUnprefixedKeys(targetModule, privatePrefix);
+    const recursed = recurse(internal, key, deps);
     const customised = util.invoke(recursed, customiser, args);
 
     const next = customised => {
-        if (customised && !util.isPlainObject(customised)) throw new Error(`${key} customiser must return plain object`);
+        if (customised && !util.isPlainObject(customised)) throw new Error(`${key} customiser did not return a plain object`);
         const privateModule = util.merge(customised ?? recursed, util.get(overrides, key));
         const publicModule = util.deepRemPrefixedKeys(privateModule, privatePrefix);
         util.set(props.modules, key, publicModule);

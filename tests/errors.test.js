@@ -11,28 +11,34 @@ module.exports = ({ test }) => {
     test('key not found', t => {
         const target = {};
         const { compose } = composer(target);
-        t.throws(() => compose('foo'), 'foo not found');
-        t.throws(() => compose('foo.bar'), 'foo.bar not found');
+        t.throws(() => compose('mod'), 'mod not found');
+        t.throws(() => compose('mod1.modA'), 'mod1.modA not found');
+    });
+
+    test('target with non-plain object module', t => {
+        const target = { mod: 1 };
+        const { compose } = composer(target);
+        t.throws(() => compose('mod'), 'mod is not a plain object');
     });
 
     test('already composed', t => {
-        const target = { foo: {} };
+        const target = { mod: {} };
         const { compose } = composer(target);
-        compose('foo');
-        t.throws(() => compose('foo'), 'foo already composed');
+        compose('mod');
+        t.throws(() => compose('mod'), 'mod is already composed');
     });
 
     test('composition ended', t => {
-        const target = { foo: {} };
+        const target = { mod: {} };
         const { compose } = composer(target);
-        compose('foo');
+        compose('mod');
         const composition = compose.end();
-        t.equal(composition.modules, { foo: {} });
-        t.throws(() => compose('bar'), 'Composition has ended');
+        t.equal(composition.modules, { mod: {} });
+        t.throws(() => compose('mod2'), 'Composition has ended');
     });
 
     test('composition already ended', t => {
-        const target = { foo: {} };
+        const target = { mod: {} };
         const { compose } = composer(target);
         compose.end();
         t.throws(() => compose.end(), 'Composition has already ended');
