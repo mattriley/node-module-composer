@@ -2,41 +2,37 @@ const composer = require('../');
 
 module.exports = ({ test }) => {
 
-    test('default customiser is invoked', t => {
+    test('customiser', t => {
+        const customised = { foo: 1 };
         const target = {
-            foo: {
-                setup: () => () => ({ bar: {} })
-            }
+            mod: { setup: () => () => customised }
         };
         const { compose } = composer(target);
-        compose('foo');
-        t.equal(compose.modules, { foo: { bar: {} } });
-        t.equal(compose.dependencies, { foo: [] });
+        const { mod } = compose('mod');
+        t.equal(mod, customised);
+        t.equal(compose.modules, { mod });
+        t.equal(compose.dependencies, { mod: [] });
     });
 
-    test('default customiser is invoked async', async t => {
+    test('async customiser', async t => {
+        const customised = { foo: 1 };
         const target = {
-            foo: {
-                setup: () => async () => ({})
-            }
+            mod: { setup: () => async () => customised }
         };
         const { compose } = composer(target);
-        const modules = await compose('foo');
-        t.equal(compose.modules, modules);
-        t.equal(compose.modules, { foo: {} });
-        t.equal(compose.dependencies, { foo: [] });
+        const { mod } = await compose('mod');
+        t.equal(mod, customised);
+        t.equal(compose.modules, { mod });
+        t.equal(compose.dependencies, { mod: [] });
     });
 
-    test('default customiser returns non-plain object', t => {
+    test('customiser returns non-plain object', t => {
+        const customised = [];
         const target = {
-            foo: {
-                setup: () => () => {
-                    return [[1], [2]];
-                }
-            }
+            mod: { setup: () => () => customised }
         };
         const { compose } = composer(target);
-        t.throws(() => compose('foo'), /^foo.setup did not return a plain object$/);
+        t.throws(() => compose('mod'), /^mod.setup did not return a plain object$/);
     });
 
 };
