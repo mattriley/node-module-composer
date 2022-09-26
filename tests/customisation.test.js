@@ -9,7 +9,7 @@ module.exports = ({ test }) => {
             }
         };
         const { compose } = composer(target);
-        compose('foo', {});
+        compose('foo');
         t.equal(compose.modules, { foo: { bar: {} } });
         t.equal(compose.dependencies, { foo: [] });
     });
@@ -21,7 +21,7 @@ module.exports = ({ test }) => {
             }
         };
         const { compose } = composer(target);
-        const modules = await compose('foo', {});
+        const modules = await compose('foo');
         t.equal(compose.modules, modules);
         t.equal(compose.modules, { foo: {} });
         t.equal(compose.dependencies, { foo: [] });
@@ -36,7 +36,7 @@ module.exports = ({ test }) => {
             }
         };
         const { compose } = composer(target);
-        t.throws(() => compose('foo', {}), 'key customiser must return plain object');
+        t.throws(() => compose('foo'), /^foo.setup did not return a plain object$/);
     });
 
 };

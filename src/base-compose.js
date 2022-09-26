@@ -27,7 +27,7 @@ module.exports = props => (key, deps, args, opts) => {
     const customised = util.invoke(recursed, customiser, args);
 
     const next = customised => {
-        if (customised && !util.isPlainObject(customised)) throw new Error(`${key} customiser did not return a plain object`);
+        if (customised && !util.isPlainObject(customised)) throw new Error(`${key}.${customiser} did not return a plain object`);
         const privateModule = util.merge(customised ?? recursed, util.get(overrides, key));
         const publicModule = util.deepRemPrefixedKeys(privateModule, privatePrefix);
         util.set(props.modules, key, publicModule);
