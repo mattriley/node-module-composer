@@ -42,11 +42,11 @@ module.exports = ({ test }) => {
         t.is(config, compose.config);
     });
 
-    test('each method of accessing config', t => {
+    test('config is included as a module but omitted from dependency list', t => {
         const options = { config: { a: 1 } };
         const { compose, config } = composer({}, options);
-        t.is(config, compose.config);
-        t.is(compose.modules.config, config, 'config is automatically registered as a module');
+        t.is(compose.modules.config, config);
+        t.equal(compose.dependencies, {});
     });
 
 };
