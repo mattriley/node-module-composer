@@ -4,6 +4,5 @@ module.exports = {
     configKeys: ['defaultConfig', 'config', 'configs'],
     customiser: 'setup',
     privatePrefix: '_',
-    defaults: {},
     overrides: {}
 };
