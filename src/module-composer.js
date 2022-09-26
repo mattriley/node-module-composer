@@ -4,6 +4,8 @@ const util = require('./util');
 
 module.exports = (target, userOptions = {}) => {
 
+    if (!util.isPlainObject(target)) throw new Error('target must be a plain object');
+
     let ended = false;
     const { props, options, config } = initialiseProps(target, userOptions);
 

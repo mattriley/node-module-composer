@@ -2,6 +2,11 @@ const composer = require('../');
 
 module.exports = ({ test }) => {
 
+    test('target is not a plain object', t => {
+        const target = [];
+        t.throws(() => composer(target), /^target must be a plain object$/);
+    });
+
     test('key not provided', t => {
         const target = {};
         const { compose } = composer(target);
@@ -18,7 +23,7 @@ module.exports = ({ test }) => {
     test('target with non-plain object module', t => {
         const target = { mod: 1 };
         const { compose } = composer(target);
-        t.throws(() => compose('mod'), /^mod is not a plain object$/);
+        t.throws(() => compose('mod'), /^mod must be a plain object$/);
     });
 
 };

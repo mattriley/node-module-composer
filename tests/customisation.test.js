@@ -32,7 +32,7 @@ module.exports = ({ test }) => {
             mod: { setup: () => () => customised }
         };
         const { compose } = composer(target);
-        t.throws(() => compose('mod'), /^mod.setup did not return a plain object$/);
+        t.throws(() => compose('mod'), /^mod.setup must return a plain object$/);
     });
 
 };

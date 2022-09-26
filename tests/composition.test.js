@@ -13,7 +13,18 @@ module.exports = ({ test }) => {
         const { compose } = composer(target);
         t.equal(compose.modules, target);
         t.isNot(compose.modules, target);
+    });
+
+    test('target keys are automatically added to dependencies list', t => {
+        const target = { mod: {} };
+        const { compose } = composer(target);
         t.equal(compose.dependencies, { mod: [] });
+    });
+
+    test('target keys that are not plain objects are omitted from dependencies list', t => {
+        const target = { mod: 1 };
+        const { compose } = composer(target);
+        t.equal(compose.dependencies, {});
     });
 
     test('composition overrides target', t => {
