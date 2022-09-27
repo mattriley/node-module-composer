@@ -37,8 +37,8 @@ module.exports = props => (key, deps, args, opts) => {
         const overridden = util.merge(customised ?? recursed, util.get(overrides, key));
         const external = util.removePaths(overridden, Object.values(replacements));
         util.set(props.modules, key, external);
-        const depKeys = Object.keys(deps).filter(k => k !== key);
-        props.dependencies[key] = props.composedDependencies[key] = depKeys;
+
+        props.registerDependencies(key, deps);
         return props.modules;
     };
 
