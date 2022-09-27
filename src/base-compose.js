@@ -24,7 +24,10 @@ module.exports = props => (key, deps, args, opts) => {
     if (props.composedDependencies[key]) throw new Error(`${key} is already composed`);
 
     const privates = util.matchPaths(targetModule, privatePattern, depth);
-    const replacements = Object.fromEntries(privates.map(path => [path, path.map(str => str.replace(privatePattern, ''))]));
+    const replacements = Object.fromEntries(privates.map(path => [
+        path.join('.'),
+        path.map(str => str.replace(privatePattern, '')).join('.')
+    ]));
     const internal = util.replacePaths(targetModule, replacements);
     const recursed = recurse(internal, key, deps);
     const customised = util.invoke(recursed, customiser, args);
