@@ -21,6 +21,12 @@ module.exports = ({ test }) => {
         t.equal(compose.dependencies, { mod: [] });
     });
 
+    test('target keys are omitted from composed dependencies list', t => {
+        const target = { mod: {} };
+        const { compose } = composer(target);
+        t.equal(compose.composedDependencies, {});
+    });
+
     test('target keys that are not plain objects are omitted from dependencies list', t => {
         const target = { mod: 1 };
         const { compose } = composer(target);

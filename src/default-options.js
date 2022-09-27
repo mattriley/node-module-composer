@@ -1,8 +1,9 @@
 module.exports = {
-    depth: 1,
+    compositionName: null,
     stats: true,
-    configKeys: ['defaultConfig', 'config', 'configs'],
+    depth: 1,
     customiser: 'setup',
     privatePrefix: '_',
+    configKeys: ['defaultConfig', 'config', 'configs'],
     overrides: {}
 };
