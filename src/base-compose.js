@@ -31,9 +31,9 @@ module.exports = props => (key, deps, args, opts) => {
 
     const next = customised => {
         if (customised && !util.isPlainObject(customised)) throw new Error(`${key}.${customiser} must return a plain object`);
-        const privateModule = util.merge(customised ?? recursed, util.get(overrides, key));
-        const publicModule = util.removePaths(privateModule, Object.values(replacements));
-        util.set(props.modules, key, publicModule);
+        const overridden = util.merge(customised ?? recursed, util.get(overrides, key));
+        const external = util.removePaths(overridden, Object.values(replacements));
+        util.set(props.modules, key, external);
         const depKeys = Object.keys(deps).filter(k => k !== key);
         props.dependencies[key] = props.composedDependencies[key] = depKeys;
         return props.modules;
