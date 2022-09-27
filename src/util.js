@@ -1,4 +1,5 @@
 /* eslint-disable no-prototype-builtins */
+const cloneDeep = require('lodash/cloneDeep');
 const flattenDeep = require('lodash/flattenDeep');
 const get = require('lodash/get');
 const has = require('lodash/has');
@@ -11,33 +12,44 @@ const pick = require('lodash/pick');
 const pickBy = require('lodash/pickBy');
 const set = require('lodash/set');
 const upperFirst = require('lodash/upperFirst');
+const unset = require('lodash/unset');
 
 const isPlainFunction = val => isFunction(val) && !val.hasOwnProperty('prototype');
 const isPromise = val => val && typeof val.then == 'function';
 const mergeValues = (target, obj, keys) => merge(target, ...flattenDeep(pickValues(obj, keys)));
 const pickValues = (obj, keys) => Object.values(pick(obj, keys));
 
-const deepAddUnprefixedKeys = (obj, prefix) => {
-    return Object.fromEntries(Object.entries(obj).flatMap(([key, val]) => {
-        const pattern = new RegExp(`^${prefix}`);
-        const newKey = key.replace(pattern, '');
-        if (key.match(prefix)) return [[key, val], [newKey, val]];
-        const newVal = isPlainObject(val) ? deepAddUnprefixedKeys(val, prefix) : val;
-        return [[key, newVal]];
-    }));
+const findPaths = (obj, depth, callback, currentDepth = 0, currentPath = []) => {
+    if (currentDepth === depth) return [];
+    return Object.entries(obj).flatMap(([key, val]) => {
+        const path = [...currentPath, key];
+        if (callback(key)) return [path];
+        return isPlainObject(val) ? findPaths(val, depth, callback, currentDepth + 1, path) : [];
+    });
 };
 
-const deepRemPrefixedKeys = (obj, prefix) => {
-    return Object.fromEntries(Object.entries(obj).flatMap(([key, val]) => {
-        if (key.startsWith(prefix) || obj[prefix + key]) return [];
-        const newVal = isPlainObject(val) ? deepRemPrefixedKeys(val, prefix) : val;
-        return [[key, newVal]];
-    }));
+const replacePaths = (obj, replacements) => {
+    const target = cloneDeep(obj);
+    Object.entries(replacements).forEach(([from, to]) => {
+        unset(target, from);
+        set(target, to, get(obj, from));
+    });
+    return target;
+};
+
+const findPathsWithPrefix = (obj, prefix, depth) => {
+    const pattern = new RegExp(`^${prefix}`);
+    return findPaths(obj, depth, key => pattern.test(key));
+};
+
+const removePaths = (obj, paths) => {
+    const target = cloneDeep(obj);
+    paths.forEach(path => unset(target, path));
+    return target;
 };
 
 module.exports = {
-    deepAddUnprefixedKeys,
-    deepRemPrefixedKeys,
+    findPathsWithPrefix,
     get,
     has,
     invoke,
@@ -48,6 +60,8 @@ module.exports = {
     merge,
     mergeValues,
     pickBy,
+    removePaths,
+    replacePaths,
     set,
     upperFirst
 };

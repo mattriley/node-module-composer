@@ -4,6 +4,7 @@ module.exports = props => (key, deps, args, opts) => {
 
     const { target, options } = props;
     const { depth, privatePrefix, customiser, overrides } = util.merge({}, options, opts);
+    const privatePattern = new RegExp(`^${privatePrefix}`);
 
     const recurse = (target, parentKey, deps, currentDepth = 0) => {
         if (currentDepth === depth) return target;
@@ -22,14 +23,16 @@ module.exports = props => (key, deps, args, opts) => {
     if (!util.isPlainObject(targetModule)) throw new Error(`${key} must be a plain object`);
     if (props.composedDependencies[key]) throw new Error(`${key} is already composed`);
 
-    const internal = util.deepAddUnprefixedKeys(targetModule, privatePrefix);
+    const privates = util.findPathsWithPrefix(targetModule, privatePrefix, depth);
+    const replacements = Object.fromEntries(privates.map(path => [path, path.map(str => str.replace(privatePattern, ''))]));
+    const internal = util.replacePaths(targetModule, replacements);
     const recursed = recurse(internal, key, deps);
     const customised = util.invoke(recursed, customiser, args);
 
     const next = customised => {
         if (customised && !util.isPlainObject(customised)) throw new Error(`${key}.${customiser} must return a plain object`);
         const privateModule = util.merge(customised ?? recursed, util.get(overrides, key));
-        const publicModule = util.deepRemPrefixedKeys(privateModule, privatePrefix);
+        const publicModule = util.removePaths(privateModule, Object.values(replacements));
         util.set(props.modules, key, publicModule);
         const depKeys = Object.keys(deps).filter(k => k !== key);
         props.dependencies[key] = props.composedDependencies[key] = depKeys;
