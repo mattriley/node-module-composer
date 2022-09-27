@@ -9,20 +9,20 @@ module.exports = (target, userOptions) => {
     const options = util.merge({}, defaultOptions, userOptions);
     const config = util.mergeValues({}, options, options.configKeys);
     const stats = { durationUnit: 'ms', totalDuration: 0, modules: {} };
-    const optionalStats = options.stats ? { stats } : {};
+
+    const maybeConfig = Object.keys(config).length ? { config } : {};
+    const maybeStats = options.stats ? { stats } : {};
 
     const props = {
         compositionName: userOptions.compositionName,
         defaultOptions, userOptions, options, config, target,
-        modules: targetModules,
+        modules: { ...maybeConfig, ...targetModules },
         dependencies: util.mapValues(targetModules, () => []),
         composedDependencies: {},
-        ...optionalStats,
+        ...maybeStats,
         mermaid: opts => mermaid(props.dependencies, opts),
         eject: () => eject(targetModules, props.composedDependencies)
     };
-
-    if (Object.keys(config).length && !props.modules.config) props.modules.config = config;
 
     return { ...props, props };
 
