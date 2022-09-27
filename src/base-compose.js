@@ -23,7 +23,7 @@ module.exports = props => (key, deps, args, opts) => {
     if (!util.isPlainObject(targetModule)) throw new Error(`${key} must be a plain object`);
     if (props.composedDependencies[key]) throw new Error(`${key} is already composed`);
 
-    const privates = util.findPathsWithPrefix(targetModule, privatePrefix, depth);
+    const privates = util.matchPaths(targetModule, privatePattern, depth);
     const replacements = Object.fromEntries(privates.map(path => [path, path.map(str => str.replace(privatePattern, ''))]));
     const internal = util.replacePaths(targetModule, replacements);
     const recursed = recurse(internal, key, deps);
