@@ -49,4 +49,22 @@ module.exports = ({ test }) => {
         t.equal(compose.dependencies, {});
     });
 
+    test('config is not included as a module if not provided', t => {
+        const { compose } = composer({});
+        t.equal(compose.modules.config, undefined);
+    });
+
+    test('config is not included as a module if empty', t => {
+        const options = { config: {} };
+        const { compose } = composer({}, options);
+        t.equal(compose.modules.config, undefined);
+    });
+
+    test('a module named config overrides config as a module', t => {
+        const options = { config: { a: 1 } };
+        const target = { config: { a: 2 } };
+        const { compose } = composer(target, options);
+        t.equal(compose.modules.config, target.config);
+    });
+
 };
