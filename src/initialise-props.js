@@ -22,6 +22,9 @@ module.exports = (target, userOptions) => {
         ...maybeStats,
         mermaid: opts => mermaid(props.dependencies, opts),
         eject: () => eject(targetModules, props.composedDependencies),
+        registerModule: (key, module) => {
+            util.set(props.modules, key, module);
+        },
         registerDependencies: (key, deps) => {
             const depKeys = Object.keys(deps).filter(k => k !== key);
             props.dependencies[key] = props.composedDependencies[key] = depKeys;
