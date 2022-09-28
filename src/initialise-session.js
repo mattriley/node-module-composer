@@ -35,10 +35,10 @@ module.exports = (target, userOptions = {}) => {
     };
 
     const mutations = {
-        registerModule: (key, module, deps) => {
-            util.set(state.modules, key, module);
-            const depKeys = Object.keys(deps).filter(k => k !== key);
-            state.dependencies[key] = state.composedDependencies[key] = depKeys;
+        registerModule: (path, module, deps) => {
+            util.set(state.modules, path, module);
+            const depKeys = Object.keys(deps).filter(k => k !== path);
+            state.dependencies[path] = state.composedDependencies[path] = depKeys;
             return state.modules;
         }
     };

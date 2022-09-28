@@ -16,14 +16,14 @@ module.exports = (target, userOptions = {}) => {
         return session.external;
     };
 
-    const compose = (key, deps = {}, args = {}, opts = {}) => {
+    const compose = (path, deps = {}, args = {}, opts = {}) => {
         if (session.state.ended) throw new Error('Composition has ended');
-        return composeFunc(key, deps, args, opts);
+        return composeFunc(path, deps, args, opts);
     };
 
-    compose.deep = (key, deps = {}, args = {}, opts = {}) => {
+    compose.deep = (path, deps = {}, args = {}, opts = {}) => {
         const optsMod = util.merge({ depth: Infinity }, opts);
-        return compose(key, deps, args, optsMod);
+        return compose(path, deps, args, optsMod);
     };
 
     if (!globalThis.compositions) globalThis.compositions = [];
