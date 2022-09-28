@@ -2,7 +2,7 @@ const util = require('./util');
 
 module.exports = props => (key, deps, args, opts) => {
 
-    const { target, options } = props;
+    const { target, options, state } = props;
     const { depth, privatePrefix, customiser, overrides } = util.merge({}, options, opts);
     const privatePattern = new RegExp(`^${privatePrefix}`);
 
@@ -21,7 +21,7 @@ module.exports = props => (key, deps, args, opts) => {
     const targetModule = util.get(target, key);
 
     if (!util.isPlainObject(targetModule)) throw new Error(`${key} must be a plain object`);
-    if (props.composedDependencies[key]) throw new Error(`${key} is already composed`);
+    if (state.composedDependencies[key]) throw new Error(`${key} is already composed`);
 
     const privates = util.matchPaths(targetModule, privatePattern, depth);
     const replacements = Object.fromEntries(privates.map(path => [
@@ -36,8 +36,8 @@ module.exports = props => (key, deps, args, opts) => {
         if (customised && !util.isPlainObject(customised)) throw new Error(`${key}.${customiser} must return a plain object`);
         const overridden = util.merge(customised ?? recursed, util.get(overrides, key));
         const external = util.removePaths(overridden, Object.values(replacements));
-        props.registerModule(key, external, deps);
-        return props.modules;
+        state.registerModule(key, external, deps);
+        return state.modules;
     };
 
     return util.isPromise(customised) ? customised.then(next) : next(customised);
