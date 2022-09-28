@@ -28,11 +28,11 @@ const matchPaths = (obj, pattern, depth, currentDepth = 0, currentPath = []) => 
     });
 };
 
-const replacePaths = (obj, replacements) => {
+const replacePaths = (obj, fromArray, toArray) => {
     const target = cloneDeep(obj);
-    Object.entries(replacements).forEach(([from, to]) => {
+    fromArray.forEach((from, i) => {
         unset(target, from);
-        set(target, to, get(obj, from));
+        set(target, toArray[i], get(obj, from));
     });
     return target;
 };

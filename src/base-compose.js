@@ -23,19 +23,17 @@ module.exports = session => (key, deps, args, opts) => {
     if (!util.isPlainObject(targetModule)) throw new Error(`${key} must be a plain object`);
     if (session.state.composedDependencies[key]) throw new Error(`${key} is already composed`);
 
-    const privates = util.matchPaths(targetModule, privatePattern, depth);
-    const replacements = Object.fromEntries(privates.map(path => [
-        path.join('.'),
-        path.map(str => str.replace(privatePattern, '')).join('.')
-    ]));
-    const internal = util.replacePaths(targetModule, replacements);
+    const privatePathArrays = util.matchPaths(targetModule, privatePattern, depth);
+    const privatePaths = privatePathArrays.map(path => path.join('.'));
+    const internalPaths = privatePathArrays.map(path => path.map(str => str.replace(privatePattern, '')).join('.'));
+    const internal = util.replacePaths(targetModule, privatePaths, internalPaths);
     const recursed = recurse(internal, key, deps);
     const customised = util.invoke(recursed, customiser, args);
 
     const next = customised => {
         if (customised && !util.isPlainObject(customised)) throw new Error(`${key}.${customiser} must return a plain object`);
         const overridden = util.merge(customised ?? recursed, util.get(overrides, key));
-        const external = util.removePaths(overridden, Object.values(replacements));
+        const external = util.removePaths(overridden, internalPaths);
         return session.registerModule(key, external, deps);
     };
 
