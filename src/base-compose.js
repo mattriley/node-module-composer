@@ -36,8 +36,7 @@ module.exports = props => (key, deps, args, opts) => {
         if (customised && !util.isPlainObject(customised)) throw new Error(`${key}.${customiser} must return a plain object`);
         const overridden = util.merge(customised ?? recursed, util.get(overrides, key));
         const external = util.removePaths(overridden, Object.values(replacements));
-        props.registerModule(key, external);
-        props.registerDependencies(key, deps);
+        props.registerModule(key, external, deps);
         return props.modules;
     };
 
