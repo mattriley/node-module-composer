@@ -2,7 +2,6 @@ const util = require('./util');
 const eject = require('./eject');
 const mermaid = require('./mermaid');
 const defaultOptions = require('./default-options');
-const initialiseState = require('./initialise-state');
 
 module.exports = (target, userOptions = {}) => {
 
@@ -11,7 +10,18 @@ module.exports = (target, userOptions = {}) => {
     const targetModules = util.pickBy(target, util.isPlainObject);
     const options = util.merge({}, defaultOptions, userOptions);
     const config = util.mergeValues({}, options, options.configKeys);
-    const state = initialiseState(targetModules, options, config);
+
+    const stats = { durationUnit: 'ms', totalDuration: 0, modules: {} };
+    const maybeStats = options.stats ? { stats } : {};
+    const maybeConfig = Object.keys(config).length ? { config } : {};
+
+    const state = {
+        ended: false,
+        modules: { ...maybeConfig, ...targetModules },
+        dependencies: util.mapValues(targetModules, () => []),
+        composedDependencies: {},
+        ...maybeStats
+    };
 
     const constants = {
         compositionName: options.compositionName,
@@ -34,7 +44,6 @@ module.exports = (target, userOptions = {}) => {
     };
 
     const external = { ...constants, ...state, ...functions };
-    const internal = { external, state, ...constants, ...mutations };
-    return internal;
+    return { external, state, ...constants, ...mutations };
 
 };
