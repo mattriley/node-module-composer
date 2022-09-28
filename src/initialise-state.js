@@ -11,12 +11,7 @@ module.exports = (targetModules, options, config) => {
         modules: { ...maybeConfig, ...targetModules },
         dependencies: util.mapValues(targetModules, () => []),
         composedDependencies: {},
-        ...maybeStats,
-        registerModule: (key, module, deps) => {
-            util.set(state.modules, key, module);
-            const depKeys = Object.keys(deps).filter(k => k !== key);
-            state.dependencies[key] = state.composedDependencies[key] = depKeys;
-        }
+        ...maybeStats
     };
 
     return state;

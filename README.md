@@ -1,6 +1,6 @@
 # Module Composer
 
-<p align="right"><code>100% cov</code>&nbsp;<code>208 sloc</code>&nbsp;<code>9 files</code>&nbsp;<code>2 deps</code>&nbsp;<code>14 dev deps</code></p>
+<p align="right"><code>100% cov</code>&nbsp;<code>220 sloc</code>&nbsp;<code>10 files</code>&nbsp;<code>2 deps</code>&nbsp;<code>14 dev deps</code></p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
@@ -461,13 +461,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.1190420389175415,
+    "totalDuration": 0.10566699504852295,
     "modules": {
         "services": {
-            "duration": 0.08016705513000488
+            "duration": 0.03508400917053223
         },
         "components": {
-            "duration": 0.03887498378753662
+            "duration": 0.07058298587799072
         }
     }
 }
@@ -527,43 +527,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 2.0150409936904907,
+    "totalDuration": 2.021751046180725,
     "modules": {
         "stores": {
-            "duration": 0.3999999761581421
+            "duration": 0.4011669158935547
         },
         "subscriptions": {
-            "duration": 0.1228330135345459
+            "duration": 0.11533403396606445
         },
         "core": {
-            "duration": 0.19933295249938965
+            "duration": 0.2021249532699585
         },
         "io": {
-            "duration": 0.03483295440673828
+            "duration": 0.03487503528594971
         },
         "services": {
-            "duration": 0.3989579677581787
+            "duration": 0.38808298110961914
         },
         "ui": {
-            "duration": 0.0543750524520874
+            "duration": 0.052165985107421875
         },
         "elements": {
-            "duration": 0.08616602420806885
+            "duration": 0.08558392524719238
         },
         "vendorComponents": {
-            "duration": 0.020708084106445312
+            "duration": 0.0210421085357666
         },
         "components": {
-            "duration": 0.47404205799102783
+            "duration": 0.4860420227050781
         },
         "styles": {
-            "duration": 0.1084589958190918
+            "duration": 0.11650002002716064
         },
         "diagnostics": {
-            "duration": 0.06616699695587158
+            "duration": 0.06412506103515625
         },
         "startup": {
-            "duration": 0.04916691780090332
+            "duration": 0.054708003997802734
         }
     }
 }
