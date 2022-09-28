@@ -1,26 +1,39 @@
-const composers = require('./composers');
-const initialiseProps = require('./initialise-props');
 const util = require('./util');
+const eject = require('./eject');
+const mermaid = require('./mermaid');
+const composers = require('./composers');
+const defaultOptions = require('./default-options');
+const initialiseState = require('./initialise-state');
 
 module.exports = (target, userOptions = {}) => {
 
     if (!util.isPlainObject(target)) throw new Error('target must be a plain object');
 
-    let ended = false;
-    const { props, options, config } = initialiseProps(target, userOptions);
+    const targetModules = util.pickBy(target, util.isPlainObject);
+    const options = util.merge({}, defaultOptions, userOptions);
+    const config = util.mergeValues({}, options, options.configKeys);
+    const state = initialiseState(targetModules, options, config);
+
+    const props = {
+        compositionName: options.compositionName,
+        defaultOptions, userOptions, options,
+        target, config, state, ...state,
+        mermaid: opts => mermaid(state.dependencies, opts),
+        eject: () => eject(targetModules, state.composedDependencies)
+    };
 
     const baseCompose = composers.base(props);
     const timeCompose = composers.time(props, baseCompose);
     const composeFunc = options.stats ? timeCompose : baseCompose;
 
     const end = () => {
-        if (ended) throw new Error('Composition has already ended');
-        ended = true;
+        if (state.ended) throw new Error('Composition has already ended');
+        state.ended = true;
         return props;
     };
 
     const compose = (key, deps = {}, args = {}, opts = {}) => {
-        if (ended) throw new Error('Composition has ended');
+        if (state.ended) throw new Error('Composition has ended');
         return composeFunc(key, deps, args, opts);
     };
 

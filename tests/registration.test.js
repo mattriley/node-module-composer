@@ -9,7 +9,7 @@ module.exports = ({ test }) => {
         const composition = compose.end();
         const matchedComposition = globalThis.compositions.find(c => c === composition);
         t.equal(composition, matchedComposition);
-        t.equal(matchedComposition.compositionName, undefined);
+        t.equal(matchedComposition.compositionName, null);
     });
 
     test('register named composition', t => {
