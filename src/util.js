@@ -44,6 +44,7 @@ const removePaths = (obj, paths) => {
 };
 
 module.exports = {
+    cloneDeep,
     get,
     has,
     invoke,

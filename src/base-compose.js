@@ -1,8 +1,8 @@
 const util = require('./util');
 
-module.exports = props => (key, deps, args, opts) => {
+module.exports = (props, state) => (key, deps, args, opts) => {
 
-    const { target, options, state } = props;
+    const { target, options } = props;
     const { depth, privatePrefix, customiser, overrides } = util.merge({}, options, opts);
     const privatePattern = new RegExp(`^${privatePrefix}`);
 

@@ -17,12 +17,12 @@ module.exports = (target, userOptions = {}) => {
     const props = {
         compositionName: options.compositionName,
         defaultOptions, userOptions, options,
-        target, config, state, ...state,
+        target, config, ...state,
         mermaid: opts => mermaid(state.dependencies, opts),
         eject: () => eject(targetModules, state.composedDependencies)
     };
 
-    const baseCompose = composers.base(props);
+    const baseCompose = composers.base(props, state);
     const timeCompose = composers.time(props, baseCompose);
     const composeFunc = options.stats ? timeCompose : baseCompose;
 
