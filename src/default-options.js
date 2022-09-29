@@ -1,5 +1,8 @@
+const process = require('process');
+const { name } = require(process.cwd() + '/package.json');
+
 module.exports = {
-    compositionName: null,
+    compositionName: name,
     stats: true,
     depth: 1,
     customiser: 'setup',
