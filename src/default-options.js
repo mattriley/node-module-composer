@@ -1,8 +1,8 @@
 const isNode = globalThis.process?.release?.name === 'node';
-const getPackageName = () => require(require('process').cwd() + '/package.json').name;
+const getPackageName = () => require(globalThis.process.cwd() + '/package.json').name;
 
 module.exports = {
-    compositionName: isNode ? getPackageName() : null,
+    compositionName: isNode ? getPackageName() : globalThis.process?.env?.PACKAGE_NAME,
     stats: true,
     depth: 1,
     customiser: 'setup',
