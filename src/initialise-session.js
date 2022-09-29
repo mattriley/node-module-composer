@@ -23,11 +23,8 @@ module.exports = (target, userOptions = {}) => {
         ...maybeStats
     };
 
-    const constants = {
-        compositionName: options.compositionName,
-        defaultOptions, userOptions, options,
-        target, config
-    };
+    const compositionName = options.compositionName ?? options.compositionNameConfigKeys.find(key => config[key]);
+    const constants = { compositionName, defaultOptions, userOptions, options, target, config };
 
     const functions = {
         mermaid: opts => mermaid(state.dependencies, opts),
