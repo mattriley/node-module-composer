@@ -3,13 +3,16 @@ const eject = require('./eject');
 const mermaid = require('./mermaid');
 const defaultOptions = require('./default-options');
 
+const isNode = globalThis.process?.release?.name === 'node';
+const readPackageName = () => require(globalThis.process.cwd() + '/package.json').name;
+
 module.exports = (target, userOptions = {}) => {
 
     if (!util.isPlainObject(target)) throw new Error('target must be a plain object');
 
     const targetModules = util.pickBy(target, util.isPlainObject);
     const options = util.merge({}, defaultOptions, userOptions);
-    const config = util.mergeValues({}, options, options.configKeys);
+    const config = util.mergeValues({}, options, options.configOptionKeys);
 
     const stats = { durationUnit: 'ms', totalDuration: 0, modules: {} };
     const maybeStats = options.stats ? { stats } : {};
@@ -23,8 +26,13 @@ module.exports = (target, userOptions = {}) => {
         ...maybeStats
     };
 
-    const compositionName = options.compositionName ?? options.compositionNameConfigKeys.find(key => config[key]);
-    const constants = { compositionName, defaultOptions, userOptions, options, target, config };
+    const compositionName = util.merge(
+        { compositionName: isNode ? readPackageName() : undefined },
+        { compositionName: options.compositionNameConfigKeys.map(key => config[key]).find(val => !!val) },
+        { compositionName: options.compositionName }
+    );
+
+    const constants = { ...compositionName, defaultOptions, userOptions, options, target, config };
 
     const functions = {
         mermaid: opts => mermaid(state.dependencies, opts),
