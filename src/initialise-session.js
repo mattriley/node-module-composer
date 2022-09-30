@@ -41,7 +41,7 @@ module.exports = (target, userOptions = {}) => {
     const functions = {
         mermaid: opts => mermaid(state.dependencies, opts),
         eject: () => eject(targetModules, state.composedDependencies),
-        json: () => JSON.stringify({ ...constants, ...primitiveState }, null, 4)
+        json: () => JSON.stringify({ ...constants, ...primitiveState, mermaid: functions.mermaid() }, null, 4)
     };
 
     const mutations = {
