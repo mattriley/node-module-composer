@@ -18,12 +18,16 @@ module.exports = (target, userOptions = {}) => {
     const maybeStats = options.stats ? { stats } : {};
     const maybeConfig = Object.keys(config).length ? { config } : {};
 
-    const state = {
+    const primitiveState = {
         ended: false,
-        modules: { ...maybeConfig, ...targetModules },
         dependencies: util.mapValues(targetModules, () => []),
         composedDependencies: {},
         ...maybeStats
+    };
+
+    const state = {
+        ...primitiveState,
+        modules: { ...maybeConfig, ...targetModules }
     };
 
     const compositionName = util.merge(
@@ -36,7 +40,8 @@ module.exports = (target, userOptions = {}) => {
 
     const functions = {
         mermaid: opts => mermaid(state.dependencies, opts),
-        eject: () => eject(targetModules, state.composedDependencies)
+        eject: () => eject(targetModules, state.composedDependencies),
+        json: () => JSON.stringify({ ...constants, ...primitiveState }, null, 4)
     };
 
     const mutations = {
