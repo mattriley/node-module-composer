@@ -40,8 +40,8 @@
         "module-composer": "file:",
         "module-indexgen": "^0.20.0",
         "node-sloc": "^0.2.1",
-        "npm-check-updates": "^16.3.3",
-        "task-library": "^0.172.0",
+        "npm-check-updates": "^16.3.4",
+        "task-library": "^0.181.0",
         "testing": "file:./testing",
         "zora": "^5.1.0",
         "zora-reporters": "^1.4.0"
