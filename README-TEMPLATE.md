@@ -10,53 +10,60 @@ Why is it so common for JavaScript applications these days (backend _and_ fronte
 
 Module Composer aims to encourage good modular design and intentionality for application architecture by making it easier to design and reason about applications at a higher level, in this case, as a composition of _modules_.
 
-So what is a module? Not to be confused with JavaScript CJS or ESM modules, a module in this context is simply a plain old JavaScript object (a POJO!) with functions that accept a very explicitly defined set of _other_ modules. These functions are _higher-order_ in that they return another function whose invocation may be deferred to later in the application lifecycle, while retaining access to the provided modules thanks to the power of closures (stateful functions). Closures are a native feature of JavaScript.
+So what is a module? Not to be confused with JavaScript CJS or ESM modules, a module in this context is simply a plain old JavaScript object (a POJO!) containing _higher-order_ functions that accept module dependencies as arguments. These higher-order functions in turn, return first-order functions enabling invocation to be deferred to later in the application lifecycle. Module dependencies remain available to the first-order function owing to the power of _closures_ (stateful functions). Closures are a native feature of JavaScript.
+
+This is analogous to calling a class constructor with dependencies and returning the resulting instance. However rather than using a class to encapsulate dependency state, closure functions are used instead.
 
 If that sounds like a lot to wrap your head around, fear not! Implementation-wise it's actually rather simple. 
 
-See the [basic example](#basic-example) below to see it in action.
-
-## Basic example
+## How it works
 
 Consider the following example:
 
-<%- await lib.renderCode(lib.fetchCode('examples/basic/compose-no-export.mjs')) %>
-
-`modules` is simply an object containing an entry for each module:
-
 ```js
-{
-    stores: { ... },
-    services: { ... },
-    components: { ... }
-}
-```
-
-The first step is to create a `compose` function for the given _uncomposed_ modules. The `compose` function is then used to compose a module of other modules. The _composed_ module is then returned and may be used to compose another module, and so on.
-
-Each module is simply an object containing an entry for each function of the module:
-
-<%- await lib.renderCode(lib.fetchCode('examples/basic/modules.mjs')) %>
-
-Notice the _double arrow_ functions? That's syntactic sugar for a _higher order function_ (a function that returns another function).
-
-The following are equivalent:
-
-```js
-const getPrice = ({ stores }) => ({ productId }) => {
-    return stores.getProduct(productId).price;
-};
-
-const getPrice = ({ stores }) => {
-    return ({ productId }) => {
-        return stores.getProduct(productId).price;
-    };
+const components = {
+    productDetails: ({ services }) => ({ product }) => {
+        // When Add to Cart button clicked...
+        services.addToCart({ product, quantity: 1 });
+    }
 };
 ```
 
-The `compose` function invokes the first arrow function with the specified modules for each entry in the module and returns the second arrow function.
+The `components` module is a plain-old JavaScript object representing some kind of UI components. 
 
-This is analogous to calling a class constructor with dependencies and returning the resulting instance. However rather than using a class to encapsulate dependency state, closures (stateful functions) are used instead.
+It contains one entry, `productDetails` which returns a higher-order function accepting the `services` module as a dependency. This dependency would be satisfied early in the application lifecycle, ideally as close to the program entry point, i.e. _main_, as possible. 
+
+The result is a first-order function which in this context could be thought of as the `productDetails` component factory function. It accepts a `product` argument and enables the capability of adding a product to a shopping cart via the `services` module. The program entry point is too early in the application lifecycle to be reasoning about products. Therefore it needs to be pushed deeper into the application so that invocation can be deferred until the appropriate moment.
+
+The following example demonstrates invocation without `module-composer`:
+
+```js
+// Program entry point
+const services = ...
+const productDetails = components.productDetails({ services });
+
+// Later in the application lifecycle
+const product = ...
+const productDetailsComponent = productDetails({ product });
+```
+
+This is handy pattern that can be applied in vanilla JavaScript without the use of any tools.
+
+So why `module-composer`?
+
+It doesn't take long before all the _wiring_ adds up. The wiring follows a consistent pattern an is ripe for automation. And in a nutshell, that's what `module-composer` does. 
+
+`module-composer` simply iterates over an object, invokes each function it finds with the given module dependencies, and returns a _mirror_ of the object with the higher-order functions substituted with the first-order functions. `module-composer` is very simple. Is _not_ an IoC container; it does _not_ feature dependency resolution. It is a simple tool that facilitates _Pure DI_. See more on [Dependency Injection](#dependency-injection) below.
+
+Here's the equivalent using `module-composer`:
+
+```js
+import composer from 'module-composer';
+import modules from './modules/index.js';
+const { compose } = composer(modules);
+const { services } = compose('services');
+const { components } = compose('components', { services });
+```
 
 ## Composition root
 

@@ -12,7 +12,7 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
 
 - [Install](#install)
 - [Background](#background)
-- [Basic example](#basic-example)
+- [How it works](#how-it-works)
 - [Composition root](#composition-root)
 - [File system](#file-system)
 - [Mermaid diagrams](#mermaid-diagrams)
@@ -40,83 +40,60 @@ Why is it so common for JavaScript applications these days (backend _and_ fronte
 
 Module Composer aims to encourage good modular design and intentionality for application architecture by making it easier to design and reason about applications at a higher level, in this case, as a composition of _modules_.
 
-So what is a module? Not to be confused with JavaScript CJS or ESM modules, a module in this context is simply a plain old JavaScript object (a POJO!) with functions that accept a very explicitly defined set of _other_ modules. These functions are _higher-order_ in that they return another function whose invocation may be deferred to later in the application lifecycle, while retaining access to the provided modules thanks to the power of closures (stateful functions). Closures are a native feature of JavaScript.
+So what is a module? Not to be confused with JavaScript CJS or ESM modules, a module in this context is simply a plain old JavaScript object (a POJO!) containing _higher-order_ functions that accept module dependencies as arguments. These higher-order functions in turn, return first-order functions enabling invocation to be deferred to later in the application lifecycle. Module dependencies remain available to the first-order function owing to the power of _closures_ (stateful functions). Closures are a native feature of JavaScript.
+
+This is analogous to calling a class constructor with dependencies and returning the resulting instance. However rather than using a class to encapsulate dependency state, closure functions are used instead.
 
 If that sounds like a lot to wrap your head around, fear not! Implementation-wise it's actually rather simple. 
 
-See the [basic example](#basic-example) below to see it in action.
-
-## Basic example
+## How it works
 
 Consider the following example:
 
-###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/undefined/examples/basic/compose-no-export.mjs">examples/basic/compose-no-export.mjs</a></p>
-```mjs
-import composer from 'module-composer';
-import modules from './modules/index.mjs';
-
-const { compose } = composer(modules);
-const { stores } = compose('stores');
-const { services } = compose('services', { stores });
-const { components } = compose('components', { services });
-```
-
-`modules` is simply an object containing an entry for each module:
-
 ```js
-{
-    stores: { ... },
-    services: { ... },
-    components: { ... }
-}
-```
-
-The first step is to create a `compose` function for the given _uncomposed_ modules. The `compose` function is then used to compose a module of other modules. The _composed_ module is then returned and may be used to compose another module, and so on.
-
-Each module is simply an object containing an entry for each function of the module:
-
-###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/undefined/examples/basic/modules.mjs">examples/basic/modules.mjs</a></p>
-```mjs
-export default {
-    components: {
-        productDetails: ({ services }) => ({ product }) => {
-            // When Add to Cart button clicked...
-            services.addToCart({ product, quantity: 1 });
-        }
-    },
-    services: {
-        addToCart: ({ stores }) => ({ productId, quantity }) => {
-            // Use productId and quantity to produce items and totalCost...
-            stores.setCart({ items, totalCost });
-        }
-    },
-    stores: {
-        setCart: () => ({ items, totalCost }) => {
-            // Store items and totalCost...
-        }
+const components = {
+    productDetails: ({ services }) => ({ product }) => {
+        // When Add to Cart button clicked...
+        services.addToCart({ product, quantity: 1 });
     }
 };
 ```
 
-Notice the _double arrow_ functions? That's syntactic sugar for a _higher order function_ (a function that returns another function).
+The `components` module is a plain-old JavaScript object representing some kind of UI components. 
 
-The following are equivalent:
+It contains one entry, `productDetails` which returns a higher-order function accepting the `services` module as a dependency. This dependency would be satisfied early in the application lifecycle, ideally as close to the program entry point, i.e. _main_, as possible. 
+
+The result is a first-order function which in this context could be thought of as the `productDetails` component factory function. It accepts a `product` argument and enables the capability of adding a product to a shopping cart via the `services` module. The program entry point is too early in the application lifecycle to be reasoning about products. Therefore it needs to be pushed deeper into the application so that invocation can be deferred until the appropriate moment.
+
+The following example demonstrates invocation without `module-composer`:
 
 ```js
-const getPrice = ({ stores }) => ({ productId }) => {
-    return stores.getProduct(productId).price;
-};
+// Program entry point
+const services = ...
+const productDetails = components.productDetails({ services });
 
-const getPrice = ({ stores }) => {
-    return ({ productId }) => {
-        return stores.getProduct(productId).price;
-    };
-};
+// Later in the application lifecycle
+const product = ...
+const productDetailsComponent = productDetails({ product });
 ```
 
-The `compose` function invokes the first arrow function with the specified modules for each entry in the module and returns the second arrow function.
+This is handy pattern that can be applied in vanilla JavaScript without the use of any tools.
 
-This is analogous to calling a class constructor with dependencies and returning the resulting instance. However rather than using a class to encapsulate dependency state, closures (stateful functions) are used instead.
+So why `module-composer`?
+
+It doesn't take long before all the _wiring_ adds up. The wiring follows a consistent pattern an is ripe for automation. And in a nutshell, that's what `module-composer` does. 
+
+`module-composer` simply iterates over an object, invokes each function it finds with the given module dependencies, and returns a _mirror_ of the object with the higher-order functions substituted with the first-order functions. `module-composer` is very simple. Is _not_ an IoC container; it does _not_ feature dependency resolution. It is a simple tool that facilitates _Pure DI_. See more on [Dependency Injection](#dependency-injection) below.
+
+Here's the equivalent using `module-composer`:
+
+```js
+import composer from 'module-composer';
+import modules from './modules/index.js';
+const { compose } = composer(modules);
+const { services } = compose('services');
+const { components } = compose('components', { services });
+```
 
 ## Composition root
 
@@ -461,13 +438,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.11466717720031738,
+    "totalDuration": 0.1163330078125,
     "modules": {
         "services": {
-            "duration": 0.07941699028015137
+            "duration": 0.0790410041809082
         },
         "components": {
-            "duration": 0.035250186920166016
+            "duration": 0.0372920036315918
         }
     }
 }
@@ -487,28 +464,25 @@ import modules from './modules/index.js';
 import defaultConfig from './default-config.js';
 const { storage, util } = modules;
 
-export default ({ compositionName, window, mixpanel, overrides, configs }) => {
+export default ({ window, overrides, configs }) => {
 
-    const mixpanelStub = { track: () => { } };
-    mixpanel = mixpanel ?? mixpanelStub;
-
-    const options = { compositionName, overrides, defaultConfig, configs };
-    const { compose, config } = composer({ window, mixpanel, ...modules }, options);
+    const options = { overrides, defaultConfig, configs };
+    const { compose, config } = composer({ window, ...modules }, options);
 
     // Data
     const { stores } = compose('stores', { storage, config });
     const { subscriptions } = compose('subscriptions', { stores, util });
 
     // Domain
-    const { core } = compose('core', { util, config });
-    const { io } = compose('io', { window });
-    const { services } = compose('services', { subscriptions, stores, core, io, util, config });
+    const { core } = compose.deep('core', { util, config });
+    const { io } = compose('io', { window, config });
+    const { services } = compose.deep('services', { subscriptions, stores, core, io, util, config });
 
     // Presentation
     const { ui } = compose('ui', { window });
     const { elements } = compose('elements', { ui, util });
     const { vendorComponents } = compose('vendorComponents', { ui, config, window });
-    const { components } = compose('components', { mixpanel, ui, elements, vendorComponents, services, subscriptions, util, config });
+    const { components } = compose.deep('components', { io, ui, elements, vendorComponents, services, subscriptions, util, config });
     const { styles } = compose('styles', { ui, subscriptions, config });
 
     // Startup    
@@ -527,43 +501,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 2.1035404205322266,
+    "totalDuration": 3.2612109929323196,
     "modules": {
         "stores": {
-            "duration": 0.4475409984588623
+            "duration": 0.6736669987440109
         },
         "subscriptions": {
-            "duration": 0.07833290100097656
+            "duration": 0.18541599810123444
         },
         "core": {
-            "duration": 0.21420788764953613
+            "duration": 0.28358399868011475
         },
         "io": {
-            "duration": 0.07649993896484375
+            "duration": 0.21262499690055847
         },
         "services": {
-            "duration": 0.356874942779541
+            "duration": 0.4861669987440109
         },
         "ui": {
-            "duration": 0.05266690254211426
+            "duration": 0.11433400213718414
         },
         "elements": {
-            "duration": 0.1352078914642334
+            "duration": 0.1455409973859787
         },
         "vendorComponents": {
-            "duration": 0.023334026336669922
+            "duration": 0.08120900392532349
         },
         "components": {
-            "duration": 0.49112510681152344
+            "duration": 0.6524169892072678
         },
         "styles": {
-            "duration": 0.06916689872741699
+            "duration": 0.1853339970111847
         },
         "diagnostics": {
-            "duration": 0.05945777893066406
+            "duration": 0.13266700506210327
         },
         "startup": {
-            "duration": 0.09912514686584473
+            "duration": 0.10825000703334808
         }
     }
 }
@@ -573,7 +547,7 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 
 ```
 graph TD;
-    components-->mixpanel;
+    components-->io;
     components-->ui;
     components-->elements;
     components-->vendorComponents;
@@ -588,6 +562,7 @@ graph TD;
     elements-->ui;
     elements-->util;
     io-->window;
+    io-->config;
     services-->subscriptions;
     services-->stores;
     services-->core;
@@ -621,7 +596,7 @@ graph TD;
 ###### <p align="right"><em>Can't see the diagram?</em> <a id="link-6" href="https://github.com/mattriley/node-module-composer#user-content-link-6">View it on GitHub</a></p>
 ```mermaid
 graph TD;
-    components-->mixpanel;
+    components-->io;
     components-->ui;
     components-->elements;
     components-->vendorComponents;
@@ -636,6 +611,7 @@ graph TD;
     elements-->ui;
     elements-->util;
     io-->window;
+    io-->config;
     services-->subscriptions;
     services-->stores;
     services-->core;
@@ -696,7 +672,7 @@ graph TD;
     core.tags.sortTagsByRoleThenName = core.tags.sortTagsByRoleThenName({ ...coreDependencies });
 
     const io = { ...modules.io };
-    const ioDependencies = { io, window };
+    const ioDependencies = { io, window, config };
     io.setup = io.setup({ ...ioDependencies });
 
     const services = { ...modules.services };
@@ -757,7 +733,7 @@ graph TD;
     vendorComponents.vanillaPicker = vendorComponents.vanillaPicker({ ...vendorComponentsDependencies });
 
     const components = { ...modules.components };
-    const componentsDependencies = { components, mixpanel, ui, elements, vendorComponents, services, subscriptions, util, config };
+    const componentsDependencies = { components, io, ui, elements, vendorComponents, services, subscriptions, util, config };
     components.app = components.app({ ...componentsDependencies });
     components.dropzone = components.dropzone({ ...componentsDependencies });
     components.gravatar.actions.container = components.gravatar.actions.container({ ...componentsDependencies });
