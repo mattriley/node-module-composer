@@ -68,9 +68,9 @@ const modules = {
 
 The `components` module is a plain-old JavaScript object representing some kind of UI components. 
 
-It contains one entry, `productDetails` which returns a higher-order function accepting the `services` module as a dependency. This dependency would be satisfied early in the application lifecycle, ideally as close to the program entry point, i.e. _main_, as possible. 
+It contains one entry, `productDetails` which returns a higher-order function accepting the `services` module as a dependency. This dependency would be satisfied early in the application lifecycle, ideally as close to the application entry point, i.e. _main_, as possible. 
 
-The result is a first-order function which in this context could be thought of as the `productDetails` component factory function. It accepts a `product` argument and enables the capability of adding a product to a shopping cart via the `services` module. The program entry point is too early in the application lifecycle to be reasoning about products. Therefore it needs to be pushed deeper into the application so that invocation can be deferred until the appropriate moment.
+The result is a first-order function which in this context could be thought of as the `productDetails` component factory function. It accepts a `product` argument and enables the capability of adding a product to a shopping cart via the `services` module. The entry point is too early in the application lifecycle to be reasoning about products. Therefore it needs to be pushed deeper into the application so that invocation can be deferred until the appropriate moment.
 
 The following example demonstrates invocation without Module Composer:
 
@@ -108,13 +108,13 @@ Module Composer takes care of injecting dependencies into each individual functi
 
 p.s. In case you're wondering, yes, Module Composer works with React. Say hello to dependency injection in React, and farewell and good riddance to prop-drilling, context, custom hooks, attemping to work around that lack of it.
 
-## Composition root
+See [Stazione Simulation](https://github.com/mattriley/stazione-simulation) for example usage of Module Composer with React.
 
-Module Composer should be isolated to the _composition root_ of the application.
+## Composition root
 
 > A Composition Root is a (preferably) unique location in an application where modules are composed together.<br/>— [Mark Seeman](https://blog.ploeh.dk/2011/07/28/CompositionRoot/)
 
-Module composition should occur as close to the entry point of the application as possible.
+Module Composer is a tool that facilitates module composition, therefore its use should be limited and isolated to the Composition Root, as close to the application entry point as possible.
 
 Here's an example of a composition root isolated to a separate file named `compose.js`: 
 
@@ -451,13 +451,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.11091697216033936,
+    "totalDuration": 0.10449901223182678,
     "modules": {
         "services": {
-            "duration": 0.07462498545646667
+            "duration": 0.07104098796844482
         },
         "components": {
-            "duration": 0.03629198670387268
+            "duration": 0.03345802426338196
         }
     }
 }
@@ -514,43 +514,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 3.2297480702400208,
+    "totalDuration": 3.231250047683716,
     "modules": {
         "stores": {
-            "duration": 0.648250013589859
+            "duration": 0.6644589900970459
         },
         "subscriptions": {
-            "duration": 0.19025000929832458
+            "duration": 0.19408300518989563
         },
         "core": {
-            "duration": 0.28687500953674316
+            "duration": 0.28929200768470764
         },
         "io": {
-            "duration": 0.2116660177707672
+            "duration": 0.2167920172214508
         },
         "services": {
-            "duration": 0.4890410006046295
+            "duration": 0.4714580178260803
         },
         "ui": {
-            "duration": 0.11362498998641968
+            "duration": 0.11008301377296448
         },
         "elements": {
-            "duration": 0.14616701006889343
+            "duration": 0.14270800352096558
         },
         "vendorComponents": {
-            "duration": 0.07929101586341858
+            "duration": 0.07787498831748962
         },
         "components": {
-            "duration": 0.6382499933242798
+            "duration": 0.6339580118656158
         },
         "styles": {
-            "duration": 0.19120800495147705
+            "duration": 0.187749981880188
         },
         "diagnostics": {
-            "duration": 0.12662500143051147
+            "duration": 0.12987500429153442
         },
         "startup": {
-            "duration": 0.10850000381469727
+            "duration": 0.11291700601577759
         }
     }
 }

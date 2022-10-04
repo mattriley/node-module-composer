@@ -38,9 +38,9 @@ const modules = {
 
 The `components` module is a plain-old JavaScript object representing some kind of UI components. 
 
-It contains one entry, `productDetails` which returns a higher-order function accepting the `services` module as a dependency. This dependency would be satisfied early in the application lifecycle, ideally as close to the program entry point, i.e. _main_, as possible. 
+It contains one entry, `productDetails` which returns a higher-order function accepting the `services` module as a dependency. This dependency would be satisfied early in the application lifecycle, ideally as close to the application entry point, i.e. _main_, as possible. 
 
-The result is a first-order function which in this context could be thought of as the `productDetails` component factory function. It accepts a `product` argument and enables the capability of adding a product to a shopping cart via the `services` module. The program entry point is too early in the application lifecycle to be reasoning about products. Therefore it needs to be pushed deeper into the application so that invocation can be deferred until the appropriate moment.
+The result is a first-order function which in this context could be thought of as the `productDetails` component factory function. It accepts a `product` argument and enables the capability of adding a product to a shopping cart via the `services` module. The entry point is too early in the application lifecycle to be reasoning about products. Therefore it needs to be pushed deeper into the application so that invocation can be deferred until the appropriate moment.
 
 The following example demonstrates invocation without Module Composer:
 
@@ -78,13 +78,13 @@ Module Composer takes care of injecting dependencies into each individual functi
 
 p.s. In case you're wondering, yes, Module Composer works with React. Say hello to dependency injection in React, and farewell and good riddance to prop-drilling, context, custom hooks, attemping to work around that lack of it.
 
-## Composition root
+See [Stazione Simulation](https://github.com/mattriley/stazione-simulation) for example usage of Module Composer with React.
 
-Module Composer should be isolated to the _composition root_ of the application.
+## Composition root
 
 > A Composition Root is a (preferably) unique location in an application where modules are composed together.<br/>— [Mark Seeman](https://blog.ploeh.dk/2011/07/28/CompositionRoot/)
 
-Module composition should occur as close to the entry point of the application as possible.
+Module Composer is a tool that facilitates module composition, therefore its use should be limited and isolated to the Composition Root, as close to the application entry point as possible.
 
 Here's an example of a composition root isolated to a separate file named `compose.js`: 
 
