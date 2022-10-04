@@ -76,6 +76,8 @@ const { components } = compose('components', { services });
 
 Module Composer takes care of injecting dependencies into each individual function, cleaning up the code and shifting focus to the composition of modules.
 
+p.s. In case you're wondering, yes, Module Composer works with React. Say hello to dependency injection in React, and farewell and good riddance to prop-drilling, context, custom hooks, attemping to work around that lack of it.
+
 ## Composition root
 
 Module Composer should be isolated to the _composition root_ of the application.

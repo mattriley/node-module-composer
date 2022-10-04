@@ -106,6 +106,8 @@ const { components } = compose('components', { services });
 
 Module Composer takes care of injecting dependencies into each individual function, cleaning up the code and shifting focus to the composition of modules.
 
+p.s. In case you're wondering, yes, Module Composer works with React. Say hello to dependency injection in React, and farewell and good riddance to prop-drilling, context, custom hooks, attemping to work around that lack of it.
+
 ## Composition root
 
 Module Composer should be isolated to the _composition root_ of the application.
@@ -449,13 +451,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.11024999618530273,
+    "totalDuration": 0.11091697216033936,
     "modules": {
         "services": {
-            "duration": 0.07437500357627869
+            "duration": 0.07462498545646667
         },
         "components": {
-            "duration": 0.03587499260902405
+            "duration": 0.03629198670387268
         }
     }
 }
@@ -512,43 +514,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 3.27645805478096,
+    "totalDuration": 3.2297480702400208,
     "modules": {
         "stores": {
-            "duration": 0.675707995891571
+            "duration": 0.648250013589859
         },
         "subscriptions": {
-            "duration": 0.1972920000553131
+            "duration": 0.19025000929832458
         },
         "core": {
-            "duration": 0.2991670072078705
+            "duration": 0.28687500953674316
         },
         "io": {
-            "duration": 0.21825000643730164
+            "duration": 0.2116660177707672
         },
         "services": {
-            "duration": 0.4879170060157776
+            "duration": 0.4890410006046295
         },
         "ui": {
-            "duration": 0.11466601490974426
+            "duration": 0.11362498998641968
         },
         "elements": {
-            "duration": 0.1496250033378601
+            "duration": 0.14616701006889343
         },
         "vendorComponents": {
-            "duration": 0.07875001430511475
+            "duration": 0.07929101586341858
         },
         "components": {
-            "duration": 0.6333329975605011
+            "duration": 0.6382499933242798
         },
         "styles": {
-            "duration": 0.18470901250839233
+            "duration": 0.19120800495147705
         },
         "diagnostics": {
-            "duration": 0.12787500023841858
+            "duration": 0.12662500143051147
         },
         "startup": {
-            "duration": 0.10916599631309509
+            "duration": 0.10850000381469727
         }
     }
 }
