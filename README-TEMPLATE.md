@@ -21,10 +21,17 @@ If that sounds like a lot to wrap your head around, fear not! Implementation-wis
 Consider the following example:
 
 ```js
-const components = {
-    productDetails: ({ services }) => ({ product }) => {
-        // When Add to Cart button clicked...
-        services.addToCart({ product, quantity: 1 });
+const modules = {
+    components: {
+        productDetails: ({ services }) => ({ product }) => {
+            // When Add to Cart button clicked...
+            services.addToCart({ product, quantity: 1 });
+        }
+    },
+    services: {
+        addToCart: () => ({ product, quantity }) => {
+            ...
+        }
     }
 };
 ```
@@ -39,15 +46,17 @@ The following example demonstrates invocation without `module-composer`:
 
 ```js
 // Program entry point
-const services = ...
-const productDetails = components.productDetails({ services });
+import modules from './modules/index.js'; // as above
+const components = {}, services = {};
+services.addToCart = modules.services.addToCart(); // no dependencies
+components.productDetails = modules.components.productDetails({ services });
 
 // Later in the application lifecycle
 const product = ...
-const productDetailsComponent = productDetails({ product });
+const productDetails = components.productDetails({ product });
 ```
 
-This is handy pattern that can be applied in vanilla JavaScript without the use of any tools.
+As demonstrated, this handy pattern can be applied in vanilla JavaScript without the use of any tools.
 
 So why `module-composer`?
 
@@ -64,6 +73,8 @@ const { compose } = composer(modules);
 const { services } = compose('services');
 const { components } = compose('components', { services });
 ```
+
+`module-composer` takes care of injecting dependencies into each individual function, cleaning up the code and shifting focus to the composition of modules.
 
 ## Composition root
 

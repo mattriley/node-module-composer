@@ -51,10 +51,17 @@ If that sounds like a lot to wrap your head around, fear not! Implementation-wis
 Consider the following example:
 
 ```js
-const components = {
-    productDetails: ({ services }) => ({ product }) => {
-        // When Add to Cart button clicked...
-        services.addToCart({ product, quantity: 1 });
+const modules = {
+    components: {
+        productDetails: ({ services }) => ({ product }) => {
+            // When Add to Cart button clicked...
+            services.addToCart({ product, quantity: 1 });
+        }
+    },
+    services: {
+        addToCart: () => ({ product, quantity }) => {
+            ...
+        }
     }
 };
 ```
@@ -69,15 +76,17 @@ The following example demonstrates invocation without `module-composer`:
 
 ```js
 // Program entry point
-const services = ...
-const productDetails = components.productDetails({ services });
+import modules from './modules/index.js'; // as above
+const components = {}, services = {};
+services.addToCart = modules.services.addToCart(); // no dependencies
+components.productDetails = modules.components.productDetails({ services });
 
 // Later in the application lifecycle
 const product = ...
-const productDetailsComponent = productDetails({ product });
+const productDetails = components.productDetails({ product });
 ```
 
-This is handy pattern that can be applied in vanilla JavaScript without the use of any tools.
+As demonstrated, this handy pattern can be applied in vanilla JavaScript without the use of any tools.
 
 So why `module-composer`?
 
@@ -94,6 +103,8 @@ const { compose } = composer(modules);
 const { services } = compose('services');
 const { components } = compose('components', { services });
 ```
+
+`module-composer` takes care of injecting dependencies into each individual function, cleaning up the code and shifting focus to the composition of modules.
 
 ## Composition root
 
@@ -438,13 +449,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.1163330078125,
+    "totalDuration": 0.12541598081588745,
     "modules": {
         "services": {
-            "duration": 0.0790410041809082
+            "duration": 0.08937498927116394
         },
         "components": {
-            "duration": 0.0372920036315918
+            "duration": 0.03604099154472351
         }
     }
 }
@@ -501,43 +512,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 3.2612109929323196,
+    "totalDuration": 3.5102910101413727,
     "modules": {
         "stores": {
-            "duration": 0.6736669987440109
+            "duration": 0.6806670129299164
         },
         "subscriptions": {
-            "duration": 0.18541599810123444
+            "duration": 0.19679197669029236
         },
         "core": {
-            "duration": 0.28358399868011475
+            "duration": 0.2943750023841858
         },
         "io": {
-            "duration": 0.21262499690055847
+            "duration": 0.20704099535942078
         },
         "services": {
-            "duration": 0.4861669987440109
+            "duration": 0.49483299255371094
         },
         "ui": {
-            "duration": 0.11433400213718414
+            "duration": 0.11629098653793335
         },
         "elements": {
-            "duration": 0.1455409973859787
+            "duration": 0.14729201793670654
         },
         "vendorComponents": {
-            "duration": 0.08120900392532349
+            "duration": 0.08133301138877869
         },
         "components": {
-            "duration": 0.6524169892072678
+            "duration": 0.6646250188350677
         },
         "styles": {
-            "duration": 0.1853339970111847
+            "duration": 0.19962498545646667
         },
         "diagnostics": {
-            "duration": 0.13266700506210327
+            "duration": 0.24995902180671692
         },
         "startup": {
-            "duration": 0.10825000703334808
+            "duration": 0.1774579882621765
         }
     }
 }
