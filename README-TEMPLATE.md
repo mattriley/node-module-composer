@@ -42,7 +42,7 @@ It contains one entry, `productDetails` which returns a higher-order function ac
 
 The result is a first-order function which in this context could be thought of as the `productDetails` component factory function. It accepts a `product` argument and enables the capability of adding a product to a shopping cart via the `services` module. The program entry point is too early in the application lifecycle to be reasoning about products. Therefore it needs to be pushed deeper into the application so that invocation can be deferred until the appropriate moment.
 
-The following example demonstrates invocation without `module-composer`:
+The following example demonstrates invocation without Module Composer:
 
 ```js
 // Program entry point
@@ -58,13 +58,13 @@ const productDetails = components.productDetails({ product });
 
 As demonstrated, this handy pattern can be applied in vanilla JavaScript without the use of any tools.
 
-So why `module-composer`?
+So why Module Composer?
 
-It doesn't take long before all the _wiring_ adds up. The wiring follows a consistent pattern an is ripe for automation. And in a nutshell, that's what `module-composer` does. 
+It doesn't take long before all the _wiring_ adds up. The wiring follows a consistent pattern an is ripe for automation. And in a nutshell, that's what Module Composer does. 
 
-`module-composer` simply iterates over an object, invokes each function it finds with the given module dependencies, and returns a _mirror_ of the object with the higher-order functions substituted with the first-order functions. `module-composer` is very simple. Is _not_ an IoC container; it does _not_ feature dependency resolution. It is a simple tool that facilitates _Pure DI_. See more on [Dependency Injection](#dependency-injection) below.
+Module Composer simply iterates over an object, invokes each function it finds with the given module dependencies, and returns a _mirror_ of the object with the higher-order functions substituted with the first-order functions. Module Composer is very simple. Is _not_ an IoC container; it does _not_ feature dependency resolution. It is a simple tool that facilitates _Pure DI_. See more on [Dependency Injection](#dependency-injection) below.
 
-Here's the equivalent using `module-composer`:
+Here's the equivalent using Module Composer:
 
 ```js
 import composer from 'module-composer';
@@ -74,7 +74,7 @@ const { services } = compose('services');
 const { components } = compose('components', { services });
 ```
 
-`module-composer` takes care of injecting dependencies into each individual function, cleaning up the code and shifting focus to the composition of modules.
+Module Composer takes care of injecting dependencies into each individual function, cleaning up the code and shifting focus to the composition of modules.
 
 ## Composition root
 

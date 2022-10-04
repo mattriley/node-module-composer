@@ -72,7 +72,7 @@ It contains one entry, `productDetails` which returns a higher-order function ac
 
 The result is a first-order function which in this context could be thought of as the `productDetails` component factory function. It accepts a `product` argument and enables the capability of adding a product to a shopping cart via the `services` module. The program entry point is too early in the application lifecycle to be reasoning about products. Therefore it needs to be pushed deeper into the application so that invocation can be deferred until the appropriate moment.
 
-The following example demonstrates invocation without `module-composer`:
+The following example demonstrates invocation without Module Composer:
 
 ```js
 // Program entry point
@@ -88,13 +88,13 @@ const productDetails = components.productDetails({ product });
 
 As demonstrated, this handy pattern can be applied in vanilla JavaScript without the use of any tools.
 
-So why `module-composer`?
+So why Module Composer?
 
-It doesn't take long before all the _wiring_ adds up. The wiring follows a consistent pattern an is ripe for automation. And in a nutshell, that's what `module-composer` does. 
+It doesn't take long before all the _wiring_ adds up. The wiring follows a consistent pattern an is ripe for automation. And in a nutshell, that's what Module Composer does. 
 
-`module-composer` simply iterates over an object, invokes each function it finds with the given module dependencies, and returns a _mirror_ of the object with the higher-order functions substituted with the first-order functions. `module-composer` is very simple. Is _not_ an IoC container; it does _not_ feature dependency resolution. It is a simple tool that facilitates _Pure DI_. See more on [Dependency Injection](#dependency-injection) below.
+Module Composer simply iterates over an object, invokes each function it finds with the given module dependencies, and returns a _mirror_ of the object with the higher-order functions substituted with the first-order functions. Module Composer is very simple. Is _not_ an IoC container; it does _not_ feature dependency resolution. It is a simple tool that facilitates _Pure DI_. See more on [Dependency Injection](#dependency-injection) below.
 
-Here's the equivalent using `module-composer`:
+Here's the equivalent using Module Composer:
 
 ```js
 import composer from 'module-composer';
@@ -104,7 +104,7 @@ const { services } = compose('services');
 const { components } = compose('components', { services });
 ```
 
-`module-composer` takes care of injecting dependencies into each individual function, cleaning up the code and shifting focus to the composition of modules.
+Module Composer takes care of injecting dependencies into each individual function, cleaning up the code and shifting focus to the composition of modules.
 
 ## Composition root
 
@@ -449,13 +449,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.12541598081588745,
+    "totalDuration": 0.11024999618530273,
     "modules": {
         "services": {
-            "duration": 0.08937498927116394
+            "duration": 0.07437500357627869
         },
         "components": {
-            "duration": 0.03604099154472351
+            "duration": 0.03587499260902405
         }
     }
 }
@@ -512,43 +512,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 3.5102910101413727,
+    "totalDuration": 3.27645805478096,
     "modules": {
         "stores": {
-            "duration": 0.6806670129299164
+            "duration": 0.675707995891571
         },
         "subscriptions": {
-            "duration": 0.19679197669029236
+            "duration": 0.1972920000553131
         },
         "core": {
-            "duration": 0.2943750023841858
+            "duration": 0.2991670072078705
         },
         "io": {
-            "duration": 0.20704099535942078
+            "duration": 0.21825000643730164
         },
         "services": {
-            "duration": 0.49483299255371094
+            "duration": 0.4879170060157776
         },
         "ui": {
-            "duration": 0.11629098653793335
+            "duration": 0.11466601490974426
         },
         "elements": {
-            "duration": 0.14729201793670654
+            "duration": 0.1496250033378601
         },
         "vendorComponents": {
-            "duration": 0.08133301138877869
+            "duration": 0.07875001430511475
         },
         "components": {
-            "duration": 0.6646250188350677
+            "duration": 0.6333329975605011
         },
         "styles": {
-            "duration": 0.19962498545646667
+            "duration": 0.18470901250839233
         },
         "diagnostics": {
-            "duration": 0.24995902180671692
+            "duration": 0.12787500023841858
         },
         "startup": {
-            "duration": 0.1774579882621765
+            "duration": 0.10916599631309509
         }
     }
 }
