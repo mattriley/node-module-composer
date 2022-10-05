@@ -53,12 +53,12 @@ Consider the following example:
 ```js
 const modules = {
     components: {
-        productDetails: ({ services }) => ({ product }) => {
+        productDetails: ({ orderingService }) => ({ product }) => {
             // When Add to Cart button clicked...
-            services.addToCart({ product, quantity: 1 });
+            orderingService.addToCart({ product, quantity: 1 });
         }
     },
-    services: {
+    orderingService: {
         addToCart: () => ({ product, quantity }) => {
             ...
         }
@@ -68,18 +68,18 @@ const modules = {
 
 The `components` module is a plain-old JavaScript object representing some kind of UI components. 
 
-It contains one entry, `productDetails` which returns a higher-order function accepting the `services` module as a dependency. This dependency would be satisfied early in the application lifecycle, ideally as close to the application entry point, i.e. _main_, as possible. 
+It contains one entry, `productDetails` which returns a higher-order function accepting the `orderingService` module as a dependency. This dependency would be satisfied early in the application lifecycle, ideally as close to the application entry point, i.e. _main_, as possible. 
 
-The result is a first-order function which in this context could be thought of as the `productDetails` component factory function. It accepts a `product` argument and enables the capability of adding a product to a shopping cart via the `services` module. The entry point is too early in the application lifecycle to be reasoning about products. Therefore it needs to be pushed deeper into the application so that invocation can be deferred until the appropriate moment.
+The result is a first-order function which in this context could be thought of as the `productDetails` component factory function. It accepts a `product` argument and enables the capability of adding a product to a shopping cart via the `orderingService` module. The entry point is too early in the application lifecycle to be reasoning about products. Therefore it needs to be pushed deeper into the application so that invocation can be deferred until the appropriate moment.
 
 The following example demonstrates invocation without Module Composer:
 
 ```js
 // Program entry point
 import modules from './modules/index.js'; // as above
-const components = {}, services = {};
-services.addToCart = modules.services.addToCart(); // no dependencies
-components.productDetails = modules.components.productDetails({ services });
+const components = {}, orderingService = {};
+orderingService.addToCart = modules.orderingService.addToCart(); // no dependencies
+components.productDetails = modules.components.productDetails({ orderingService });
 
 // Later in the application lifecycle
 const product = ...
@@ -100,13 +100,13 @@ Here's the equivalent using Module Composer:
 import composer from 'module-composer';
 import modules from './modules/index.js';
 const { compose } = composer(modules);
-const { services } = compose('services');
+const { orderingService } = compose('orderingService');
 const { components } = compose('components', { services });
 ```
 
 Module Composer takes care of injecting dependencies into each individual function, cleaning up the code and shifting focus to the composition of modules.
 
-p.s. In case you're wondering, yes, Module Composer works with React. Say hello to dependency injection in React, and farewell and good riddance to prop-drilling, context, custom hooks, attemping to work around that lack of it.
+p.s. In case you're wondering, Module Composer works with React. Say hello to dependency injection in React, and farewell and good riddance to prop-drilling, context, custom hooks, attemping to work around that lack of it.
 
 See [Stazione Simulation](https://github.com/mattriley/stazione-simulation) for example usage of Module Composer with React.
 
@@ -116,31 +116,30 @@ See [Stazione Simulation](https://github.com/mattriley/stazione-simulation) for 
 
 Module Composer is a tool that facilitates module composition, therefore its use should be limited and isolated to the Composition Root, as close to the application entry point as possible.
 
-Here's an example of a composition root isolated to a separate file named `compose.js`: 
+In the following example, the Composition Root has been extracted to a separate file, then consumed by the application entry point:
 
-###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/undefined/examples/basic/compose.mjs">examples/basic/compose.mjs</a></p>
-```mjs
+```js
 import composer from 'module-composer';
-import modules from './modules/index.mjs';
+import modules from './modules/index.js';
 
 export default () => {
     const { compose } = composer(modules);
-    const { stores } = compose('stores');
-    const { services } = compose('services', { stores });
-    compose('components', { services });
-    return compose.end();
+    const { orderingService } = compose('orderingService');
+    compose('components', { orderingService });
+    return compose.end(); // Returns all modules and prevents further composition
 };
 ```
 
-And here's an example of an entry point for a single-page (web) application (SPA):
+Example of an entry point for a SPA:
 
-###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/undefined/examples/basic/app.mjs">examples/basic/app.mjs</a></p>
-```mjs
-import compose from './compose.mjs';
-const { modules } = compose();
-const app = modules.components.app();
-document.getElementById('app').append(app);
+```js
+import compose from './compose.js';
+const { modules } = compose(); // Invoke the Composition Root
+const app = modules.components.app(); // Create an instance of the app component
+document.getElementById('app').append(app); // Append the app component to the DOM
 ```
+
+Extracting the Composition Root can be especially useful for applications that have multiple entry points.
 
 Recommended reading:
 
@@ -451,13 +450,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.10449901223182678,
+    "totalDuration": 0.11662596464157104,
     "modules": {
         "services": {
-            "duration": 0.07104098796844482
+            "duration": 0.07579198479652405
         },
         "components": {
-            "duration": 0.03345802426338196
+            "duration": 0.040833979845047
         }
     }
 }
@@ -514,43 +513,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 3.231250047683716,
+    "totalDuration": 3.239706963300705,
     "modules": {
         "stores": {
-            "duration": 0.6644589900970459
+            "duration": 0.6567910015583038
         },
         "subscriptions": {
-            "duration": 0.19408300518989563
+            "duration": 0.18599998950958252
         },
         "core": {
-            "duration": 0.28929200768470764
+            "duration": 0.29099997878074646
         },
         "io": {
-            "duration": 0.2167920172214508
+            "duration": 0.21695801615715027
         },
         "services": {
-            "duration": 0.4714580178260803
+            "duration": 0.4831250011920929
         },
         "ui": {
-            "duration": 0.11008301377296448
+            "duration": 0.11591699719429016
         },
         "elements": {
-            "duration": 0.14270800352096558
+            "duration": 0.147832989692688
         },
         "vendorComponents": {
-            "duration": 0.07787498831748962
+            "duration": 0.0804159939289093
         },
         "components": {
-            "duration": 0.6339580118656158
+            "duration": 0.6276670098304749
         },
         "styles": {
-            "duration": 0.187749981880188
+            "duration": 0.18037500977516174
         },
         "diagnostics": {
-            "duration": 0.12987500429153442
+            "duration": 0.1353749930858612
         },
         "startup": {
-            "duration": 0.11291700601577759
+            "duration": 0.11824998259544373
         }
     }
 }

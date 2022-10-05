@@ -23,12 +23,12 @@ Consider the following example:
 ```js
 const modules = {
     components: {
-        productDetails: ({ services }) => ({ product }) => {
+        productDetails: ({ orderingService }) => ({ product }) => {
             // When Add to Cart button clicked...
-            services.addToCart({ product, quantity: 1 });
+            orderingService.addToCart({ product, quantity: 1 });
         }
     },
-    services: {
+    orderingService: {
         addToCart: () => ({ product, quantity }) => {
             ...
         }
@@ -38,18 +38,18 @@ const modules = {
 
 The `components` module is a plain-old JavaScript object representing some kind of UI components. 
 
-It contains one entry, `productDetails` which returns a higher-order function accepting the `services` module as a dependency. This dependency would be satisfied early in the application lifecycle, ideally as close to the application entry point, i.e. _main_, as possible. 
+It contains one entry, `productDetails` which returns a higher-order function accepting the `orderingService` module as a dependency. This dependency would be satisfied early in the application lifecycle, ideally as close to the application entry point, i.e. _main_, as possible. 
 
-The result is a first-order function which in this context could be thought of as the `productDetails` component factory function. It accepts a `product` argument and enables the capability of adding a product to a shopping cart via the `services` module. The entry point is too early in the application lifecycle to be reasoning about products. Therefore it needs to be pushed deeper into the application so that invocation can be deferred until the appropriate moment.
+The result is a first-order function which in this context could be thought of as the `productDetails` component factory function. It accepts a `product` argument and enables the capability of adding a product to a shopping cart via the `orderingService` module. The entry point is too early in the application lifecycle to be reasoning about products. Therefore it needs to be pushed deeper into the application so that invocation can be deferred until the appropriate moment.
 
 The following example demonstrates invocation without Module Composer:
 
 ```js
 // Program entry point
 import modules from './modules/index.js'; // as above
-const components = {}, services = {};
-services.addToCart = modules.services.addToCart(); // no dependencies
-components.productDetails = modules.components.productDetails({ services });
+const components = {}, orderingService = {};
+orderingService.addToCart = modules.orderingService.addToCart(); // no dependencies
+components.productDetails = modules.components.productDetails({ orderingService });
 
 // Later in the application lifecycle
 const product = ...
@@ -70,13 +70,13 @@ Here's the equivalent using Module Composer:
 import composer from 'module-composer';
 import modules from './modules/index.js';
 const { compose } = composer(modules);
-const { services } = compose('services');
+const { orderingService } = compose('orderingService');
 const { components } = compose('components', { services });
 ```
 
 Module Composer takes care of injecting dependencies into each individual function, cleaning up the code and shifting focus to the composition of modules.
 
-p.s. In case you're wondering, yes, Module Composer works with React. Say hello to dependency injection in React, and farewell and good riddance to prop-drilling, context, custom hooks, attemping to work around that lack of it.
+p.s. In case you're wondering, Module Composer works with React. Say hello to dependency injection in React, and farewell and good riddance to prop-drilling, context, custom hooks, attemping to work around that lack of it.
 
 See [Stazione Simulation](https://github.com/mattriley/stazione-simulation) for example usage of Module Composer with React.
 
@@ -86,13 +86,30 @@ See [Stazione Simulation](https://github.com/mattriley/stazione-simulation) for 
 
 Module Composer is a tool that facilitates module composition, therefore its use should be limited and isolated to the Composition Root, as close to the application entry point as possible.
 
-Here's an example of a composition root isolated to a separate file named `compose.js`: 
+In the following example, the Composition Root has been extracted to a separate file, then consumed by the application entry point:
 
-<%- await lib.renderCode(lib.fetchCode('examples/basic/compose.mjs')) %>
+```js
+import composer from 'module-composer';
+import modules from './modules/index.js';
 
-And here's an example of an entry point for a single-page (web) application (SPA):
+export default () => {
+    const { compose } = composer(modules);
+    const { orderingService } = compose('orderingService');
+    compose('components', { orderingService });
+    return compose.end(); // Returns all modules and prevents further composition
+};
+```
 
-<%- await lib.renderCode(lib.fetchCode('examples/basic/app.mjs')) %>
+Example of an entry point for a SPA:
+
+```js
+import compose from './compose.js';
+const { modules } = compose(); // Invoke the Composition Root
+const app = modules.components.app(); // Create an instance of the app component
+document.getElementById('app').append(app); // Append the app component to the DOM
+```
+
+Extracting the Composition Root can be especially useful for applications that have multiple entry points.
 
 Recommended reading:
 
