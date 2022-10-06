@@ -14,7 +14,7 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
 - [Background](#background)
 - [How it works](#how-it-works)
 - [Composition root](#composition-root)
-- [File system](#file-system)
+- [File-per-function](#file-per-function)
 - [Mermaid diagrams](#mermaid-diagrams)
 - [Dependency injection](#dependency-injection)
 - [Functional programming](#functional-programming)
@@ -146,11 +146,15 @@ Recommended reading:
 - [Composition Root](https://blog.ploeh.dk/2011/07/28/CompositionRoot/) — Mark Seemann
 - [Understanding the Composition Root](https://freecontent.manning.com/dependency-injection-in-net-2nd-edition-understanding-the-composition-root/) — Steven van Deursen & Mark Seemann
 
-## File system
+## File-per-function
 
-Module Composer influences (but does not necessitate) the file system toward _file-per-function_.
+Many applications revolve around a number of rather large, overwhelming files containing many functions. This can happen organically through the pressure of delivery and sometimes by design driven by the ideas of cohesion and ecapsulation, amongst others. While breaking these large files down into smaller ones would seem to be the logical solution, the thought of managing a great number of small files can also seem overwhelming.
 
-The module hierarchy can be easily represented by the file system:
+Module Composer makes the idea of file-per-function easy when used in conjunction with barrel rollups. In JavaScript, a barrel rollup is typically implemented as an `index.js` file that exports every other file in the same directory - an approach most JavaScript developers would already be familiar with.
+
+Module hierarchies can be easily represented on the file system:
+
+The following example demonstrates how modules with file-per-function might be represented on the file system:
 
 ```
 src
@@ -158,18 +162,19 @@ src
 └── compose.js
 └── modules
     └── index.js
-    └── stores
+    └── ordering-service
         └── index.js
-        └── add-to-cart.js        
-    └── services
-        └── index.js
-        └── order-product.js        
+        └── add-to-cart.js
     └── components
         └── index.js
         └── product-details.js
 ```
 
-This hierarchy can be mirrored in code by rolling up each file in each directory using `index.js` files. This approach leads to a design where any file is only ever imported once regardless of the number of usages. It also reduces or eliminates the large blocks of import statements typically found at the top of each file, and eliminates any need for path backtracking, i.e. `../../../`. Path backtracking is a potential code smell due to the risk of inappropriate coupling. Instead, the relationships between each module are explicitly established during at application initialisation time.
+This approach offers a number of additional benefits including:
+
+- Only ever needing to import a file once regardless of the number of usages.
+- Reduceing or eliminating the large blocks of import statements typically found at the top of any file.
+- Eliminating any need for path traversal, i.e. `../../../`. Path traversal is a potential code smell due to the risk of inappropriate coupling. Instead, the relationships between each module are explicitly established during at application initialisation time.
 
 ###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/undefined/examples/basic/modules/index.mjs">examples/basic/modules/index.mjs</a></p>
 ```mjs
@@ -450,13 +455,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.11662596464157104,
+    "totalDuration": 0.11316698789596558,
     "modules": {
         "services": {
-            "duration": 0.07579198479652405
+            "duration": 0.07779198884963989
         },
         "components": {
-            "duration": 0.040833979845047
+            "duration": 0.035374999046325684
         }
     }
 }
@@ -513,43 +518,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 3.239706963300705,
+    "totalDuration": 3.3014569878578186,
     "modules": {
         "stores": {
-            "duration": 0.6567910015583038
+            "duration": 0.6799579858779907
         },
         "subscriptions": {
-            "duration": 0.18599998950958252
+            "duration": 0.19625002145767212
         },
         "core": {
-            "duration": 0.29099997878074646
+            "duration": 0.305666983127594
         },
         "io": {
-            "duration": 0.21695801615715027
+            "duration": 0.22391700744628906
         },
         "services": {
-            "duration": 0.4831250011920929
+            "duration": 0.48612499237060547
         },
         "ui": {
-            "duration": 0.11591699719429016
+            "duration": 0.12141603231430054
         },
         "elements": {
-            "duration": 0.147832989692688
+            "duration": 0.1438329815864563
         },
         "vendorComponents": {
-            "duration": 0.0804159939289093
+            "duration": 0.07599997520446777
         },
         "components": {
-            "duration": 0.6276670098304749
+            "duration": 0.6274580359458923
         },
         "styles": {
-            "duration": 0.18037500977516174
+            "duration": 0.18470799922943115
         },
         "diagnostics": {
-            "duration": 0.1353749930858612
+            "duration": 0.13433301448822021
         },
         "startup": {
-            "duration": 0.11824998259544373
+            "duration": 0.12179195880889893
         }
     }
 }
