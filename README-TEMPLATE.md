@@ -143,7 +143,7 @@ src
 This approach offers a number of additional benefits including:
 
 - Only ever needing to import a file once regardless of the number of usages.
-- Reduceing or eliminating the large blocks of import statements typically found at the top of any file.
+- Reducing or eliminating the large blocks of import statements typically found at the top of any file.
 - Eliminating any need for path traversal, i.e. `../../../`. Path traversal is a potential code smell due to the risk of inappropriate coupling. Instead, the relationships between each module are explicitly established during at application initialisation time.
 
 <%- await lib.renderCode(lib.fetchCode('examples/basic/modules/index.mjs')) %>

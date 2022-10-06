@@ -173,7 +173,7 @@ src
 This approach offers a number of additional benefits including:
 
 - Only ever needing to import a file once regardless of the number of usages.
-- Reduceing or eliminating the large blocks of import statements typically found at the top of any file.
+- Reducing or eliminating the large blocks of import statements typically found at the top of any file.
 - Eliminating any need for path traversal, i.e. `../../../`. Path traversal is a potential code smell due to the risk of inappropriate coupling. Instead, the relationships between each module are explicitly established during at application initialisation time.
 
 ###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/undefined/examples/basic/modules/index.mjs">examples/basic/modules/index.mjs</a></p>
@@ -455,13 +455,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.11316698789596558,
+    "totalDuration": 0.12224996089935303,
     "modules": {
         "services": {
-            "duration": 0.07779198884963989
+            "duration": 0.08170801401138306
         },
         "components": {
-            "duration": 0.035374999046325684
+            "duration": 0.04054194688796997
         }
     }
 }
@@ -518,43 +518,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 3.3014569878578186,
+    "totalDuration": 3.2969589233398438,
     "modules": {
         "stores": {
-            "duration": 0.6799579858779907
+            "duration": 0.7126250267028809
         },
         "subscriptions": {
-            "duration": 0.19625002145767212
+            "duration": 0.19533300399780273
         },
         "core": {
-            "duration": 0.305666983127594
+            "duration": 0.29295796155929565
         },
         "io": {
-            "duration": 0.22391700744628906
+            "duration": 0.21083301305770874
         },
         "services": {
-            "duration": 0.48612499237060547
+            "duration": 0.48137497901916504
         },
         "ui": {
-            "duration": 0.12141603231430054
+            "duration": 0.11445897817611694
         },
         "elements": {
-            "duration": 0.1438329815864563
+            "duration": 0.14141696691513062
         },
         "vendorComponents": {
             "duration": 0.07599997520446777
         },
         "components": {
-            "duration": 0.6274580359458923
+            "duration": 0.6320000290870667
         },
         "styles": {
-            "duration": 0.18470799922943115
+            "duration": 0.18570798635482788
         },
         "diagnostics": {
-            "duration": 0.13433301448822021
+            "duration": 0.13270902633666992
         },
         "startup": {
-            "duration": 0.12179195880889893
+            "duration": 0.12154197692871094
         }
     }
 }
