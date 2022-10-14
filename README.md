@@ -214,7 +214,7 @@ Did you know that GitHub can render diagrams directly from Mermaid syntax?! See 
 
 Given the following composition:
 
-```
+```js
 import composer from 'module-composer';
 import modules from './modules/index.js';
 
@@ -457,13 +457,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.16545796394348145,
+    "totalDuration": 0.15858304500579834,
     "modules": {
         "services": {
-            "duration": 0.08145797252655029
+            "duration": 0.07675004005432129
         },
         "components": {
-            "duration": 0.08399999141693115
+            "duration": 0.08183300495147705
         }
     }
 }
@@ -520,43 +520,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 3.4643319845199585,
+    "totalDuration": 3.3167102336883545,
     "modules": {
         "stores": {
-            "duration": 0.7195829153060913
+            "duration": 0.7085829973220825
         },
         "subscriptions": {
-            "duration": 0.19466698169708252
+            "duration": 0.18470799922943115
         },
         "core": {
-            "duration": 0.30375003814697266
+            "duration": 0.2983330488204956
         },
         "io": {
-            "duration": 0.19200003147125244
+            "duration": 0.17300009727478027
         },
         "services": {
-            "duration": 0.5389169454574585
+            "duration": 0.515125036239624
         },
         "ui": {
-            "duration": 0.1270829439163208
+            "duration": 0.11970794200897217
         },
         "elements": {
-            "duration": 0.15554094314575195
+            "duration": 0.14795899391174316
         },
         "vendorComponents": {
-            "duration": 0.09029102325439453
+            "duration": 0.08195900917053223
         },
         "components": {
-            "duration": 0.6759999990463257
+            "duration": 0.6629589796066284
         },
         "styles": {
-            "duration": 0.18912506103515625
+            "duration": 0.18162500858306885
         },
         "diagnostics": {
-            "duration": 0.15958309173583984
+            "duration": 0.1317920684814453
         },
         "startup": {
-            "duration": 0.11779201030731201
+            "duration": 0.11095905303955078
         }
     }
 }

@@ -184,7 +184,7 @@ Did you know that GitHub can render diagrams directly from Mermaid syntax?! See 
 
 Given the following composition:
 
-```
+```js
 import composer from 'module-composer';
 import modules from './modules/index.js';
 
