@@ -174,23 +174,46 @@ It should be noted that Module Composer is not dependent on the file-per-functio
 
 ## Mermaid diagrams
 
-Module Composer can generate diagrams-as-code using _Mermaid_.
+A picture paints a thousand words. There's no better aid for reasoning about software design than a good old-fashioned dependency diagram.
+
+Module Composer supports Mermaid diagrams by generating *Mermaid* diagram-as-code syntax for a given composition.
 
 > Mermaid is a tool for creating diagrams and visualizations using text and code.<br/> https://mermaid-js.github.io • https://github.com/mermaid-js/mermaid
 
-GitHub can render diagrams directly from Mermaid syntax in markdown files. See [Include diagrams in your Markdown files with Mermaid](https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/) for more information.
+Did you know that GitHub can render diagrams directly from Mermaid syntax?! See [Include diagrams in your Markdown files with Mermaid](https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/) for more information.
 
 Given the following composition:
 
-<%- await lib.renderCode(lib.fetchCode('examples/basic/compose.mjs')) %>
+```
+import composer from 'module-composer';
+import modules from './modules/index.js';
+
+export default () => {
+    const { compose } = composer(modules);
+    const { stores } = compose('stores');
+    const { services } = compose('services', { stores });
+    compose('components', { services });
+    return compose.end();
+};
+```
 
 Use `compose.mermaid()` to generate the following Mermaid diagram-as-code:
 
-<%- await lib.compose(c => lib.renderCode(c.mermaid()), 'examples/basic/compose.mjs') %>
+```
+graph TD;
+    components-->services;
+    services-->stores;
+```
 
 Which Mermaid renders as:
 
-<%- await lib.compose(c => lib.renderCode(c.mermaid(), 'mermaid'), 'examples/basic/compose.mjs') %>
+```mermaid
+graph TD;
+    components-->services;
+    services-->stores;
+```
+
+Pretty cool, huh?!
 
 For a less contrived example, see [Advanced example: Agile Avatars](#advanced-example-agile-avatars) below.
 

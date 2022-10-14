@@ -204,18 +204,19 @@ It should be noted that Module Composer is not dependent on the file-per-functio
 
 ## Mermaid diagrams
 
-Module Composer can generate diagrams-as-code using _Mermaid_.
+A picture paints a thousand words. There's no better aid for reasoning about software design than a good old-fashioned dependency diagram.
+
+Module Composer supports Mermaid diagrams by generating *Mermaid* diagram-as-code syntax for a given composition.
 
 > Mermaid is a tool for creating diagrams and visualizations using text and code.<br/> https://mermaid-js.github.io • https://github.com/mermaid-js/mermaid
 
-GitHub can render diagrams directly from Mermaid syntax in markdown files. See [Include diagrams in your Markdown files with Mermaid](https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/) for more information.
+Did you know that GitHub can render diagrams directly from Mermaid syntax?! See [Include diagrams in your Markdown files with Mermaid](https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/) for more information.
 
 Given the following composition:
 
-###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/undefined/examples/basic/compose.mjs">examples/basic/compose.mjs</a></p>
-```mjs
+```
 import composer from 'module-composer';
-import modules from './modules/index.mjs';
+import modules from './modules/index.js';
 
 export default () => {
     const { compose } = composer(modules);
@@ -236,12 +237,13 @@ graph TD;
 
 Which Mermaid renders as:
 
-###### <p align="right"><em>Can't see the diagram?</em> <a id="link-1" href="https://github.com/mattriley/node-module-composer#user-content-link-1">View it on GitHub</a></p>
 ```mermaid
 graph TD;
     components-->services;
     services-->stores;
 ```
+
+Pretty cool, huh?!
 
 For a less contrived example, see [Advanced example: Agile Avatars](#advanced-example-agile-avatars) below.
 
@@ -326,7 +328,7 @@ The examples below leverage `compose.dependencies` to demonstrate fitness functi
 
 Assuming an _n-tier_ architecture, where the `components` module resides in the _presentation_ layer, `services` in the _domain_ layer, and `stores` in the _persistence_ layer, it could be tempting to couple `components` to `stores`,  inadvertently bypassing the domain layer.
 
-###### <p align="right"><em>Can't see the diagram?</em> <a id="link-2" href="https://github.com/mattriley/node-module-composer#user-content-link-2">View it on GitHub</a></p>
+###### <p align="right"><em>Can't see the diagram?</em> <a id="link-1" href="https://github.com/mattriley/node-module-composer#user-content-link-1">View it on GitHub</a></p>
 ```mermaid
 graph TD;
     components["components<br/>(presentation)"]-->|OK!|services;
@@ -348,7 +350,7 @@ test('components is not coupled to stores in order to maintain layering', t => {
 
 `util` is a module of _pure_ utility functions, and `io` is module is _impure_ io operations. It could be tempting to extend `util` with say file utilities that depend on `io`, however doing so would make `util` impure.
 
-###### <p align="right"><em>Can't see the diagram?</em> <a id="link-3" href="https://github.com/mattriley/node-module-composer#user-content-link-3">View it on GitHub</a></p>
+###### <p align="right"><em>Can't see the diagram?</em> <a id="link-2" href="https://github.com/mattriley/node-module-composer#user-content-link-2">View it on GitHub</a></p>
 ```mermaid
 graph TD;
     io["io<br/>(impure)"]-->|OK!|util
@@ -366,7 +368,7 @@ test('util is not coupled to io in order to maintain purity', t => {
 
 The solution introducing file utilities whilst maintaining purity would be to introduce a new module, say `fileUtil`:
 
-###### <p align="right"><em>Can't see the diagram?</em> <a id="link-4" href="https://github.com/mattriley/node-module-composer#user-content-link-4">View it on GitHub</a></p>
+###### <p align="right"><em>Can't see the diagram?</em> <a id="link-3" href="https://github.com/mattriley/node-module-composer#user-content-link-3">View it on GitHub</a></p>
 ```mermaid
 graph TD;
     io["io<br/>(impure)"]-->|OK!|util
@@ -413,7 +415,7 @@ export default ({ overrides } = {}) => {
 
 Mermaid digram:
 
-###### <p align="right"><em>Can't see the diagram?</em> <a id="link-5" href="https://github.com/mattriley/node-module-composer#user-content-link-5">View it on GitHub</a></p>
+###### <p align="right"><em>Can't see the diagram?</em> <a id="link-4" href="https://github.com/mattriley/node-module-composer#user-content-link-4">View it on GitHub</a></p>
 ```mermaid
 graph TD;
     components-->services;
@@ -455,13 +457,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.11824905872344971,
+    "totalDuration": 0.16545796394348145,
     "modules": {
         "services": {
-            "duration": 0.08170807361602783
+            "duration": 0.08145797252655029
         },
         "components": {
-            "duration": 0.036540985107421875
+            "duration": 0.08399999141693115
         }
     }
 }
@@ -518,43 +520,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 3.5474600791931152,
+    "totalDuration": 3.4643319845199585,
     "modules": {
         "stores": {
-            "duration": 0.7047090530395508
+            "duration": 0.7195829153060913
         },
         "subscriptions": {
-            "duration": 0.19820904731750488
+            "duration": 0.19466698169708252
         },
         "core": {
-            "duration": 0.30229198932647705
+            "duration": 0.30375003814697266
         },
         "io": {
-            "duration": 0.23262500762939453
+            "duration": 0.19200003147125244
         },
         "services": {
-            "duration": 0.5822919607162476
+            "duration": 0.5389169454574585
         },
         "ui": {
-            "duration": 0.139165997505188
+            "duration": 0.1270829439163208
         },
         "elements": {
-            "duration": 0.15829205513000488
+            "duration": 0.15554094314575195
         },
         "vendorComponents": {
-            "duration": 0.08858299255371094
+            "duration": 0.09029102325439453
         },
         "components": {
-            "duration": 0.6787500381469727
+            "duration": 0.6759999990463257
         },
         "styles": {
-            "duration": 0.20445895195007324
+            "duration": 0.18912506103515625
         },
         "diagnostics": {
-            "duration": 0.13887500762939453
+            "duration": 0.15958309173583984
         },
         "startup": {
-            "duration": 0.11920797824859619
+            "duration": 0.11779201030731201
         }
     }
 }
@@ -610,7 +612,7 @@ graph TD;
 
 #### Mermaid diagram
 
-###### <p align="right"><em>Can't see the diagram?</em> <a id="link-6" href="https://github.com/mattriley/node-module-composer#user-content-link-6">View it on GitHub</a></p>
+###### <p align="right"><em>Can't see the diagram?</em> <a id="link-5" href="https://github.com/mattriley/node-module-composer#user-content-link-5">View it on GitHub</a></p>
 ```mermaid
 graph TD;
     components-->io;
