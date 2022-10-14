@@ -120,11 +120,9 @@ Recommended reading:
 
 Many applications revolve around a number of rather large, overwhelming files containing many functions. This can happen organically through the pressure of delivery and sometimes by design driven by the ideas of cohesion and ecapsulation, amongst others. While breaking these large files down into smaller ones would seem to be the logical solution, the thought of managing a great number of small files can also seem overwhelming.
 
-Module Composer makes the idea of file-per-function easy when used in conjunction with barrel rollups. In JavaScript, a barrel rollup is typically implemented as an `index.js` file that exports every other file in the same directory - an approach most JavaScript developers would already be familiar with.
+Module Composer makes the idea of file-per-function easy when used in conjunction with *barrel rollups*. In JavaScript, a barrel rollup is typically implemented as an `index.js` file that exports every other file (and perhaps sub-directory) in the same directory - an approach most JavaScript developers would already be familiar with.
 
-Module hierarchies can be easily represented on the file system:
-
-The following example demonstrates how modules with file-per-function might be represented on the file system:
+Example of file-per-function on the file system:
 
 ```
 src
@@ -140,19 +138,39 @@ src
         └── product-details.js
 ```
 
+Example `src/modules/index.js` using ES Modules:
+
+```js
+import orderingService from './ordering-service/index.js';
+import components from './components/index.js';
+
+export default {
+    orderingService,
+    components
+};
+```
+
+Example `src/modules/index.js` using Common JS:
+
+```js
+const orderingService = require('./ordering-service');
+const components = require('./components');
+
+module.exports = {
+    orderingService,
+    components
+};
+```
+
 This approach offers a number of additional benefits including:
 
 - Only ever needing to import a file once regardless of the number of usages.
 - Reducing or eliminating the large blocks of import statements typically found at the top of any file.
 - Eliminating any need for path traversal, i.e. `../../../`. Path traversal is a potential code smell due to the risk of inappropriate coupling. Instead, the relationships between each module are explicitly established during at application initialisation time.
 
-<%- await lib.renderCode(lib.fetchCode('examples/basic/modules/index.mjs')) %>
+This pattern opens the possibility of generating `index.js` files. This means that not only is each file only ever imported once, import/require statements needn't be manually written at all. The `module-indexgen` package is designed to do just that: https://github.com/mattriley/node-module-indexgen
 
-<%- await lib.renderCode(lib.fetchCode('examples/basic/modules/components/index.mjs')) %>
-
-This pattern opens the possibility of generating `index.js` files. This means that not only is each file only ever imported once, a developer needn't write import statements at all.
-
-The package `module-indexgen` is designed to do just that: https://github.com/mattriley/node-module-indexgen
+It should be noted that Module Composer is not dependent on the file-per-function pattern. How you structure the file system is up to you.
 
 ## Mermaid diagrams
 
