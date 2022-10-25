@@ -457,13 +457,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.14145898818969727,
+    "totalDuration": 0.23724865913391113,
     "modules": {
         "services": {
-            "duration": 0.0372920036315918
+            "duration": 0.04066586494445801
         },
         "components": {
-            "duration": 0.10416698455810547
+            "duration": 0.19658279418945312
         }
     }
 }
@@ -520,43 +520,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 3.3908772468566895,
+    "totalDuration": 3.46774959564209,
     "modules": {
         "stores": {
-            "duration": 0.7467079162597656
+            "duration": 0.759458065032959
         },
         "subscriptions": {
-            "duration": 0.1649169921875
+            "duration": 0.1526660919189453
         },
         "core": {
-            "duration": 0.3341250419616699
+            "duration": 0.32662510871887207
         },
         "io": {
-            "duration": 0.18695902824401855
+            "duration": 0.19225001335144043
         },
         "services": {
-            "duration": 0.5156660079956055
+            "duration": 0.570457935333252
         },
         "ui": {
-            "duration": 0.12258291244506836
+            "duration": 0.1499171257019043
         },
         "elements": {
-            "duration": 0.15170907974243164
+            "duration": 0.1615002155303955
         },
         "vendorComponents": {
-            "duration": 0.08620905876159668
+            "duration": 0.09062504768371582
         },
         "components": {
-            "duration": 0.6127090454101562
+            "duration": 0.6076250076293945
         },
         "styles": {
-            "duration": 0.14100003242492676
+            "duration": 0.13337492942810059
         },
         "diagnostics": {
-            "duration": 0.1522080898284912
+            "duration": 0.1475830078125
         },
         "startup": {
-            "duration": 0.17608404159545898
+            "duration": 0.17566704750061035
         }
     }
 }
