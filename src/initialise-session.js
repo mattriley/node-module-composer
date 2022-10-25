@@ -4,7 +4,14 @@ const mermaid = require('./mermaid');
 const defaultOptions = require('./default-options');
 
 const isNode = globalThis.process?.release?.name === 'node';
-const readPackageName = () => require(globalThis.process.cwd() + '/package.json').name;
+
+const readPackageName = () => {
+    try {
+        return require(globalThis.process.cwd() + '/package.json').name;
+    } catch (ex) {
+        return undefined;
+    }
+};
 
 module.exports = (target, userOptions = {}) => {
 
