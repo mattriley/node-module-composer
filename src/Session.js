@@ -2,7 +2,6 @@ const Options = require('./Options');
 const extensions = require('./extensions');
 const util = require('./util');
 
-
 const isNode = globalThis.process?.release?.name === 'node';
 
 const readPackageName = () => {
@@ -22,15 +21,13 @@ module.exports = (target, userOptions = {}) => {
     const options = util.merge({}, defaultOptions, userOptions);
     const config = util.mergeValues({}, options, options.configOptionKeys);
 
-    const stats = { durationUnit: 'ms', totalDuration: 0, modules: {} };
-    const maybeStats = options.stats ? { stats } : {};
     const maybeConfig = Object.keys(config).length ? { config } : {};
 
     const primitiveState = {
         ended: false,
         dependencies: util.mapValues(targetModules, () => []),
         composedDependencies: {},
-        ...maybeStats
+        stats: { durationUnit: 'ms', totalDuration: 0, modules: {} }
     };
 
     const state = {

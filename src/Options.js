@@ -1,6 +1,5 @@
 module.exports = () => {
     return {
-        wrapper: undefined,
         compositionName: undefined,
         depth: 1,
         customiser: 'setup',
