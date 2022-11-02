@@ -174,6 +174,8 @@ It should be noted that Module Composer is not dependent on the file-per-functio
 
 ## Mermaid diagrams
 
+Extension: `require('module-composer/extensions/mermaid');`
+
 A picture paints a thousand words. There's no better aid for reasoning about software design than a good old-fashioned dependency diagram.
 
 Module Composer supports Mermaid diagrams by generating *Mermaid* diagram-as-code syntax for a given composition.
@@ -361,6 +363,8 @@ TODO: Insert overrides example
 
 ## Ejecting
 
+Extension: `require('module-composer/extensions/eject');`
+
 Module Composer can be _ejected_ by generating the equivalent vanilla JavaScript code. Well, that's the vision anyway! The current implementation has some limitations. Please raise an issue if you'd like to see this developed further.
 
 Take the composition root of the Gravatar SPA example:
@@ -376,6 +380,8 @@ Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 <%- await lib.compose(c => lib.renderCode(c.eject(), 'js'), 'examples/gravatar-spa/src/compose.mjs') %>
 
 ## Performance
+
+Extension: `require('module-composer/extensions/perf');`
 
 Module Composer is fast. In fact, so fast that it needs to be measured with sub-millisecond precision. Performance is measured by default for easy analysis.
 

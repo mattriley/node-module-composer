@@ -204,6 +204,8 @@ It should be noted that Module Composer is not dependent on the file-per-functio
 
 ## Mermaid diagrams
 
+Extension: `require('module-composer/extensions/mermaid');`
+
 A picture paints a thousand words. There's no better aid for reasoning about software design than a good old-fashioned dependency diagram.
 
 Module Composer supports Mermaid diagrams by generating *Mermaid* diagram-as-code syntax for a given composition.
@@ -394,6 +396,8 @@ TODO: Insert overrides example
 
 ## Ejecting
 
+Extension: `require('module-composer/extensions/eject');`
+
 Module Composer can be _ejected_ by generating the equivalent vanilla JavaScript code. Well, that's the vision anyway! The current implementation has some limitations. Please raise an issue if you'd like to see this developed further.
 
 Take the composition root of the Gravatar SPA example:
@@ -446,6 +450,8 @@ Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 
 ## Performance
 
+Extension: `require('module-composer/extensions/perf');`
+
 Module Composer is fast. In fact, so fast that it needs to be measured with sub-millisecond precision. Performance is measured by default for easy analysis.
 
 Use `compose.stats` to see the total composition duration, and a break down of duration per module.
@@ -457,13 +463,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.1495000123977661,
+    "totalDuration": 0.6988330483436584,
     "modules": {
         "services": {
-            "duration": 0.07308399677276611
+            "duration": 0.5596250295639038
         },
         "components": {
-            "duration": 0.076416015625
+            "duration": 0.13920801877975464
         }
     }
 }
@@ -520,43 +526,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 3.1858339309692383,
+    "totalDuration": 3.4685840606689453,
     "modules": {
         "stores": {
-            "duration": 0.6563329696655273
+            "duration": 0.692209005355835
         },
         "subscriptions": {
-            "duration": 0.18804097175598145
+            "duration": 0.18987500667572021
         },
         "core": {
-            "duration": 0.2889169454574585
+            "duration": 0.31383299827575684
         },
         "io": {
-            "duration": 0.1726670265197754
+            "duration": 0.19008398056030273
         },
         "services": {
-            "duration": 0.4962499737739563
+            "duration": 0.6065409779548645
         },
         "ui": {
-            "duration": 0.11062502861022949
+            "duration": 0.12216699123382568
         },
         "elements": {
-            "duration": 0.14479202032089233
+            "duration": 0.15729200839996338
         },
         "vendorComponents": {
-            "duration": 0.08175003528594971
+            "duration": 0.09016603231430054
         },
         "components": {
-            "duration": 0.6228749752044678
+            "duration": 0.6838750243186951
         },
         "styles": {
-            "duration": 0.18241703510284424
+            "duration": 0.1839580535888672
         },
         "diagnostics": {
-            "duration": 0.13112497329711914
+            "duration": 0.1292089819908142
         },
         "startup": {
-            "duration": 0.11004197597503662
+            "duration": 0.109375
         }
     }
 }
