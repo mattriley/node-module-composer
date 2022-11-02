@@ -27,9 +27,6 @@ module.exports = (target, userOptions = {}) => {
         return compose(path, deps, args, optsMod);
     };
 
-    if (!globalThis.compositions) globalThis.compositions = [];
-    globalThis.compositions.push(session.external);
-
     Object.assign(compose, session.external, { end });
     return { compose, config: session.external.config };
 
