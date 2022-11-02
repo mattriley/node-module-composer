@@ -1,7 +1,7 @@
+const Options = require('./Options');
+const extensions = require('./extensions');
 const util = require('./util');
-const eject = require('./eject');
-const mermaid = require('./mermaid');
-const defaultOptions = require('./default-options');
+
 
 const isNode = globalThis.process?.release?.name === 'node';
 
@@ -18,6 +18,7 @@ module.exports = (target, userOptions = {}) => {
     if (!util.isPlainObject(target)) throw new Error('target must be a plain object');
 
     const targetModules = util.pickBy(target, util.isPlainObject);
+    const defaultOptions = Options();
     const options = util.merge({}, defaultOptions, userOptions);
     const config = util.mergeValues({}, options, options.configOptionKeys);
 
@@ -43,13 +44,11 @@ module.exports = (target, userOptions = {}) => {
         { compositionName: options.compositionName }
     );
 
-    const constants = { ...compositionName, defaultOptions, userOptions, options, target, config };
+    const extensionEntries = extensions.state.session.map(ext => {
+        return [ext.name, opts => ext.session(session)(opts)];
+    });
 
-    const functions = {
-        mermaid: opts => mermaid(state.dependencies, opts),
-        eject: () => eject(targetModules, state.composedDependencies),
-        json: () => JSON.stringify({ ...constants, ...primitiveState, mermaid: functions.mermaid() }, null, 4)
-    };
+    const functions = Object.fromEntries(extensionEntries);
 
     const mutations = {
         registerModule: (path, module, deps) => {
@@ -60,7 +59,9 @@ module.exports = (target, userOptions = {}) => {
         }
     };
 
+    const constants = { ...compositionName, defaultOptions, userOptions, options, target, config };
     const external = { ...constants, ...state, ...functions };
-    return { external, state, ...constants, ...mutations };
+    const session = { external, state, targetModules, ...constants, ...mutations };
+    return session;
 
 };

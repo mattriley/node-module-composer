@@ -1,4 +1,5 @@
-const composer = require('../');
+const composer = require('module-composer');
+require('module-composer/extensions/eject');
 
 module.exports = ({ test }) => {
 

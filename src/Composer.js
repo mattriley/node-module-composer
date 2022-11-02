@@ -1,14 +1,15 @@
+const Compose = require('./Compose');
+const Session = require('./Session');
+const extensions = require('./extensions');
 const util = require('./util');
-const composers = require('./composers');
-const initialiseSession = require('./initialise-session');
 
 module.exports = (target, userOptions = {}) => {
 
-    const session = initialiseSession(target, userOptions);
+    const session = Session(target, userOptions);
 
-    const baseCompose = composers.base(session);
-    const timeCompose = composers.time(session, baseCompose);
-    const composeFunc = session.options.stats ? timeCompose : baseCompose;
+    const composeImpl = extensions.state.compose.reduce((compose, ext) => {
+        return ext.compose(compose, session);
+    }, Compose(session));
 
     const end = () => {
         if (session.state.ended) throw new Error('Composition has already ended');
@@ -18,7 +19,7 @@ module.exports = (target, userOptions = {}) => {
 
     const compose = (path, deps = {}, args = {}, opts = {}) => {
         if (session.state.ended) throw new Error('Composition has ended');
-        return composeFunc(path, deps, args, opts);
+        return composeImpl(path, deps, args, opts);
     };
 
     compose.deep = (path, deps = {}, args = {}, opts = {}) => {

@@ -1,4 +1,4 @@
-const composer = require('../');
+const composer = require('module-composer');
 
 module.exports = ({ test }) => {
 
