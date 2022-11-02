@@ -7,7 +7,7 @@ module.exports = (target, userOptions = {}) => {
 
     const session = Session(target, userOptions);
 
-    const composeImpl = extensions.state.compose.reduce((compose, ext) => {
+    const composeImpl = extensions.composeExtensions().reduce((compose, ext) => {
         return ext.compose(compose, session);
     }, Compose(session));
 

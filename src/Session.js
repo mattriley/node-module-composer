@@ -41,8 +41,13 @@ module.exports = (target, userOptions = {}) => {
         { compositionName: options.compositionName }
     );
 
-    const extensionEntries = extensions.state.session.map(ext => {
-        return [ext.name, opts => ext.session(session)(opts)];
+    const constants = { ...compositionName, defaultOptions, userOptions, options, target, config };
+    const session = { state, targetModules, ...constants };
+
+    const extensionEntries = extensions.sessionExtensions().flatMap(ext => {
+        return Object.entries(ext.session).map(([name, func]) => {
+            return [name, func(session)];
+        });
     });
 
     const functions = Object.fromEntries(extensionEntries);
@@ -56,9 +61,7 @@ module.exports = (target, userOptions = {}) => {
         }
     };
 
-    const constants = { ...compositionName, defaultOptions, userOptions, options, target, config };
     const external = { ...constants, ...state, ...functions };
-    const session = { external, state, targetModules, ...constants, ...mutations };
+    Object.assign(session, { external, ...mutations });
     return session;
-
-};
+}; 
