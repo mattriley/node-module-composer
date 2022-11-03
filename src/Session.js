@@ -21,16 +21,18 @@ module.exports = (target, userOptions = {}) => {
 
     const state = {
         ...primitiveState,
-        modules: { ...maybeConfig, ...targetModules }
+        modules: { ...maybeConfig, ...targetModules },
+        stats: {}
     };
 
     const constants = { defaultOptions, userOptions, options, target, config };
-    const session = { state, targetModules, ...constants };
+    const external = { ...constants, ...state };
+    const session = { external, state, targetModules, ...constants };
 
     const extensionEntries = extensions.sessionExtensions().flatMap(ext => {
-        return Object.entries(ext.session).map(([name, func]) => {
+        return Object.entries(ext.session).flatMap(([name, func]) => {
             const next = func(session);
-            return next ? [name, next] : [];
+            return next ? [[name, next]] : [];
         });
     });
 
@@ -45,8 +47,8 @@ module.exports = (target, userOptions = {}) => {
         }
     };
 
-    const external = { ...constants, ...state, ...functions };
-    Object.assign(session, { external, ...mutations });
+    Object.assign(external, functions);
+    Object.assign(session, mutations);
     return session;
 
 }; 

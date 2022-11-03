@@ -10,10 +10,9 @@ const readPackageName = () => {
     }
 };
 
-const globalRegister = session => ({ name } = {}) => {
+const globalRegister = session => {
 
     const compositionName = [
-        name,
         configKeys.map(key => session.config[key]).find(val => !!val),
         isNode ? readPackageName() : undefined
     ].find(name => !!name);
