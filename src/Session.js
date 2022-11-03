@@ -28,7 +28,10 @@ module.exports = (target, userOptions = {}) => {
     const session = { state, targetModules, ...constants };
 
     const extensionEntries = extensions.sessionExtensions().flatMap(ext => {
-        return Object.entries(ext.session).map(([name, func]) => [name, func(session)]);
+        return Object.entries(ext.session).map(([name, func]) => {
+            const next = func(session);
+            return next ? [name, next] : [];
+        });
     });
 
     const functions = Object.fromEntries(extensionEntries);
