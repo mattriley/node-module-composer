@@ -16,8 +16,7 @@ module.exports = (target, userOptions = {}) => {
     const primitiveState = {
         ended: false,
         dependencies: util.mapValues(targetModules, () => []),
-        composedDependencies: {},
-        stats: { durationUnit: 'ms', totalDuration: 0, modules: {} }
+        composedDependencies: {}
     };
 
     const state = {
