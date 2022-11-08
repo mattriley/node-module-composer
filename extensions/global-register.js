@@ -22,5 +22,11 @@ const globalRegister = session => {
 
 };
 
-const session = { globalRegister };
-module.exports = extensions.register({ session });
+const extension = {
+    name: 'globalRegister',
+    session: session => {
+        return { globalRegister: globalRegister(session) };
+    }
+};
+
+module.exports = extensions.register(extension);

@@ -1,3 +1,4 @@
+const Compose = require('./Compose');
 const Options = require('./Options');
 const extensions = require('./extensions');
 const util = require('./util');
@@ -22,21 +23,25 @@ module.exports = (target, userOptions = {}) => {
     const state = {
         ...primitiveState,
         modules: { ...maybeConfig, ...targetModules },
-        stats: {}
+        stats: {},
+        extensions: {}
     };
 
     const constants = { defaultOptions, userOptions, options, target, config };
     const external = { ...constants, ...state };
     const session = { external, state, targetModules, ...constants };
 
-    const extensionEntries = extensions.sessionExtensions().flatMap(ext => {
-        return Object.entries(ext.session).flatMap(([name, func]) => {
-            const next = func(session);
-            return next ? [[name, next]] : [];
-        });
-    });
+    const { compose, ...functions } = extensions.get().reduce((acc, ext) => {
+        const { name } = ext;
+        const getState = () => state.extensions[name];
+        const setState = s => util.set(state.extensions, name, s);
+        const _session = { ...session, getState, setState };
+        const { compose, ...functions } = ext.session(_session); // todo: remove undefined
+        if (compose) acc.compose = compose(acc.compose);
+        return { ...acc, ...functions };
+    }, { compose: Compose(session) });
 
-    const functions = Object.fromEntries(extensionEntries);
+    session.compose = compose;
 
     const mutations = {
         registerModule: (path, module, deps) => {

@@ -1,15 +1,9 @@
-const Compose = require('./Compose');
 const Session = require('./Session');
-const extensions = require('./extensions');
 const util = require('./util');
 
 module.exports = (target, userOptions = {}) => {
 
     const session = Session(target, userOptions);
-
-    const composeImpl = extensions.composeExtensions().reduce((compose, ext) => {
-        return ext.compose(compose, session);
-    }, Compose(session));
 
     const end = () => {
         if (session.state.ended) throw new Error('Composition has already ended');
@@ -19,7 +13,7 @@ module.exports = (target, userOptions = {}) => {
 
     const compose = (path, deps = {}, args = {}, opts = {}) => {
         if (session.state.ended) throw new Error('Composition has ended');
-        return composeImpl(path, deps, args, opts);
+        return session.compose(path, deps, args, opts);
     };
 
     compose.deep = (path, deps = {}, args = {}, opts = {}) => {

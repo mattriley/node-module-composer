@@ -11,5 +11,11 @@ const mermaid = session => opts => {
     return ['graph TD;', ...lines].join('\n');
 };
 
-const session = { mermaid };
-module.exports = extensions.register({ session });
+const extension = {
+    name: 'mermaid',
+    session: session => {
+        return { mermaid: mermaid(session) };
+    }
+};
+
+module.exports = extensions.register(extension);

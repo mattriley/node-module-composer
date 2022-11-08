@@ -33,5 +33,11 @@ const eject = session => () => {
     ].join('\n');
 };
 
-const session = { eject };
-module.exports = extensions.register({ session });
+const extension = {
+    name: 'eject',
+    session: session => {
+        return { eject: eject(session) };
+    }
+};
+
+module.exports = extensions.register(extension);
