@@ -23,7 +23,6 @@ module.exports = (target, userOptions = {}) => {
     const state = {
         ...primitiveState,
         modules: { ...maybeConfig, ...targetModules },
-        stats: {},
         extensions: {}
     };
 
