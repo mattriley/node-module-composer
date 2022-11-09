@@ -43,19 +43,14 @@ module.exports = (target, userOptions = {}) => {
         return { ...acc, ...functions };
     }, { compose: Compose(session) });
 
-    session.compose = compose;
-
-    const mutations = {
-        registerModule: (path, module, deps) => {
-            util.set(state.modules, path, module);
-            const depKeys = Object.keys(deps).filter(k => k !== path);
-            state.dependencies[path] = state.composedDependencies[path] = depKeys;
-            return state.modules;
-        }
+    const registerModule = (path, module, deps) => {
+        util.set(state.modules, path, module);
+        const depKeys = Object.keys(deps).filter(k => k !== path);
+        state.dependencies[path] = state.composedDependencies[path] = depKeys;
+        return state.modules;
     };
 
     Object.assign(external, functions);
-    Object.assign(session, mutations);
-    return session;
+    return Object.assign(session, { compose, registerModule });
 
 }; 
