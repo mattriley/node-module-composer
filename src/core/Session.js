@@ -31,12 +31,15 @@ module.exports = (target, userOptions = {}) => {
     const external = { ...constants, ...state };
     const session = { external, state, targetModules, ...constants };
 
-    const { compose, ...functions } = extensions.get().reduce((acc, ext) => {
-        const { name } = ext;
+    const { compose, ...functions } = Object.entries(extensions.get()).reduce((acc, [name, ext]) => {
         const getState = () => state.extensions[name];
         const setState = s => util.set(state.extensions, name, s);
         const _session = { ...session, getState, setState };
-        const { compose, ...functions } = ext.session(_session); // todo: remove undefined
+
+        const { compose, ...functions } = Object.fromEntries(Object.entries(ext).map(([name, func]) => {
+            return [name, func(_session)];
+        }));
+
         if (compose) acc.compose = compose(acc.compose);
         return { ...acc, ...functions };
     }, { compose: Compose(session) });
