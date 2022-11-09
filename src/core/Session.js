@@ -1,5 +1,5 @@
-const Compose = require('./Compose');
-const Options = require('./Options');
+const Compose = require('./compose');
+const Options = require('./options');
 const extensions = require('./extensions');
 const util = require('./util');
 

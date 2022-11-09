@@ -1,4 +1,4 @@
-const Session = require('./Session');
+const Session = require('./session');
 const util = require('./util');
 
 module.exports = (target, userOptions = {}) => {

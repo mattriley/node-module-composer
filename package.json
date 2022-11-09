@@ -17,7 +17,7 @@
     "files": [
         "src/**/*"
     ],
-    "main": "src/core/Composer.js",
+    "main": "src/core/composer.js",
     "scripts": {
         "cov": "npx task cov",
         "deploy": "npx task deploy",
