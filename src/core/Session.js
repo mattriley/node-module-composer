@@ -31,7 +31,7 @@ module.exports = (target, userOptions = {}) => {
     const external = { ...constants, ...state };
     const session = { external, state, targetModules, ...constants };
 
-    const { compose, ...functions } = Object.entries(extensions.get()).reduce((acc, [name, ext]) => {
+    const { compose, ...functions } = extensions.entries().reduce((acc, [name, ext]) => {
         const getState = () => state.extensions[name];
         const setState = s => util.set(state.extensions, name, s);
         const _session = { ...session, getState, setState };
