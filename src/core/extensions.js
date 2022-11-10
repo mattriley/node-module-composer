@@ -8,9 +8,13 @@ const setup = (session, compose) => {
         const getState = () => session.state.extensions[name];
         const setState = state => util.set(session.state.extensions, name, state);
 
-        const { compose, ...functions } = Object.fromEntries(Object.entries(ext).map(([name, func]) => {
-            return [name, func({ ...session, getState, setState })];
-        }));
+        // const { compose, ...functions } = Object.fromEntries(Object.entries(ext).map(([name, func]) => {
+        //     return [name, func({ ...session, getState, setState })];
+        // }));
+
+        const { compose, ...functions } = util.mapValues(ext, func => {
+            return func({ ...session, getState, setState });
+        });
 
         if (compose) acc.compose = compose(acc.compose);
         return { ...acc, ...functions };
