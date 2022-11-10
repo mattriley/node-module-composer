@@ -14,29 +14,23 @@ module.exports = (target, userOptions = {}) => {
 
     const maybeConfig = Object.keys(config).length ? { config } : {};
 
-    const primitiveState = {
+    const state = {
         ended: false,
         dependencies: util.mapValues(targetModules, () => []),
-        composedDependencies: {}
-    };
-
-    const state = {
-        ...primitiveState,
+        composedDependencies: {},
         modules: { ...maybeConfig, ...targetModules },
         extensions: {}
     };
 
-    const constants = { defaultOptions, userOptions, options, target, config };
-    const external = { ...constants, ...state };
-    const session = { external, state, targetModules, ...constants };
+    const constants = { defaultOptions, userOptions, options, config, target, targetModules };
+    const session = { external: { ...state, ...constants }, state, ...constants };
 
     const { compose, ...functions } = extensions.entries().reduce((acc, [name, ext]) => {
         const getState = () => state.extensions[name];
         const setState = s => util.set(state.extensions, name, s);
-        const _session = { ...session, getState, setState };
 
         const { compose, ...functions } = Object.fromEntries(Object.entries(ext).map(([name, func]) => {
-            return [name, func(_session)];
+            return [name, func({ ...session, getState, setState })];
         }));
 
         if (compose) acc.compose = compose(acc.compose);
@@ -50,7 +44,7 @@ module.exports = (target, userOptions = {}) => {
         return state.modules;
     };
 
-    Object.assign(external, functions);
+    Object.assign(session.external, functions);
     return Object.assign(session, { compose, registerModule });
 
 }; 
