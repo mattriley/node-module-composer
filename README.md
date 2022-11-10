@@ -462,13 +462,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 
 ```js
 {
-    "totalDuration": 0.13987499987706542,
+    "totalDuration": 0.13200000068172812,
     "modules": {
         "services": {
-            "duration": 0.03750000009313226
+            "duration": 0.03650000039488077
         },
         "components": {
-            "duration": 0.10237499978393316
+            "duration": 0.09550000028684735
         }
     }
 }
@@ -525,43 +525,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 3.215748999733478,
+    "totalDuration": 3.2897499999962747,
     "modules": {
         "stores": {
-            "duration": 0.6749159996397793
+            "duration": 0.654916999861598
         },
         "subscriptions": {
-            "duration": 0.14587499992921948
+            "duration": 0.13987499987706542
         },
         "core": {
-            "duration": 0.30975000001490116
+            "duration": 0.3190419999882579
         },
         "io": {
-            "duration": 0.17191600007936358
+            "duration": 0.16458299988880754
         },
         "services": {
-            "duration": 0.510167000349611
+            "duration": 0.47533300006762147
         },
         "ui": {
-            "duration": 0.11012500012293458
+            "duration": 0.10691600013524294
         },
         "elements": {
-            "duration": 0.14920799992978573
+            "duration": 0.14662500005215406
         },
         "vendorComponents": {
-            "duration": 0.08324999967589974
+            "duration": 0.0911659998819232
         },
         "components": {
-            "duration": 0.6177500002086163
+            "duration": 0.6583340000361204
         },
         "styles": {
-            "duration": 0.13362499978393316
+            "duration": 0.1389589998871088
         },
         "diagnostics": {
-            "duration": 0.14441700000315905
+            "duration": 0.17495799995958805
         },
         "startup": {
-            "duration": 0.1647499999962747
+            "duration": 0.21904200036078691
         }
     }
 }
