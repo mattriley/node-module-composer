@@ -6,7 +6,7 @@ const register = (name, extension) => Object.assign(state.extensions, { [name]: 
 const setup = (session, compose) => {
     return Object.entries(state.extensions).reduce((acc, [name, ext]) => {
         const getState = () => session.state.extensions[name];
-        const setState = state => util.set(session.state.extensions, name, state);
+        const setState = state => util.set(session.state.extensions, name, { ...getState(), ...state });
         const arg = { ...session, getState, setState };
         const { compose, ...functions } = util.mapValues(ext, func => func(arg));
         if (compose) acc.compose = compose(acc.compose);
