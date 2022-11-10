@@ -391,7 +391,7 @@ Use `compose.stats` to see the total composition duration, and a break down of d
 
 <%- process.env.COMPUTER_HARDWARE %>
 
-<%- await lib.compose(c => lib.renderCode(JSON.stringify(c.stats, null, 4), 'js'), 'examples/gravatar-spa/src/compose.mjs') %>
+<%- await lib.compose(c => lib.renderCode(JSON.stringify(c.extensions.perf, null, 4), 'js'), 'examples/gravatar-spa/src/compose.mjs') %>
 
 ## Advanced example: Agile Avatars
 
