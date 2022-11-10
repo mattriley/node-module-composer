@@ -15,7 +15,8 @@
         "email": "m@ttriley.dev"
     },
     "files": [
-        "src/**/*"
+        "src/**/*",
+        "extensions/*"
     ],
     "main": "src/core/composer.js",
     "scripts": {
