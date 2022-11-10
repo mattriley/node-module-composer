@@ -24,18 +24,7 @@ module.exports = (target, userOptions = {}) => {
 
     const constants = { defaultOptions, userOptions, options, config, target, targetModules };
     const session = { external: { ...state, ...constants }, state, ...constants };
-
-    const { compose, ...functions } = extensions.entries().reduce((acc, [name, ext]) => {
-        const getState = () => state.extensions[name];
-        const setState = s => util.set(state.extensions, name, s);
-
-        const { compose, ...functions } = Object.fromEntries(Object.entries(ext).map(([name, func]) => {
-            return [name, func({ ...session, getState, setState })];
-        }));
-
-        if (compose) acc.compose = compose(acc.compose);
-        return { ...acc, ...functions };
-    }, { compose: Compose(session) });
+    const { compose, ...functions } = extensions.setup(session, Compose(session));
 
     const registerModule = (path, module, deps) => {
         util.set(state.modules, path, module);
