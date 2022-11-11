@@ -22,7 +22,7 @@ module.exports = (target, userOptions = {}) => {
     };
 
     const constants = { defaultOptions, userOptions, options, config, target, targetModules };
-    const session = { external: { ...state, ...constants }, state, ...constants };
+    const session = { external: { ...state, ...constants }, globalThis, state, ...constants };
     const { compose, ...functions } = extensions.setup(session, Compose(session));
 
     const registerModule = (path, module, deps) => {
