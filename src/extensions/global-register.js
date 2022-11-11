@@ -14,12 +14,12 @@ const globalRegister = session => {
     const { compositions = [] } = globalThis;
     const isNode = globalThis.process?.release?.name === 'node';
 
-    const compositionName = [
-        configKeys.map(key => session.config[key]).find(val => !!val),
-        isNode ? readPackageName(globalThis.process.cwd()) : undefined
-    ].find(name => !!name);
+    const inferredCompositionNames = [
+        configKeys.flatMap(key => session.config[key] ?? []),
+        isNode ? readPackageName(globalThis.process.cwd()) : []
+    ].flat();
 
-    compositions.push([compositionName, session.external]);
+    compositions.push([inferredCompositionNames[0], session.external]);
     Object.assign(globalThis, { compositions });
 
 };
