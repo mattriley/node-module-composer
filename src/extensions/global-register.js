@@ -12,7 +12,7 @@ const globalRegister = session => {
 
     const inferredCompositionNames = [
         configKeys.flatMap(key => session.config[key] ?? []),
-        readPackageName()
+        readPackageName() ?? []
     ].flat();
 
     compositions.push([inferredCompositionNames[0], session.external]);

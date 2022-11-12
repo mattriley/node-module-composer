@@ -3,7 +3,7 @@
 export DEV_TASKS="edit | test-watch"
 export TEST_RUNNER="zora"
 
-export COV_STATEMENTS="98"
+export COV_STATEMENTS="100"
 export COV_BRANCHES="98"
-export COV_FUNCTIONS="98"
-export COV_LINES="98"
+export COV_FUNCTIONS="100"
+export COV_LINES="100"
