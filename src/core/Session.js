@@ -3,13 +3,13 @@ const Options = require('./options');
 const extensions = require('./extensions');
 const util = require('./util');
 
-module.exports = (target, userOptions = {}) => {
+module.exports = (target, userOptions = {}, globalThis) => {
 
     if (!util.isPlainObject(target)) throw new Error('target must be a plain object');
 
     const targetModules = util.pickBy(target, util.isPlainObject);
     const defaultOptions = Options();
-    const options = util.merge({}, defaultOptions, userOptions);
+    const options = { ...defaultOptions, ...userOptions };
     const config = util.mergeValues({}, options, options.configOptionKeys);
     const maybeConfig = Object.keys(config).length ? { config } : {};
 
@@ -22,8 +22,8 @@ module.exports = (target, userOptions = {}) => {
     };
 
     const constants = { defaultOptions, userOptions, options, config, target, targetModules };
-    const session = { external: { ...state, ...constants }, globalThis, state, ...constants };
-    const { compose, ...functions } = extensions.setup(session, Compose(session));
+    const session = { external: { ...state, ...constants }, state, ...constants };
+    const { compose, ...functions } = extensions.setup(session, Compose(session), globalThis);
 
     const registerModule = (path, module, deps) => {
         util.set(state.modules, path, module);

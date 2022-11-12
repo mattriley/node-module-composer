@@ -3,25 +3,30 @@ require('module-composer/extensions/global-register');
 
 module.exports = ({ test }) => {
 
-    test('register composition with default name drawn from package.json', t => {
+    test('register composition using name field in package.json', t => {
         const target = { foo: {}, window: {} };
         const { compose } = composer(target);
         compose('foo', { bar: {} });
         const composition = compose.end();
-        const [compositionName, matchedComposition] = globalThis.compositions.find(entry => entry[1] === composition);
-        t.equal(composition, matchedComposition);
-        t.equal(compositionName, 'module-composer');
+        t.deepEqual(globalThis.compositions.at(-1), { 'module-composer': composition });
     });
 
-    test('register named composition', t => {
+    test('composition is unnamed upon failure to read package.json', t => {
+        const globalThis = { process: {} };
+        const target = { foo: {}, window: {} };
+        const { compose } = composer(target, {}, globalThis);
+        compose('foo', { bar: {} });
+        const composition = compose.end();
+        t.deepEqual(globalThis.compositions.at(-1), { 'Unnamed Composition': composition });
+    });
+
+    test('register composition with custom name', t => {
         const target = { foo: {} };
-        const configs = [{ compositionName: 'comp' }];
+        const configs = [{ compositionName: 'custom-name' }];
         const { compose } = composer(target, { configs });
         compose('foo', { bar: {} });
         const composition = compose.end();
-        const [compositionName, matchedComposition] = globalThis.compositions.find(entry => entry[1] === composition);
-        t.equal(composition, matchedComposition);
-        t.equal(compositionName, 'comp');
+        t.equal(globalThis.compositions.at(-1), { 'custom-name': composition });
     });
 
 };

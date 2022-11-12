@@ -10,12 +10,13 @@ const globalRegister = session => {
         catch { } // eslint-disable-line no-empty
     };
 
-    const inferredCompositionNames = [
+    const compositionName = [
         configKeys.flatMap(key => session.config[key] ?? []),
-        readPackageName() ?? []
-    ].flat();
+        readPackageName() ?? [],
+        'Unnamed Composition'
+    ].flat()[0];
 
-    compositions.push([inferredCompositionNames[0], session.external]);
+    compositions.push({ [compositionName]: session.external });
     Object.assign(globalThis, { compositions });
 
 };
