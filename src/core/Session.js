@@ -11,6 +11,7 @@ module.exports = (target, userOptions = {}, globalThis) => {
     const defaultOptions = Options();
     const options = { ...defaultOptions, ...userOptions };
     const config = util.mergeValues({}, options, options.configOptionKeys);
+    util.deepFreeze(config);
     const maybeConfig = Object.keys(config).length ? { config } : {};
 
     const state = {

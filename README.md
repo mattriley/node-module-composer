@@ -1,6 +1,6 @@
 # Module Composer
 
-<p align="right"><code>100% cov</code>&nbsp;<code>231 sloc</code>&nbsp;<code>10 files</code>&nbsp;<code>2 deps</code>&nbsp;<code>14 dev deps</code></p>
+<p align="right"><code>100% cov</code>&nbsp;<code>242 sloc</code>&nbsp;<code>10 files</code>&nbsp;<code>2 deps</code>&nbsp;<code>14 dev deps</code></p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
@@ -463,13 +463,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.17558299750089645,
+    "totalDuration": 0.1740412712097168,
     "modules": {
         "services": {
-            "duration": 0.08929099887609482
+            "duration": 0.08783340454101562
         },
         "components": {
-            "duration": 0.08629199862480164
+            "duration": 0.08620786666870117
         }
     }
 }
@@ -487,6 +487,8 @@ https://agileavatars.com • https://github.com/mattriley/agile-avatars
 import composer from 'module-composer';
 import modules from './modules/index.js';
 import defaultConfig from './default-config.js';
+import 'module-composer/extensions/mermaid.js';
+import 'module-composer/extensions/eject.js';
 const { storage, util } = modules;
 
 export default ({ window, overrides, configs }) => {
@@ -524,48 +526,7 @@ export default ({ window, overrides, configs }) => {
 MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 
 ```js
-{
-    "durationUnit": "ms",
-    "totalDuration": 4.123791001737118,
-    "modules": {
-        "stores": {
-            "duration": 1.2857080027461052
-        },
-        "subscriptions": {
-            "duration": 0.1837499961256981
-        },
-        "core": {
-            "duration": 0.36958400160074234
-        },
-        "io": {
-            "duration": 0.20429200679063797
-        },
-        "services": {
-            "duration": 0.5454170033335686
-        },
-        "ui": {
-            "duration": 0.11504099518060684
-        },
-        "elements": {
-            "duration": 0.15258300304412842
-        },
-        "vendorComponents": {
-            "duration": 0.10062499344348907
-        },
-        "components": {
-            "duration": 0.6811669990420341
-        },
-        "styles": {
-            "duration": 0.1442909985780716
-        },
-        "diagnostics": {
-            "duration": 0.1568330004811287
-        },
-        "startup": {
-            "duration": 0.18450000137090683
-        }
-    }
-}
+An unknown error occurred
 ```
 
 #### Mermaid diagram-as-code generated with `mermaid()`

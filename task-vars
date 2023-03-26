@@ -1,5 +1,6 @@
 #!/bin/bash
 
+export NODE_VERSION="19.7.0"
 export DEV_TASKS="edit | test-watch"
 export TEST_RUNNER="zora"
 

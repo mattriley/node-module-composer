@@ -4,7 +4,8 @@ module.exports = ({ test }) => {
 
     test('default config object', t => {
         const options = { defaultConfig: { a: 1 } };
-        const { compose, config } = composer({}, options);
+        const { compose, config, constants } = composer({}, options);
+        t.equal(config, constants);
         t.equal(config, options.defaultConfig);
         t.isNot(config, options.defaultConfig);
         t.is(config, compose.config);

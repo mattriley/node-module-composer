@@ -1,3 +1,4 @@
+require('module-composer/extensions/mermaid');
 const Session = require('./session');
 const util = require('./util');
 
@@ -22,6 +23,7 @@ module.exports = (target, userOptions = {}, globalThisOverride = globalThis) => 
     };
 
     Object.assign(compose, session.external, { end });
-    return { compose, config: session.external.config };
+
+    return { compose, config: session.external.config, constants: session.external.config };
 
 };
