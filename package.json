@@ -44,7 +44,6 @@
         "node-sloc": "^0.2.1",
         "npm-check-updates": "^16.8.0",
         "task-library": "^0.198.0",
-        "testing": "file:./testing",
         "zora": "^5.2.0",
         "zora-reporters": "^1.4.0"
     },

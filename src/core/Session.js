@@ -11,7 +11,6 @@ module.exports = (target, userOptions = {}, globalThis) => {
     const defaultOptions = Options();
     const options = { ...defaultOptions, ...userOptions };
     const config = util.mergeValues({}, options, options.configOptionKeys);
-    util.deepFreeze(config);
     const maybeConfig = Object.keys(config).length ? { config } : {};
 
     const state = {
@@ -22,8 +21,14 @@ module.exports = (target, userOptions = {}, globalThis) => {
         extensions: {}
     };
 
-    const constants = { defaultOptions, userOptions, options, config, target, targetModules };
-    const session = { external: { ...state, ...constants }, state, ...constants };
+    const constants = util.deepFreeze(config);
+
+    const external = {
+        defaultOptions, userOptions, options,
+        config, constants, target, targetModules
+    }
+
+    const session = { external: { ...state, ...external }, state, ...external };
     const { compose, ...functions } = extensions.setup(session, Compose(session), globalThis);
 
     const registerModule = (path, module, deps) => {
