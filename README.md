@@ -463,13 +463,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.18495798110961914,
+    "totalDuration": 0.17024993896484375,
     "modules": {
         "services": {
-            "duration": 0.09562492370605469
+            "duration": 0.08816671371459961
         },
         "components": {
-            "duration": 0.08933305740356445
+            "duration": 0.08208322525024414
         }
     }
 }
@@ -489,6 +489,7 @@ import modules from './modules/index.js';
 import defaultConfig from './default-config.js';
 import 'module-composer/extensions/mermaid.js';
 import 'module-composer/extensions/eject.js';
+import 'module-composer/extensions/perf.js';
 const { storage, util } = modules;
 
 export default ({ window, overrides, configs }) => {
