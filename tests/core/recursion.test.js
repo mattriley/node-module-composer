@@ -8,7 +8,7 @@ module.exports = ({ test }) => {
                 fun: () => () => 1,
                 modA: {
                     fun1: ({ mod1 }) => () => mod1.fun(),
-                    fun2: ({ modA }) => () => modA.fun1()
+                    fun2: ({ mod1 }) => () => mod1.modA.fun1()
                 }
             }
         };

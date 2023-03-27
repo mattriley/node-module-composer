@@ -11,9 +11,10 @@ module.exports = session => (path, deps, args, opts) => {
         if (!util.isPlainObject(target)) return target;
         const self = {};
         const depsMod = util.set({ self, ...deps }, parentPath, self);
-        const evaluate = (val, key) => util.isPlainFunction(val) ? val(depsMod, args) : recurse(val, key, depsMod, currentDepth + 1);
+        const evaluate = (val, key) => util.isPlainFunction(val) ? val(depsMod, args) : recurse(val, [parentPath, key].join('.'), depsMod, currentDepth + 1);
         return Object.assign(self, util.mapValues(target, evaluate));
     };
+
 
     if (!path) throw new Error('key is required');
     if (!util.has(target, path)) throw new Error(`${path} not found`);
