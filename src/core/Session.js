@@ -26,7 +26,7 @@ module.exports = (target, userOptions = {}, globalThis) => {
     const external = {
         defaultOptions, userOptions, options,
         config, constants, target, targetModules
-    }
+    };
 
     const session = { external: { ...state, ...external }, state, ...external };
     const { compose, ...functions } = extensions.setup(session, Compose(session), globalThis);
