@@ -4,7 +4,6 @@ module.exports = session => (path, deps, args, opts) => {
 
     const { target, options } = session;
     const { depth, privatePrefix, customiser, overrides } = util.merge({}, options, opts);
-    const privatePattern = new RegExp(`^${privatePrefix}`);
 
     const recurse = (target, parentPath, deps, currentDepth = 0) => {
         if (currentDepth === depth) return target;
@@ -24,8 +23,8 @@ module.exports = session => (path, deps, args, opts) => {
     if (!util.isPlainObject(targetModule)) throw new Error(`${path} must be a plain object`);
     if (session.state.composedDependencies[path]) throw new Error(`${path} is already composed`);
 
-    const privatePaths = util.matchPaths(targetModule, privatePattern, depth);
-    const internalPaths = privatePaths.map(path => path.map(str => str.replace(privatePattern, '')));
+    const privatePaths = util.matchPaths(targetModule, privatePrefix, depth);
+    const internalPaths = privatePaths.map(path => path.map(str => str.replace(privatePrefix, '')));
     const internal = util.replacePaths(targetModule, privatePaths, internalPaths);
     const recursed = recurse(internal, path, deps);
     const customised = util.invoke(recursed, customiser, args);

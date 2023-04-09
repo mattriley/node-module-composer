@@ -19,12 +19,12 @@ const isPromise = val => val && typeof val.then == 'function';
 const mergeValues = (target, obj, keys) => merge(target, ...flattenDeep(pickValues(obj, keys)));
 const pickValues = (obj, keys) => Object.values(pick(obj, keys));
 
-const matchPaths = (obj, pattern, depth, currentDepth = 0, currentPath = []) => {
+const matchPaths = (obj, prefix, depth, currentDepth = 0, currentPath = []) => {
     if (currentDepth === depth) return [];
     return Object.entries(obj).flatMap(([key, val]) => {
         const path = [...currentPath, key];
-        if (pattern.test(key)) return [path];
-        return isPlainObject(val) ? matchPaths(val, pattern, depth, currentDepth + 1, path) : [];
+        if (key.startsWith(prefix)) return [path];
+        return isPlainObject(val) ? matchPaths(val, prefix, depth, currentDepth + 1, path) : [];
     });
 };
 
