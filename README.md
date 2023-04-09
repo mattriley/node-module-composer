@@ -1,6 +1,6 @@
 # Module Composer
 
-<p align="right"><code>77.62% cov</code>&nbsp;<code>271 sloc</code>&nbsp;<code>11 files</code>&nbsp;<code>2 deps</code>&nbsp;<code>13 dev deps</code></p>
+<p align="right"><code>77.25% cov</code>&nbsp;<code>273 sloc</code>&nbsp;<code>11 files</code>&nbsp;<code>2 deps</code>&nbsp;<code>13 dev deps</code></p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 

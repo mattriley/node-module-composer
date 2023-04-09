@@ -32,11 +32,14 @@ module.exports = session => (path, deps, args, opts) => {
     ])();
 
 
-    const next = customised => {
-        if (!util.isPlainObject(customised)) throw new Error(`${path}.${customiser} must return a plain object`);
-        const overridden = util.merge(customised, util.get(overrides, path));
-        const external = util.removePaths(overridden, privatePaths);
-        return session.registerModule(path, external, deps);
+    const next = target => {
+        if (!util.isPlainObject(target)) throw new Error(`${path}.${customiser} must return a plain object`);
+
+        return util.flow([
+            target => util.merge(target, util.get(overrides, path)),
+            target => util.removePaths(target, privatePaths),
+            target => session.registerModule(path, target, deps)
+        ])(target);
     };
 
     return util.isPromise(maybePromise) ? maybePromise.then(next) : next(maybePromise);
