@@ -1,6 +1,6 @@
 # Module Composer
 
-<p align="right"><code>75.11% cov</code>&nbsp;<code>260 sloc</code>&nbsp;<code>10 files</code>&nbsp;<code>2 deps</code>&nbsp;<code>13 dev deps</code></p>
+<p align="right"><code>78.03% cov</code>&nbsp;<code>267 sloc</code>&nbsp;<code>11 files</code>&nbsp;<code>2 deps</code>&nbsp;<code>13 dev deps</code></p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
@@ -400,53 +400,18 @@ Extension: `require('module-composer/extensions/eject');`
 
 Module Composer can be _ejected_ by generating the equivalent vanilla JavaScript code. Well, that's the vision anyway! The current implementation has some limitations. Please raise an issue if you'd like to see this developed further.
 
-Take the composition root of the Gravatar SPA example:
+<!-- Take the composition root of the Gravatar SPA example:
 
-###### <p align="right"><a href="https://github.com/mattriley/node-module-composer/blob/undefined/examples/gravatar-spa/src/compose.mjs">examples/gravatar-spa/src/compose.mjs</a></p>
-```mjs
-import composer from 'module-composer';
-import modules from './modules/index.mjs';
-import defaultConfig from './default-config.mjs';
-
-export default ({ overrides } = {}) => {
-    const { compose, config } = composer(modules, { overrides, defaultConfig });
-    const io = { fetch: (...args) => window.fetch(...args) };
-    const { services } = compose('services', { io, config });
-    compose('components', { services });
-    return compose.end();
-};
-```
+%- await lib.renderCode(lib.fetchCode('examples/gravatar-spa/src/compose.mjs'))  
 
 Mermaid digram:
 
-###### <p align="right"><em>Can't see the diagram?</em> <a id="link-4" href="https://github.com/mattriley/node-module-composer#user-content-link-4">View it on GitHub</a></p>
-```mermaid
-graph TD;
-    components-->services;
-    services-->io;
-    services-->config;
-```
+%- await lib.compose(c => lib.renderCode(c.mermaid(), 'mermaid'), 'examples/gravatar-spa/src/compose.mjs') 
 
 Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 
-```js
-(modules, { io, config }) => {
-
-    const services = { ...modules.services };
-    const servicesDependencies = { services, io, config };
-    services.fetchContact = services.fetchContact({ ...servicesDependencies });
-    services.fetchGravatarProfile = services.fetchGravatarProfile({ ...servicesDependencies });
-
-    const components = { ...modules.components };
-    const componentsDependencies = { components, services };
-    components.app = components.app({ ...componentsDependencies });
-    components.contactForm = components.contactForm({ ...componentsDependencies });
-    components.contactView = components.contactView({ ...componentsDependencies });
-
-    return { ...modules, services, components };
-
-};
-```
+%- await lib.compose(c => lib.renderCode(c.eject(), 'js'), 'examples/gravatar-spa/src/compose.mjs') 
+-->
 
 ## Performance
 
@@ -456,24 +421,11 @@ Module Composer is fast. In fact, so fast that it needs to be measured with sub-
 
 Use `compose.stats` to see the total composition duration, and a break down of duration per module.
 
-#### gravatar-spa example stats
+<!-- #### gravatar-spa example stats
 
-MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
+%- process.env.COMPUTER_HARDWARE 
 
-```js
-{
-    "durationUnit": "ms",
-    "totalDuration": 0.1571660041809082,
-    "modules": {
-        "services": {
-            "duration": 0.10741603374481201
-        },
-        "components": {
-            "duration": 0.04974997043609619
-        }
-    }
-}
-```
+%- await lib.compose(c => lib.renderCode(JSON.stringify(c.extensions.perf, null, 4), 'js'), 'examples/gravatar-spa/src/compose.mjs')  -->
 
 ## Advanced example: Agile Avatars
 
@@ -580,7 +532,7 @@ graph TD;
 
 #### Mermaid diagram
 
-###### <p align="right"><em>Can't see the diagram?</em> <a id="link-5" href="https://github.com/mattriley/node-module-composer#user-content-link-5">View it on GitHub</a></p>
+###### <p align="right"><em>Can't see the diagram?</em> <a id="link-4" href="https://github.com/mattriley/node-module-composer#user-content-link-4">View it on GitHub</a></p>
 ```mermaid
 graph TD;
     components-->io;
