@@ -24,17 +24,21 @@ module.exports = session => (path, deps, args, opts) => {
     if (session.state.composedDependencies[path]) throw new Error(`${path} is already composed`);
 
     const { privatePaths, privateView, publicView } = applyAccessModifiers(targetModule, options);
-    const modified = util.merge({}, privateView, publicView);
-    const recursed = recurse(modified, path, deps);
-    const customised = util.invoke(recursed, customiser, args);
+
+    const maybePromise = util.flow([
+        () => util.merge({}, privateView, publicView),
+        target => recurse(target, path, deps),
+        target => util.has(target, customiser) ? util.invoke(target, customiser, args) : target
+    ])();
+
 
     const next = customised => {
-        if (customised && !util.isPlainObject(customised)) throw new Error(`${path}.${customiser} must return a plain object`);
-        const overridden = util.merge(customised ?? recursed, util.get(overrides, path));
+        if (!util.isPlainObject(customised)) throw new Error(`${path}.${customiser} must return a plain object`);
+        const overridden = util.merge(customised, util.get(overrides, path));
         const external = util.removePaths(overridden, privatePaths);
         return session.registerModule(path, external, deps);
     };
 
-    return util.isPromise(customised) ? customised.then(next) : next(customised);
+    return util.isPromise(maybePromise) ? maybePromise.then(next) : next(maybePromise);
 
 };

@@ -13,6 +13,7 @@ const pickBy = require('lodash/pickBy');
 const set = require('lodash/set');
 const upperFirst = require('lodash/upperFirst');
 const unset = require('lodash/unset');
+const flow = require('lodash/flow');
 
 const isPlainFunction = val => isFunction(val) && !val.hasOwnProperty('prototype');
 const isPromise = val => val && typeof val.then == 'function';
@@ -74,5 +75,6 @@ module.exports = {
     removePaths,
     replacePaths,
     set,
-    upperFirst
+    upperFirst,
+    flow
 };
