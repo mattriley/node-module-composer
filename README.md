@@ -1,6 +1,6 @@
 # Module Composer
 
-<p align="right"><code>76.44% cov</code>&nbsp;<code>244 sloc</code>&nbsp;<code>10 files</code>&nbsp;<code>2 deps</code>&nbsp;<code>13 dev deps</code></p>
+<p align="right"><code>75.11% cov</code>&nbsp;<code>260 sloc</code>&nbsp;<code>10 files</code>&nbsp;<code>2 deps</code>&nbsp;<code>13 dev deps</code></p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
@@ -463,13 +463,13 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 0.16962504386901855,
+    "totalDuration": 0.2229170799255371,
     "modules": {
         "services": {
-            "duration": 0.08800005912780762
+            "duration": 0.17279207706451416
         },
         "components": {
-            "duration": 0.08162498474121094
+            "duration": 0.05012500286102295
         }
     }
 }

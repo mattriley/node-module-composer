@@ -19,22 +19,26 @@ const isPromise = val => val && typeof val.then == 'function';
 const mergeValues = (target, obj, keys) => merge(target, ...flattenDeep(pickValues(obj, keys)));
 const pickValues = (obj, keys) => Object.values(pick(obj, keys));
 
-const matchPaths = (obj, prefix, depth, currentDepth = 0, currentPath = []) => {
+const matchPaths = (obj, cb, depth, currentDepth = 0, currentPath = []) => {
     if (currentDepth === depth) return [];
     return Object.entries(obj).flatMap(([key, val]) => {
         const path = [...currentPath, key];
-        if (key.startsWith(prefix)) return [path];
-        return isPlainObject(val) ? matchPaths(val, prefix, depth, currentDepth + 1, path) : [];
+        const res1 = !isPlainObject(val) && cb(key) ? [path] : [];
+        const res2 = isPlainObject(val) ? matchPaths(val, cb, depth, currentDepth + 1, path) : [];
+        return [...res1, ...res2];
     });
 };
 
 const replacePaths = (obj, fromArray, toArray) => {
     const target = cloneDeep(obj);
     fromArray.forEach((from, i) => {
+        const orig = get(obj, from);
         unset(target, from);
-        set(target, toArray[i], get(obj, from));
+        set(target, toArray[i], orig);
     });
-    return target;
+    const pickKeys = toArray.map(arr => arr.join('.'));
+    const res = pick(target, ...pickKeys);
+    return res;
 };
 
 const removePaths = (obj, paths) => {
@@ -65,6 +69,7 @@ module.exports = {
     matchPaths,
     merge,
     mergeValues,
+    pick,
     pickBy,
     removePaths,
     replacePaths,

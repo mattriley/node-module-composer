@@ -57,7 +57,6 @@ module.exports = ({ test }) => {
 `.trim();
 
         const code = compose.eject();
-        // console.warn(code);
         const modules = eval(code)(target, { bar });
         t.equal(code, expectedCode);
         t.equal(modules.foobar.getFoobar(), 'foobar');
