@@ -1,5 +1,6 @@
 const util = require('./util');
 const applyAccessModifiers = require('./apply-access-modifiers');
+const getPrivates = require('./get-privates');
 
 module.exports = session => (path, deps, args, opts) => {
 
@@ -23,13 +24,11 @@ module.exports = session => (path, deps, args, opts) => {
     if (!util.isPlainObject(targetModule)) throw new Error(`${path} must be a plain object`);
     if (session.state.composedDependencies[path]) throw new Error(`${path} is already composed`);
 
-    const { privatePaths, privateView, publicView } = applyAccessModifiers(targetModule, options);
-
     const maybePromise = util.flow([
-        () => util.merge({}, privateView, publicView),
+        target => applyAccessModifiers(target, options),
         target => recurse(target, path, deps),
         target => util.has(target, customiser) ? util.invoke(target, customiser, args) : target
-    ])();
+    ])(targetModule);
 
 
     const next = target => {
@@ -37,7 +36,7 @@ module.exports = session => (path, deps, args, opts) => {
 
         return util.flow([
             target => util.merge(target, util.get(overrides, path)),
-            target => util.removePaths(target, privatePaths),
+            target => util.removePaths(target, getPrivates(targetModule, options)),
             target => session.registerModule(path, target, deps)
         ])(target);
     };

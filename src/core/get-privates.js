@@ -16,11 +16,8 @@ module.exports = (targetModule, options) => {
     const anyPublic = !!markedPublicPaths.length;
     const anyPrivate = !!markedPrivatePaths.length;
 
-    const [publicView] = anyPublic ? getView(publicPrefix, key => key.startsWith(publicPrefix)) : anyPrivate ? getView(privatePrefix, key => !key.startsWith(privatePrefix)) : getView(publicPrefix, () => true);
-    const [privateView] = anyPrivate ? getView(privatePrefix, key => key.startsWith(privatePrefix)) : anyPublic ? getView(publicPrefix, key => !key.startsWith(publicPrefix)) : getView(privatePrefix, () => false);
+    const [, privatePaths] = anyPrivate ? getView(privatePrefix, key => key.startsWith(privatePrefix)) : anyPublic ? getView(publicPrefix, key => !key.startsWith(publicPrefix)) : getView(privatePrefix, () => false);
 
-    // return { privatePaths, privateView, publicView };
-
-    return util.merge({}, privateView, publicView);
+    return privatePaths;
 
 };
