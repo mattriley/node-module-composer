@@ -172,53 +172,6 @@ This pattern opens the possibility of generating `index.js` files. This means th
 
 It should be noted that Module Composer is not dependent on the file-per-function pattern. How you structure the file system is up to you.
 
-## Mermaid diagrams
-
-Extension: `require('module-composer/extensions/mermaid');`
-
-A picture paints a thousand words. There's no better aid for reasoning about software design than a good old-fashioned dependency diagram.
-
-Module Composer supports Mermaid diagrams by generating *Mermaid* diagram-as-code syntax for a given composition.
-
-> Mermaid is a tool for creating diagrams and visualizations using text and code.<br/> https://mermaid-js.github.io • https://github.com/mermaid-js/mermaid
-
-Did you know that GitHub can render diagrams directly from Mermaid syntax?! See [Include diagrams in your Markdown files with Mermaid](https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/) for more information.
-
-Given the following composition:
-
-```js
-import composer from 'module-composer';
-import modules from './modules/index.js';
-
-export default () => {
-    const { compose } = composer(modules);
-    const { stores } = compose('stores');
-    const { services } = compose('services', { stores });
-    compose('components', { services });
-    return compose.end();
-};
-```
-
-Use `compose.mermaid()` to generate the following Mermaid diagram-as-code:
-
-```
-graph TD;
-    components-->services;
-    services-->stores;
-```
-
-Which Mermaid renders as:
-
-```mermaid
-graph TD;
-    components-->services;
-    services-->stores;
-```
-
-Pretty cool, huh?!
-
-For a less contrived example, see [Advanced example: Agile Avatars](#advanced-example-agile-avatars) below.
-
 ## Dependency injection
 
 Module Composer achieves the equivalent of _dependency injection_ using closures (stateful functions).
@@ -361,9 +314,63 @@ Module Composer provides an `overrides` option to override any part of the depen
 
 TODO: Insert overrides example
 
-## Ejecting
+## Extensions
 
-Extension: `require('module-composer/extensions/eject');`
+Module Composer features a number of built-in extensions.
+
+Enabling an extension is a two step process.
+
+Taking the `mermaid` extension as an example:
+
+1. Require or import the extension: `require('module-composer/extensions/mermaid');`
+2. Enable the extension: `const { compose } = composer(modules, { extensions: ['mermaid'] });`
+
+For example outputs, see [Advanced example: Agile Avatars](#advanced-example-agile-avatars) below.
+
+### Generate Mermaid diagrams with the `mermaid` extension
+
+A picture paints a thousand words. There's no better aid for reasoning about software design than a good old-fashioned dependency diagram.
+
+Module Composer supports Mermaid diagrams by generating *Mermaid* diagram-as-code syntax for a given composition.
+
+> Mermaid is a tool for creating diagrams and visualizations using text and code.<br/> https://mermaid-js.github.io • https://github.com/mermaid-js/mermaid
+
+Did you know that GitHub can render diagrams directly from Mermaid syntax?! See [Include diagrams in your Markdown files with Mermaid](https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/) for more information.
+
+Given the following composition:
+
+```js
+import composer from 'module-composer';
+import modules from './modules/index.js';
+
+export default () => {
+    const { compose } = composer(modules);
+    const { stores } = compose('stores');
+    const { services } = compose('services', { stores });
+    compose('components', { services });
+    return compose.end();
+};
+```
+
+Use `compose.mermaid()` to generate the following Mermaid diagram-as-code:
+
+```
+graph TD;
+    components-->services;
+    services-->stores;
+```
+
+Which Mermaid renders as:
+
+```mermaid
+graph TD;
+    components-->services;
+    services-->stores;
+```
+
+Pretty cool, huh?!
+
+### Ejecting (opting out of Module Composer) with the `eject` extension
 
 Module Composer can be _ejected_ by generating the equivalent vanilla JavaScript code. Well, that's the vision anyway! The current implementation has some limitations. Please raise an issue if you'd like to see this developed further.
 
@@ -380,9 +387,7 @@ Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 %- await lib.compose(c => lib.renderCode(c.eject(), 'js'), 'examples/gravatar-spa/src/compose.mjs') %>
 -->
 
-## Performance
-
-Extension: `require('module-composer/extensions/perf');`
+### Meaure performance with the `perf` extensions
 
 Module Composer is fast. In fact, so fast that it needs to be measured with sub-millisecond precision. Performance is measured by default for easy analysis.
 
@@ -403,20 +408,18 @@ https://agileavatars.com • https://github.com/mattriley/agile-avatars
 
 <%- await lib.renderCode(lib.fetchCode('src/compose.js', '../agile-avatars', 'https://github.com/mattriley/agile-avatars/tree/master')) %>
 
-#### Performance measurements captured with `stats`
+#### Performance measurements generated with `perf` extension
 
 <%- process.env.COMPUTER_HARDWARE %>
 
 <%- await lib.compose(c => lib.renderCode(lib.json(c.stats), 'js'), '../agile-avatars/src/compose.js') %>
 
-#### Mermaid diagram-as-code generated with `mermaid()`
-
-<%- await lib.compose(c => lib.renderCode(c.mermaid(), ''), '../agile-avatars/src/compose.js') %>
-
-#### Mermaid diagram
+#### Mermaid diagram generated with `mermaid` extension
 
 <%- await lib.compose(c => lib.renderCode(c.mermaid(), 'mermaid'), '../agile-avatars/src/compose.js') %>
 
-#### Code generated with `eject()`
+<%- await lib.compose(c => lib.renderCode(c.mermaid(), ''), '../agile-avatars/src/compose.js') %>
+
+#### Code generated with `eject` extension
 
 <%- await lib.compose(c => lib.renderCode(c.eject(), 'js'), '../agile-avatars/src/compose.js') %>

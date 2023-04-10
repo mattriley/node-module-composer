@@ -15,14 +15,12 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
 - [How it works](#how-it-works)
 - [Composition root](#composition-root)
 - [File-per-function](#file-per-function)
-- [Mermaid diagrams](#mermaid-diagrams)
 - [Dependency injection](#dependency-injection)
 - [Functional programming](#functional-programming)
 - [Application configuration](#application-configuration)
 - [Fitness functions](#fitness-functions)
 - [Testability](#testability)
-- [Ejecting](#ejecting)
-- [Performance](#performance)
+- [Extensions](#extensions)
 - [Advanced example: Agile Avatars](#advanced-example-agile-avatars)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -202,53 +200,6 @@ This pattern opens the possibility of generating `index.js` files. This means th
 
 It should be noted that Module Composer is not dependent on the file-per-function pattern. How you structure the file system is up to you.
 
-## Mermaid diagrams
-
-Extension: `require('module-composer/extensions/mermaid');`
-
-A picture paints a thousand words. There's no better aid for reasoning about software design than a good old-fashioned dependency diagram.
-
-Module Composer supports Mermaid diagrams by generating *Mermaid* diagram-as-code syntax for a given composition.
-
-> Mermaid is a tool for creating diagrams and visualizations using text and code.<br/> https://mermaid-js.github.io • https://github.com/mermaid-js/mermaid
-
-Did you know that GitHub can render diagrams directly from Mermaid syntax?! See [Include diagrams in your Markdown files with Mermaid](https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/) for more information.
-
-Given the following composition:
-
-```js
-import composer from 'module-composer';
-import modules from './modules/index.js';
-
-export default () => {
-    const { compose } = composer(modules);
-    const { stores } = compose('stores');
-    const { services } = compose('services', { stores });
-    compose('components', { services });
-    return compose.end();
-};
-```
-
-Use `compose.mermaid()` to generate the following Mermaid diagram-as-code:
-
-```
-graph TD;
-    components-->services;
-    services-->stores;
-```
-
-Which Mermaid renders as:
-
-```mermaid
-graph TD;
-    components-->services;
-    services-->stores;
-```
-
-Pretty cool, huh?!
-
-For a less contrived example, see [Advanced example: Agile Avatars](#advanced-example-agile-avatars) below.
-
 ## Dependency injection
 
 Module Composer achieves the equivalent of _dependency injection_ using closures (stateful functions).
@@ -394,9 +345,63 @@ Module Composer provides an `overrides` option to override any part of the depen
 
 TODO: Insert overrides example
 
-## Ejecting
+## Extensions
 
-Extension: `require('module-composer/extensions/eject');`
+Module Composer features a number of built-in extensions.
+
+Enabling an extension is a two step process.
+
+Taking the `mermaid` extension as an example:
+
+1. Require or import the extension: `require('module-composer/extensions/mermaid');`
+2. Enable the extension: `const { compose } = composer(modules, { extensions: ['mermaid'] });`
+
+For example outputs, see [Advanced example: Agile Avatars](#advanced-example-agile-avatars) below.
+
+### Generate Mermaid diagrams with the `mermaid` extension
+
+A picture paints a thousand words. There's no better aid for reasoning about software design than a good old-fashioned dependency diagram.
+
+Module Composer supports Mermaid diagrams by generating *Mermaid* diagram-as-code syntax for a given composition.
+
+> Mermaid is a tool for creating diagrams and visualizations using text and code.<br/> https://mermaid-js.github.io • https://github.com/mermaid-js/mermaid
+
+Did you know that GitHub can render diagrams directly from Mermaid syntax?! See [Include diagrams in your Markdown files with Mermaid](https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/) for more information.
+
+Given the following composition:
+
+```js
+import composer from 'module-composer';
+import modules from './modules/index.js';
+
+export default () => {
+    const { compose } = composer(modules);
+    const { stores } = compose('stores');
+    const { services } = compose('services', { stores });
+    compose('components', { services });
+    return compose.end();
+};
+```
+
+Use `compose.mermaid()` to generate the following Mermaid diagram-as-code:
+
+```
+graph TD;
+    components-->services;
+    services-->stores;
+```
+
+Which Mermaid renders as:
+
+```mermaid
+graph TD;
+    components-->services;
+    services-->stores;
+```
+
+Pretty cool, huh?!
+
+### Ejecting (opting out of Module Composer) with the `eject` extension
 
 Module Composer can be _ejected_ by generating the equivalent vanilla JavaScript code. Well, that's the vision anyway! The current implementation has some limitations. Please raise an issue if you'd like to see this developed further.
 
@@ -413,9 +418,7 @@ Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 %- await lib.compose(c => lib.renderCode(c.eject(), 'js'), 'examples/gravatar-spa/src/compose.mjs') 
 -->
 
-## Performance
-
-Extension: `require('module-composer/extensions/perf');`
+### Meaure performance with the `perf` extensions
 
 Module Composer is fast. In fact, so fast that it needs to be measured with sub-millisecond precision. Performance is measured by default for easy analysis.
 
@@ -474,7 +477,7 @@ export default ({ window, overrides, configs }) => {
 };
 ```
 
-#### Performance measurements captured with `stats`
+#### Performance measurements generated with `perf` extension
 
 MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 
@@ -482,55 +485,7 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 An unknown error occurred
 ```
 
-#### Mermaid diagram-as-code generated with `mermaid()`
-
-```
-graph TD;
-    components-->io;
-    components-->ui;
-    components-->elements;
-    components-->vendorComponents;
-    components-->services;
-    components-->subscriptions;
-    components-->util;
-    components-->config;
-    core-->util;
-    core-->config;
-    diagnostics-->stores;
-    diagnostics-->util;
-    elements-->ui;
-    elements-->util;
-    io-->window;
-    io-->config;
-    services-->subscriptions;
-    services-->stores;
-    services-->core;
-    services-->io;
-    services-->util;
-    services-->config;
-    startup-->ui;
-    startup-->components;
-    startup-->styles;
-    startup-->services;
-    startup-->subscriptions;
-    startup-->stores;
-    startup-->util;
-    startup-->config;
-    startup-->window;
-    stores-->storage;
-    stores-->config;
-    styles-->ui;
-    styles-->subscriptions;
-    styles-->config;
-    subscriptions-->stores;
-    subscriptions-->util;
-    ui-->window;
-    vendorComponents-->ui;
-    vendorComponents-->config;
-    vendorComponents-->window;
-```
-
-#### Mermaid diagram
+#### Mermaid diagram generated with `mermaid` extension
 
 ###### <p align="right"><em>Can't see the diagram?</em> <a id="link-4" href="https://github.com/mattriley/node-module-composer#user-content-link-4">View it on GitHub</a></p>
 ```mermaid
@@ -579,7 +534,53 @@ graph TD;
     vendorComponents-->window;
 ```
 
-#### Code generated with `eject()`
+```
+graph TD;
+    components-->io;
+    components-->ui;
+    components-->elements;
+    components-->vendorComponents;
+    components-->services;
+    components-->subscriptions;
+    components-->util;
+    components-->config;
+    core-->util;
+    core-->config;
+    diagnostics-->stores;
+    diagnostics-->util;
+    elements-->ui;
+    elements-->util;
+    io-->window;
+    io-->config;
+    services-->subscriptions;
+    services-->stores;
+    services-->core;
+    services-->io;
+    services-->util;
+    services-->config;
+    startup-->ui;
+    startup-->components;
+    startup-->styles;
+    startup-->services;
+    startup-->subscriptions;
+    startup-->stores;
+    startup-->util;
+    startup-->config;
+    startup-->window;
+    stores-->storage;
+    stores-->config;
+    styles-->ui;
+    styles-->subscriptions;
+    styles-->config;
+    subscriptions-->stores;
+    subscriptions-->util;
+    ui-->window;
+    vendorComponents-->ui;
+    vendorComponents-->config;
+    vendorComponents-->window;
+```
+
+#### Code generated with `eject` extension
 
 ```js
 (modules, { config, window }) => {
