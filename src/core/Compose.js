@@ -17,16 +17,16 @@ module.exports = session => (path, deps, args, opts) => {
     if (!path) throw new Error('key is required');
     if (!util.has(session.target, path)) throw new Error(`${path} not found`);
 
-    const targetModule = util.get(session.target, path);
+    const target = util.get(session.target, path);
 
-    if (!util.isPlainObject(targetModule)) throw new Error(`${path} must be a plain object`);
+    if (!util.isPlainObject(target)) throw new Error(`${path} must be a plain object`);
     if (session.state.composedDependencies[path]) throw new Error(`${path} is already composed`);
 
     const maybePromise = util.flow([
         ...session.precomposers.map(func => target => func(path, target, options)),
         target => recurse(target, path, deps),
         target => util.has(target, customiser) ? util.invoke(target, customiser, args) : target
-    ])(targetModule);
+    ])(target);
 
 
     const next = target => {
