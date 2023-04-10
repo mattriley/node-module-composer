@@ -10,12 +10,12 @@ const setup = (session, compose, globalThis) => {
         const getState = () => session.state.extensions[name];
         const setState = state => util.set(session.state.extensions, name, { ...getState(), ...state });
         const arg = { ...session, getState, setState, globalThis };
-        const { compose, precustomise, postcustomise, ...functions } = util.mapValues(ext, func => func(arg));
+        const { compose, precompose, postcompose, ...functions } = util.mapValues(ext, func => func(arg));
         if (compose) acc.compose = compose(acc.compose);
-        if (precustomise) acc.precustomisers.push(precustomise);
-        if (postcustomise) acc.postcustomisers.push(postcustomise);
+        if (precompose) acc.precomposers.push(precompose);
+        if (postcompose) acc.postcomposers.push(postcompose);
         return { ...acc, ...functions };
-    }, { compose, precustomisers: [], postcustomisers: [] });
+    }, { compose, precomposers: [], postcomposers: [] });
 };
 
 
