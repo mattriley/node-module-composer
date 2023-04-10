@@ -1,4 +1,3 @@
-require('module-composer/extensions/mermaid');
 const Session = require('./session');
 const util = require('./util');
 
