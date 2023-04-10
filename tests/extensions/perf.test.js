@@ -5,7 +5,7 @@ module.exports = ({ test }) => {
 
     test('perf', t => {
         const target = { foo: {} };
-        const { compose } = composer(target);
+        const { compose } = composer(target, { extensions: ['perf'] });
         compose('foo', { bar: {} });
         const { perf } = compose.extensions;
         t.equal(perf.durationUnit, 'ms');

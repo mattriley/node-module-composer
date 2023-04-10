@@ -29,7 +29,7 @@ module.exports = ({ test }) => {
             }
         };
 
-        const { compose } = composer(target);
+        const { compose } = composer(target, { extensions: ['eject'] });
         const { foo } = compose('foo');
         compose('foobar', { foo, bar });
         compose('nestedTarget.nestedFoo');

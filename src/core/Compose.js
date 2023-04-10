@@ -1,6 +1,4 @@
 const util = require('./util');
-const applyAccessModifiers = require('./apply-access-modifiers');
-const getPrivates = require('./get-privates');
 
 module.exports = session => (path, deps, args, opts) => {
 
@@ -25,7 +23,7 @@ module.exports = session => (path, deps, args, opts) => {
     if (session.state.composedDependencies[path]) throw new Error(`${path} is already composed`);
 
     const maybePromise = util.flow([
-        target => applyAccessModifiers(target, options),
+        ...session.precustomisers.map(func => target => func(path, target, options)),
         target => recurse(target, path, deps),
         target => util.has(target, customiser) ? util.invoke(target, customiser, args) : target
     ])(targetModule);
@@ -36,7 +34,7 @@ module.exports = session => (path, deps, args, opts) => {
 
         return util.flow([
             target => util.merge(target, util.get(overrides, path)),
-            target => util.removePaths(target, getPrivates(targetModule, options)),
+            ...session.postcustomisers.map(func => target => func(path, target, options)),
             target => session.registerModule(path, target, deps)
         ])(target);
     };

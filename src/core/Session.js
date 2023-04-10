@@ -29,7 +29,7 @@ module.exports = (target, userOptions = {}, globalThis) => {
     };
 
     const session = { external: { ...state, ...external }, state, ...external };
-    const { compose, ...functions } = extensions.setup(session, Compose(session), globalThis);
+    const { compose, precustomisers, postcustomisers, ...functions } = extensions.setup(session, Compose(session), globalThis);
 
     const registerModule = (path, module, deps) => {
         util.set(state.modules, path, module);
@@ -39,6 +39,6 @@ module.exports = (target, userOptions = {}, globalThis) => {
     };
 
     Object.assign(session.external, functions);
-    return Object.assign(session, { compose, registerModule });
+    return Object.assign(session, { compose, registerModule, precustomisers, postcustomisers });
 
 }; 
