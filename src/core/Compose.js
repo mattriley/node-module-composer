@@ -30,7 +30,7 @@ module.exports = session => (path, deps, args, opts) => {
 
 
     const next = target => {
-        if (!util.isPlainObject(target)) throw new Error(`${path}.${customiser} must return a plain object`);
+        if (customiser && !util.isPlainObject(target)) throw new Error(`${path}.${customiser} must return a plain object`);
 
         return util.flow([
             target => util.merge(target, util.get(overrides, path)),
