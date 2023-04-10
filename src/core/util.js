@@ -38,8 +38,7 @@ const replacePaths = (obj, fromArray, toArray) => {
         set(target, toArray[i], orig);
     });
     const pickKeys = toArray.map(arr => arr.join('.'));
-    const res = pick(target, ...pickKeys);
-    return res;
+    return pick(target, ...pickKeys);
 };
 
 const removePaths = (obj, paths) => {
