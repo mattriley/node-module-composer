@@ -1,10 +1,11 @@
 const util = require('./util');
 
-const state = { extensions: {} };
-const register = (name, extension) => Object.assign(state.extensions, { [name]: extension });
+const stateContainer = globalThis;
+if (!stateContainer.extensions) stateContainer.extensions = {};
+const register = (name, extension) => Object.assign(stateContainer.extensions, { [name]: extension });
 
 const listEnabled = session => {
-    const loaded = Object.keys(state.extensions);
+    const loaded = Object.keys(stateContainer.extensions);
     if (session.options.extensions === false) return [];
     if (session.options.extensions === true) return loaded;
     if (!session.options.extensions) return loaded;
@@ -14,7 +15,7 @@ const listEnabled = session => {
 
 const setup = (session, compose, globalThis) => {
     return listEnabled(session).reduce((acc, name) => {
-        const ext = state.extensions[name];
+        const ext = stateContainer.extensions[name];
         const getState = () => session.state.extensions[name];
         const setState = state => util.set(session.state.extensions, name, { ...getState(), ...state });
         const arg = { ...session, getState, setState, globalThis };
