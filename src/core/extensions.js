@@ -4,9 +4,10 @@ const state = { extensions: {} };
 const register = (name, extension) => Object.assign(state.extensions, { [name]: extension });
 
 const setup = (session, compose, globalThis) => {
-    return Object.entries(state.extensions).reduce((acc, [name, ext]) => {
-        const disabled = session.options.extensions === false || Array.isArray(session.options.extensions) && !session.options.extensions.includes(name);
-        if (disabled) return acc;
+    const loaded = Object.keys(state.extensions);
+    const enabled = session.options.extensions === false ? [] : !session.options.extensions ? loaded : loaded.filter(ext => session.options.extensions.includes(ext));
+    return enabled.reduce((acc, name) => {
+        const ext = state.extensions[name];
         const getState = () => session.state.extensions[name];
         const setState = state => util.set(session.state.extensions, name, { ...getState(), ...state });
         const arg = { ...session, getState, setState, globalThis };
