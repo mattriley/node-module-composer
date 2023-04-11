@@ -5,7 +5,7 @@ const register = (name, extension) => Object.assign(state.extensions, { [name]: 
 
 const setup = (session, compose, globalThis) => {
     return Object.entries(state.extensions).reduce((acc, [name, ext]) => {
-        const disabled = session.options.extensions === false || !session.options.extensions.includes(name);
+        const disabled = session.options.extensions === false || Array.isArray(session.options.extensions) && !session.options.extensions.includes(name);
         if (disabled) return acc;
         const getState = () => session.state.extensions[name];
         const setState = state => util.set(session.state.extensions, name, { ...getState(), ...state });
@@ -17,7 +17,5 @@ const setup = (session, compose, globalThis) => {
         return { ...acc, ...functions };
     }, { compose, precomposers: [], postcomposers: [] });
 };
-
-
 
 module.exports = { register, setup };
