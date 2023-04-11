@@ -43,7 +43,7 @@
         "module-indexgen": "^0.27.0",
         "node-sloc": "^0.2.1",
         "npm-check-updates": "^16.10.8",
-        "task-library": "^0.205.0",
+        "task-library": "^0.206.0",
         "zora": "^5.2.0",
         "zora-reporters": "^1.4.0"
     },
