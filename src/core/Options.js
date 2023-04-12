@@ -6,6 +6,7 @@ module.exports = () => {
         privatePrefix: '_',
         configOptionKeys: ['defaultConfig', 'config', 'configs'],
         overrides: {},
-        extensions: true
+        extensions: true,
+        extensionsConfig: {}
     };
 };

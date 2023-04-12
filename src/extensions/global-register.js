@@ -1,12 +1,12 @@
 const configKeys = ['compositionName', 'appName', 'displayName', 'packageName'];
 
-const globalRegister = session => {
+const globalRegister = (session, config = {}) => {
 
-    const { globalThis } = session;
+    if (!config.globalThis) config.globalThis = globalThis;
     const { compositions = [] } = globalThis;
 
     const readPackageName = () => {
-        try { return require(`${globalThis.process.cwd()}/package.json`).name; }
+        try { return require(`${config.globalThis.process.cwd()}/package.json`).name; }
         catch { } // eslint-disable-line no-empty
     };
 
@@ -17,7 +17,7 @@ const globalRegister = session => {
     ].flat()[0];
 
     compositions.push({ [compositionName]: session.external });
-    Object.assign(globalThis, { compositions });
+    Object.assign(config.globalThis, { compositions });
 
 };
 
