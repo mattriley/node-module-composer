@@ -1,9 +1,9 @@
 const Session = require('./session');
 const util = require('./util');
 
-module.exports = (target, userOptions = {}, globalThisOverride = globalThis) => {
+module.exports = (target, userOptions = {}) => {
 
-    const session = Session(target, userOptions, globalThisOverride);
+    const session = Session(target, userOptions);
 
     const end = () => {
         if (session.state.ended) throw new Error('Composition has already ended');

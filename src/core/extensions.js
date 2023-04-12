@@ -13,12 +13,12 @@ const listEnabled = session => {
     throw new Error('Failed to interpret extensions');
 };
 
-const setup = (session, compose, globalThis) => {
+const setup = (session, compose) => {
     return listEnabled(session).reduce((acc, name) => {
         const ext = stateContainer.extensions[name];
         const getState = () => session.state.extensions[name];
         const setState = state => util.set(session.state.extensions, name, { ...getState(), ...state });
-        const arg = { ...session, getState, setState, globalThis };
+        const arg = { ...session, getState, setState };
         const config = session.options.extensionsConfig[name];
         const { compose, precompose, postcompose, ...functions } = util.mapValues(ext, func => func(arg, config));
         if (compose) acc.compose = compose(acc.compose);

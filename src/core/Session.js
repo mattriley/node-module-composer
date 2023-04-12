@@ -3,7 +3,7 @@ const Options = require('./options');
 const extensions = require('./extensions');
 const util = require('./util');
 
-module.exports = (target, userOptions = {}, globalThis) => {
+module.exports = (target, userOptions = {}) => {
 
     if (!util.isPlainObject(target)) throw new Error('target must be a plain object');
 
@@ -29,7 +29,7 @@ module.exports = (target, userOptions = {}, globalThis) => {
     };
 
     const session = { external: { ...state, ...external }, state, ...external };
-    const { compose, precomposers, postcomposers, ...functions } = extensions.setup(session, Compose(session), globalThis);
+    const { compose, precomposers, postcomposers, ...functions } = extensions.setup(session, Compose(session));
 
     const registerModule = (path, module, deps) => {
         util.set(state.modules, path, module);

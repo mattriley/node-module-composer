@@ -3,14 +3,6 @@ require('module-composer/extensions/global-register');
 
 module.exports = ({ test }) => {
 
-    // test('register composition using name field in package.json', t => {
-    //     const target = { foo: {}, window: {} };
-    //     const { compose } = composer(target, { extensions: ['global-register'] });
-    //     compose('foo', { bar: {} });
-    //     const composition = compose.end();
-    //     t.deepEqual(globalThis.compositions.at(-1), { 'module-composer': composition });
-    // });
-
     test('register composition using name field in package.json', t => {
         const target = { foo: {}, window: {} };
         const options = { extensions: ['global-register'], extensionsConfig: { 'global-register': { globalThis } } };

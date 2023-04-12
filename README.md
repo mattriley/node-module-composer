@@ -480,43 +480,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 3.0845837593078613,
+    "totalDuration": 3.097583055496216,
     "modules": {
         "stores": {
-            "duration": 0.5510408878326416
+            "duration": 0.5403749942779541
         },
         "subscriptions": {
-            "duration": 0.13395798206329346
+            "duration": 0.17416703701019287
         },
         "core": {
-            "duration": 0.41337502002716064
+            "duration": 0.42854201793670654
         },
         "io": {
-            "duration": 0.16470909118652344
+            "duration": 0.1650409698486328
         },
         "services": {
-            "duration": 0.45579099655151367
+            "duration": 0.45183300971984863
         },
         "ui": {
-            "duration": 0.10716688632965088
+            "duration": 0.10854208469390869
         },
         "elements": {
-            "duration": 0.14504194259643555
+            "duration": 0.1389169692993164
         },
         "vendorComponents": {
-            "duration": 0.07474994659423828
+            "duration": 0.07400000095367432
         },
         "components": {
-            "duration": 0.641334056854248
+            "duration": 0.6106250286102295
         },
         "styles": {
-            "duration": 0.12574994564056396
+            "duration": 0.12791597843170166
         },
         "diagnostics": {
-            "duration": 0.11816704273223877
+            "duration": 0.11958396434783936
         },
         "startup": {
-            "duration": 0.15349996089935303
+            "duration": 0.15804100036621094
         }
     }
 }
