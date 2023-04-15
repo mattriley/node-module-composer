@@ -1,6 +1,6 @@
 # Module Composer
 
-<p align="right"><code>297 sloc</code>&nbsp;<code>11 files</code>&nbsp;<code>2 deps</code>&nbsp;<code>13 dev deps</code></p>
+<p align="right"><code>96.96% cov</code>&nbsp;<code>284 sloc</code>&nbsp;<code>11 files</code>&nbsp;<code>3 deps</code>&nbsp;<code>13 dev deps</code></p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
@@ -349,14 +349,9 @@ TODO: Insert overrides example
 
 Module Composer features a number of built-in extensions.
 
-Enabling an extension is a two step process.
+Enabling an extension is as simple as importing it from `module-composer/extensions`.
 
-Taking the `mermaid` extension as an example:
-
-1. Require or import the extension: `require('module-composer/extensions/mermaid');`
-2. Enable the extension: `const { compose } = composer(modules, { extensions: ['mermaid'] });`
-
-For example outputs, see [Advanced example: Agile Avatars](#advanced-example-agile-avatars) below.
+Taking the `mermaid` extension as an example: `require('module-composer/extensions/mermaid');`
 
 ### Generate Mermaid diagrams with the `mermaid` extension
 
@@ -442,15 +437,11 @@ https://agileavatars.com • https://github.com/mattriley/agile-avatars
 import composer from 'module-composer';
 import modules from './modules/index.js';
 import defaultConfig from './default-config.js';
-import 'module-composer/extensions/mermaid.js';
-import 'module-composer/extensions/eject.js';
-import 'module-composer/extensions/perf.js';
 const { storage, util } = modules;
 
-export default ({ window, overrides, configs }) => {
+export default ({ window, ...options }) => {
 
-    const options = { overrides, defaultConfig, configs };
-    const { compose, config } = composer({ window, ...modules }, options);
+    const { compose, config } = composer({ window, ...modules }, { defaultConfig, ...options });
 
     // Data
     const { stores } = compose('stores', { storage, config });
@@ -479,48 +470,48 @@ export default ({ window, overrides, configs }) => {
 
 #### Performance measurements generated with `perf` extension
 
-
+MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 3.5344609916210175,
+    "totalDuration": 3.026583671569824,
     "modules": {
         "stores": {
-            "duration": 1.0694999992847443
+            "duration": 0.5311670303344727
         },
         "subscriptions": {
-            "duration": 0.18512499332427979
+            "duration": 0.13470792770385742
         },
         "core": {
-            "duration": 0.33833298087120056
+            "duration": 0.4096670150756836
         },
         "io": {
-            "duration": 0.16999998688697815
+            "duration": 0.16112494468688965
         },
         "services": {
-            "duration": 0.49549999833106995
+            "duration": 0.4542078971862793
         },
         "ui": {
-            "duration": 0.11416700482368469
+            "duration": 0.1104578971862793
         },
         "elements": {
-            "duration": 0.14320901036262512
+            "duration": 0.14287495613098145
         },
         "vendorComponents": {
-            "duration": 0.07625001668930054
+            "duration": 0.0759580135345459
         },
         "components": {
-            "duration": 0.5806669890880585
+            "duration": 0.6055841445922852
         },
         "styles": {
-            "duration": 0.17408400774002075
+            "duration": 0.12429189682006836
         },
         "diagnostics": {
-            "duration": 0.07895898818969727
+            "duration": 0.12166714668273926
         },
         "startup": {
-            "duration": 0.10866701602935791
+            "duration": 0.1548748016357422
         }
     }
 }

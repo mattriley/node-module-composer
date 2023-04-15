@@ -318,14 +318,9 @@ TODO: Insert overrides example
 
 Module Composer features a number of built-in extensions.
 
-Enabling an extension is a two step process.
+Enabling an extension is as simple as importing it from `module-composer/extensions`.
 
-Taking the `mermaid` extension as an example:
-
-1. Require or import the extension: `require('module-composer/extensions/mermaid');`
-2. Enable the extension: `const { compose } = composer(modules, { extensions: ['mermaid'] });`
-
-For example outputs, see [Advanced example: Agile Avatars](#advanced-example-agile-avatars) below.
+Taking the `mermaid` extension as an example: `require('module-composer/extensions/mermaid');`
 
 ### Generate Mermaid diagrams with the `mermaid` extension
 
