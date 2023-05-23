@@ -439,10 +439,10 @@ import modules from './modules/index.js';
 import defaultConfig from './default-config.js';
 const { storage, util } = modules;
 
-export default ({ window, configs = [], overrides }) => {
+export default ({ window, configs, overrides }) => {
 
     const { configure } = composer({ window, ...modules }, { overrides });
-    const { compose, config } = configure(defaultConfig, ...configs);
+    const { compose, config } = configure(defaultConfig, configs);
 
     // Data
     const { stores } = compose('stores', { storage, config });
@@ -476,43 +476,43 @@ export default ({ window, configs = [], overrides }) => {
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 3.115039974451065,
+    "totalDuration": 3.4444591104984283,
     "modules": {
         "stores": {
-            "duration": 0.514833003282547
+            "duration": 0.4722500145435333
         },
         "subscriptions": {
-            "duration": 0.12558400630950928
+            "duration": 0.12241700291633606
         },
         "core": {
-            "duration": 0.49720799922943115
+            "duration": 0.9301249980926514
         },
         "io": {
-            "duration": 0.1579590141773224
+            "duration": 0.15291699767112732
         },
         "services": {
-            "duration": 0.4317079782485962
+            "duration": 0.4077080190181732
         },
         "ui": {
-            "duration": 0.10816600918769836
+            "duration": 0.16429200768470764
         },
         "elements": {
-            "duration": 0.14879098534584045
+            "duration": 0.14383402466773987
         },
         "vendorComponents": {
-            "duration": 0.07324999570846558
+            "duration": 0.07395800948143005
         },
         "components": {
-            "duration": 0.6378329992294312
+            "duration": 0.6229999959468842
         },
         "styles": {
-            "duration": 0.13137498497962952
+            "duration": 0.12770801782608032
         },
         "diagnostics": {
-            "duration": 0.13545799255371094
+            "duration": 0.1222500205039978
         },
         "startup": {
-            "duration": 0.15287500619888306
+            "duration": 0.10400000214576721
         }
     }
 }
