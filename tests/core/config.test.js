@@ -1,4 +1,5 @@
-const composer = require('module-composer');
+// const composer = require('module-composer');
+const composer = require('../../src/core/composer');
 
 module.exports = ({ test }) => {
 
@@ -14,6 +15,15 @@ module.exports = ({ test }) => {
     test('single config object', t => {
         const options = { config: { a: 1 } };
         const { compose, config } = composer({}, options);
+        t.equal(config, options.config);
+        t.isNot(config, options.config);
+        t.is(config, compose.config);
+    });
+
+    test('single config object 2', t => {
+        const options = { config: { a: 1 } };
+        const { configure } = composer({});
+        const { compose, config } = configure(options.config);
         t.equal(config, options.config);
         t.isNot(config, options.config);
         t.is(config, compose.config);

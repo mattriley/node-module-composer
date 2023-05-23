@@ -3,7 +3,7 @@ const util = require('./util');
 
 module.exports = (target, userOptions = {}) => {
 
-    const session = Session(target, userOptions);
+    let session = Session(target, userOptions);
 
     const end = () => {
         if (session.state.ended) throw new Error('Composition has already ended');
@@ -23,6 +23,18 @@ module.exports = (target, userOptions = {}) => {
 
     Object.assign(compose, session.external, { end });
 
-    return { compose, config: session.external.config, constants: session.external.config };
+    // TODO: refactor
+    const configure = (...configs) => {
+        const config = configs.reduce((acc, x) => {
+            const config = typeof x === 'function' ? x(acc) : x;
+            return util.merge(acc, config);
+        }, {});
+
+        session = Session(target, { ...userOptions, config });
+        Object.assign(compose, session.external, { end });
+        return { compose, config: session.external.config, constants: session.external.config };
+    };
+
+    return { compose, configure, config: session.external.config, constants: session.external.config };
 
 };

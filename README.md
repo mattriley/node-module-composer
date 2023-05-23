@@ -1,6 +1,6 @@
 # Module Composer
 
-<p align="right"><code>96.96% cov</code>&nbsp;<code>284 sloc</code>&nbsp;<code>11 files</code>&nbsp;<code>3 deps</code>&nbsp;<code>13 dev deps</code></p>
+<p align="right"><code>44.44% cov</code>&nbsp;<code>293 sloc</code>&nbsp;<code>11 files</code>&nbsp;<code>3 deps</code>&nbsp;<code>13 dev deps</code></p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
@@ -437,11 +437,15 @@ https://agileavatars.com • https://github.com/mattriley/agile-avatars
 import composer from 'module-composer';
 import modules from './modules/index.js';
 import defaultConfig from './default-config.js';
+import 'module-composer/extensions/mermaid.js';
+import 'module-composer/extensions/eject.js';
+import 'module-composer/extensions/perf.js';
 const { storage, util } = modules;
 
-export default ({ window, ...options }) => {
+export default ({ window, overrides, configs }) => {
 
-    const { compose, config } = composer({ window, ...modules }, { defaultConfig, ...options });
+    const options = { overrides, defaultConfig, configs };
+    const { compose, config } = composer({ window, ...modules }, options);
 
     // Data
     const { stores } = compose('stores', { storage, config });
@@ -470,48 +474,48 @@ export default ({ window, ...options }) => {
 
 #### Performance measurements generated with `perf` extension
 
-MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
+
 
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 3.2304158210754395,
+    "totalDuration": 3.584333047270775,
     "modules": {
         "stores": {
-            "duration": 0.5814580917358398
+            "duration": 0.6604170054197311
         },
         "subscriptions": {
-            "duration": 0.13170790672302246
+            "duration": 0.6096249967813492
         },
         "core": {
-            "duration": 0.4384169578552246
+            "duration": 0.36820799112319946
         },
         "io": {
-            "duration": 0.1803748607635498
+            "duration": 0.17145800590515137
         },
         "services": {
-            "duration": 0.4811251163482666
+            "duration": 0.5142500102519989
         },
         "ui": {
-            "duration": 0.11724996566772461
+            "duration": 0.11070801317691803
         },
         "elements": {
-            "duration": 0.15212512016296387
+            "duration": 0.1375420093536377
         },
         "vendorComponents": {
-            "duration": 0.07899999618530273
+            "duration": 0.0764160007238388
         },
         "components": {
-            "duration": 0.6336250305175781
+            "duration": 0.5822920054197311
         },
         "styles": {
-            "duration": 0.1364579200744629
+            "duration": 0.17487499117851257
         },
         "diagnostics": {
-            "duration": 0.12749981880187988
+            "duration": 0.0762920081615448
         },
         "startup": {
-            "duration": 0.17137503623962402
+            "duration": 0.10225000977516174
         }
     }
 }
