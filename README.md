@@ -1,6 +1,6 @@
 # Module Composer
 
-<p align="right"><code>44.44% cov</code>&nbsp;<code>293 sloc</code>&nbsp;<code>11 files</code>&nbsp;<code>3 deps</code>&nbsp;<code>13 dev deps</code></p>
+<p align="right"><code>44.44% cov</code>&nbsp;<code>294 sloc</code>&nbsp;<code>11 files</code>&nbsp;<code>3 deps</code>&nbsp;<code>13 dev deps</code></p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
@@ -437,15 +437,12 @@ https://agileavatars.com • https://github.com/mattriley/agile-avatars
 import composer from 'module-composer';
 import modules from './modules/index.js';
 import defaultConfig from './default-config.js';
-import 'module-composer/extensions/mermaid.js';
-import 'module-composer/extensions/eject.js';
-import 'module-composer/extensions/perf.js';
 const { storage, util } = modules;
 
-export default ({ window, overrides, configs }) => {
+export default ({ window, configs = [], overrides }) => {
 
-    const options = { overrides, defaultConfig, configs };
-    const { compose, config } = composer({ window, ...modules }, options);
+    const { configure } = composer({ window, ...modules }, { overrides });
+    const { compose, config } = configure(defaultConfig, ...configs);
 
     // Data
     const { stores } = compose('stores', { storage, config });
@@ -479,43 +476,43 @@ export default ({ window, overrides, configs }) => {
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 3.584333047270775,
+    "totalDuration": 3.115039974451065,
     "modules": {
         "stores": {
-            "duration": 0.6604170054197311
+            "duration": 0.514833003282547
         },
         "subscriptions": {
-            "duration": 0.6096249967813492
+            "duration": 0.12558400630950928
         },
         "core": {
-            "duration": 0.36820799112319946
+            "duration": 0.49720799922943115
         },
         "io": {
-            "duration": 0.17145800590515137
+            "duration": 0.1579590141773224
         },
         "services": {
-            "duration": 0.5142500102519989
+            "duration": 0.4317079782485962
         },
         "ui": {
-            "duration": 0.11070801317691803
+            "duration": 0.10816600918769836
         },
         "elements": {
-            "duration": 0.1375420093536377
+            "duration": 0.14879098534584045
         },
         "vendorComponents": {
-            "duration": 0.0764160007238388
+            "duration": 0.07324999570846558
         },
         "components": {
-            "duration": 0.5822920054197311
+            "duration": 0.6378329992294312
         },
         "styles": {
-            "duration": 0.17487499117851257
+            "duration": 0.13137498497962952
         },
         "diagnostics": {
-            "duration": 0.0762920081615448
+            "duration": 0.13545799255371094
         },
         "startup": {
-            "duration": 0.10225000977516174
+            "duration": 0.15287500619888306
         }
     }
 }

@@ -25,7 +25,8 @@ module.exports = (target, userOptions = {}) => {
 
     // TODO: refactor
     const configure = (...configs) => {
-        const config = configs.reduce((acc, x) => {
+        const flatConfigs = configs.flatMap(c => Array.isArray(c) ? c : [c]);
+        const config = flatConfigs.reduce((acc, x) => {
             const config = typeof x === 'function' ? x(acc) : x;
             return util.merge(acc, config);
         }, {});
