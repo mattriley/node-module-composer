@@ -19,7 +19,7 @@ module.exports = (target, constants = {}, userOptions = {}) => {
         extensions: {}
     };
 
-    const external = { defaultOptions, userOptions, options, target, targetModules, constants, config: {} };
+    const external = { defaultOptions, userOptions, options, target, targetModules, constants };
     const session = { external: { ...state, ...external }, state, ...external };
     const { compose, precomposers, postcomposers, ...functions } = extensions.setup(session, Compose(session));
 

@@ -1,6 +1,6 @@
 # Module Composer
 
-<p align="right"><code>39.28% cov</code>&nbsp;<code>291 sloc</code>&nbsp;<code>11 files</code>&nbsp;<code>3 deps</code>&nbsp;<code>13 dev deps</code></p>
+<p align="right"><code>39.28% cov</code>&nbsp;<code>293 sloc</code>&nbsp;<code>12 files</code>&nbsp;<code>3 deps</code>&nbsp;<code>13 dev deps</code></p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
@@ -442,27 +442,27 @@ const { storage, util } = modules;
 export default ({ window, configs, overrides }) => {
 
     const { configure } = composer({ window, ...modules }, { overrides });
-    const { compose, config } = configure(defaultConfig, configs);
+    const { compose, constants } = configure(defaultConfig, configs);
 
     // Data
-    const { stores } = compose('stores', { storage, config });
+    const { stores } = compose('stores', { storage, constants });
     const { subscriptions } = compose('subscriptions', { stores, util });
 
     // Domain
-    const { core } = compose.deep('core', { util, config });
-    const { io } = compose('io', { window, config });
-    const { services } = compose.deep('services', { subscriptions, stores, core, io, util, config });
+    const { core } = compose.deep('core', { util, constants });
+    const { io } = compose('io', { window, constants });
+    const { services } = compose.deep('services', { subscriptions, stores, core, io, util, constants });
 
     // Presentation
     const { ui } = compose('ui', { window });
     const { elements } = compose('elements', { ui, util });
-    const { vendorComponents } = compose('vendorComponents', { ui, config, window });
-    const { components } = compose.deep('components', { io, ui, elements, vendorComponents, services, subscriptions, util, config });
-    const { styles } = compose('styles', { ui, subscriptions, config });
+    const { vendorComponents } = compose('vendorComponents', { ui, constants, window });
+    const { components } = compose.deep('components', { io, ui, elements, vendorComponents, services, subscriptions, util, constants });
+    const { styles } = compose('styles', { ui, subscriptions, constants });
 
     // Startup    
     compose('diagnostics', { stores, util });
-    compose('startup', { ui, components, styles, services, subscriptions, stores, util, config, window });
+    compose('startup', { ui, components, styles, services, subscriptions, stores, util, constants, window });
 
     return compose.end();
 
@@ -476,43 +476,43 @@ export default ({ window, configs, overrides }) => {
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 3.0792510509490967,
+    "totalDuration": 2.5410829186439514,
     "modules": {
         "stores": {
-            "duration": 0.4661250114440918
+            "duration": 0.47987502813339233
         },
         "subscriptions": {
-            "duration": 0.12504199147224426
+            "duration": 0.14545798301696777
         },
         "core": {
-            "duration": 0.4790840148925781
+            "duration": 0.38099998235702515
         },
         "io": {
-            "duration": 0.15183299779891968
+            "duration": 0.10733300447463989
         },
         "services": {
-            "duration": 0.4211670160293579
+            "duration": 0.40641701221466064
         },
         "ui": {
-            "duration": 0.10895800590515137
+            "duration": 0.06241697072982788
         },
         "elements": {
-            "duration": 0.15458300709724426
+            "duration": 0.09787499904632568
         },
         "vendorComponents": {
-            "duration": 0.08491700887680054
+            "duration": 0.028416991233825684
         },
         "components": {
-            "duration": 0.6753329932689667
+            "duration": 0.5636249780654907
         },
         "styles": {
-            "duration": 0.12195900082588196
+            "duration": 0.07170796394348145
         },
         "diagnostics": {
-            "duration": 0.13445797562599182
+            "duration": 0.09333300590515137
         },
         "startup": {
-            "duration": 0.1557920277118683
+            "duration": 0.10362499952316284
         }
     }
 }
@@ -530,21 +530,21 @@ graph TD;
     components-->services;
     components-->subscriptions;
     components-->util;
-    components-->config;
+    components-->constants;
     core-->util;
-    core-->config;
+    core-->constants;
     diagnostics-->stores;
     diagnostics-->util;
     elements-->ui;
     elements-->util;
     io-->window;
-    io-->config;
+    io-->constants;
     services-->subscriptions;
     services-->stores;
     services-->core;
     services-->io;
     services-->util;
-    services-->config;
+    services-->constants;
     startup-->ui;
     startup-->components;
     startup-->styles;
@@ -552,18 +552,18 @@ graph TD;
     startup-->subscriptions;
     startup-->stores;
     startup-->util;
-    startup-->config;
+    startup-->constants;
     startup-->window;
     stores-->storage;
-    stores-->config;
+    stores-->constants;
     styles-->ui;
     styles-->subscriptions;
-    styles-->config;
+    styles-->constants;
     subscriptions-->stores;
     subscriptions-->util;
     ui-->window;
     vendorComponents-->ui;
-    vendorComponents-->config;
+    vendorComponents-->constants;
     vendorComponents-->window;
 ```
 
@@ -576,21 +576,21 @@ graph TD;
     components-->services;
     components-->subscriptions;
     components-->util;
-    components-->config;
+    components-->constants;
     core-->util;
-    core-->config;
+    core-->constants;
     diagnostics-->stores;
     diagnostics-->util;
     elements-->ui;
     elements-->util;
     io-->window;
-    io-->config;
+    io-->constants;
     services-->subscriptions;
     services-->stores;
     services-->core;
     services-->io;
     services-->util;
-    services-->config;
+    services-->constants;
     startup-->ui;
     startup-->components;
     startup-->styles;
@@ -598,28 +598,28 @@ graph TD;
     startup-->subscriptions;
     startup-->stores;
     startup-->util;
-    startup-->config;
+    startup-->constants;
     startup-->window;
     stores-->storage;
-    stores-->config;
+    stores-->constants;
     styles-->ui;
     styles-->subscriptions;
-    styles-->config;
+    styles-->constants;
     subscriptions-->stores;
     subscriptions-->util;
     ui-->window;
     vendorComponents-->ui;
-    vendorComponents-->config;
+    vendorComponents-->constants;
     vendorComponents-->window;
 ```
 
 #### Code generated with `eject` extension
 
 ```js
-(modules, { config, window }) => {
+(modules, { constants, window }) => {
 
     const stores = { ...modules.stores };
-    const storesDependencies = { stores, storage, config };
+    const storesDependencies = { stores, storage, constants };
     stores.setup = stores.setup({ ...storesDependencies });
 
     const subscriptions = { ...modules.subscriptions };
@@ -627,7 +627,7 @@ graph TD;
     subscriptions.setup = subscriptions.setup({ ...subscriptionsDependencies });
 
     const core = { ...modules.core };
-    const coreDependencies = { core, util, config };
+    const coreDependencies = { core, util, constants };
     core.gravatar.buildImageUrl = core.gravatar.buildImageUrl({ ...coreDependencies });
     core.gravatar.buildProfileUrl = core.gravatar.buildProfileUrl({ ...coreDependencies });
     core.gravatar.getNameFromProfile = core.gravatar.getNameFromProfile({ ...coreDependencies });
@@ -645,11 +645,11 @@ graph TD;
     core.tags.sortTagsByRoleThenName = core.tags.sortTagsByRoleThenName({ ...coreDependencies });
 
     const io = { ...modules.io };
-    const ioDependencies = { io, window, config };
+    const ioDependencies = { io, window, constants };
     io.setup = io.setup({ ...ioDependencies });
 
     const services = { ...modules.services };
-    const servicesDependencies = { services, subscriptions, stores, core, io, util, config };
+    const servicesDependencies = { services, subscriptions, stores, core, io, util, constants };
     services.gravatar.changeFallback = services.gravatar.changeFallback({ ...servicesDependencies });
     services.gravatar.changeFreetext = services.gravatar.changeFreetext({ ...servicesDependencies });
     services.gravatar.fetchImageAsync = services.gravatar.fetchImageAsync({ ...servicesDependencies });
@@ -702,11 +702,11 @@ graph TD;
     elements.number = elements.number({ ...elementsDependencies });
 
     const vendorComponents = { ...modules.vendorComponents };
-    const vendorComponentsDependencies = { vendorComponents, ui, config, window };
+    const vendorComponentsDependencies = { vendorComponents, ui, constants, window };
     vendorComponents.vanillaPicker = vendorComponents.vanillaPicker({ ...vendorComponentsDependencies });
 
     const components = { ...modules.components };
-    const componentsDependencies = { components, io, ui, elements, vendorComponents, services, subscriptions, util, config };
+    const componentsDependencies = { components, io, ui, elements, vendorComponents, services, subscriptions, util, constants };
     components.app = components.app({ ...componentsDependencies });
     components.dropzone = components.dropzone({ ...componentsDependencies });
     components.gravatar.actions.container = components.gravatar.actions.container({ ...componentsDependencies });
@@ -753,7 +753,7 @@ graph TD;
     components.tips.roleShortcut = components.tips.roleShortcut({ ...componentsDependencies });
 
     const styles = { ...modules.styles };
-    const stylesDependencies = { styles, ui, subscriptions, config };
+    const stylesDependencies = { styles, ui, subscriptions, constants };
     styles.roleColor = styles.roleColor({ ...stylesDependencies });
     styles.tagImage = styles.tagImage({ ...stylesDependencies });
     styles.tagOutline = styles.tagOutline({ ...stylesDependencies });
@@ -767,7 +767,7 @@ graph TD;
     diagnostics.dumpState = diagnostics.dumpState({ ...diagnosticsDependencies });
 
     const startup = { ...modules.startup };
-    const startupDependencies = { startup, ui, components, styles, services, subscriptions, stores, util, config, window };
+    const startupDependencies = { startup, ui, components, styles, services, subscriptions, stores, util, constants, window };
     startup.createHandlers = startup.createHandlers({ ...startupDependencies });
     startup.createStyleManager = startup.createStyleManager({ ...startupDependencies });
     startup.insertNilRole = startup.insertNilRole({ ...startupDependencies });
