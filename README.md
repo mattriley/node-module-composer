@@ -17,7 +17,7 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
 - [File-per-function](#file-per-function)
 - [Dependency injection](#dependency-injection)
 - [Functional programming](#functional-programming)
-- [Application configuration](#application-configuration)
+- [Application configuration / constants](#application-configuration--constants)
 - [Fitness functions](#fitness-functions)
 - [Testability](#testability)
 - [Extensions](#extensions)
@@ -244,15 +244,14 @@ Recommended reading:
 
 - [Pure-Impure Segregation Principle](https://tyrrrz.me/blog/pure-impure-segregation-principle) — Oleksii Holub
 
-## Application configuration
+## Application configuration / constants
 
-For convenience, config can be passed as an option to the composer function. If `configs` is an array, they will be merged using [Lodash merge](https://lodash.com/docs#merge) and returned along with the compose function.
-
-In the next example, `defaultConfig`, `testConfig` and `userConfig` are merged to produce `config`, which is then passed as a dependency of the `components` module.
+For convenience, config objects, arrays of config objects and config customisation functions can be supplied to the `configure` function. The `configure` function will flatten, merge (using [Lodash merge](https://lodash.com/docs#merge)) and customise config objects, returning a single frozen result objected named `constants`.
 
 ```js
-const { compose, config } = composer(modules, { configs: [defaultConfig, testConfig, userConfig] });
-const { components } = compose('components', { config });
+const { configure } = composer(modules);
+const { compose, constants } = configure(defaultConfig, userConfigs, config => config);
+const { components } = compose('components', { constants });
 ```
 
 This can be especially useful during testing by applying test config.
@@ -476,43 +475,43 @@ export default ({ window, configs, overrides }) => {
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 2.5410829186439514,
+    "totalDuration": 2.596127927303314,
     "modules": {
         "stores": {
-            "duration": 0.47987502813339233
+            "duration": 0.47962498664855957
         },
         "subscriptions": {
-            "duration": 0.14545798301696777
+            "duration": 0.14187496900558472
         },
         "core": {
-            "duration": 0.38099998235702515
+            "duration": 0.393375039100647
         },
         "io": {
-            "duration": 0.10733300447463989
+            "duration": 0.11004197597503662
         },
         "services": {
-            "duration": 0.40641701221466064
+            "duration": 0.423458993434906
         },
         "ui": {
-            "duration": 0.06241697072982788
+            "duration": 0.0662500262260437
         },
         "elements": {
-            "duration": 0.09787499904632568
+            "duration": 0.10191696882247925
         },
         "vendorComponents": {
-            "duration": 0.028416991233825684
+            "duration": 0.030707955360412598
         },
         "components": {
-            "duration": 0.5636249780654907
+            "duration": 0.5721670389175415
         },
         "styles": {
-            "duration": 0.07170796394348145
+            "duration": 0.07629197835922241
         },
         "diagnostics": {
-            "duration": 0.09333300590515137
+            "duration": 0.09633404016494751
         },
         "startup": {
-            "duration": 0.10362499952316284
+            "duration": 0.10408395528793335
         }
     }
 }

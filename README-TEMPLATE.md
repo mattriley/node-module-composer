@@ -216,15 +216,14 @@ Recommended reading:
 
 - [Pure-Impure Segregation Principle](https://tyrrrz.me/blog/pure-impure-segregation-principle) — Oleksii Holub
 
-## Application configuration
+## Application configuration / constants
 
-For convenience, config can be passed as an option to the composer function. If `configs` is an array, they will be merged using [Lodash merge](https://lodash.com/docs#merge) and returned along with the compose function.
-
-In the next example, `defaultConfig`, `testConfig` and `userConfig` are merged to produce `config`, which is then passed as a dependency of the `components` module.
+For convenience, config objects, arrays of config objects and config customisation functions can be supplied to the `configure` function. The `configure` function will flatten, merge (using [Lodash merge](https://lodash.com/docs#merge)) and customise config objects, returning a single frozen result objected named `constants`.
 
 ```js
-const { compose, config } = composer(modules, { configs: [defaultConfig, testConfig, userConfig] });
-const { components } = compose('components', { config });
+const { configure } = composer(modules);
+const { compose, constants } = configure(defaultConfig, userConfigs, config => config);
+const { components } = compose('components', { constants });
 ```
 
 This can be especially useful during testing by applying test config.
