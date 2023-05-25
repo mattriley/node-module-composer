@@ -1,3 +1,4 @@
+const Configure = require('./configure');
 const Session = require('./session');
 const util = require('./util');
 
@@ -27,16 +28,8 @@ module.exports = (target, userOptions = {}) => {
         return { compose, constants };
     };
 
-    const configure = (...configs) => {
-        const flatConfigs = configs.filter(c => !!c).flatMap(c => Array.isArray(c) ? c : [c]);
-        const constants = flatConfigs.reduce((acc, x) => {
-            const config = typeof x === 'function' ? x(acc) : x;
-            return util.merge(acc, config);
-        }, {});
-        return createComposer(constants);
-    };
-
     const composer = createComposer(userOptions.config);
+    const configure = Configure(createComposer);
     return { ...composer, configure };
 
 };

@@ -28,7 +28,6 @@ module.exports = session => (path, deps, args, opts) => {
         target => util.has(target, customiser) ? util.invoke(target, customiser, args) : target
     ])(target);
 
-
     const next = target => {
         if (customiser && !util.isPlainObject(target)) throw new Error(`${path}.${customiser} must return a plain object`);
 

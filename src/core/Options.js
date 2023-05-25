@@ -4,7 +4,6 @@ module.exports = () => {
         customiser: 'setup',
         publicPrefix: '$',
         privatePrefix: '_',
-        configOptionKeys: ['defaultConfig', 'config', 'configs'],
         overrides: {},
         extensions: true
     };
