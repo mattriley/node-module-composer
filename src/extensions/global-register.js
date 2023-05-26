@@ -11,7 +11,7 @@ const globalRegister = (session, config = {}) => {
     };
 
     const compositionName = [
-        configKeys.flatMap(key => session.config[key] ?? []),
+        configKeys.flatMap(key => session.constants[key] ?? []),
         readPackageName() ?? [],
         'Unnamed Composition'
     ].flat()[0];

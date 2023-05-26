@@ -28,8 +28,9 @@ module.exports = ({ test }) => {
         const target = { foo: {} };
         const configs = [{ compositionName: 'custom-name' }];
         const extensions = { 'global-register': { globalThis } };
-        const options = { configs, extensions };
-        const { compose } = composer(target, options); compose('foo', { bar: {} });
+        const { configure } = composer(target, { extensions });
+        const { compose } = configure(configs);
+        compose('foo', { bar: {} });
         const composition = compose.end();
         t.equal(globalThis.compositions.at(-1), { 'custom-name': composition });
     });
