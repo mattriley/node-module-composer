@@ -4,7 +4,6 @@ module.exports = session => (path, deps, args, opts) => {
 
     const { constants } = session;
     const options = util.merge({}, session.options, opts);
-    const argsMod = { ...args, constants };
     const { depth, customiser, overrides } = options;
 
     const recurse = (target, parentPath, deps, currentDepth = 0) => {
@@ -12,6 +11,7 @@ module.exports = session => (path, deps, args, opts) => {
         if (!util.isPlainObject(target)) return target;
         const self = {};
         const depsMod = util.set({ self, constants, ...deps }, parentPath, self);
+        const argsMod = { constants, ...args };
         const evaluate = (val, key) => util.isPlainFunction(val) ? val(depsMod, argsMod) : recurse(val, [parentPath, key].join('.'), depsMod, currentDepth + 1);
         return Object.assign(self, util.mapValues(target, evaluate));
     };
