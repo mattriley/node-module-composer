@@ -74,19 +74,4 @@ module.exports = ({ test }) => {
         t.equal(mod.sub.fun2(), 1);
     });
 
-    // test('private namespaces', t => {
-    //     const target = {
-    //         mod: {
-    //             _sub: {
-    //                 fun1: () => () => 1 // not currently supported
-    //             },
-    //             fun2: ({ mod }) => () => mod.sub.fun1()
-    //         }
-    //     };
-    //     const { compose } = composer(target);
-    //     const { mod } = compose.deep('mod');
-
-    //     t.equal(mod.fun2(), 1);
-    // });
-
 };
