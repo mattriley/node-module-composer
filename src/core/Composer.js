@@ -2,11 +2,11 @@ const Configure = require('./configure');
 const Session = require('./session');
 const util = require('./util');
 
-module.exports = (target, userOptions = {}) => {
+module.exports = (target, clientOptions = {}) => {
 
     const createComposer = (config = {}) => {
         const constants = util.deepFreeze(config);
-        const session = Session(target, constants, userOptions);
+        const session = Session(target, constants, clientOptions);
 
         const deep = (path, deps = {}, args = {}, opts = {}) => {
             const optsMod = util.merge({ depth: Infinity }, opts);
@@ -28,7 +28,7 @@ module.exports = (target, userOptions = {}) => {
         return { compose, constants };
     };
 
-    const composer = createComposer(userOptions.config);
+    const composer = createComposer(clientOptions.config);
     const configure = Configure(createComposer);
     return { ...composer, configure };
 

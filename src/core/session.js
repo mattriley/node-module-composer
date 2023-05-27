@@ -3,13 +3,13 @@ const Options = require('./options');
 const extensions = require('./extensions');
 const util = require('./util');
 
-module.exports = (target, constants = {}, userOptions = {}) => {
+module.exports = (target, constants = {}, clientOptions = {}) => {
 
     if (!util.isPlainObject(target)) throw new Error('target must be a plain object');
 
     const targetModules = util.pickBy(target, util.isPlainObject);
     const defaultOptions = Options();
-    const options = { ...defaultOptions, ...userOptions };
+    const options = { ...defaultOptions, ...clientOptions };
 
     const state = {
         ended: false,
@@ -19,7 +19,7 @@ module.exports = (target, constants = {}, userOptions = {}) => {
         extensions: {}
     };
 
-    const external = { defaultOptions, userOptions, options, target, targetModules, constants };
+    const external = { defaultOptions, clientOptions, options, target, targetModules, constants };
     const session = { external: { ...state, ...external }, state, ...external };
     const { compose, precomposers, postcomposers, ...functions } = extensions.setup(session, Compose(session));
 

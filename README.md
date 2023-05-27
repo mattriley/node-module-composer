@@ -1,6 +1,6 @@
 # Module Composer
 
-<p align="right"><code>94.11% cov</code>&nbsp;<code>294 sloc</code>&nbsp;<code>12 files</code>&nbsp;<code>3 deps</code>&nbsp;<code>13 dev deps</code></p>
+<p align="right"><code>94.11% cov</code>&nbsp;<code>295 sloc</code>&nbsp;<code>12 files</code>&nbsp;<code>3 deps</code>&nbsp;<code>13 dev deps</code></p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
@@ -438,29 +438,30 @@ import modules from './modules/index.js';
 import defaultConfig from './default-config.js';
 const { storage, util } = modules;
 
-export default ({ window, ...options }) => {
+export default ({ window, config, ...options }) => {
 
-    const { compose, config } = composer({ window, ...modules }, { defaultConfig, ...options });
+    const { configure } = composer({ window, ...modules }, options);
+    const { compose } = configure(defaultConfig, config);
 
     // Data
-    const { stores } = compose('stores', { storage, config });
+    const { stores } = compose('stores', { storage });
     const { subscriptions } = compose('subscriptions', { stores, util });
 
     // Domain
-    const { core } = compose.deep('core', { util, config });
-    const { io } = compose('io', { window, config });
-    const { services } = compose.deep('services', { subscriptions, stores, core, io, util, config });
+    const { core } = compose.deep('core', { util });
+    const { io } = compose('io', { window });
+    const { services } = compose.deep('services', { subscriptions, stores, core, io, util });
 
     // Presentation
     const { ui } = compose('ui', { window });
     const { elements } = compose('elements', { ui, util });
-    const { vendorComponents } = compose('vendorComponents', { ui, config, window });
-    const { components } = compose.deep('components', { io, ui, elements, vendorComponents, services, subscriptions, util, config });
-    const { styles } = compose('styles', { ui, subscriptions, config });
+    const { vendorComponents } = compose('vendorComponents', { ui, window });
+    const { components } = compose.deep('components', { io, ui, elements, vendorComponents, services, subscriptions, util });
+    const { styles } = compose('styles', { ui, subscriptions });
 
     // Startup    
     compose('diagnostics', { stores, util });
-    compose('startup', { ui, components, styles, services, subscriptions, stores, util, config, window });
+    compose('startup', { ui, components, styles, services, subscriptions, stores, util, window });
 
     return compose.end();
 
@@ -474,43 +475,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 3.0923351049423218,
+    "totalDuration": 2.5677077770233154,
     "modules": {
         "stores": {
-            "duration": 0.5648750066757202
+            "duration": 0.44716691970825195
         },
         "subscriptions": {
-            "duration": 0.1336669921875
+            "duration": 0.1424999237060547
         },
         "core": {
-            "duration": 0.421375036239624
+            "duration": 0.36350011825561523
         },
         "io": {
-            "duration": 0.16895806789398193
+            "duration": 0.05670809745788574
         },
         "services": {
-            "duration": 0.4552500247955322
+            "duration": 0.41933393478393555
         },
         "ui": {
-            "duration": 0.11333394050598145
+            "duration": 0.12195801734924316
         },
         "elements": {
-            "duration": 0.14212501049041748
+            "duration": 0.138624906539917
         },
         "vendorComponents": {
-            "duration": 0.0782080888748169
+            "duration": 0.028208017349243164
         },
         "components": {
-            "duration": 0.6097500324249268
+            "duration": 0.5822079181671143
         },
         "styles": {
-            "duration": 0.12783396244049072
+            "duration": 0.07516694068908691
         },
         "diagnostics": {
-            "duration": 0.12049996852874756
+            "duration": 0.08000016212463379
         },
         "startup": {
-            "duration": 0.15645897388458252
+            "duration": 0.11233282089233398
         }
     }
 }
@@ -528,21 +529,17 @@ graph TD;
     components-->services;
     components-->subscriptions;
     components-->util;
-    components-->config;
     core-->util;
-    core-->config;
     diagnostics-->stores;
     diagnostics-->util;
     elements-->ui;
     elements-->util;
     io-->window;
-    io-->config;
     services-->subscriptions;
     services-->stores;
     services-->core;
     services-->io;
     services-->util;
-    services-->config;
     startup-->ui;
     startup-->components;
     startup-->styles;
@@ -550,18 +547,14 @@ graph TD;
     startup-->subscriptions;
     startup-->stores;
     startup-->util;
-    startup-->config;
     startup-->window;
     stores-->storage;
-    stores-->config;
     styles-->ui;
     styles-->subscriptions;
-    styles-->config;
     subscriptions-->stores;
     subscriptions-->util;
     ui-->window;
     vendorComponents-->ui;
-    vendorComponents-->config;
     vendorComponents-->window;
 ```
 
@@ -574,21 +567,17 @@ graph TD;
     components-->services;
     components-->subscriptions;
     components-->util;
-    components-->config;
     core-->util;
-    core-->config;
     diagnostics-->stores;
     diagnostics-->util;
     elements-->ui;
     elements-->util;
     io-->window;
-    io-->config;
     services-->subscriptions;
     services-->stores;
     services-->core;
     services-->io;
     services-->util;
-    services-->config;
     startup-->ui;
     startup-->components;
     startup-->styles;
@@ -596,28 +585,24 @@ graph TD;
     startup-->subscriptions;
     startup-->stores;
     startup-->util;
-    startup-->config;
     startup-->window;
     stores-->storage;
-    stores-->config;
     styles-->ui;
     styles-->subscriptions;
-    styles-->config;
     subscriptions-->stores;
     subscriptions-->util;
     ui-->window;
     vendorComponents-->ui;
-    vendorComponents-->config;
     vendorComponents-->window;
 ```
 
 #### Code generated with `eject` extension
 
 ```js
-(modules, { config, window }) => {
+(modules, { window }) => {
 
     const stores = { ...modules.stores };
-    const storesDependencies = { stores, storage, config };
+    const storesDependencies = { stores, storage };
     stores.setup = stores.setup({ ...storesDependencies });
 
     const subscriptions = { ...modules.subscriptions };
@@ -625,7 +610,7 @@ graph TD;
     subscriptions.setup = subscriptions.setup({ ...subscriptionsDependencies });
 
     const core = { ...modules.core };
-    const coreDependencies = { core, util, config };
+    const coreDependencies = { core, util };
     core.gravatar.buildImageUrl = core.gravatar.buildImageUrl({ ...coreDependencies });
     core.gravatar.buildProfileUrl = core.gravatar.buildProfileUrl({ ...coreDependencies });
     core.gravatar.getNameFromProfile = core.gravatar.getNameFromProfile({ ...coreDependencies });
@@ -643,11 +628,11 @@ graph TD;
     core.tags.sortTagsByRoleThenName = core.tags.sortTagsByRoleThenName({ ...coreDependencies });
 
     const io = { ...modules.io };
-    const ioDependencies = { io, window, config };
+    const ioDependencies = { io, window };
     io.setup = io.setup({ ...ioDependencies });
 
     const services = { ...modules.services };
-    const servicesDependencies = { services, subscriptions, stores, core, io, util, config };
+    const servicesDependencies = { services, subscriptions, stores, core, io, util };
     services.gravatar.changeFallback = services.gravatar.changeFallback({ ...servicesDependencies });
     services.gravatar.changeFreetext = services.gravatar.changeFreetext({ ...servicesDependencies });
     services.gravatar.fetchImageAsync = services.gravatar.fetchImageAsync({ ...servicesDependencies });
@@ -700,11 +685,11 @@ graph TD;
     elements.number = elements.number({ ...elementsDependencies });
 
     const vendorComponents = { ...modules.vendorComponents };
-    const vendorComponentsDependencies = { vendorComponents, ui, config, window };
+    const vendorComponentsDependencies = { vendorComponents, ui, window };
     vendorComponents.vanillaPicker = vendorComponents.vanillaPicker({ ...vendorComponentsDependencies });
 
     const components = { ...modules.components };
-    const componentsDependencies = { components, io, ui, elements, vendorComponents, services, subscriptions, util, config };
+    const componentsDependencies = { components, io, ui, elements, vendorComponents, services, subscriptions, util };
     components.app = components.app({ ...componentsDependencies });
     components.dropzone = components.dropzone({ ...componentsDependencies });
     components.gravatar.actions.container = components.gravatar.actions.container({ ...componentsDependencies });
@@ -751,7 +736,7 @@ graph TD;
     components.tips.roleShortcut = components.tips.roleShortcut({ ...componentsDependencies });
 
     const styles = { ...modules.styles };
-    const stylesDependencies = { styles, ui, subscriptions, config };
+    const stylesDependencies = { styles, ui, subscriptions };
     styles.roleColor = styles.roleColor({ ...stylesDependencies });
     styles.tagImage = styles.tagImage({ ...stylesDependencies });
     styles.tagOutline = styles.tagOutline({ ...stylesDependencies });
@@ -765,7 +750,7 @@ graph TD;
     diagnostics.dumpState = diagnostics.dumpState({ ...diagnosticsDependencies });
 
     const startup = { ...modules.startup };
-    const startupDependencies = { startup, ui, components, styles, services, subscriptions, stores, util, config, window };
+    const startupDependencies = { startup, ui, components, styles, services, subscriptions, stores, util, window };
     startup.createHandlers = startup.createHandlers({ ...startupDependencies });
     startup.createStyleManager = startup.createStyleManager({ ...startupDependencies });
     startup.insertNilRole = startup.insertNilRole({ ...startupDependencies });
