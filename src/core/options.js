@@ -5,6 +5,7 @@ module.exports = () => {
         publicPrefix: '$',
         privatePrefix: '_',
         overrides: {},
-        extensions: true
+        extensions: true,
+        configAlias: 'constants'
     };
 };

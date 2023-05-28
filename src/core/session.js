@@ -19,8 +19,8 @@ module.exports = (target, config = {}, clientOptions = {}) => {
         extensions: {}
     };
 
-    const constants = util.deepFreeze(config);
-    const configAliases = { constants, config: constants };
+    const frozenConfig = util.deepFreeze(config);
+    const configAliases = { config: frozenConfig, [options.configAlias]: frozenConfig };
     const external = { defaultOptions, clientOptions, options, target, targetModules, ...configAliases };
     const session = { external: { ...state, ...external }, state, configAliases, ...external };
     const { compose, precomposers, postcomposers, ...functions } = extensions.setup(session, Compose(session));
