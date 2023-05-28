@@ -17,7 +17,7 @@ const isPlainFunction = val => isFunction(val) && !val.hasOwnProperty('prototype
 const isPromise = val => val && typeof val.then == 'function';
 
 const matchPaths = (obj, cb, depth, currentDepth = 0, currentPath = []) => {
-    if (currentDepth === depth) return [];
+    // if (currentDepth === depth) return [];
     return Object.entries(obj).flatMap(([key, val]) => {
         const path = [...currentPath, key];
         const res1 = !isPlainObject(val) && cb(key) ? [path] : [];

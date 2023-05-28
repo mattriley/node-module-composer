@@ -74,4 +74,18 @@ module.exports = ({ test }) => {
         t.equal(mod.sub.fun2(), 1);
     });
 
+    test('when there is a public, the rest are considered private', t => {
+        const target = {
+            mod: {
+                fun1: () => () => 1,
+                $fun2: () => () => 2
+            }
+        };
+        const { compose } = composer(target, { extensions: ['access-modifiers'] });
+        const { mod } = compose('mod');
+        t.equal(mod.fun1, undefined);
+        t.equal(typeof mod.fun2, 'function');
+        t.is(mod, compose.modules.mod);
+    });
+
 };
