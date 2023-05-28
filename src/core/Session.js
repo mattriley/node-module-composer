@@ -3,7 +3,7 @@ const Options = require('./options');
 const extensions = require('./extensions');
 const util = require('./util');
 
-module.exports = (target, constants = {}, clientOptions = {}) => {
+module.exports = (target, config = {}, clientOptions = {}) => {
 
     if (!util.isPlainObject(target)) throw new Error('target must be a plain object');
 
@@ -19,8 +19,10 @@ module.exports = (target, constants = {}, clientOptions = {}) => {
         extensions: {}
     };
 
-    const external = { defaultOptions, clientOptions, options, target, targetModules, constants };
-    const session = { external: { ...state, ...external }, state, ...external };
+    const constants = util.deepFreeze(config);
+    const configAliases = { constants, config: constants };
+    const external = { defaultOptions, clientOptions, options, target, targetModules, ...configAliases };
+    const session = { external: { ...state, ...external }, state, configAliases, ...external };
     const { compose, precomposers, postcomposers, ...functions } = extensions.setup(session, Compose(session));
 
     const registerModule = (path, module, deps) => {
