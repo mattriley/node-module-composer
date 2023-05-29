@@ -246,15 +246,21 @@ Recommended reading:
 
 ## Application configuration / constants
 
-For convenience, config objects, arrays of config objects and config customisation functions can be supplied to the `configure` function. The `configure` function will flatten, merge (using [Lodash merge](https://lodash.com/docs#merge)) and customise config objects, returning a single frozen result objected named `constants`.
+The `configure` function accepts application configuration and makes it available to all modules as a dependency named `config`.
+
+For convenience, `config` accepts multiple configuration objects, merging them together using [Lodash merge](https://lodash.com/docs#merge) in the order specified. If an array is provided, the array will be flattened prior to merging. A "customisation" function may also be provided. The customisation function will be invoked with the preceeding merged config as an argument, and the return value then also being merged.
 
 ```js
 const { configure } = composer(modules);
-const { compose, constants } = configure(defaultConfig, userConfigs, config => config);
-const { components } = compose('components', { constants });
+const { compose, config } = configure(defaultConfig, userConfigs, config => {});
 ```
 
-This can be especially useful during testing by applying test config.
+An alias can be configured in case a name other than `config` is more appropriate. By default, the alias is `constants` and can be changed using the `configAlias` option:
+
+```js
+const { configure } = composer(modules, { configAlias: 'settings' });
+const { compose, settings } = configure(defaultConfig, userConfigs, config => {});
+```
 
 ## Fitness functions
 
@@ -475,43 +481,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 2.6136226654052734,
+    "totalDuration": 2.5717902183532715,
     "modules": {
         "stores": {
-            "duration": 0.4365830421447754
+            "duration": 0.4404170513153076
         },
         "subscriptions": {
-            "duration": 0.13666605949401855
+            "duration": 0.1528329849243164
         },
         "core": {
-            "duration": 0.36412501335144043
+            "duration": 0.36487507820129395
         },
         "io": {
-            "duration": 0.05658316612243652
+            "duration": 0.054583072662353516
         },
         "services": {
-            "duration": 0.43787503242492676
+            "duration": 0.4000828266143799
         },
         "ui": {
-            "duration": 0.11333298683166504
+            "duration": 0.10750007629394531
         },
         "elements": {
-            "duration": 0.13370800018310547
+            "duration": 0.12937498092651367
         },
         "vendorComponents": {
-            "duration": 0.03320908546447754
+            "duration": 0.02920818328857422
         },
         "components": {
-            "duration": 0.6380829811096191
+            "duration": 0.6355831623077393
         },
         "styles": {
-            "duration": 0.07091617584228516
+            "duration": 0.07479095458984375
         },
         "diagnostics": {
-            "duration": 0.07720804214477539
+            "duration": 0.07729196548461914
         },
         "startup": {
-            "duration": 0.11533308029174805
+            "duration": 0.10524988174438477
         }
     }
 }
