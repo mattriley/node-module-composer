@@ -19,7 +19,7 @@ module.exports = (target, config = {}, clientOptions = {}) => {
         extensions: {}
     };
 
-    const frozenConfig = util.deepFreeze(config);
+    const frozenConfig = options.freezeConfig ? util.deepFreeze(config) : config;
     const configAliases = { config: frozenConfig, [options.configAlias]: frozenConfig };
     const external = { defaultOptions, clientOptions, options, target, targetModules, ...configAliases };
     const session = { external: { ...state, ...external }, state, configAliases, ...external };

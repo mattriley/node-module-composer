@@ -41,4 +41,12 @@ module.exports = ({ test }) => {
         t.equal(compose.modules.constants, target.constants);
     });
 
+    test('option to not freeze config', t => {
+        const config = { a: 1 };
+        const target = { config: { a: 2 } };
+        const { configure } = composer(target, { freezeConfig: false });
+        const { compose } = configure(config);
+        t.equal(compose.modules.constants, target.constants);
+    });
+
 };

@@ -6,6 +6,7 @@ module.exports = () => {
         privatePrefix: '_',
         overrides: {},
         extensions: true,
-        configAlias: 'constants'
+        configAlias: 'constants',
+        freezeConfig: true
     };
 };
