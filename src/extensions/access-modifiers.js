@@ -5,7 +5,7 @@ const precompose = session => (path, target, options) => {
 
     const getView = (prefix, cb) => {
         const matches = util.matchPaths(target, cb, depth);
-        const paths = matches.map(path => path.map(str => str.replace(prefix, '')));
+        const paths = matches.map(path => path.map(str => str.replace(prefix, '').trim()));
         const view = util.replacePaths(target, matches, paths);
         return [view, paths];
     };
