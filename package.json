@@ -18,7 +18,7 @@
         "src/**/*",
         "extensions/*"
     ],
-    "main": "src/core/composer.js",
+    "main": "./src/main.js",
     "scripts": {
         "cov": "npx task cov",
         "deploy": "npx task deploy",
@@ -31,22 +31,21 @@
     "dependencies": {
         "flat": "^5.0.2",
         "lodash": "^4.17.21",
-        "polystruct": "^0.4.0"
+        "polystruct": "^0.6.0"
     },
     "devDependencies": {
         "cloc": "^2.11.0",
         "doctoc": "^2.2.1",
         "ejs": "^3.1.9",
-        "eslint": "^8.38.0",
+        "eslint": "^8.43.0",
         "eslint-plugin-import": "^2.27.5",
         "husky": "^8.0.3",
         "module-composer": "file:",
-        "module-indexgen": "^0.27.0",
+        "module-indexgen": "^0.34.0",
         "node-sloc": "^0.2.1",
-        "npm-check-updates": "^16.10.8",
-        "task-library": "^0.209.0",
-        "zora": "^5.2.0",
-        "zora-reporters": "^1.4.0"
+        "npm-check-updates": "^16.10.13",
+        "task-library": "^0.226.0",
+        "testing": "file:./testing"
     },
     "keywords": [
         "application-architecture",

@@ -269,7 +269,7 @@ graph TD;
 The following fitness function asserts that `components` is not coupled to `stores`. 
 
 ```js
-test('components is not coupled to stores in order to maintain layering', t => {
+test('components is not coupled to stores in order to maintain layering', () => {
     const { dependencies } = compose();
     t.notOk(dependencies['components'].includes('stores'));
 });
@@ -288,7 +288,7 @@ graph TD;
 The following fitness function asserts that `util` is not coupled to `io`.
 
 ```js
-test('util is not coupled to io in order to maintain purity', t => {
+test('util is not coupled to io in order to maintain purity', () => {
     const { dependencies } = compose();
     t.notOk(dependencies['util'].includes('io'));
 });

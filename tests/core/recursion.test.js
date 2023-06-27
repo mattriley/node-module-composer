@@ -1,8 +1,9 @@
-const composer = require('module-composer');
+const test = require('node:test');
+const assert = require('node:assert/strict');
 
-module.exports = ({ test }) => {
+module.exports = composer => {
 
-    test('deps are applied recursively within single module', t => {
+    test('deps are applied recursively within single module', () => {
         const target = {
             mod1: {
                 fun: () => () => 1,
@@ -14,11 +15,11 @@ module.exports = ({ test }) => {
         };
         const { compose } = composer(target);
         const { mod1 } = compose.deep('mod1');
-        t.equal(mod1.modA.fun1(), 1);
-        t.equal(mod1.modA.fun2(), 1);
+        assert.deepEqual(mod1.modA.fun1(), 1);
+        assert.deepEqual(mod1.modA.fun2(), 1);
     });
 
-    test('deps are applied recursively across multiple modules', t => {
+    test('deps are applied recursively across multiple modules', () => {
         const target = {
             mod1: { modA: { fun: () => () => 1 } },
             mod2: { modB: { fun: ({ mod1 }) => () => mod1.modA.fun() } }
@@ -26,7 +27,7 @@ module.exports = ({ test }) => {
         const { compose } = composer(target);
         const { mod1 } = compose.deep('mod1');
         const { mod2 } = compose.deep('mod2', { mod1 });
-        t.equal(mod2.modB.fun(), 1);
+        assert.deepEqual(mod2.modB.fun(), 1);
     });
 
 };

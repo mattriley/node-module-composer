@@ -1,20 +1,21 @@
-const composer = require('module-composer');
+const test = require('node:test');
+const assert = require('node:assert/strict');
 require('module-composer/extensions/mermaid');
 
-module.exports = ({ test }) => {
+module.exports = composer => {
 
-    test('mermaid', t => {
+    test('mermaid', () => {
         const target = { foo: {} };
         const { compose } = composer(target, { extensions: ['mermaid'] });
         compose('foo', { bar: {} });
-        t.equal(compose.mermaid(), 'graph TD;\n    foo-->bar;');
+        assert.deepEqual(compose.mermaid(), 'graph TD;\n    foo-->bar;');
     });
 
-    test('mermaid omit', t => {
+    test('mermaid omit', () => {
         const target = { foo: {} };
         const { compose } = composer(target, { extensions: ['mermaid'] });
         compose('foo', { bar: {} });
-        t.equal(compose.mermaid({ omit: ['foo'] }), 'graph TD;');
+        assert.deepEqual(compose.mermaid({ omit: ['foo'] }), 'graph TD;');
     });
 
 };

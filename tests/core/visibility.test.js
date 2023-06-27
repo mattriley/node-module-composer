@@ -1,8 +1,9 @@
-const composer = require('module-composer');
+const test = require('node:test');
+const assert = require('node:assert/strict');
 
-module.exports = ({ test }) => {
+module.exports = composer => {
 
-    test('module can be accessed internally by name', t => {
+    test('module can be accessed internally by name', () => {
         const target = {
             mod: {
                 fun1: () => () => 1,
@@ -11,10 +12,10 @@ module.exports = ({ test }) => {
         };
         const { compose } = composer(target);
         const { mod } = compose('mod');
-        t.equal(mod.fun2(), 1);
+        assert.deepEqual(mod.fun2(), 1);
     });
 
-    test('module can be accessed internally using self', t => {
+    test('module can be accessed internally using self', () => {
         const target = {
             mod: {
                 fun1: () => () => 1,
@@ -23,7 +24,7 @@ module.exports = ({ test }) => {
         };
         const { compose } = composer(target);
         const { mod } = compose('mod');
-        t.equal(mod.fun2(), 1);
+        assert.deepEqual(mod.fun2(), 1);
     });
 
 };

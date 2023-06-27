@@ -1,16 +1,17 @@
-const composer = require('module-composer');
+const test = require('node:test');
+const assert = require('node:assert/strict');
 require('module-composer/extensions/perf');
 
-module.exports = ({ test }) => {
+module.exports = composer => {
 
-    test('perf', t => {
+    test('perf', () => {
         const target = { foo: {} };
         const { compose } = composer(target, { extensions: ['perf'] });
         compose('foo', { bar: {} });
         const { perf } = compose.extensions;
-        t.equal(perf.durationUnit, 'ms');
-        t.ok(perf.totalDuration > 0);
-        t.ok(perf.modules.foo.duration > 0);
+        assert.deepEqual(perf.durationUnit, 'ms');
+        assert(perf.totalDuration > 0);
+        assert(perf.modules.foo.duration > 0);
     });
 
 };

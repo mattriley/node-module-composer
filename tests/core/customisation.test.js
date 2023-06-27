@@ -1,38 +1,39 @@
-const composer = require('module-composer');
+const test = require('node:test');
+const assert = require('node:assert/strict');
 
-module.exports = ({ test }) => {
+module.exports = composer => {
 
-    test('customiser', t => {
+    test('customiser', () => {
         const customised = { foo: 1 };
         const target = {
             mod: { setup: () => () => customised }
         };
         const { compose } = composer(target);
         const { mod } = compose('mod');
-        t.equal(mod, customised);
-        t.equal(compose.modules, { mod });
-        t.equal(compose.dependencies, { mod: [] });
+        assert.deepEqual(mod, customised);
+        assert.deepEqual(compose.modules, { mod });
+        assert.deepEqual(compose.dependencies, { mod: [] });
     });
 
-    test('async customiser', async t => {
+    test('async customiser', async () => {
         const customised = { foo: 1 };
         const target = {
             mod: { setup: () => async () => customised }
         };
         const { compose } = composer(target);
         const { mod } = await compose('mod');
-        t.equal(mod, customised);
-        t.equal(compose.modules, { mod });
-        t.equal(compose.dependencies, { mod: [] });
+        assert.deepEqual(mod, customised);
+        assert.deepEqual(compose.modules, { mod });
+        assert.deepEqual(compose.dependencies, { mod: [] });
     });
 
-    test('customiser returns non-plain object', t => {
+    test('customiser returns non-plain object', () => {
         const customised = [];
         const target = {
             mod: { setup: () => () => customised }
         };
         const { compose } = composer(target);
-        t.throws(() => compose('mod'), /^mod.setup must return a plain object$/);
+        assert.throws(() => compose('mod'), /^Error: mod.setup must return a plain object$/);
     });
 
 };

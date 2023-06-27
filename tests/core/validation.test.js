@@ -1,29 +1,30 @@
-const composer = require('module-composer');
+const test = require('node:test');
+const assert = require('node:assert/strict');
 
-module.exports = ({ test }) => {
+module.exports = composer => {
 
-    test('target is not a plain object', t => {
+    test('target is not a plain object', () => {
         const target = [];
-        t.throws(() => composer(target), /^target must be a plain object$/);
+        assert.throws(() => composer(target), /^Error: target must be a plain object$/);
     });
 
-    test('key not provided', t => {
+    test('key not provided', () => {
         const target = {};
         const { compose } = composer(target);
-        t.throws(() => compose(), /^key is required$/);
+        assert.throws(() => compose(), /^Error: key is required$/);
     });
 
-    test('key not found', t => {
+    test('key not found', () => {
         const target = {};
         const { compose } = composer(target);
-        t.throws(() => compose('mod'), /^mod not found$/);
-        t.throws(() => compose('mod1.modA'), /^mod1.modA not found$/);
+        assert.throws(() => compose('mod'), /^Error: mod not found$/);
+        assert.throws(() => compose('mod1.modA'), /^Error: mod1.modA not found$/);
     });
 
-    test('target with non-plain object module', t => {
+    test('target with non-plain object module', () => {
         const target = { mod: 1 };
         const { compose } = composer(target);
-        t.throws(() => compose('mod'), /^mod must be a plain object$/);
+        assert.throws(() => compose('mod'), /^Error: mod must be a plain object$/);
     });
 
 };

@@ -1,9 +1,10 @@
-const composer = require('module-composer');
+const test = require('node:test');
+const assert = require('node:assert/strict');
 require('module-composer/extensions/eject');
 
-module.exports = ({ test }) => {
+module.exports = composer => {
 
-    test('[WIP] eject', t => {
+    test('[WIP] eject', () => {
         const bar = {
             getBar: () => 'bar'
         };
@@ -58,8 +59,8 @@ module.exports = ({ test }) => {
 
         const code = compose.eject();
         const modules = eval(code)(target, { bar });
-        t.equal(code, expectedCode);
-        t.equal(modules.foobar.getFoobar(), 'foobar');
+        assert.deepEqual(code, expectedCode);
+        assert.deepEqual(modules.foobar.getFoobar(), 'foobar');
     });
 
 };

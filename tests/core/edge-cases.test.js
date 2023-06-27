@@ -1,4 +1,5 @@
-const composer = require('module-composer');
+const test = require('node:test');
+const assert = require('node:assert/strict');
 
 class Class {
     constructor() {
@@ -18,20 +19,20 @@ const nonPlainObjects = {
     undef: undefined
 };
 
-module.exports = ({ test }) => {
+module.exports = composer => {
 
-    test('standard non-arrow functions are not invoked', t => {
+    test('standard non-arrow functions are not invoked', () => {
         const target = {
             mod: {
-                fun: function () { t.fail('Unexpected invocation'); }
+                fun: function () { assert.fail('Unexpected invocation'); }
             }
         };
         const { compose } = composer(target);
         const { mod } = compose('mod');
-        t.is(mod.fun, target.mod.fun);
+        assert.equal(mod.fun, target.mod.fun);
     });
 
-    test('non-plain-objects are returned as-is', t => {
+    test('non-plain-objects are returned as-is', () => {
         const target = {
             mod1: {
                 modA: nonPlainObjects,
@@ -41,7 +42,7 @@ module.exports = ({ test }) => {
         };
         const { compose } = composer(target);
         const { mod1 } = compose.deep('mod1');
-        t.equal(mod1.modA, nonPlainObjects);
+        assert.deepEqual(mod1.modA, nonPlainObjects);
     });
 
 };
