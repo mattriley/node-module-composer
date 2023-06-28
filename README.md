@@ -1,6 +1,6 @@
 # Module Composer
 
-<p align="right"><code>100% cov</code>&nbsp;<code>289 sloc</code>&nbsp;<code>12 files</code>&nbsp;<code>3 deps</code>&nbsp;<code>13 dev deps</code></p>
+<p align="right"><code>99.37% cov</code>&nbsp;<code>290 sloc</code>&nbsp;<code>13 files</code>&nbsp;<code>3 deps</code>&nbsp;<code>12 dev deps</code></p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
@@ -298,7 +298,7 @@ graph TD;
 The following fitness function asserts that `components` is not coupled to `stores`. 
 
 ```js
-test('components is not coupled to stores in order to maintain layering', t => {
+test('components is not coupled to stores in order to maintain layering', () => {
     const { dependencies } = compose();
     t.notOk(dependencies['components'].includes('stores'));
 });
@@ -318,7 +318,7 @@ graph TD;
 The following fitness function asserts that `util` is not coupled to `io`.
 
 ```js
-test('util is not coupled to io in order to maintain purity', t => {
+test('util is not coupled to io in order to maintain purity', () => {
     const { dependencies } = compose();
     t.notOk(dependencies['util'].includes('io'));
 });
@@ -481,43 +481,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 2.6212059259414673,
+    "totalDuration": 2.5650839805603027,
     "modules": {
         "stores": {
-            "duration": 0.4444999694824219
+            "duration": 0.4438328742980957
         },
         "subscriptions": {
-            "duration": 0.14237499237060547
+            "duration": 0.13204216957092285
         },
         "core": {
-            "duration": 0.35920798778533936
+            "duration": 0.3564169406890869
         },
         "io": {
-            "duration": 0.05887502431869507
+            "duration": 0.0598750114440918
         },
         "services": {
-            "duration": 0.4040830135345459
+            "duration": 0.39737510681152344
         },
         "ui": {
-            "duration": 0.11487501859664917
+            "duration": 0.10595893859863281
         },
         "elements": {
-            "duration": 0.13370800018310547
+            "duration": 0.13358306884765625
         },
         "vendorComponents": {
-            "duration": 0.028541982173919678
+            "duration": 0.02662491798400879
         },
         "components": {
-            "duration": 0.6662909984588623
+            "duration": 0.6488749980926514
         },
         "styles": {
-            "duration": 0.07774996757507324
+            "duration": 0.07108283042907715
         },
         "diagnostics": {
-            "duration": 0.07958298921585083
+            "duration": 0.08312511444091797
         },
         "startup": {
-            "duration": 0.11141598224639893
+            "duration": 0.1062920093536377
         }
     }
 }

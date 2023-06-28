@@ -4,6 +4,7 @@ export NODE_VERSION="20.2.0"
 
 export DEV_TASKS="edit | test-watch"
 export TEST_RUNNER="custom"
+export MODULE_COMPOSER_ENABLED="true"
 
 export COV_STATEMENTS=99
 export COV_BRANCHES=99
