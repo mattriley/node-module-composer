@@ -9,7 +9,6 @@ const setup = (session, compose) => {
     const extensionNames = Object.keys(stateContainer.moduleComposer.extensions);
     const extensions = polystruct(session.options.extensions, extensionNames);
     return Object.entries(extensions).reduce((acc, [name, config]) => {
-        if (!config.enabled) return acc;
         const ext = stateContainer.moduleComposer.extensions[name];
         const getState = () => session.state.extensions[name];
         const setState = state => util.set(session.state.extensions, name, { ...getState(), ...state });
