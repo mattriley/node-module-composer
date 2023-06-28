@@ -1,7 +1,4 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-
-module.exports = composer => {
+module.exports = ({ test, assert }) => composer => {
 
     test('module can be accessed internally by name', () => {
         const target = {

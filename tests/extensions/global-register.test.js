@@ -1,8 +1,6 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-require('module-composer/extensions/global-register');
+module.exports = ({ test, assert }) => composer => {
 
-module.exports = composer => {
+    require('module-composer/extensions/global-register');
 
     test('register composition using name field in package.json', () => {
         const target = { foo: {}, window: {} };

@@ -1,7 +1,4 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-
-module.exports = composer => {
+module.exports = ({ test, assert }) => composer => {
 
     test('target is not a plain object', () => {
         const target = [];

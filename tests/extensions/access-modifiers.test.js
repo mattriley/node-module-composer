@@ -1,8 +1,6 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-require('module-composer/extensions/access-modifiers');
+module.exports = ({ test, assert }) => composer => {
 
-module.exports = composer => {
+    require('module-composer/extensions/access-modifiers');
 
     test('privates are accessible internally without prefix', () => {
         const target = {

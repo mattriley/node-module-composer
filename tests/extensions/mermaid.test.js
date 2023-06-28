@@ -1,8 +1,6 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-require('module-composer/extensions/mermaid');
+module.exports = ({ test, assert }) => composer => {
 
-module.exports = composer => {
+    require('module-composer/extensions/mermaid');
 
     test('mermaid', () => {
         const target = { foo: {} };

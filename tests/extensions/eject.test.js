@@ -1,8 +1,6 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-require('module-composer/extensions/eject');
+module.exports = ({ test, assert }) => composer => {
 
-module.exports = composer => {
+    require('module-composer/extensions/eject');
 
     test('[WIP] eject', () => {
         const bar = {

@@ -1,7 +1,4 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-
-module.exports = composer => {
+module.exports = ({ test, assert }) => composer => {
 
     test('accessing original target reference', () => {
         const target = { mod: {} };

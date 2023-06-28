@@ -1,6 +1,3 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-
 class Class {
     constructor() {
         throw new Error('Unexpected invocation');
@@ -19,7 +16,7 @@ const nonPlainObjects = {
     undef: undefined
 };
 
-module.exports = composer => {
+module.exports = ({ test, assert }) => composer => {
 
     test('standard non-arrow functions are not invoked', () => {
         const target = {
