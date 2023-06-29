@@ -44,7 +44,7 @@
         "module-indexgen": "^0.34.0",
         "node-sloc": "^0.2.1",
         "npm-check-updates": "^16.10.13",
-        "task-library": "^0.226.0",
+        "task-library": "^0.230.0",
         "testing": "file:./testing"
     },
     "keywords": [
