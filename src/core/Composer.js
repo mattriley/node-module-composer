@@ -12,6 +12,12 @@ module.exports = (target, clientOptions = {}) => {
             return compose(path, deps, args, optsMod);
         };
 
+        const flat = (path, deps = {}, args = {}, opts = {}) => {
+            const modules = util.get(target, path);
+            const results = Object.keys(modules).map(key => util.get(compose(`${path}.${key}`, deps, args, opts), `${path}.${key}`));
+            return util.set({}, path, Object.assign({}, ...results));
+        };
+
         const end = () => {
             if (session.state.ended) throw new Error('Composition has already ended');
             session.state.ended = true;
@@ -23,7 +29,7 @@ module.exports = (target, clientOptions = {}) => {
             return session.compose(path, deps, args, opts);
         };
 
-        Object.assign(compose, session.external, { deep, end });
+        Object.assign(compose, session.external, { deep, flat, end });
         return { compose, configure, ...session.configAliases };
     };
 
