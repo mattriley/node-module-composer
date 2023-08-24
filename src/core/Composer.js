@@ -7,6 +7,10 @@ module.exports = (target, clientOptions = {}) => {
     const createComposer = (config = {}) => {
         const session = Session(target, config, clientOptions);
 
+        const asis = path => {
+            return session.registerModule(path, util.get(target, path));
+        };
+
         const deep = (path, deps = {}, args = {}, opts = {}) => {
             const optsMod = util.merge({ depth: Infinity }, opts);
             return compose(path, deps, args, optsMod);
@@ -29,7 +33,7 @@ module.exports = (target, clientOptions = {}) => {
             return session.compose(path, deps, args, opts);
         };
 
-        Object.assign(compose, session.external, { deep, flat, end });
+        Object.assign(compose, session.external, { asis, deep, flat, end });
         return { compose, configure, ...session.configAliases };
     };
 

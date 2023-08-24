@@ -25,7 +25,7 @@ module.exports = (target, config = {}, clientOptions = {}) => {
     const session = { external: { ...state, ...external }, state, configAliases, ...external };
     const { compose, precomposers, postcomposers, ...functions } = extensions.setup(session, Compose(session));
 
-    const registerModule = (path, module, deps) => {
+    const registerModule = (path, module, deps = {}) => {
         util.set(state.modules, path, module);
         const depKeys = Object.keys(deps).filter(k => k !== path);
         state.dependencies[path] = state.composedDependencies[path] = depKeys;
