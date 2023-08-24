@@ -31,21 +31,21 @@
     "dependencies": {
         "flat": "^5.0.2",
         "lodash": "^4.17.21",
-        "polystruct": "^0.6.0"
+        "polystruct": "^0.7.0"
     },
     "devDependencies": {
         "cloc": "^2.11.0",
         "doctoc": "^2.2.1",
         "ejs": "^3.1.9",
-        "eslint": "^8.43.0",
-        "eslint-plugin-import": "^2.27.5",
+        "eslint": "^8.47.0",
+        "eslint-plugin-import": "^2.28.1",
         "husky": "^8.0.3",
         "module-composer": "file:",
-        "module-indexgen": "^0.34.0",
-        "module-testrunner": "^0.3.0",
+        "module-indexgen": "^0.37.0",
+        "module-testrunner": "^0.19.0",
         "node-sloc": "^0.2.1",
-        "npm-check-updates": "^16.10.13",
-        "task-library": "^0.233.0",
+        "npm-check-updates": "^16.13.1",
+        "task-library": "^0.265.0",
         "testing": "file:./testing"
     },
     "keywords": [

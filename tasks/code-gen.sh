@@ -2,7 +2,7 @@
 
 function code_gen {
 
-    local dest="$ROOT/extensions"
+    local dest="$PACKAGE_ROOT/extensions"
     rm -rf "$dest"; mkdir "$dest"
 
     for extension_file in "$SRC/extensions/"*; do 
