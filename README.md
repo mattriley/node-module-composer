@@ -1,6 +1,6 @@
 # Module Composer
 
-<p align="right"><code>100% cov</code>&nbsp;<code>298 sloc</code>&nbsp;<code>13 files</code>&nbsp;<code>3 deps</code>&nbsp;<code>13 dev deps</code></p>
+<p align="right"><code>100% cov</code>&nbsp;<code>299 sloc</code>&nbsp;<code>13 files</code>&nbsp;<code>3 deps</code>&nbsp;<code>13 dev deps</code></p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
@@ -481,43 +481,43 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "durationUnit": "ms",
-    "totalDuration": 2.7330856323242188,
+    "totalDuration": 2.669292449951172,
     "modules": {
         "stores": {
-            "duration": 0.5152077674865723
+            "duration": 0.4675002098083496
         },
         "subscriptions": {
-            "duration": 0.1415419578552246
+            "duration": 0.13470792770385742
         },
         "core": {
-            "duration": 0.38620901107788086
+            "duration": 0.39845895767211914
         },
         "io": {
-            "duration": 0.05783414840698242
+            "duration": 0.05508279800415039
         },
         "services": {
-            "duration": 0.410250186920166
+            "duration": 0.406583309173584
         },
         "ui": {
-            "duration": 0.11041736602783203
+            "duration": 0.10795783996582031
         },
         "elements": {
-            "duration": 0.1389169692993164
+            "duration": 0.13454198837280273
         },
         "vendorComponents": {
-            "duration": 0.02950000762939453
+            "duration": 0.026916027069091797
         },
         "components": {
-            "duration": 0.6777076721191406
+            "duration": 0.6730003356933594
         },
         "styles": {
-            "duration": 0.07420873641967773
+            "duration": 0.07200002670288086
         },
         "diagnostics": {
-            "duration": 0.08237504959106445
+            "duration": 0.08820915222167969
         },
         "startup": {
-            "duration": 0.1089167594909668
+            "duration": 0.10433387756347656
         }
     }
 }

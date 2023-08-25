@@ -7,12 +7,13 @@ module.exports = (target, clientOptions = {}) => {
     const createComposer = (config = {}) => {
         const session = Session(target, config, clientOptions);
 
-        const compose = (path, deps = {}, args = {}, opts = {}) => {
+        const makeComposeFunction = () => (path, deps = {}, args = {}, opts = {}) => {
             if (session.state.ended) throw new Error('Composition has ended');
             return session.compose(path, deps, args, opts);
         };
 
-        const make = compose;
+        const compose = makeComposeFunction();
+        const make = makeComposeFunction();
 
         const deep = (path, deps = {}, args = {}, opts = {}) => {
             const optsMod = util.merge({ depth: Infinity }, opts);
