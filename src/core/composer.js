@@ -7,9 +7,12 @@ module.exports = (target, clientOptions = {}) => {
     const createComposer = (config = {}) => {
         const session = Session(target, config, clientOptions);
 
-        const asis = path => {
-            return session.registerModule(path, util.get(target, path));
+        const compose = (path, deps = {}, args = {}, opts = {}) => {
+            if (session.state.ended) throw new Error('Composition has ended');
+            return session.compose(path, deps, args, opts);
         };
+
+        const make = compose;
 
         const deep = (path, deps = {}, args = {}, opts = {}) => {
             const optsMod = util.merge({ depth: Infinity }, opts);
@@ -22,18 +25,17 @@ module.exports = (target, clientOptions = {}) => {
             return util.set({}, path, Object.assign({}, ...results));
         };
 
+        const asis = path => {
+            return session.registerModule(path, util.get(target, path));
+        };
+
         const end = () => {
             if (session.state.ended) throw new Error('Composition has already ended');
             session.state.ended = true;
             return session.external;
         };
 
-        const compose = (path, deps = {}, args = {}, opts = {}) => {
-            if (session.state.ended) throw new Error('Composition has ended');
-            return session.compose(path, deps, args, opts);
-        };
-
-        Object.assign(compose, session.external, { asis, deep, flat, end });
+        Object.assign(compose, session.external, { make, deep, flat, asis, end });
         return { compose, configure, ...session.configAliases };
     };
 
