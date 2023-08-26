@@ -32,7 +32,12 @@ module.exports = (target, config = {}, clientOptions = {}) => {
         return state.modules;
     };
 
+    const registerAlias = (path, module) => {
+        util.set(state.modules, path, module);
+        return state.modules;
+    };
+
     Object.assign(session.external, functions);
-    return Object.assign(session, { compose, registerModule, precomposers, postcomposers });
+    return Object.assign(session, { compose, registerModule, registerAlias, precomposers, postcomposers });
 
 }; 

@@ -2,7 +2,8 @@ const util = require('./util');
 
 module.exports = session => (path, deps, opts) => {
 
-    const { args, ...options } = util.merge({ args: {} }, session.options, opts);
+    const defaultOptions = { args: {}, alias: [] };
+    const options = util.merge({}, defaultOptions, session.options, opts);
     const { depth, customiser, overrides } = options;
 
     const recurse = (target, parentPath, deps, currentDepth = 0) => {
@@ -10,7 +11,7 @@ module.exports = session => (path, deps, opts) => {
         if (!util.isPlainObject(target)) return target;
         const self = {};
         const depsMod = util.set({ self, ...session.configAliases, ...deps }, parentPath, self);
-        const argsMod = { ...session.configAliases, ...args };
+        const argsMod = { ...session.configAliases, ...options.args };
         const evaluate = (val, key) => util.isPlainFunction(val) ? val(depsMod, argsMod) : recurse(val, [parentPath, key].join('.'), depsMod, currentDepth + 1);
         return Object.assign(self, util.mapValues(target, evaluate));
     };
@@ -26,7 +27,7 @@ module.exports = session => (path, deps, opts) => {
     const maybePromise = util.flow([
         ...session.precomposers.map(func => target => func(path, target, options)),
         target => recurse(target, path, deps),
-        target => util.has(target, customiser) ? util.invoke(target, customiser, args) : target
+        target => util.has(target, customiser) ? util.invoke(target, customiser, options.args) : target
     ])(target);
 
     const next = target => {
@@ -35,7 +36,11 @@ module.exports = session => (path, deps, opts) => {
         return util.flow([
             target => util.merge(target, util.get(overrides, path)),
             ...session.postcomposers.map(func => target => func(path, target, options)),
-            target => session.registerModule(path, target, deps)
+            target => {
+                session.registerModule(path, target, deps);
+                [options.alias].flat().forEach(alias => session.registerAlias(alias, target));
+                return session.state.modules;
+            }
         ])(target);
     };
 
