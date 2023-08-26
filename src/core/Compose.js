@@ -7,6 +7,7 @@ module.exports = session => (path, deps, opts) => {
     const { depth, customiser, overrides } = options;
 
     const recurse = (target, parentPath, deps, currentDepth = 0) => {
+        if (!deps) return target;
         if (currentDepth === depth) return target;
         if (!util.isPlainObject(target)) return target;
         const self = {};

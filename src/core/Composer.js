@@ -26,8 +26,8 @@ module.exports = (target, clientOptions = {}) => {
             return util.set({}, path, Object.assign({}, ...results));
         };
 
-        const asis = path => {
-            return session.registerModule(path, util.get(target, path));
+        const asis = (path, opts = {}) => {
+            return compose(path, null, opts);
         };
 
         const end = () => {
