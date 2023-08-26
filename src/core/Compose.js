@@ -1,8 +1,8 @@
 const util = require('./util');
 
-module.exports = session => (path, deps, args, opts) => {
+module.exports = session => (path, deps, opts) => {
 
-    const options = util.merge({}, session.options, opts);
+    const { args, ...options } = util.merge({ args: {} }, session.options, opts);
     const { depth, customiser, overrides } = options;
 
     const recurse = (target, parentPath, deps, currentDepth = 0) => {
