@@ -30,9 +30,7 @@ module.exports = (target, clientOptions = {}) => {
         const applyModes = opts => Object.assign({}, ...Object.entries(modes).map(([name, func]) => ({ [name]: func(opts) })));
 
         const opts = opts => {
-            const compose = make(opts);
-            Object.assign(compose, session.external, { opts, end }, applyModes());
-            return compose;
+            return Object.assign(make(opts), session.external, { end }, applyModes(opts));
         };
 
         const end = () => {
