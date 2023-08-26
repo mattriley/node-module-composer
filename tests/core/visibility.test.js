@@ -8,7 +8,7 @@ module.exports = ({ test, assert }) => composer => {
             }
         };
         const { compose } = composer(target);
-        const { mod } = compose('mod');
+        const { mod } = compose('mod', {});
         assert.deepEqual(mod.fun2(), 1);
     });
 
@@ -20,7 +20,7 @@ module.exports = ({ test, assert }) => composer => {
             }
         };
         const { compose } = composer(target);
-        const { mod } = compose('mod');
+        const { mod } = compose('mod', {});
         assert.deepEqual(mod.fun2(), 1);
     });
 

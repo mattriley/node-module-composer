@@ -46,7 +46,7 @@ module.exports = ({ test, assert }) => composer => {
     test('deps are optional', () => {
         const target = { mod: { fun: () => () => 1 } };
         const { compose } = composer(target);
-        const { mod } = compose('mod');
+        const { mod } = compose('mod', {});
         assert.deepEqual(mod.fun(), 1);
         assert.deepEqual(compose.dependencies, { mod: [] });
     });
@@ -57,7 +57,7 @@ module.exports = ({ test, assert }) => composer => {
             mod2: { fun: ({ mod1 }) => () => mod1.fun() }
         };
         const { compose } = composer(target);
-        const { mod1 } = compose('mod1');
+        const { mod1 } = compose('mod1', {});
         const { mod2 } = compose('mod2', { mod1 });
         assert.deepEqual(mod2.fun(), 2);
         assert.deepEqual(compose.dependencies, { mod1: [], mod2: ['mod1'] });
@@ -69,7 +69,7 @@ module.exports = ({ test, assert }) => composer => {
             mod2: { modB: { fun: ({ mod1 }) => () => mod1.modA.fun() } }
         };
         const { compose } = composer(target);
-        const { mod1 } = compose('mod1.modA');
+        const { mod1 } = compose('mod1.modA', {});
         const { mod2 } = compose('mod2.modB', { mod1 });
         assert.deepEqual(mod2.modB.fun(), 2);
         assert.deepEqual(compose.dependencies, {

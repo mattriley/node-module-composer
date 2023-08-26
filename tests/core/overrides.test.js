@@ -23,7 +23,7 @@ module.exports = ({ test, assert }) => composer => {
         };
         const overrides = { mod: { fun1: () => 2 } };
         const { compose } = composer(target, { overrides });
-        const { mod } = compose('mod');
+        const { mod } = compose('mod', {});
         assert.deepEqual(mod.fun2(), 2);
         assert.deepEqual(compose.modules, { mod });
         assert.deepEqual(compose.dependencies, { mod: [] });

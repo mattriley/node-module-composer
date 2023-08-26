@@ -7,16 +7,16 @@ module.exports = (target, clientOptions = {}) => {
     const createComposer = (config = {}) => {
         const session = Session(target, config, clientOptions);
 
-        const make = opts => (path, deps = {}) => {
+        const make = opts => (path, deps) => {
             if (session.state.ended) throw new Error('Composition has ended');
             return session.compose(path, deps, opts);
         };
 
-        const deep = opts => (path, deps = {}) => {
+        const deep = opts => (path, deps) => {
             return make(util.merge({ depth: Infinity }, opts))(path, deps);
         };
 
-        const flat = opts => (path, deps = {}) => {
+        const flat = opts => (path, deps) => {
             const modules = util.get(target, path);
             const results = Object.keys(modules).map(key => util.get(make(opts)(`${path}.${key}`, deps), `${path}.${key}`));
             return util.set({}, path, Object.assign({}, ...results));

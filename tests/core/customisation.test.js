@@ -6,7 +6,7 @@ module.exports = ({ test, assert }) => composer => {
             mod: { setup: () => () => customised }
         };
         const { compose } = composer(target);
-        const { mod } = compose('mod');
+        const { mod } = compose('mod', {});
         assert.deepEqual(mod, customised);
         assert.deepEqual(compose.modules, { mod });
         assert.deepEqual(compose.dependencies, { mod: [] });
@@ -18,7 +18,7 @@ module.exports = ({ test, assert }) => composer => {
             mod: { setup: () => async () => customised }
         };
         const { compose } = composer(target);
-        const { mod } = await compose('mod');
+        const { mod } = await compose('mod', {});
         assert.deepEqual(mod, customised);
         assert.deepEqual(compose.modules, { mod });
         assert.deepEqual(compose.dependencies, { mod: [] });
@@ -30,7 +30,7 @@ module.exports = ({ test, assert }) => composer => {
             mod: { setup: () => () => customised }
         };
         const { compose } = composer(target);
-        assert.throws(() => compose('mod'), /^Error: mod.setup must return a plain object$/);
+        assert.throws(() => compose('mod', {}), /^Error: mod.setup must return a plain object$/);
     });
 
 };

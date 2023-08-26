@@ -10,7 +10,7 @@ module.exports = ({ test, assert }) => composer => {
             }
         };
         const { compose } = composer(target, { extensions: ['access-modifiers'] });
-        const { mod } = compose('mod');
+        const { mod } = compose('mod', {});
         assert.deepEqual(mod.fun2(), 1);
     });
 
@@ -24,7 +24,7 @@ module.exports = ({ test, assert }) => composer => {
             }
         };
         const { compose } = composer(target, { extensions: ['access-modifiers'] });
-        const { mod } = compose.deep('mod');
+        const { mod } = compose.deep('mod', {});
         assert.deepEqual(mod.sub.fun2(), 1);
     });
 
@@ -36,7 +36,7 @@ module.exports = ({ test, assert }) => composer => {
             }
         };
         const { compose } = composer(target, { extensions: ['access-modifiers'] });
-        const { mod } = compose('mod');
+        const { mod } = compose('mod', {});
         assert.deepEqual(mod._fun1, undefined);
         assert.deepEqual(mod.fun1, undefined);
         assert.equal(mod, compose.modules.mod);
@@ -51,7 +51,7 @@ module.exports = ({ test, assert }) => composer => {
             }
         };
         const { compose } = composer(target, { extensions: ['access-modifiers'] });
-        const { mod } = compose('mod');
+        const { mod } = compose('mod', {});
         assert.deepEqual(mod._fun1, undefined);
         assert.deepEqual(mod.fun1, undefined);
         assert.deepEqual(mod.fun2, undefined);
@@ -69,7 +69,7 @@ module.exports = ({ test, assert }) => composer => {
             }
         };
         const { compose } = composer(target, { extensions: ['access-modifiers'] });
-        const { mod } = compose.deep('mod');
+        const { mod } = compose.deep('mod', {});
         assert.deepEqual(mod.sub.fun2(), 1);
     });
 
@@ -81,7 +81,7 @@ module.exports = ({ test, assert }) => composer => {
             }
         };
         const { compose } = composer(target, { extensions: ['access-modifiers'] });
-        const { mod } = compose('mod');
+        const { mod } = compose('mod', {});
         assert.deepEqual(mod.fun1, undefined);
         assert.deepEqual(typeof mod.fun2, 'function');
         assert.equal(mod, compose.modules.mod);
