@@ -1,6 +1,6 @@
 # Module Composer
 
-<p align="right"><code>98.83% cov</code>&nbsp;<code>312 sloc</code>&nbsp;<code>13 files</code>&nbsp;<code>3 deps</code>&nbsp;<code>13 dev deps</code></p>
+<p align="right"><code>98.83% cov</code>&nbsp;<code>311 sloc</code>&nbsp;<code>12 files</code>&nbsp;<code>3 deps</code>&nbsp;<code>13 dev deps</code></p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
@@ -354,9 +354,16 @@ TODO: Insert overrides example
 
 Module Composer features a number of built-in extensions.
 
-Enabling an extension is as simple as importing it from `module-composer/extensions`.
+Extensions are enabled by default.
 
-Taking the `mermaid` extension as an example: `require('module-composer/extensions/mermaid');`
+To selectively enable extensions, import each extension from `module-composer/extensions/`, then import `module-composer/core`:
+
+Taking the `mermaid` extension as an example: 
+
+```js
+require('module-composer/extensions/mermaid');
+require('module-composer/core');
+```
 
 ### Generate Mermaid diagrams with the `mermaid` extension
 
@@ -483,78 +490,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 80.24837493896484,
-            "endTime": 80.54737520217896,
-            "duration": 0.29900026321411133
+            "startTime": 82.42791700363159,
+            "endTime": 82.7375841140747,
+            "duration": 0.30966711044311523
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 80.65741729736328,
-            "endTime": 80.72212505340576,
-            "duration": 0.06470775604248047
+            "startTime": 82.84191703796387,
+            "endTime": 82.91841697692871,
+            "duration": 0.07649993896484375
         },
         "core": {
             "path": "core",
-            "startTime": 80.76666736602783,
-            "endTime": 81.11437511444092,
-            "duration": 0.34770774841308594
+            "startTime": 82.96095895767212,
+            "endTime": 83.35295915603638,
+            "duration": 0.3920001983642578
         },
         "io": {
             "path": "io",
-            "startTime": 81.14258337020874,
-            "endTime": 81.18262529373169,
-            "duration": 0.04004192352294922
+            "startTime": 83.37883424758911,
+            "endTime": 83.4242091178894,
+            "duration": 0.04537487030029297
         },
         "services": {
             "path": "services",
-            "startTime": 81.26629209518433,
-            "endTime": 81.60750007629395,
-            "duration": 0.34120798110961914
+            "startTime": 83.50558423995972,
+            "endTime": 83.85566711425781,
+            "duration": 0.3500828742980957
         },
         "ui": {
             "path": "ui",
-            "startTime": 81.67812490463257,
-            "endTime": 81.72695827484131,
-            "duration": 0.048833370208740234
+            "startTime": 83.92795896530151,
+            "endTime": 83.97625017166138,
+            "duration": 0.04829120635986328
         },
         "elements": {
             "path": "elements",
-            "startTime": 81.7495002746582,
-            "endTime": 81.83870792388916,
-            "duration": 0.08920764923095703
+            "startTime": 83.99641704559326,
+            "endTime": 84.0767092704773,
+            "duration": 0.0802922248840332
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 81.85404205322266,
-            "endTime": 81.875,
-            "duration": 0.02095794677734375
+            "startTime": 84.09191703796387,
+            "endTime": 84.11062526702881,
+            "duration": 0.018708229064941406
         },
         "components": {
             "path": "components",
-            "startTime": 81.8944582939148,
-            "endTime": 82.60004234313965,
-            "duration": 0.7055840492248535
+            "startTime": 84.13175010681152,
+            "endTime": 84.83112525939941,
+            "duration": 0.6993751525878906
         },
         "styles": {
             "path": "styles",
-            "startTime": 82.65704202651978,
-            "endTime": 82.72612524032593,
-            "duration": 0.06908321380615234
+            "startTime": 84.85766696929932,
+            "endTime": 84.92933416366577,
+            "duration": 0.07166719436645508
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 82.80458307266235,
-            "endTime": 82.82824993133545,
-            "duration": 0.023666858673095703
+            "startTime": 85.00137519836426,
+            "endTime": 85.0327091217041,
+            "duration": 0.03133392333984375
         },
         "startup": {
             "path": "startup",
-            "startTime": 82.85879230499268,
-            "endTime": 82.94929218292236,
-            "duration": 0.0904998779296875
+            "startTime": 85.06145906448364,
+            "endTime": 85.1550841331482,
+            "duration": 0.09362506866455078
         }
     },
-    "totalDuration": 2.140498638153076,
+    "totalDuration": 2.2169179916381836,
     "durationUnit": "ms"
 }
 ```

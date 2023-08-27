@@ -18,7 +18,7 @@
         "src/**/*",
         "extensions/*"
     ],
-    "main": "./src/main.js",
+    "main": "./main.js",
     "scripts": {
         "cov": "npx task cov",
         "deploy": "npx task deploy",

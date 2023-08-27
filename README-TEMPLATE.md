@@ -323,9 +323,16 @@ TODO: Insert overrides example
 
 Module Composer features a number of built-in extensions.
 
-Enabling an extension is as simple as importing it from `module-composer/extensions`.
+Extensions are enabled by default.
 
-Taking the `mermaid` extension as an example: `require('module-composer/extensions/mermaid');`
+To selectively enable extensions, import each extension from `module-composer/extensions/`, then import `module-composer/core`:
+
+Taking the `mermaid` extension as an example: 
+
+```js
+require('module-composer/extensions/mermaid');
+require('module-composer/core');
+```
 
 ### Generate Mermaid diagrams with the `mermaid` extension
 
