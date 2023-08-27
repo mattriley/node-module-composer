@@ -5,7 +5,7 @@ const stateContainer = globalThis;
 if (!stateContainer.moduleComposer) stateContainer.moduleComposer = { extensions: {} };
 const register = (name, extension) => Object.assign(stateContainer.moduleComposer.extensions, { [name]: extension });
 
-const setup = (session, compose) => {
+const setup = session => {
     const extensionNames = Object.keys(stateContainer.moduleComposer.extensions);
     const extensions = polystruct(session.options.extensions, extensionNames);
     return Object.entries(extensions).reduce((acc, [name, config]) => {
@@ -17,7 +17,7 @@ const setup = (session, compose) => {
         if (precompose) acc.precomposers.push(precompose);
         if (postcompose) acc.postcomposers.push(postcompose);
         return { ...acc, ...functions };
-    }, { compose, precomposers: [], postcomposers: [] });
+    }, { precomposers: [], postcomposers: [] });
 };
 
 module.exports = { register, setup };

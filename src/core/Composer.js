@@ -16,17 +16,17 @@ module.exports = (target, clientOptions = {}) => {
             return make(util.merge({ depth: Infinity }, opts))(path, deps, args);
         };
 
-        const flat = opts => (path, deps, args) => {
-            const modules = util.get(target, path);
-            const results = Object.keys(modules).map(key => util.get(make(opts)(`${path}.${key}`, deps, args), `${path}.${key}`));
-            return util.set({}, path, Object.assign({}, ...results));
-        };
+        // const flat = opts => (path, deps, args) => {
+        //     const modules = util.get(target, path);
+        //     const results = Object.keys(modules).map(key => util.get(make(opts)(`${path}.${key}`, deps, args), `${path}.${key}`));
+        //     return util.set({}, path, Object.assign({}, ...results));
+        // };
 
         const asis = opts => path => {
             return make(opts)(path);
         };
 
-        const modes = { make, deep, flat, asis };
+        const modes = { make, deep, asis };
         const applyModes = opts => Object.assign({}, ...Object.entries(modes).map(([name, func]) => ({ [name]: func(opts) })));
 
         const opts = opts => {

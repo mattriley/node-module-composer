@@ -1,5 +1,7 @@
 module.exports = ({ test, assert }) => composer => {
 
+    require('module-composer/extensions/flat');
+
     test('submodules are flattened', () => {
         const target = {
             module: {
@@ -8,7 +10,7 @@ module.exports = ({ test, assert }) => composer => {
             }
         };
         const { compose } = composer(target);
-        const { module } = compose.flat('module', {});
+        const { module } = compose.flat()('module', {});
         const { fun1, fun2 } = module;
         assert.deepEqual(fun1(), 1);
         assert.deepEqual(fun2(), 2);

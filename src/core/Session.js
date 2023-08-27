@@ -35,7 +35,8 @@ module.exports = (target, config = {}, clientOptions = {}) => {
     const configAliases = { config: frozenConfig, [options.configAlias]: frozenConfig };
     const external = { defaultOptions, clientOptions, options, target, targetModules, ...configAliases };
     const session = { external: { ...state, ...external }, state, configAliases, registerModule, registerAlias, ...external };
-    const { compose, precomposers, postcomposers, ...functions } = extensions.setup(session, Compose(session));
+    const compose = Compose(session);
+    const { precomposers, postcomposers, ...functions } = extensions.setup({ ...session, compose });
 
     Object.assign(session.external, functions);
     return Object.assign(session, { compose, precomposers, postcomposers });
