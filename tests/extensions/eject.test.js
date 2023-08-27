@@ -28,7 +28,7 @@ module.exports = ({ test, assert }) => composer => {
             }
         };
 
-        const { compose } = composer(target, { extensions: ['eject'] });
+        const { compose } = composer(target);
         const { foo } = compose('foo');
         compose('foobar', { foo, bar });
         compose('nestedTarget.nestedFoo');

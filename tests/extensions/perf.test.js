@@ -4,7 +4,7 @@ module.exports = ({ test, assert }) => composer => {
 
     test('perf', () => {
         const target = { foo: {}, bar: {} };
-        const { compose } = composer(target, { extensions: ['perf'] });
+        const { compose } = composer(target);
         compose('foo', { bar: {} });
         compose('bar', { bar: {} });
         const { perf } = compose.extensions;
