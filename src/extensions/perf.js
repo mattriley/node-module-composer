@@ -1,17 +1,19 @@
-const util = require('module-composer/src/core/util');
-
-const compose = session => {
-    session.setState({ durationUnit: 'ms', totalDuration: 0, modules: {} });
-    return compose => (path, deps, opts) => {
-        const stats = session.getState();
-        const startTime = performance.now();
-        const result = compose(path, deps, opts);
-        const duration = performance.now() - startTime;
-        const modules = util.set(stats.modules, [path, 'duration'], duration);
-        const totalDuration = stats.totalDuration + duration;
-        session.setState({ totalDuration, modules });
-        return result;
-    };
+const precompose = session => (path, target) => {
+    const state = session.getState() ?? session.setState({ modules: {}, totalDuration: 0, durationUnit: 'ms' });
+    const modules = { ...state.modules, [path]: { path, startTime: performance.now() } };
+    session.setState({ modules });
+    return target;
 };
 
-module.exports = { compose };
+const postcompose = session => (path, target) => {
+    const state = session.getState();
+    const module = state.modules[path];
+    const endTime = performance.now();
+    const duration = endTime - module.startTime;
+    const modules = { ...state.modules, [path]: { ...module, endTime, duration } };
+    const totalDuration = state.totalDuration + duration;
+    session.setState({ totalDuration, modules });
+    return target;
+};
+
+module.exports = { precompose, postcompose };
