@@ -4,9 +4,7 @@ module.exports = ({ test, assert }) => composer => {
 
     test('register composition using name field in package.json', () => {
         const target = { foo: {}, window: {} };
-        const extensions = { 'global-register': { globalThis } };
-        const options = { extensions };
-        const { compose } = composer(target, options);
+        const { compose } = composer(target, { globalThis });
         compose('foo', { bar: {} });
         const composition = compose.end();
         assert.deepEqual(globalThis.compositions.at(-1), { 'module-composer': composition });
@@ -15,9 +13,7 @@ module.exports = ({ test, assert }) => composer => {
     test('composition is unnamed upon failure to read package.json', () => {
         const globalThis = { process: {} };
         const target = { foo: {}, window: {} };
-        const extensions = { 'global-register': { globalThis } };
-        const options = { extensions };
-        const { compose } = composer(target, options);
+        const { compose } = composer(target, { globalThis });
         compose('foo', { bar: {} });
         const composition = compose.end();
         assert.deepEqual(globalThis.compositions.at(-1), { 'Unnamed Composition': composition });
@@ -26,8 +22,7 @@ module.exports = ({ test, assert }) => composer => {
     test('register composition with custom name', () => {
         const target = { foo: {} };
         const configs = [{ compositionName: 'custom-name' }];
-        const extensions = { 'global-register': { globalThis } };
-        const { configure } = composer(target, { extensions });
+        const { configure } = composer(target, { globalThis });
         const { compose } = configure(configs);
         compose('foo', { bar: {} });
         const composition = compose.end();

@@ -10,6 +10,7 @@ module.exports = () => {
     };
 
     const extensions = {
+        globalThis: globalThis,
         publicPrefix: '$',
         privatePrefix: '_',
         functionAlias: {},
