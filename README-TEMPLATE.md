@@ -330,8 +330,8 @@ To selectively enable extensions, import each extension from `module-composer/ex
 Taking the `mermaid` extension as an example: 
 
 ```js
-require('module-composer/extensions/mermaid');
-require('module-composer/core');
+import 'module-composer/extensions/mermaid.js';
+import composer from 'module-composer/core';
 ```
 
 ### Generate Mermaid diagrams with the `mermaid` extension
