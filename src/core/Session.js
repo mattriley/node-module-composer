@@ -19,12 +19,6 @@ module.exports = (target, config = {}, clientOptions = {}) => {
         extensions: {}
     };
 
-    const frozenConfig = options.freezeConfig ? util.deepFreeze(config) : config;
-    const configAliases = { config: frozenConfig, [options.configAlias]: frozenConfig };
-    const external = { defaultOptions, clientOptions, options, target, targetModules, ...configAliases };
-    const session = { external: { ...state, ...external }, state, configAliases, ...external };
-    const { compose, precomposers, postcomposers, ...functions } = extensions.setup(session, Compose(session));
-
     const registerModule = (path, module, deps) => {
         util.set(state.modules, path, module);
         const depKeys = Object.keys(deps ?? {}).filter(k => k !== path);
@@ -37,7 +31,13 @@ module.exports = (target, config = {}, clientOptions = {}) => {
         return state.modules;
     };
 
+    const frozenConfig = options.freezeConfig ? util.deepFreeze(config) : config;
+    const configAliases = { config: frozenConfig, [options.configAlias]: frozenConfig };
+    const external = { defaultOptions, clientOptions, options, target, targetModules, ...configAliases };
+    const session = { external: { ...state, ...external }, state, configAliases, registerModule, registerAlias, ...external };
+    const { compose, precomposers, postcomposers, ...functions } = extensions.setup(session, Compose(session));
+
     Object.assign(session.external, functions);
-    return Object.assign(session, { compose, registerModule, registerAlias, precomposers, postcomposers });
+    return Object.assign(session, { compose, precomposers, postcomposers });
 
 }; 

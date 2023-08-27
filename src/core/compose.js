@@ -48,7 +48,6 @@ module.exports = session => (path, deps, opts) => {
             },
             target => {
                 session.registerModule(path, target, deps);
-                [options.alias].flat().forEach(alias => session.registerAlias(alias, target));
                 return session.state.modules;
             }
         ])(target);
