@@ -1,6 +1,6 @@
 const util = require('./util');
 
-module.exports = session => (path, deps, args, opts) => {
+module.exports = session => (path, deps, opts) => {
 
     const options = util.merge({}, session.options, opts);
     const { depth, customiser, overrides } = options;
@@ -11,7 +11,7 @@ module.exports = session => (path, deps, args, opts) => {
         if (!util.isPlainObject(target)) return target;
         const self = {};
         const depsMod = util.set({ self, ...session.configAliases, ...deps }, parentPath, self);
-        const argsMod = { ...session.configAliases, ...args };
+        const argsMod = { ...session.configAliases, ...options.args };
         const evaluate = (val, key) => util.isPlainFunction(val) ? val(depsMod, argsMod) : recurse(val, [parentPath, key].join('.'), depsMod, currentDepth + 1);
         return Object.assign(self, util.mapValues(target, evaluate));
     };
@@ -27,7 +27,7 @@ module.exports = session => (path, deps, args, opts) => {
     const maybePromise = util.flow([
         ...session.precomposers.map(func => target => func({ path, target, options }) ?? target),
         target => recurse(target, path, deps),
-        target => util.has(target, customiser) ? util.invoke(target, customiser, args) : target
+        target => util.has(target, customiser) ? util.invoke(target, customiser, options.args) : target
     ])(target);
 
     const next = target => {

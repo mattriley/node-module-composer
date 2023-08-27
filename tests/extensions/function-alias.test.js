@@ -9,7 +9,7 @@ module.exports = ({ test, assert }) => composer => {
 
         const target = { mod: { getValues: {} } };
         const { compose } = composer(target);
-        const { mod } = compose.opts({ functionAlias })('mod');
+        const { mod } = compose('mod', { functionAlias });
         assert.equal(mod.getVals, mod.getValues);
     });
 

@@ -7,30 +7,17 @@ module.exports = (target, clientOptions = {}) => {
     const createComposer = (config = {}) => {
         const session = Session(target, config, clientOptions);
 
-        const make = opts => (path, deps, args) => {
+        const make = (path, deps, opts) => {
             if (session.state.ended) throw new Error('Composition has ended');
-            return session.compose(path, deps, args, opts);
+            return session.compose(path, deps, opts);
         };
 
-        const deep = opts => (path, deps, args) => {
-            return make(util.merge({ depth: Infinity }, opts))(path, deps, args);
+        const deep = (path, deps, opts) => {
+            return make(path, deps, util.merge({ depth: Infinity }, opts));
         };
 
-        // const flat = opts => (path, deps, args) => {
-        //     const modules = util.get(target, path);
-        //     const results = Object.keys(modules).map(key => util.get(make(opts)(`${path}.${key}`, deps, args), `${path}.${key}`));
-        //     return util.set({}, path, Object.assign({}, ...results));
-        // };
-
-        const asis = opts => path => {
-            return make(opts)(path);
-        };
-
-        const modes = { make, deep, asis };
-        const applyModes = opts => Object.assign({}, ...Object.entries(modes).map(([name, func]) => ({ [name]: func(opts) })));
-
-        const opts = opts => {
-            return Object.assign(make(opts), session.external, { end }, applyModes(opts));
+        const asis = (path, opts) => {
+            return make(path, opts);
         };
 
         const end = () => {
@@ -39,7 +26,7 @@ module.exports = (target, clientOptions = {}) => {
             return session.external;
         };
 
-        const compose = Object.assign(make(), session.external, { opts, end }, applyModes());
+        const compose = Object.assign(make, session.external, { make, deep, asis, end });
         return { compose, configure, ...session.configAliases };
     };
 
