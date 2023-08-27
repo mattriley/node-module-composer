@@ -1,12 +1,21 @@
 module.exports = () => {
-    return {
+
+    const core = {
         depth: 1,
+        overrides: {},
         customiser: 'setup',
+        configAlias: 'constants',
+        freezeConfig: true,
+        extensions: true
+    };
+
+    const extensions = {
         publicPrefix: '$',
         privatePrefix: '_',
-        overrides: {},
-        extensions: true,
-        configAlias: 'constants',
-        freezeConfig: true
+        functionAlias: {},
+        moduleAlias: []
     };
+
+    return { ...core, ...extensions };
+
 };

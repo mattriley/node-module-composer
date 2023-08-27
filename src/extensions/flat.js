@@ -6,5 +6,4 @@ const flat = session => (path, deps, opts) => {
     return util.set({}, path, Object.assign({}, ...results));
 };
 
-
 module.exports = { flat };
