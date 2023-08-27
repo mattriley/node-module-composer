@@ -13,8 +13,7 @@ const setup = (session, compose) => {
         const getState = () => session.state.extensions[name];
         const setState = state => util.set(session.state.extensions, name, { ...getState(), ...state });
         const arg = { ...session, getState, setState };
-        const { compose, precompose, postcompose, ...functions } = util.mapValues(ext, func => func(arg, config));
-        if (compose) acc.compose = compose(acc.compose);
+        const { precompose, postcompose, ...functions } = util.mapValues(ext, func => func(arg, config));
         if (precompose) acc.precomposers.push(precompose);
         if (postcompose) acc.postcomposers.push(postcompose);
         return { ...acc, ...functions };
