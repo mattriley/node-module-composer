@@ -37,10 +37,7 @@ module.exports = session => (path, deps, opts) => {
         return util.flow([
             target => util.merge(target, util.get(overrides, path)),
             ...session.postcomposers.map(func => target => func({ path, target, options }) ?? target),
-            target => {
-                session.registerModule(path, target, deps);
-                return session.state.modules;
-            }
+            target => session.registerModule(path, target, deps)
         ])(target);
     };
 
