@@ -2,7 +2,7 @@ const util = require('./util');
 
 module.exports = session => (path, deps, opts) => {
 
-    const defaultOptions = { args: {}, alias: [] };
+    const defaultOptions = { args: {} };
     const options = util.merge({}, defaultOptions, session.options, opts);
     const { depth, customiser, overrides } = options;
 

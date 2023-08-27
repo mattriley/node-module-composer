@@ -1,11 +1,6 @@
 module.exports = ({ test, assert }) => composer => {
 
-    test('module aliases', () => {
-        const target = { mod: {} };
-        const { compose } = composer(target);
-        const { mod, modz } = compose.opts({ alias: ['modz'] }).make('mod');
-        assert.deepEqual(modz, mod);
-    });
+    require('module-composer/extensions/function-alias');
 
     test('function aliases', () => {
         const functionAlias = {
