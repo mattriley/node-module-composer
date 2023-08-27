@@ -26,7 +26,7 @@ module.exports = session => (path, deps, opts) => {
     if (session.state.composedDependencies[path]) throw new Error(`${path} is already composed`);
 
     const maybePromise = util.flow([
-        ...session.precomposers.map(func => target => func(path, target, options)),
+        ...session.precomposers.map(func => target => func({ path, target, options })),
         target => recurse(target, path, deps),
         target => util.has(target, customiser) ? util.invoke(target, customiser, options.args) : target
     ])(target);
@@ -36,7 +36,7 @@ module.exports = session => (path, deps, opts) => {
 
         return util.flow([
             target => util.merge(target, util.get(overrides, path)),
-            ...session.postcomposers.map(func => target => func(path, target, options)),
+            ...session.postcomposers.map(func => target => func({ path, target, options })),
             target => {
                 const functionAliases = {
                     Value: 'Val'

@@ -1,4 +1,4 @@
-const postcompose = session => (path, target, options) => {
+const postcompose = session => ({ target, options }) => {
     [options.alias].flat().forEach(alias => session.registerAlias(alias, target));
     return target;
 };
