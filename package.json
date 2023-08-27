@@ -43,10 +43,10 @@
         "husky": "^8.0.3",
         "module-composer": "file:",
         "module-indexgen": "^0.37.0",
-        "module-testrunner": "^0.19.0",
+        "module-testrunner": "^0.20.0",
         "node-sloc": "^0.2.1",
         "npm-check-updates": "^16.13.1",
-        "task-library": "^0.266.0",
+        "task-library": "^0.268.0",
         "testing": "file:./testing"
     },
     "keywords": [
