@@ -8,9 +8,13 @@ module.exports = ({ test, assert }) => composer => {
     });
 
     test('function aliases', () => {
+        const functionAlias = {
+            Value: 'Val'
+        };
+
         const target = { mod: { getValues: {} } };
         const { compose } = composer(target);
-        const { mod } = compose('mod');
+        const { mod } = compose.opts({ functionAlias })('mod');
         assert.equal(mod.getVals, mod.getValues);
     });
 

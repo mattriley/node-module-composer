@@ -38,15 +38,6 @@ module.exports = session => (path, deps, opts) => {
             target => util.merge(target, util.get(overrides, path)),
             ...session.postcomposers.map(func => target => func({ path, target, options }) ?? target),
             target => {
-                const functionAliases = {
-                    Value: 'Val'
-                };
-                return util.flatMapKeys(target, (val, key) => {
-                    const aliasKeys = Object.entries(functionAliases).map(([from, to]) => key.replace(from, to));
-                    return [key, ...aliasKeys];
-                });
-            },
-            target => {
                 session.registerModule(path, target, deps);
                 return session.state.modules;
             }
