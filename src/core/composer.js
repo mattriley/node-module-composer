@@ -17,7 +17,7 @@ module.exports = (target, clientOptions = {}) => {
         };
 
         const asis = (path, opts) => {
-            return make(path, opts);
+            return make(path, null, opts);
         };
 
         const end = () => {
