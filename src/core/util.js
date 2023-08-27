@@ -52,9 +52,19 @@ const deepFreeze = obj => {
     return Object.freeze(obj);
 };
 
+const flatMapKeys = (obj, iteratee) => {
+
+    return Object.fromEntries(Object.entries(obj).flatMap(([key, val]) => {
+        return iteratee(val, key, obj).map(key => [key, val]);
+    }));
+
+};
+
+
 module.exports = {
     cloneDeep,
     deepFreeze,
+    flatMapKeys,
     flow,
     get,
     has,
