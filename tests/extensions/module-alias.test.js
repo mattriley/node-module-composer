@@ -5,7 +5,7 @@ module.exports = ({ test, assert }) => composer => {
     test('module aliases', () => {
         const target = { mod: {} };
         const { compose } = composer(target);
-        const { mod, modz } = compose('mod', { moduleAlias: ['modz'] });
+        const { mod, modz } = compose('mod', {}, { moduleAlias: ['modz'] });
         assert.deepEqual(modz, mod);
     });
 
