@@ -6,17 +6,9 @@ module.exports = (target, clientOptions = {}) => {
     const createComposer = (config = {}) => {
         const session = Session(target, config, clientOptions);
 
-        const make = (path, deps, opts) => {
-            return session.compose(path, deps, opts);
-        };
-
-        const deep = (path, deps, opts) => {
-            return make(path, deps, { ...opts, depth: Infinity });
-        };
-
-        const asis = (path, opts) => {
-            return make(path, null, opts);
-        };
+        const make = (path, deps, opts) => session.compose(path, deps, opts);
+        const deep = (path, deps, opts) => make(path, deps, { ...opts, depth: Infinity });
+        const asis = (path, opts) => make(path, null, opts);
 
         const end = () => {
             if (session.state.ended) throw new Error('Composition has already ended');
