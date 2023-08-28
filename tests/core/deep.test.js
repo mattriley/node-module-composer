@@ -19,19 +19,32 @@ module.exports = ({ test, assert }) => composer => {
 
     test('deep multiple modules', () => {
         const target = {
-            mod1: { modA: { fun: () => () => 1 } },
-            mod2: { modB: { fun: ({ mod1 }) => () => mod1.modA.fun() } }
+            mod1: {
+                sub: {
+                    fun: () => () => 'foobar'
+                }
+            },
+            mod2: {
+                sub: {
+                    fun: ({ mod1 }) => () => mod1.sub.fun()
+                }
+            }
         };
         const { compose } = composer(target);
         const { mod1 } = compose.deep('mod1', {});
         const { mod2 } = compose.deep('mod2', { mod1 });
-        assert.deepEqual(mod2.modB.fun(), 1);
+        assert.deepEqual(mod1.sub.fun(), 'foobar');
+        assert.deepEqual(mod2.sub.fun(), 'foobar');
     });
 
     test('custom depth', () => {
         const fun = () => { };
         const target = {
-            mod1: { mod2: { mod3: { fun } } }
+            mod1: {
+                mod2: {
+                    mod3: { fun }
+                }
+            }
         };
         const { compose } = composer(target, { depth: 1 });
         const { mod1 } = compose('mod1', {});
@@ -50,6 +63,7 @@ module.exports = ({ test, assert }) => composer => {
         const { compose } = composer(target);
         const { mod } = compose.deep('mod', {});
         assert.deepEqual(mod.sub.fun1(), 'foobar');
+        assert.deepEqual(mod.sub.fun2(), 'foobar');
     });
 
 };
