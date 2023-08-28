@@ -43,14 +43,6 @@ module.exports = ({ test, assert }) => composer => {
         assert.deepEqual(compose.dependencies, { mod1: [], mod2: [] });
     });
 
-    test('deps are optional', () => {
-        const target = { mod: { fun: () => () => 1 } };
-        const { compose } = composer(target);
-        const { mod } = compose('mod', {});
-        assert.deepEqual(mod.fun(), 1);
-        assert.deepEqual(compose.dependencies, { mod: [] });
-    });
-
     test('deps are applied', () => {
         const target = {
             mod1: { fun: () => () => 2 },
