@@ -37,7 +37,7 @@ module.exports = ({ test, assert }) => composer => {
             mod2: {}
         };
         const { compose } = composer(target);
-        const { mod1, mod2 } = compose('mod1');
+        const { mod1, mod2 } = compose('mod1', {});
         assert.notEqual(mod1, target.mod1);
         assert.deepEqual(mod2, target.mod2);
         assert.deepEqual(compose.dependencies, { mod1: [], mod2: [] });

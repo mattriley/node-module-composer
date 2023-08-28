@@ -29,9 +29,9 @@ module.exports = ({ test, assert }) => composer => {
         };
 
         const { compose } = composer(target);
-        const { foo } = compose('foo');
+        const { foo } = compose('foo', {});
         compose('foobar', { foo, bar });
-        compose('nestedTarget.nestedFoo');
+        compose('nestedTarget.nestedFoo', {});
 
         const expectedCode = `
 (modules, { bar }) => {

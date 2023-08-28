@@ -8,20 +8,26 @@ module.exports = ({ test, assert }) => composer => {
     test('key not provided', () => {
         const target = {};
         const { compose } = composer(target);
-        assert.throws(() => compose(), /^Error: key is required$/);
+        assert.throws(() => compose(), /^Error: Missing path$/);
     });
 
     test('key not found', () => {
         const target = {};
         const { compose } = composer(target);
-        assert.throws(() => compose('mod'), /^Error: mod not found$/);
-        assert.throws(() => compose('mod1.modA'), /^Error: mod1.modA not found$/);
+        assert.throws(() => compose('mod', {}), /^Error: mod not found$/);
+        assert.throws(() => compose('mod1.modA', {}), /^Error: mod1.modA not found$/);
     });
 
     test('target with non-plain object module', () => {
         const target = { mod: 1 };
         const { compose } = composer(target);
-        assert.throws(() => compose('mod'), /^Error: mod must be a plain object$/);
+        assert.throws(() => compose('mod', {}), /^Error: mod must be a plain object$/);
+    });
+
+    test('missing dependencies', () => {
+        const target = { foo: {} };
+        const { compose } = composer(target);
+        assert.throws(() => compose('foo'), /^Error: Missing dependencies$/);
     });
 
 };

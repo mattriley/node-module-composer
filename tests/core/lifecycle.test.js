@@ -3,14 +3,14 @@ module.exports = ({ test, assert }) => composer => {
     test('attempt to re-compose', () => {
         const target = { mod: {} };
         const { compose } = composer(target);
-        compose('mod');
-        assert.throws(() => compose('mod'), /^Error: mod is already composed$/);
+        compose('mod', {});
+        assert.throws(() => compose('mod', {}), /^Error: mod is already composed$/);
     });
 
     test('ending a composition', () => {
         const target = { mod: {} };
         const { compose } = composer(target);
-        compose('mod');
+        compose('mod', {});
         const result = compose.end();
         assert.deepEqual(result.modules, compose.modules);
         assert.deepEqual(result.dependencies, compose.dependencies);
@@ -19,9 +19,9 @@ module.exports = ({ test, assert }) => composer => {
     test('attempt to compose after ending', () => {
         const target = { mod: {} };
         const { compose } = composer(target);
-        compose('mod');
+        compose('mod', {});
         compose.end();
-        assert.throws(() => compose('mod2'), /^Error: Composition has ended$/);
+        assert.throws(() => compose('mod2', {}), /^Error: Composition has ended$/);
     });
 
     test('attempt to end after ending', () => {

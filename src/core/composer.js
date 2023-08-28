@@ -7,7 +7,6 @@ module.exports = (target, clientOptions = {}) => {
         const session = Session(target, config, clientOptions);
 
         const make = (path, deps, opts) => {
-            if (session.state.ended) throw new Error('Composition has ended');
             return session.compose(path, deps, opts);
         };
 
