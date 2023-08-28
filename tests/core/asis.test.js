@@ -1,6 +1,6 @@
 module.exports = ({ test, assert }) => composer => {
 
-    test('module is registered as-is', () => {
+    test('compose as-is with no dependencies', () => {
         const target = {
             mod: {
                 fun: () => 1

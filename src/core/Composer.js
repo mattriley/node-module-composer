@@ -1,6 +1,5 @@
 const Configure = require('./configure');
 const Session = require('./session');
-const util = require('./util');
 
 module.exports = (target, clientOptions = {}) => {
 

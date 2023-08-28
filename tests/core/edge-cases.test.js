@@ -25,7 +25,7 @@ module.exports = ({ test, assert }) => composer => {
             }
         };
         const { compose } = composer(target);
-        const { mod } = compose('mod');
+        const { mod } = compose('mod', {});
         assert.equal(mod.fun, target.mod.fun);
     });
 
@@ -38,7 +38,7 @@ module.exports = ({ test, assert }) => composer => {
             ...nonPlainObjects
         };
         const { compose } = composer(target);
-        const { mod1 } = compose.deep('mod1');
+        const { mod1 } = compose.deep('mod1', {});
         assert.deepEqual(mod1.modA, nonPlainObjects);
     });
 

@@ -1,6 +1,6 @@
 module.exports = ({ test, assert }) => composer => {
 
-    test('deps are applied recursively within single module', () => {
+    test('deep single module', () => {
         const target = {
             mod1: {
                 fun: () => () => 1,
@@ -16,7 +16,7 @@ module.exports = ({ test, assert }) => composer => {
         assert.deepEqual(mod1.modA.fun2(), 1);
     });
 
-    test('deps are applied recursively across multiple modules', () => {
+    test('deep multiple modules', () => {
         const target = {
             mod1: { modA: { fun: () => () => 1 } },
             mod2: { modB: { fun: ({ mod1 }) => () => mod1.modA.fun() } }
