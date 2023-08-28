@@ -13,7 +13,7 @@ module.exports = (target, clientOptions = {}) => {
         };
 
         const deep = (path, deps, opts) => {
-            return make(path, deps, util.merge({ depth: Infinity }, opts));
+            return make(path, deps, { ...opts, depth: Infinity });
         };
 
         const asis = (path, opts) => {
