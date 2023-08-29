@@ -220,18 +220,18 @@ Recommended reading:
 
 The `configure` function accepts application configuration and makes it available to all modules as a dependency named `config`.
 
-For convenience, `config` accepts multiple configuration objects, merging them together using [Lodash merge](https://lodash.com/docs#merge) in the order specified. If an array is provided, the array will be flattened prior to merging. A "customisation" function may also be provided. The customisation function will be invoked with the preceeding merged config as an argument, and the return value then also being merged.
+For convenience, `config` accepts multiple configuration objects, merging them together using [Lodash merge](https://lodash.com/docs#merge) in the order specified. A "customisation" function may also be provided. The customisation function will be invoked with the preceeding merged config as an argument, and the return value then also being merged.
 
 ```js
 const { configure } = composer(modules);
-const { compose, config } = configure(defaultConfig, userConfigs, config => {});
+const { compose, config } = configure([defaultConfig, userConfig], config => {});
 ```
 
 An alias can be configured in case a name other than `config` is more appropriate. By default, the alias is `constants` and can be changed using the `configAlias` option:
 
 ```js
 const { configure } = composer(modules, { configAlias: 'settings' });
-const { compose, settings } = configure(defaultConfig, userConfigs, config => {});
+const { compose, settings } = configure([defaultConfig, userConfig, config => {}]);
 ```
 
 ## Fitness functions
