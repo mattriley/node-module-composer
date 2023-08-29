@@ -7,6 +7,7 @@ const isFunction = require('lodash/isFunction');
 const isPlainObject = require('lodash/isPlainObject');
 const mapValues = require('lodash/mapValues');
 const merge = require('lodash/merge');
+const mergeWith = require('lodash/mergeWith');
 const pick = require('lodash/pick');
 const pickBy = require('lodash/pickBy');
 const set = require('lodash/set');
@@ -75,6 +76,7 @@ module.exports = {
     mapValues,
     matchPaths,
     merge,
+    mergeWith,
     pick,
     pickBy,
     removePaths,

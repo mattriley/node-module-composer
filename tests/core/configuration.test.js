@@ -21,6 +21,21 @@ module.exports = ({ test, assert }) => composer => {
         assert.equal(constants, compose.constants);
     });
 
+    test('merging config customiser', () => {
+        const customizer = (objValue, srcValue) => {
+            if (Array.isArray(objValue)) return objValue.concat(srcValue);
+        };
+        const configs = [
+            { a: { arr: [1] } },
+            { a: { arr: [2] } }
+        ];
+        const { configure } = composer({});
+        const { compose, constants } = configure(configs, customizer);
+        const expected = { a: { arr: [1, 2] } };
+        assert.deepEqual(constants, expected);
+        assert.equal(constants, compose.constants);
+    });
+
     test('config functions', () => {
         const config = [
             { a: 1 },
