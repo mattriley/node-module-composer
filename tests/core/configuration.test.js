@@ -9,7 +9,7 @@ module.exports = ({ test, assert }) => composer => {
         assert.deepEqual(constants, compose.constants);
     });
 
-    test('multiple config objects are merged', () => {
+    test('merging config', () => {
         const configs = [
             { a: { b: 'B', c: 'c' } },
             { a: { c: 'C', d: 'D' } }
@@ -33,9 +33,17 @@ module.exports = ({ test, assert }) => composer => {
         assert.equal(constants, compose.constants);
     });
 
-    test('a module named constants overrides constants as a module', () => {
+    test('module named config', () => {
         const configs = [{ a: 1 }];
         const target = { config: { a: 2 } };
+        const { configure } = composer(target);
+        const { compose } = configure(configs);
+        assert.deepEqual(compose.modules.config, target.config);
+    });
+
+    test('module named constants', () => {
+        const configs = [{ a: 1 }];
+        const target = { constants: { a: 2 } };
         const { configure } = composer(target);
         const { compose } = configure(configs);
         assert.deepEqual(compose.modules.constants, target.constants);
