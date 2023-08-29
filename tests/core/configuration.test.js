@@ -43,8 +43,7 @@ module.exports = ({ test, assert }) => composer => {
 
     test('config is frozen by default', () => {
         const configs = [{ a: 1 }];
-        const target = {};
-        const { configure } = composer(target);
+        const { configure } = composer({});
         const { config } = configure(configs);
         config.a = 2;
         assert.equal(config.a, 1);
@@ -52,8 +51,7 @@ module.exports = ({ test, assert }) => composer => {
 
     test('option to not freeze config', () => {
         const configs = [{ a: 1 }];
-        const target = {};
-        const { configure } = composer(target, { freezeConfig: false });
+        const { configure } = composer({}, { freezeConfig: false });
         const { config } = configure(configs);
         config.a = 2;
         assert.equal(config.a, 2);
