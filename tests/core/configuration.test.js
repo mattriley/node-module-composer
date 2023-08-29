@@ -21,7 +21,7 @@ module.exports = ({ test, assert }) => composer => {
         assert.equal(constants, compose.constants);
     });
 
-    test('config customisation', () => {
+    test('config functions', () => {
         const config = [
             { a: 1 },
             config => ({ b: config.a + 1 })
@@ -41,12 +41,22 @@ module.exports = ({ test, assert }) => composer => {
         assert.deepEqual(compose.modules.constants, target.constants);
     });
 
+    test('config is frozen by default', () => {
+        const configs = [{ a: 1 }];
+        const target = {};
+        const { configure } = composer(target);
+        const { config } = configure(configs);
+        config.a = 2;
+        assert.equal(config.a, 1);
+    });
+
     test('option to not freeze config', () => {
         const configs = [{ a: 1 }];
-        const target = { config: { a: 2 } };
+        const target = {};
         const { configure } = composer(target, { freezeConfig: false });
-        const { compose } = configure(configs);
-        assert.deepEqual(compose.modules.constants, target.constants);
+        const { config } = configure(configs);
+        config.a = 2;
+        assert.equal(config.a, 2);
     });
 
 };
