@@ -1,6 +1,6 @@
 const util = require('./util');
 
-module.exports = session => (path, deps, opts) => {
+module.exports = session => (path, deps, opts = {}) => {
 
     if (session.state.ended) throw new Error('Composition has ended');
     if (!path) throw new Error('Missing path');
@@ -10,8 +10,9 @@ module.exports = session => (path, deps, opts) => {
     if (!util.isPlainObject(target)) throw new Error(`${path} must be a plain object`);
     if (session.state.composedDependencies[path]) throw new Error(`${path} is already composed`);
 
+    const overrides = opts.overrides ? util.set(util.cloneDeep(session.options.overrides), path, opts.overrides) : session.options.overrides;
     const options = { ...session.options, ...opts };
-    const { args, customiser, depth, overrides } = options;
+    const { args, customiser, depth } = options;
 
     const recurse = (target, parentPath, deps, currentDepth = 0) => {
         if (!deps) return target;
