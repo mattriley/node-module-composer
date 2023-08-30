@@ -317,7 +317,23 @@ TODO: Insert Jest mock example
 
 Module Composer provides an `overrides` option to override any part of the dependency graph:
 
-TODO: Insert overrides example
+In the tests:
+
+```js
+const overrides = {
+    someHttpClient: {
+        post: () => {
+            return { status: 201 };
+        }
+    }
+};
+```
+
+In the composition:
+
+```js
+const { compose } = composer(modules, { overrides });
+```
 
 ## Extensions
 
