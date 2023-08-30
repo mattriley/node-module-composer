@@ -10,8 +10,8 @@ module.exports = session => (path, deps, opts) => {
     if (!util.isPlainObject(target)) throw new Error(`${path} must be a plain object`);
     if (session.state.composedDependencies[path]) throw new Error(`${path} is already composed`);
 
-    const options = util.merge({}, session.options, opts);
-    const { depth, customiser, overrides } = options;
+    const options = { ...session.options, ...opts };
+    const { args, customiser, depth, overrides } = options;
 
     const recurse = (target, parentPath, deps, currentDepth = 0) => {
         if (!deps) return target;
@@ -19,7 +19,7 @@ module.exports = session => (path, deps, opts) => {
         if (!util.isPlainObject(target)) return target;
         const self = {};
         const depsMod = util.set({ self, ...session.configAliases, ...deps }, parentPath, self);
-        const argsMod = { ...session.configAliases, ...options.args };
+        const argsMod = { ...session.configAliases, ...args };
         const evaluate = (val, key) => util.isPlainFunction(val) ? val(depsMod, argsMod) : recurse(val, [parentPath, key].join('.'), depsMod, currentDepth + 1);
         return Object.assign(self, util.mapValues(target, evaluate));
     };
@@ -27,7 +27,7 @@ module.exports = session => (path, deps, opts) => {
     const maybePromise = util.flow([
         ...session.precomposers.map(func => target => func({ path, target, options }) ?? target),
         target => recurse(target, path, deps),
-        target => util.has(target, customiser) ? util.invoke(target, customiser, options.args) : target
+        target => util.has(target, customiser) ? util.invoke(target, customiser, args) : target
     ])(target);
 
     const next = target => {
