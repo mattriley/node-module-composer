@@ -1,5 +1,5 @@
 const Compose = require('./compose');
-const Options = require('./options');
+const DefaultOptions = require('./default-options');
 const extensions = require('./extensions');
 const util = require('./util');
 
@@ -8,7 +8,7 @@ module.exports = (target, config = {}, clientOptions = {}) => {
     if (!util.isPlainObject(target)) throw new Error('target must be a plain object');
 
     const targetModules = util.pickBy(target, util.isPlainObject);
-    const defaultOptions = Options();
+    const defaultOptions = DefaultOptions();
     const options = { ...defaultOptions, ...clientOptions };
 
     const state = {
