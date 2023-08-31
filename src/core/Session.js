@@ -1,5 +1,5 @@
 const Compose = require('./compose');
-const DefaultOptions = require('./default-options');
+const Options = require('./options');
 const extensions = require('./extensions');
 const util = require('./util');
 
@@ -8,8 +8,8 @@ module.exports = (target, config = {}, clientOptions = {}) => {
     if (!util.isPlainObject(target)) throw new Error('target must be a plain object');
 
     const targetModules = util.pickBy(target, util.isPlainObject);
-    const defaultOptions = DefaultOptions();
-    const options = { ...defaultOptions, ...clientOptions };
+    const options = Options(clientOptions);
+    const { composerOptions } = options;
 
     const state = {
         ended: false,
@@ -31,10 +31,10 @@ module.exports = (target, config = {}, clientOptions = {}) => {
         return state.modules;
     };
 
-    const frozenConfig = options.freezeConfig ? util.deepFreeze(config) : config;
-    const configAliases = { config: frozenConfig, [options.configAlias]: frozenConfig };
-    const external = { defaultOptions, clientOptions, options, target, targetModules, ...configAliases };
-    const session = { external: { ...state, ...external }, state, configAliases, registerModule, registerAlias, ...external };
+    const frozenConfig = composerOptions.freezeConfig ? util.deepFreeze(config) : config;
+    const configAliases = { config: frozenConfig, [composerOptions.configAlias]: frozenConfig };
+    const external = { ...options.sources, composerOptions, target, targetModules, ...configAliases };
+    const session = { external: { ...state, ...external }, ...options, state, configAliases, registerModule, registerAlias, ...external };
     const compose = Compose(session);
     const { precomposers, postcomposers, ...functions } = extensions.setup({ ...session, compose });
 
