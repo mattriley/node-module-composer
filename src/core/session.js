@@ -34,11 +34,11 @@ module.exports = (target, config = {}, clientOptions = {}) => {
     const frozenConfig = composerOptions.freezeConfig ? util.deepFreeze(config) : config;
     const configAliases = { config: frozenConfig, [composerOptions.configAlias]: frozenConfig };
     const external = { ...options.sources, composerOptions, target, targetModules, ...configAliases };
-    const session = { external: { ...state, ...external }, ...options, state, configAliases, registerModule, registerAlias, ...external };
-    const compose = Compose(session);
-    const { precomposers, postcomposers, ...functions } = extensions.setup({ ...session, compose });
+    const internal = { external: { ...state, ...external }, ...options, state, configAliases, registerModule, registerAlias, ...external };
+    const compose = Compose(internal);
+    const { precomposers, postcomposers, ...functions } = extensions.setup({ ...internal, compose });
 
-    Object.assign(session.external, functions);
-    return Object.assign(session, { compose, precomposers, postcomposers });
+    Object.assign(internal.external, functions);
+    return Object.assign(internal, { compose, precomposers, postcomposers });
 
 }; 
