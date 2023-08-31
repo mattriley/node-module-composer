@@ -4,20 +4,20 @@ const Session = require('./session');
 module.exports = (target, clientOptions = {}) => {
 
     const createComposer = (config = {}) => {
-        const session = Session(target, config, clientOptions);
+        const { internal, external } = Session(target, config, clientOptions);
 
-        const make = (path, deps, opts) => session.compose(path, deps, opts);
+        const make = (path, deps, opts) => internal.compose(path, deps, opts);
         const deep = (path, deps, opts) => make(path, deps, { ...opts, depth: Infinity });
         const asis = (path, opts) => make(path, null, opts);
 
         const end = () => {
-            if (session.state.ended) throw new Error('Composition has already ended');
-            session.state.ended = true;
-            return session.external;
+            if (internal.state.ended) throw new Error('Composition has already ended');
+            internal.state.ended = true;
+            return external;
         };
 
-        const compose = Object.assign(make, session.external, { make, deep, asis, end });
-        return { compose, configure, ...session.configAliases };
+        const compose = Object.assign(make, external, { make, deep, asis, end });
+        return { compose, configure, ...internal.configAliases };
     };
 
     const configure = Configure(createComposer);
