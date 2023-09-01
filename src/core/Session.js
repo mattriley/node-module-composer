@@ -39,6 +39,6 @@ module.exports = (target, userOptions = {}, config = {}) => {
     Object.assign(external, functions, { compose });
     Object.assign(internal, { precomposers, postcomposers });
 
-    return { internal, external };
+    return internal;
 
 }; 
