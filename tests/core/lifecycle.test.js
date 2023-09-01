@@ -11,7 +11,7 @@ module.exports = ({ test, assert }) => composer => {
         const target = { mod: {} };
         const { compose } = composer(target);
         compose('mod', {});
-        const result = compose.end();
+        const result = compose.done();
         assert.deepEqual(result.modules, compose.modules);
         assert.deepEqual(result.dependencies, compose.dependencies);
     });

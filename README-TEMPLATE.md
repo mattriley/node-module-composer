@@ -96,7 +96,7 @@ export default () => {
     const { compose } = composer(modules);
     const { orderingService } = compose('orderingService');
     compose('components', { orderingService });
-    return compose.end(); // Returns all modules and prevents further composition
+    return compose.done(); // Returns all modules and prevents further composition
 };
 ```
 
@@ -106,7 +106,7 @@ Example of an entry point for a SPA:
 import compose from './compose.js';
 const { modules } = compose(); // Invoke the Composition Root
 const app = modules.components.app(); // Create an instance of the app component
-document.getElementById('app').append(app); // Append the app component to the DOM
+document.getElementById('app').appdone(app); // Append the app component to the DOM
 ```
 
 Extracting the Composition Root can be especially useful for applications that have multiple entry points.
@@ -371,7 +371,7 @@ export default () => {
     const { stores } = compose('stores');
     const { services } = compose('services', { stores });
     compose('components', { services });
-    return compose.end();
+    return compose.done();
 };
 ```
 

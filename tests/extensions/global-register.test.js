@@ -6,7 +6,7 @@ module.exports = ({ test, assert }) => composer => {
         const target = { foo: {}, window: {} };
         const { compose } = composer(target, { globalThis });
         compose('foo', { bar: {} });
-        const composition = compose.end();
+        const composition = compose.done();
         assert.deepEqual(globalThis.compositions.at(-1), { 'module-composer': composition });
     });
 
@@ -15,7 +15,7 @@ module.exports = ({ test, assert }) => composer => {
         const target = { foo: {}, window: {} };
         const { compose } = composer(target, { globalThis });
         compose('foo', { bar: {} });
-        const composition = compose.end();
+        const composition = compose.done();
         assert.deepEqual(globalThis.compositions.at(-1), { 'Unnamed Composition': composition });
     });
 
@@ -25,7 +25,7 @@ module.exports = ({ test, assert }) => composer => {
         const { configure } = composer(target, { globalThis });
         const { compose } = configure(configs);
         compose('foo', { bar: {} });
-        const composition = compose.end();
+        const composition = compose.done();
         assert.deepEqual(globalThis.compositions.at(-1), { 'custom-name': composition });
     });
 
