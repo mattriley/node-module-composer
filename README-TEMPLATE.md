@@ -224,14 +224,14 @@ For convenience, `config` accepts multiple configuration objects, merging them t
 
 ```js
 const { configure } = composer(modules);
-const { compose, config } = configure([defaultConfig, userConfig], config => {});
+const { compose, config } = configure(defaultConfig, userConfig, config => {});
 ```
 
 An alias can be configured in case a name other than `config` is more appropriate. By default, the alias is `constants` and can be changed using the `configAlias` option:
 
 ```js
 const { configure } = composer(modules, { configAlias: 'settings' });
-const { compose, settings } = configure([defaultConfig, userConfig, config => {}]);
+const { compose, settings } = configure(defaultConfig, userConfig, config => {});
 ```
 
 ## Fitness functions
