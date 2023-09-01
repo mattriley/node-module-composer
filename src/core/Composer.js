@@ -1,7 +1,15 @@
-const Configure = require('./configure');
 const Session = require('./session');
+const util = require('./util');
 
 module.exports = (target, options = {}) => {
+
+    const configure = (configs = [], customiser) => {
+        const config = configs.reduce((acc, c) => {
+            const config = util.isPlainFunction(c) ? c(acc) : c;
+            return util.mergeWith(acc, config, customiser);
+        }, {});
+        return createComposer(config);
+    };
 
     const createComposer = (config = {}) => {
         const session = Session(target, options, config);
@@ -18,7 +26,6 @@ module.exports = (target, options = {}) => {
         return { compose, configure, ...session.configAliases };
     };
 
-    const configure = Configure(createComposer);
     return configure(options.config);
 
 };
