@@ -1,10 +1,10 @@
 const Configure = require('./configure');
 const Session = require('./session');
 
-module.exports = (target, clientOptions = {}) => {
+module.exports = (target, options = {}) => {
 
     const createComposer = (config = {}) => {
-        const { internal, external } = Session(target, config, clientOptions);
+        const { internal, external } = Session(target, config, options);
 
         const make = (path, deps, opts) => internal.compose(path, deps, opts);
         const deep = (path, deps, opts) => make(path, deps, { ...opts, depth: Infinity });
@@ -19,6 +19,6 @@ module.exports = (target, clientOptions = {}) => {
     };
 
     const configure = Configure(createComposer);
-    return configure(clientOptions.config);
+    return configure(options.config);
 
 };

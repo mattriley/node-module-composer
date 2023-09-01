@@ -3,12 +3,12 @@ const Options = require('./options');
 const extensions = require('./extensions');
 const util = require('./util');
 
-module.exports = (target, config = {}, clientOptions = {}) => {
+module.exports = (target, config = {}, userOptions = {}) => {
 
     if (!util.isPlainObject(target)) throw new Error('target must be a plain object');
 
     const targetModules = util.pickBy(target, util.isPlainObject);
-    const options = Options(clientOptions);
+    const options = Options(userOptions);
     const { composerOptions } = options;
 
     const state = {
