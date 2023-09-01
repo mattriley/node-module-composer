@@ -1,10 +1,10 @@
 const Session = require('./session');
-const util = require('./util');
+const _ = require('./util');
 
 module.exports = (target, options = {}) => {
 
     const configure = (configs = [], customiser) => {
-        return createComposer(configs.reduce((acc, c) => util.mergeWith(acc, util.invokeOrReturn(c, acc), customiser), {}));
+        return createComposer(configs.reduce((acc, c) => _.mergeWith(acc, _.invokeOrReturn(c, acc), customiser), {}));
     };
 
     const createComposer = (config = {}) => {

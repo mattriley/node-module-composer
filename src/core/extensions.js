@@ -1,4 +1,4 @@
-const util = require('./util');
+const _ = require('./util');
 
 const stateContainer = globalThis;
 if (!stateContainer.moduleComposer) stateContainer.moduleComposer = { extensions: {} };
@@ -9,9 +9,9 @@ const setup = session => {
     return extensionNames.reduce((acc, name) => {
         const ext = stateContainer.moduleComposer.extensions[name];
         const getState = () => session.extensions[name];
-        const setState = state => util.set(session.extensions, name, { ...getState(), ...state });
+        const setState = state => _.set(session.extensions, name, { ...getState(), ...state });
         const arg = { ...session, getState, setState };
-        const { precompose, postcompose, ...functions } = util.mapValues(ext, func => func(arg));
+        const { precompose, postcompose, ...functions } = _.mapValues(ext, func => func(arg));
         if (precompose) acc.precomposers.push(precompose);
         if (postcompose) acc.postcomposers.push(postcompose);
         return { ...acc, ...functions };

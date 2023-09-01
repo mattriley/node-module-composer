@@ -1,35 +1,35 @@
 const Compose = require('./compose');
 const Options = require('./options');
 const extensions = require('./extensions');
-const util = require('./util');
+const _ = require('./util');
 
 module.exports = (target, options = {}, config = {}) => {
 
-    if (!util.isPlainObject(target)) throw new Error('target must be a plain object');
+    if (!_.isPlainObject(target)) throw new Error('target must be a plain object');
 
-    const targetModules = util.pickBy(target, util.isPlainObject);
+    const targetModules = _.pickBy(target, _.isPlainObject);
     const { optionSources, globalOptions, getModuleOptions } = Options(options);
 
     const state = {
-        dependencies: util.mapValues(targetModules, () => []),
+        dependencies: _.mapValues(targetModules, () => []),
         composedDependencies: {},
         modules: { ...targetModules },
         extensions: {}
     };
 
     const registerModule = (path, module, deps) => {
-        util.set(state.modules, path, module);
+        _.set(state.modules, path, module);
         const depKeys = Object.keys(deps ?? {}).filter(k => k !== path);
         state.dependencies[path] = state.composedDependencies[path] = depKeys;
         return state.modules;
     };
 
     const registerAlias = (path, module) => {
-        util.set(state.modules, path, module);
+        _.set(state.modules, path, module);
         return state.modules;
     };
 
-    config = globalOptions.freezeConfig ? util.deepFreeze(config) : config;
+    config = globalOptions.freezeConfig ? _.deepFreeze(config) : config;
     const configAliases = globalOptions.configAlias.reduce((acc, alias) => Object.assign(acc, { [alias]: config }), { config });
     const external = { ...state, ...optionSources, globalOptions, target, targetModules, config };
     const internal = { ...external, external, configAliases, getModuleOptions, registerModule, registerAlias };
