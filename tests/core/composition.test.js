@@ -9,6 +9,7 @@ module.exports = ({ test, assert }) => composer => {
     test('default composition is copy of target', () => {
         const target = { mod: {} };
         const { compose } = composer(target);
+        delete compose.modules.composition;
         assert.deepEqual(compose.modules, target);
         assert.notEqual(compose.modules, target);
     });

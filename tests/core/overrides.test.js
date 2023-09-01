@@ -7,6 +7,7 @@ module.exports = ({ test, assert }) => composer => {
         };
         const overrides = { mod1: { fun: () => 2 } };
         const { compose } = composer(target, { overrides });
+        delete compose.modules.composition;
         const { mod1 } = compose('mod1', {});
         const { mod2 } = compose('mod2', { mod1 });
         assert.deepEqual(mod2.fun(), 2);
@@ -23,6 +24,7 @@ module.exports = ({ test, assert }) => composer => {
         };
         const overrides = { mod: { fun1: () => 2 } };
         const { compose } = composer(target, { overrides });
+        delete compose.modules.composition;
         const { mod } = compose('mod', {});
         assert.deepEqual(mod.fun2(), 2);
         assert.deepEqual(compose.modules, { mod });
@@ -36,6 +38,7 @@ module.exports = ({ test, assert }) => composer => {
         };
         const overrides = { fun: () => 2 };
         const { compose } = composer(target);
+        delete compose.modules.composition;
         const { mod1 } = compose('mod1', {}, { overrides });
         const { mod2 } = compose('mod2', { mod1 });
         assert.deepEqual(mod2.fun(), 2);

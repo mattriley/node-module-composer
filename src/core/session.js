@@ -32,13 +32,14 @@ module.exports = (target, options = {}, config = {}) => {
     config = globalOptions.freezeConfig ? _.deepFreeze(config) : config;
     const configAliases = globalOptions.configAlias.reduce((acc, alias) => Object.assign(acc, { [alias]: config }), { config });
     const external = { ...state, ...optionSources, globalOptions, target, targetModules, config };
-    const internal = { ...external, external, configAliases, getModuleOptions, registerModule, registerAlias };
-    const compose = Compose(internal);
-    const { precomposers, postcomposers, ...functions } = extensions.setup(internal);
+    const session = { ...external, external, configAliases, getModuleOptions, registerModule, registerAlias };
+    const compose = Compose(session);
+    const { precomposers, postcomposers, ...extensionFunctions } = extensions.setup(session);
 
-    Object.assign(external, functions, { compose });
-    Object.assign(internal, { precomposers, postcomposers });
+    Object.assign(session, { precomposers, postcomposers });
+    Object.assign(session.external, extensionFunctions, { compose });
+    Object.assign(state.modules, { composition: session.external });
 
-    return internal;
+    return session;
 
 }; 
