@@ -55,6 +55,18 @@ module.exports = ({ test, assert }) => composer => {
         assert.deepEqual(compose.dependencies, { mod1: [], mod2: ['mod1'] });
     });
 
+    test('undefined deps', () => {
+        const target = {
+            mod1: { fun: () => () => 2 },
+            mod2: { fun: ({ mod1 }) => () => mod1.fun() }
+        };
+        const { compose } = composer(target);
+        const { mod1 } = compose('mod1', undefined);
+        const { mod2 } = compose('mod2', { mod1 });
+        assert.deepEqual(mod2.fun(), 2);
+        assert.deepEqual(compose.dependencies, { mod1: [], mod2: ['mod1'] });
+    });
+
     test('deps are applied to nested modules', () => {
         const target = {
             mod1: { modA: { fun: () => () => 2 } },

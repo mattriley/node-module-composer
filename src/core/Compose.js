@@ -1,10 +1,9 @@
 const _ = require('./util');
 
-module.exports = session => (path, deps, opts = {}) => {
+module.exports = session => (path, deps = {}, opts = {}) => {
 
     if (!path) throw new Error('Missing path');
     if (!_.has(session.target, path)) throw new Error(`${path} not found`);
-    if (deps === undefined) throw new Error('Missing dependencies');
     const target = _.get(session.target, path);
     if (!_.isPlainObject(target)) throw new Error(`${path} must be a plain object`);
     if (session.composedDependencies[path]) throw new Error(`${path} is already composed`);

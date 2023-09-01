@@ -24,10 +24,4 @@ module.exports = ({ test, assert }) => composer => {
         assert.throws(() => compose('mod', {}), /^Error: mod must be a plain object$/);
     });
 
-    test('missing dependencies', () => {
-        const target = { foo: {} };
-        const { compose } = composer(target);
-        assert.throws(() => compose('foo'), /^Error: Missing dependencies$/);
-    });
-
 };
