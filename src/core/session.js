@@ -34,7 +34,7 @@ module.exports = (target, userOptions = {}, config = {}) => {
     const external = { ...state, ...optionSources, globalOptions, target, targetModules, config: frozenConfig };
     const internal = { ...external, external, configAliases, getModuleOptions, registerModule, registerAlias };
     const compose = Compose(internal);
-    const { precomposers, postcomposers, ...functions } = extensions.setup({ ...internal, compose });
+    const { precomposers, postcomposers, ...functions } = extensions.setup(internal);
 
     Object.assign(external, functions, { compose });
     Object.assign(internal, { precomposers, postcomposers });
