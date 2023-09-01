@@ -4,14 +4,14 @@ const util = require('./util');
 module.exports = userOptions => {
 
     const defaultOptions = DefaultOptions();
-    const sources = { defaultOptions, userOptions };
-    const composerOptions = Object.assign({}, ...Object.values(sources));
+    const optionSources = { defaultOptions, userOptions };
+    const globalOptions = Object.assign({}, ...Object.values(optionSources));
 
     const getModuleOptions = (path, moduleOptions) => {
-        const overrides = moduleOptions.overrides ? util.set(util.cloneDeep(composerOptions.overrides), path, moduleOptions.overrides) : composerOptions.overrides;
-        return { ...composerOptions, ...moduleOptions, overrides };
+        const overrides = moduleOptions.overrides ? util.set(util.cloneDeep(globalOptions.overrides), path, moduleOptions.overrides) : globalOptions.overrides;
+        return { ...globalOptions, ...moduleOptions, overrides };
     };
 
-    return { sources, composerOptions, getModuleOptions };
+    return { optionSources, globalOptions, getModuleOptions };
 
 };
