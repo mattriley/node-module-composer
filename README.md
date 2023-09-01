@@ -124,7 +124,7 @@ export default () => {
     const { compose } = composer(modules);
     const { orderingService } = compose('orderingService');
     compose('components', { orderingService });
-    return compose.done(); // Returns all modules and prevents further composition
+    return compose.modules;
 };
 ```
 
@@ -132,9 +132,9 @@ Example of an entry point for a SPA:
 
 ```js
 import compose from './compose.js';
-const { modules } = compose(); // Invoke the Composition Root
-const app = modules.components.app(); // Create an instance of the app component
-document.getElementById('app').appdone(app); // Append the app component to the DOM
+const { components } = compose(); // Invoke the Composition Root
+const app = components.app(); // Create an instance of the app component
+document.getElementById('app').append(app); // Append the app component to the DOM
 ```
 
 Extracting the Composition Root can be especially useful for applications that have multiple entry points.
@@ -402,7 +402,7 @@ export default () => {
     const { stores } = compose('stores');
     const { services } = compose('services', { stores });
     compose('components', { services });
-    return compose.done();
+    return compose.modules;
 };
 ```
 
@@ -506,78 +506,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 91.68941736221313,
-            "endTime": 92.10854196548462,
-            "duration": 0.4191246032714844
+            "startTime": 68.49500036239624,
+            "endTime": 68.94733428955078,
+            "duration": 0.452333927154541
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 92.24095821380615,
-            "endTime": 92.3180832862854,
-            "duration": 0.07712507247924805
+            "startTime": 69.0789589881897,
+            "endTime": 69.15466737747192,
+            "duration": 0.07570838928222656
         },
         "core": {
             "path": "core",
-            "startTime": 93.03258323669434,
-            "endTime": 93.23041725158691,
-            "duration": 0.19783401489257812
+            "startTime": 69.88150024414062,
+            "endTime": 70.0865421295166,
+            "duration": 0.20504188537597656
         },
         "io": {
             "path": "io",
-            "startTime": 93.28579235076904,
-            "endTime": 93.39279222488403,
-            "duration": 0.10699987411499023
+            "startTime": 70.14116716384888,
+            "endTime": 70.2514591217041,
+            "duration": 0.11029195785522461
         },
         "services": {
             "path": "services",
-            "startTime": 93.70154237747192,
-            "endTime": 94.08704233169556,
-            "duration": 0.3854999542236328
+            "startTime": 70.56120920181274,
+            "endTime": 70.94716739654541,
+            "duration": 0.385958194732666
         },
         "ui": {
             "path": "ui",
-            "startTime": 94.15183305740356,
-            "endTime": 94.19758319854736,
-            "duration": 0.04575014114379883
+            "startTime": 71.01466703414917,
+            "endTime": 71.06066703796387,
+            "duration": 0.046000003814697266
         },
         "elements": {
             "path": "elements",
-            "startTime": 94.25775003433228,
-            "endTime": 94.33620834350586,
-            "duration": 0.07845830917358398
+            "startTime": 71.12241697311401,
+            "endTime": 71.20762538909912,
+            "duration": 0.08520841598510742
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 94.37887525558472,
-            "endTime": 94.44495820999146,
-            "duration": 0.06608295440673828
+            "startTime": 71.24891710281372,
+            "endTime": 71.31975030899048,
+            "duration": 0.07083320617675781
         },
         "components": {
             "path": "components",
-            "startTime": 94.95775032043457,
-            "endTime": 95.55120801925659,
-            "duration": 0.5934576988220215
+            "startTime": 71.82920932769775,
+            "endTime": 72.37575006484985,
+            "duration": 0.5465407371520996
         },
         "styles": {
             "path": "styles",
-            "startTime": 95.62454223632812,
-            "endTime": 95.7468752861023,
-            "duration": 0.12233304977416992
+            "startTime": 72.44675016403198,
+            "endTime": 72.57450008392334,
+            "duration": 0.12774991989135742
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 95.79816722869873,
-            "endTime": 95.81962537765503,
-            "duration": 0.021458148956298828
+            "startTime": 72.62508392333984,
+            "endTime": 72.64458417892456,
+            "duration": 0.019500255584716797
         },
         "startup": {
             "path": "startup",
-            "startTime": 95.95012521743774,
-            "endTime": 95.99437522888184,
-            "duration": 0.0442500114440918
+            "startTime": 72.78937530517578,
+            "endTime": 72.83404207229614,
+            "duration": 0.04466676712036133
         }
     },
-    "totalDuration": 2.1583738327026367,
+    "totalDuration": 2.1698336601257324,
     "durationUnit": "ms"
 }
 ```
