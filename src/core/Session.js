@@ -29,9 +29,9 @@ module.exports = (target, options = {}, config = {}) => {
         return state.modules;
     };
 
-    const frozenConfig = globalOptions.freezeConfig ? util.deepFreeze(config) : config;
-    const configAliases = { config: frozenConfig, [globalOptions.configAlias]: frozenConfig };
-    const external = { ...state, ...optionSources, globalOptions, target, targetModules, config: frozenConfig };
+    config = globalOptions.freezeConfig ? util.deepFreeze(config) : config;
+    const configAliases = { config, [globalOptions.configAlias]: config };
+    const external = { ...state, ...optionSources, globalOptions, target, targetModules, config };
     const internal = { ...external, external, configAliases, getModuleOptions, registerModule, registerAlias };
     const compose = Compose(internal);
     const { precomposers, postcomposers, ...functions } = extensions.setup(internal);
