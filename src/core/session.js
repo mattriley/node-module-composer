@@ -36,8 +36,8 @@ module.exports = (target, userOptions = {}, config = {}) => {
     const compose = Compose(internal);
     const { precomposers, postcomposers, ...functions } = extensions.setup({ ...internal, compose });
 
-    Object.assign(external, functions);
-    Object.assign(internal, { compose, precomposers, postcomposers });
+    Object.assign(external, functions, { compose });
+    Object.assign(internal, { precomposers, postcomposers });
 
     return { internal, external };
 

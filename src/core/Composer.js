@@ -6,7 +6,7 @@ module.exports = (target, options = {}) => {
     const createComposer = (config = {}) => {
         const { internal, external } = Session(target, options, config);
 
-        const make = (path, deps, opts) => internal.compose(path, deps, opts);
+        const make = (path, deps, opts) => external.compose(path, deps, opts);
         const deep = (path, deps, opts) => make(path, deps, { ...opts, depth: Infinity });
         const asis = (path, opts) => make(path, null, opts);
 
