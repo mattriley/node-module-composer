@@ -76,6 +76,21 @@ module.exports = ({ test, assert }) => composer => {
         assert.equal(config, compose.config);
     });
 
+    test('config merge customiser with spread', () => {
+        const customizer = (objValue, srcValue) => {
+            if (Array.isArray(objValue)) return objValue.concat(srcValue);
+        };
+        const configs = [
+            { a: { arr: [1] } },
+            { a: { arr: [2] } }
+        ];
+        const { configure } = composer({});
+        const { compose, config } = configure.mergeWith(customizer, ...configs);
+        const expected = { a: { arr: [1, 2] } };
+        assert.deepEqual(config, expected);
+        assert.equal(config, compose.config);
+    });
+
     test('module named config', () => {
         const configs = [{ a: 1 }];
         const target = { config: { a: 2 } };
