@@ -1,6 +1,6 @@
 module.exports = ({ test, assert }) => composer => {
 
-    test('config provided as an option', () => {
+    test('config object provided as an option', () => {
         const configs = [{ a: 1 }];
         const { compose, config } = composer({}, { config: configs[0] });
         assert.deepEqual(config, configs[0]);
@@ -16,16 +16,16 @@ module.exports = ({ test, assert }) => composer => {
         assert.equal(config, compose.config);
     });
 
-    test('single config object', () => {
+    test('config object', () => {
         const configs = [{ a: 1 }];
         const { configure } = composer({});
-        const { compose, config } = configure(configs);
+        const { compose, config } = configure(configs[0]);
         assert.deepEqual(config, configs[0]);
         assert.notEqual(config, configs[0]);
         assert.equal(config, compose.config);
     });
 
-    test('merging config', () => {
+    test('array of config', () => {
         const configs = [
             { a: { b: 'B', c: 'c' } },
             { a: { c: 'C', d: 'D' } }
@@ -37,7 +37,19 @@ module.exports = ({ test, assert }) => composer => {
         assert.equal(config, compose.config);
     });
 
-    test('merging config customiser', () => {
+    test('config function', () => {
+        const configs = [
+            { a: 1 },
+            config => ({ b: config.a + 1 })
+        ];
+        const { configure } = composer({});
+        const { compose, config } = configure(configs);
+        const expected = { a: 1, b: 2 };
+        assert.deepEqual(config, expected);
+        assert.equal(config, compose.config);
+    });
+
+    test('config merge customiser', () => {
         const customizer = (objValue, srcValue) => {
             if (Array.isArray(objValue)) return objValue.concat(srcValue);
         };
@@ -48,18 +60,6 @@ module.exports = ({ test, assert }) => composer => {
         const { configure } = composer({});
         const { compose, config } = configure(configs, customizer);
         const expected = { a: { arr: [1, 2] } };
-        assert.deepEqual(config, expected);
-        assert.equal(config, compose.config);
-    });
-
-    test('config functions', () => {
-        const configs = [
-            { a: 1 },
-            config => ({ b: config.a + 1 })
-        ];
-        const { configure } = composer({});
-        const { compose, config } = configure(configs);
-        const expected = { a: 1, b: 2 };
         assert.deepEqual(config, expected);
         assert.equal(config, compose.config);
     });
