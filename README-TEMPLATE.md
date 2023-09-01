@@ -435,16 +435,16 @@ https://agileavatars.com • https://github.com/mattriley/agile-avatars
 
 <%- process.env.COMPUTER_HARDWARE %>
 
-<%- await lib.compose(c => lib.renderCode(lib.json(c.extensions.perf), 'js'), '../agile-avatars/src/compose.js') %>
+<%- await lib.compose(modules => lib.renderCode(lib.json(modules.composition.extensions.perf), 'js'), '../agile-avatars/src/compose.js') %>
 
 #### Mermaid diagram generated with `mermaid` extension
 
-<%- await lib.compose(c => lib.renderCode(c.mermaid(), 'mermaid'), '../agile-avatars/src/compose.js') %>
+<%- await lib.compose(modules => lib.renderCode(modules.composition.mermaid(), 'mermaid'), '../agile-avatars/src/compose.js') %>
 
-<%- await lib.compose(c => lib.renderCode(c.mermaid(), ''), '../agile-avatars/src/compose.js') %>
+<%- await lib.compose(modules => lib.renderCode(modules.composition.mermaid(), ''), '../agile-avatars/src/compose.js') %>
 
 #### Code generated with `eject` extension
 
-<%- await lib.compose(c => lib.renderCode(c.eject(), 'js'), '../agile-avatars/src/compose.js') %>
+<%- await lib.compose(modules => lib.renderCode(modules.composition.eject(), 'js'), '../agile-avatars/src/compose.js') %>
 
 
