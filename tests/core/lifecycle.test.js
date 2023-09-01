@@ -16,19 +16,4 @@ module.exports = ({ test, assert }) => composer => {
         assert.deepEqual(result.dependencies, compose.dependencies);
     });
 
-    test('attempt to compose after ending', () => {
-        const target = { mod: {} };
-        const { compose } = composer(target);
-        compose('mod', {});
-        compose.end();
-        assert.throws(() => compose('mod2', {}), /^Error: Composition has ended$/);
-    });
-
-    test('attempt to end after ending', () => {
-        const target = { mod: {} };
-        const { compose } = composer(target);
-        compose.end();
-        assert.throws(() => compose.end(), /^Error: Composition has already ended$/);
-    });
-
 };

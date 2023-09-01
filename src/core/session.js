@@ -12,7 +12,6 @@ module.exports = (target, config = {}, clientOptions = {}) => {
     const { composerOptions } = options;
 
     const state = {
-        ended: false,
         dependencies: util.mapValues(targetModules, () => []),
         composedDependencies: {},
         modules: { ...targetModules },

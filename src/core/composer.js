@@ -11,8 +11,6 @@ module.exports = (target, clientOptions = {}) => {
         const asis = (path, opts) => make(path, null, opts);
 
         const end = () => {
-            if (internal.state.ended) throw new Error('Composition has already ended');
-            internal.state.ended = true;
             return external;
         };
 

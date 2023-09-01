@@ -2,7 +2,6 @@ const util = require('./util');
 
 module.exports = session => (path, deps, opts = {}) => {
 
-    if (session.state.ended) throw new Error('Composition has ended');
     if (!path) throw new Error('Missing path');
     if (!util.has(session.target, path)) throw new Error(`${path} not found`);
     if (deps === undefined) throw new Error('Missing dependencies');
