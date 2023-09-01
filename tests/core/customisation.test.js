@@ -6,10 +6,9 @@ module.exports = ({ test, assert }) => composer => {
             mod: { setup: () => () => customised }
         };
         const { compose } = composer(target);
-        delete compose.modules.composition;
         const { mod } = compose('mod', {});
         assert.deepEqual(mod, customised);
-        assert.deepEqual(compose.modules, { mod });
+        assert.deepEqual(compose.modules.mod, mod);
         assert.deepEqual(compose.dependencies, { mod: [] });
     });
 
@@ -19,10 +18,9 @@ module.exports = ({ test, assert }) => composer => {
             mod: { setup: () => async () => customised }
         };
         const { compose } = composer(target);
-        delete compose.modules.composition;
         const { mod } = await compose('mod', {});
         assert.deepEqual(mod, customised);
-        assert.deepEqual(compose.modules, { mod });
+        assert.deepEqual(compose.modules.mod, mod);
         assert.deepEqual(compose.dependencies, { mod: [] });
     });
 
