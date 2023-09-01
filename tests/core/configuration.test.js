@@ -3,10 +3,10 @@ module.exports = ({ test, assert }) => composer => {
     test('single config object', () => {
         const configs = [{ a: 1 }];
         const { configure } = composer({});
-        const { compose, constants } = configure(configs);
-        assert.deepEqual(constants, configs[0]);
-        assert.notEqual(constants, configs[0]);
-        assert.deepEqual(constants, compose.constants);
+        const { compose, config } = configure(configs);
+        assert.deepEqual(config, configs[0]);
+        assert.notEqual(config, configs[0]);
+        assert.equal(config, compose.config);
     });
 
     test('merging config', () => {
@@ -15,10 +15,10 @@ module.exports = ({ test, assert }) => composer => {
             { a: { c: 'C', d: 'D' } }
         ];
         const { configure } = composer({});
-        const { compose, constants } = configure(configs);
+        const { compose, config } = configure(configs);
         const expected = { a: { b: 'B', c: 'C', d: 'D' } };
-        assert.deepEqual(constants, expected);
-        assert.equal(constants, compose.constants);
+        assert.deepEqual(config, expected);
+        assert.equal(config, compose.config);
     });
 
     test('merging config customiser', () => {
@@ -30,22 +30,22 @@ module.exports = ({ test, assert }) => composer => {
             { a: { arr: [2] } }
         ];
         const { configure } = composer({});
-        const { compose, constants } = configure(configs, customizer);
+        const { compose, config } = configure(configs, customizer);
         const expected = { a: { arr: [1, 2] } };
-        assert.deepEqual(constants, expected);
-        assert.equal(constants, compose.constants);
+        assert.deepEqual(config, expected);
+        assert.equal(config, compose.config);
     });
 
     test('config functions', () => {
-        const config = [
+        const configs = [
             { a: 1 },
             config => ({ b: config.a + 1 })
         ];
         const { configure } = composer({});
-        const { compose, constants } = configure(config);
+        const { compose, config } = configure(configs);
         const expected = { a: 1, b: 2 };
-        assert.deepEqual(constants, expected);
-        assert.equal(constants, compose.constants);
+        assert.deepEqual(config, expected);
+        assert.equal(config, compose.config);
     });
 
     test('module named config', () => {
@@ -56,12 +56,12 @@ module.exports = ({ test, assert }) => composer => {
         assert.deepEqual(compose.modules.config, target.config);
     });
 
-    test('module named constants', () => {
+    test('module named config', () => {
         const configs = [{ a: 1 }];
-        const target = { constants: { a: 2 } };
+        const target = { config: { a: 2 } };
         const { configure } = composer(target);
         const { compose } = configure(configs);
-        assert.deepEqual(compose.modules.constants, target.constants);
+        assert.deepEqual(compose.modules.config, target.config);
     });
 
     test('config is frozen by default', () => {

@@ -32,7 +32,7 @@ module.exports = (target, config = {}, clientOptions = {}) => {
 
     const frozenConfig = composerOptions.freezeConfig ? util.deepFreeze(config) : config;
     const configAliases = { config: frozenConfig, [composerOptions.configAlias]: frozenConfig };
-    const external = { ...state, ...options.sources, composerOptions, target, targetModules, ...configAliases };
+    const external = { ...state, ...options.sources, composerOptions, target, targetModules, config: frozenConfig };
     const internal = { ...options, ...external, external, configAliases, registerModule, registerAlias };
     const compose = Compose(internal);
     const { precomposers, postcomposers, ...functions } = extensions.setup({ ...internal, compose });
