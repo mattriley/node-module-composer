@@ -37,6 +37,18 @@ module.exports = ({ test, assert }) => composer => {
         assert.equal(config, compose.config);
     });
 
+    test('spread of config', () => {
+        const configs = [
+            { a: { b: 'B', c: 'c' } },
+            { a: { c: 'C', d: 'D' } }
+        ];
+        const { configure } = composer({});
+        const { compose, config } = configure(...configs);
+        const expected = { a: { b: 'B', c: 'C', d: 'D' } };
+        assert.deepEqual(config, expected);
+        assert.equal(config, compose.config);
+    });
+
     test('config function', () => {
         const configs = [
             { a: 1 },
