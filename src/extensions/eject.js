@@ -3,7 +3,7 @@ const util = require('module-composer/src/core/util');
 
 const eject = session => () => {
     const target = session.targetModules;
-    const deps = session.state.composedDependencies;
+    const deps = session.composedDependencies;
 
     const targetKeys = Object.keys(deps);
 

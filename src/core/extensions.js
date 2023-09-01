@@ -8,8 +8,8 @@ const setup = session => {
     const extensionNames = Object.keys(stateContainer.moduleComposer.extensions);
     return extensionNames.reduce((acc, name) => {
         const ext = stateContainer.moduleComposer.extensions[name];
-        const getState = () => session.state.extensions[name];
-        const setState = state => util.set(session.state.extensions, name, { ...getState(), ...state });
+        const getState = () => session.extensions[name];
+        const setState = state => util.set(session.extensions, name, { ...getState(), ...state });
         const arg = { ...session, getState, setState };
         const { precompose, postcompose, ...functions } = util.mapValues(ext, func => func(arg));
         if (precompose) acc.precomposers.push(precompose);

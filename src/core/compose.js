@@ -7,7 +7,7 @@ module.exports = session => (path, deps, opts = {}) => {
     if (deps === undefined) throw new Error('Missing dependencies');
     const target = util.get(session.target, path);
     if (!util.isPlainObject(target)) throw new Error(`${path} must be a plain object`);
-    if (session.state.composedDependencies[path]) throw new Error(`${path} is already composed`);
+    if (session.composedDependencies[path]) throw new Error(`${path} is already composed`);
 
     const options = session.getModuleOptions(path, opts);
     const { args, customiser, depth, overrides } = options;

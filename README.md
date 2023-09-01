@@ -506,78 +506,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 110.638916015625,
-            "endTime": 111.0625410079956,
-            "duration": 0.42362499237060547
+            "startTime": 67.62137508392334,
+            "endTime": 68.04887533187866,
+            "duration": 0.42750024795532227
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 111.19062519073486,
-            "endTime": 111.26591634750366,
-            "duration": 0.07529115676879883
+            "startTime": 68.17799997329712,
+            "endTime": 68.25624990463257,
+            "duration": 0.07824993133544922
         },
         "core": {
             "path": "core",
-            "startTime": 111.95570802688599,
-            "endTime": 112.15025043487549,
-            "duration": 0.19454240798950195
+            "startTime": 68.94016695022583,
+            "endTime": 69.13104200363159,
+            "duration": 0.19087505340576172
         },
         "io": {
             "path": "io",
-            "startTime": 112.20812511444092,
-            "endTime": 112.32350015640259,
-            "duration": 0.11537504196166992
+            "startTime": 69.18595790863037,
+            "endTime": 69.29758310317993,
+            "duration": 0.11162519454956055
         },
         "services": {
             "path": "services",
-            "startTime": 112.6516661643982,
-            "endTime": 113.04162502288818,
-            "duration": 0.38995885848999023
+            "startTime": 69.60408306121826,
+            "endTime": 69.97637510299683,
+            "duration": 0.37229204177856445
         },
         "ui": {
             "path": "ui",
-            "startTime": 113.10787534713745,
-            "endTime": 113.1551251411438,
-            "duration": 0.047249794006347656
+            "startTime": 70.0437502861023,
+            "endTime": 70.08916711807251,
+            "duration": 0.045416831970214844
         },
         "elements": {
             "path": "elements",
-            "startTime": 113.21408319473267,
-            "endTime": 113.29608297348022,
-            "duration": 0.0819997787475586
+            "startTime": 70.147292137146,
+            "endTime": 70.2251672744751,
+            "duration": 0.07787513732910156
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 113.33904123306274,
-            "endTime": 113.40275001525879,
-            "duration": 0.06370878219604492
+            "startTime": 70.26620817184448,
+            "endTime": 70.3417501449585,
+            "duration": 0.07554197311401367
         },
         "components": {
             "path": "components",
-            "startTime": 113.89700031280518,
-            "endTime": 114.46575021743774,
-            "duration": 0.5687499046325684
+            "startTime": 70.83650016784668,
+            "endTime": 71.38100004196167,
+            "duration": 0.5444998741149902
         },
         "styles": {
             "path": "styles",
-            "startTime": 114.54033327102661,
-            "endTime": 114.66345834732056,
-            "duration": 0.12312507629394531
+            "startTime": 71.46591711044312,
+            "endTime": 71.59154224395752,
+            "duration": 0.1256251335144043
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 114.71441602706909,
-            "endTime": 114.73733329772949,
-            "duration": 0.02291727066040039
+            "startTime": 71.64420795440674,
+            "endTime": 71.6638331413269,
+            "duration": 0.019625186920166016
         },
         "startup": {
             "path": "startup",
-            "startTime": 114.8634581565857,
-            "endTime": 114.90829133987427,
-            "duration": 0.04483318328857422
+            "startTime": 71.80954217910767,
+            "endTime": 71.85362529754639,
+            "duration": 0.0440831184387207
         }
     },
-    "totalDuration": 2.151376247406006,
+    "totalDuration": 2.1132097244262695,
     "durationUnit": "ms"
 }
 ```
