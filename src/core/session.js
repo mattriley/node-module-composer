@@ -3,12 +3,12 @@ const Options = require('./options');
 const extensions = require('./extensions');
 const util = require('./util');
 
-module.exports = (target, userOptions = {}, config = {}) => {
+module.exports = (target, options = {}, config = {}) => {
 
     if (!util.isPlainObject(target)) throw new Error('target must be a plain object');
 
     const targetModules = util.pickBy(target, util.isPlainObject);
-    const { optionSources, globalOptions, getModuleOptions } = Options(userOptions);
+    const { optionSources, globalOptions, getModuleOptions } = Options(options);
 
     const state = {
         dependencies: util.mapValues(targetModules, () => []),
