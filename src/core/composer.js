@@ -4,11 +4,7 @@ const util = require('./util');
 module.exports = (target, options = {}) => {
 
     const configure = (configs = [], customiser) => {
-        const config = configs.reduce((acc, c) => {
-            const config = util.isPlainFunction(c) ? c(acc) : c;
-            return util.mergeWith(acc, config, customiser);
-        }, {});
-        return createComposer(config);
+        return createComposer(configs.reduce((acc, c) => util.mergeWith(acc, util.invokeOrReturn(c, acc), customiser), {}));
     };
 
     const createComposer = (config = {}) => {

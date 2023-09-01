@@ -58,6 +58,8 @@ const flatMapKeys = (obj, iteratee) => {
     }));
 };
 
+const invokeOrReturn = (target, ...args) => isPlainFunction(target) ? target(...args) : target;
+
 
 module.exports = {
     cloneDeep,
@@ -67,6 +69,7 @@ module.exports = {
     get,
     has,
     invoke,
+    invokeOrReturn,
     isPlainFunction,
     isPlainObject,
     isPromise,
