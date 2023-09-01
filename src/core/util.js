@@ -60,7 +60,6 @@ const flatMapKeys = (obj, iteratee) => {
 const invokeOrReturn = (target, ...args) => target && isPlainFunction(target) ? target(...args) : target;
 const invokeAtOrReturn = (obj, path, ...args) => invokeOrReturn(get(obj, path, obj), ...args);
 
-
 module.exports = {
     cloneDeep,
     deepFreeze,
