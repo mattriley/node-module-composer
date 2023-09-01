@@ -58,7 +58,7 @@ module.exports = ({ test, assert }) => composer => {
             { a: { arr: [2] } }
         ];
         const { configure } = composer({});
-        const { compose, config } = configure(configs, customizer);
+        const { compose, config } = configure.mergeWith(customizer, configs);
         const expected = { a: { arr: [1, 2] } };
         assert.deepEqual(config, expected);
         assert.equal(config, compose.config);
