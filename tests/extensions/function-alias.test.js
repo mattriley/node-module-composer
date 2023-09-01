@@ -3,10 +3,7 @@ module.exports = ({ test, assert }) => composer => {
     require('module-composer/extensions/function-alias');
 
     test('function alias', () => {
-        const functionAlias = {
-            Value: 'Val'
-        };
-
+        const functionAlias = { Value: 'Val' };
         const target = { mod: { getValues: {} } };
         const { compose } = composer(target);
         const { mod } = compose('mod', { functionAlias });
@@ -14,10 +11,7 @@ module.exports = ({ test, assert }) => composer => {
     });
 
     test('function alias composer level options', () => {
-        const functionAlias = {
-            Value: 'Val'
-        };
-
+        const functionAlias = { Value: 'Val' };
         const target = { mod: { getValues: {} } };
         const { compose } = composer(target, { functionAlias });
         const { mod } = compose('mod', {});
