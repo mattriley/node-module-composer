@@ -30,7 +30,7 @@ module.exports = (target, options = {}, config = {}) => {
     };
 
     config = globalOptions.freezeConfig ? util.deepFreeze(config) : config;
-    const configAliases = { config, [globalOptions.configAlias]: config };
+    const configAliases = globalOptions.configAlias.reduce((acc, alias) => Object.assign(acc, { [alias]: config }), { config });
     const external = { ...state, ...optionSources, globalOptions, target, targetModules, config };
     const internal = { ...external, external, configAliases, getModuleOptions, registerModule, registerAlias };
     const compose = Compose(internal);

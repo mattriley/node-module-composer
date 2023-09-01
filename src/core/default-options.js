@@ -4,7 +4,7 @@ module.exports = () => {
         depth: 1,
         overrides: {},
         customiser: 'setup',
-        configAlias: 'constants',
+        configAlias: ['constants'],
         freezeConfig: true,
         extensions: true
     };
