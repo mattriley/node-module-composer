@@ -6,6 +6,8 @@ module.exports = () => {
         customiser: 'setup',
         configAlias: ['constants'],
         freezeConfig: true,
+        defaultConfig: {},
+        config: {},
         extensions: true
     };
 

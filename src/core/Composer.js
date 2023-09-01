@@ -23,6 +23,6 @@ module.exports = (target, options = {}) => {
     };
 
     const configure = createConfigure();
-    return configure(options.config);
+    return configure(options.defaultConfig, options.config);
 
 };
