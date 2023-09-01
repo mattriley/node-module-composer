@@ -2,7 +2,6 @@
 const cloneDeep = require('lodash/cloneDeep');
 const get = require('lodash/get');
 const has = require('lodash/has');
-const invoke = require('lodash/invoke');
 const isFunction = require('lodash/isFunction');
 const isPlainObject = require('lodash/isPlainObject');
 const mapValues = require('lodash/mapValues');
@@ -58,7 +57,8 @@ const flatMapKeys = (obj, iteratee) => {
     }));
 };
 
-const invokeOrReturn = (target, ...args) => isPlainFunction(target) ? target(...args) : target;
+const invokeOrReturn = (target, ...args) => target && isPlainFunction(target) ? target(...args) : target;
+const invokeAtOrReturn = (obj, path, ...args) => invokeOrReturn(get(obj, path, obj), ...args);
 
 
 module.exports = {
@@ -68,7 +68,7 @@ module.exports = {
     flow,
     get,
     has,
-    invoke,
+    invokeAtOrReturn,
     invokeOrReturn,
     isPlainFunction,
     isPlainObject,

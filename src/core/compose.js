@@ -26,7 +26,7 @@ module.exports = session => (path, deps, opts = {}) => {
     const maybePromise = util.flow([
         ...session.precomposers.map(func => target => func({ path, target, options }) ?? target),
         target => recurse(target, path, deps),
-        target => util.has(target, customiser) ? util.invoke(target, customiser, args) : target
+        target => util.invokeAtOrReturn(target, customiser, args)
     ])(target);
 
     const next = target => {
