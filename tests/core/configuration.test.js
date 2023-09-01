@@ -96,4 +96,9 @@ module.exports = ({ test, assert }) => composer => {
         assert.equal(config.a, 2);
     });
 
+    test('configure and configure.merge are the same', () => {
+        const { configure } = composer({});
+        assert.equal(configure.merge, configure);
+    });
+
 };
