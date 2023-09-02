@@ -5,7 +5,8 @@ module.exports = (target, options = {}) => {
 
     const createConfigure = () => {
         const mergeWith = (customiser, ...configs) => {
-            const config = configs.flat().reduce((acc, c) => _.mergeWith(acc, _.invokeOrReturn(c, acc), customiser), {});
+            const flatConfigs = [options.defaultConfig, options.config, ...configs].flat();
+            const config = flatConfigs.reduce((acc, c) => _.mergeWith(acc, _.invokeOrReturn(c, acc), customiser), {});
             return createComposer(config);
         };
         const merge = (...configs) => mergeWith(undefined, ...configs);
@@ -23,6 +24,6 @@ module.exports = (target, options = {}) => {
     };
 
     const configure = createConfigure();
-    return configure(options.defaultConfig, options.config);
+    return configure();
 
 };

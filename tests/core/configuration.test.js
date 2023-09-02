@@ -32,6 +32,13 @@ module.exports = ({ test, assert }) => composer => {
         assert.equal(config, compose.config);
     });
 
+    test('config provided as an option and also via configure', () => {
+        const configs = [{ a: 1 }, { b: 2 }];
+        const { configure } = composer({}, { config: configs[0] });
+        const { config } = configure(configs[1]);
+        assert.deepEqual(config, { a: 1, b: 2 });
+    });
+
     test('array of config', () => {
         const configs = [
             { a: { b: 'B', c: 'c' } },
