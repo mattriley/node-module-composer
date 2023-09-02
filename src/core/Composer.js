@@ -3,14 +3,15 @@ const _ = require('./util');
 
 module.exports = (target, options = {}) => {
 
-    const createConfigure = () => {
+    const createConfigurer = () => {
         const mergeWith = (customiser, ...configs) => {
             const flatConfigs = [options.defaultConfig, options.config, ...configs].flat();
             const config = flatConfigs.reduce((acc, c) => _.mergeWith(acc, _.invokeOrReturn(c, acc), customiser), {});
             return createComposer(config);
         };
         const merge = (...configs) => mergeWith(undefined, ...configs);
-        return Object.assign(merge, { merge, mergeWith });
+        const configure = Object.assign(merge, { merge, mergeWith });
+        return { configure };
     };
 
     const createComposer = (config = {}) => {
@@ -23,7 +24,7 @@ module.exports = (target, options = {}) => {
         return { compose, configure, ...session.configAliases };
     };
 
-    const configure = createConfigure();
+    const { configure } = createConfigurer();
     return configure();
 
 };
