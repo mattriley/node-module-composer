@@ -38,6 +38,8 @@
         "lodash": "^4.17.21"
     },
     "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^6.5.0",
+        "@typescript-eslint/parser": "^6.5.0",
         "cloc": "^2.11.0",
         "doctoc": "^2.2.1",
         "ejs": "^3.1.9",
@@ -52,6 +54,9 @@
         "task-library": "^0.269.0",
         "testing": "file:./testing",
         "tsd": "^0.29.0",
+        "typescript": "^5.2.2"
+    },
+    "peerDependencies": {
         "type-fest": "^4.3.1"
     },
     "keywords": [

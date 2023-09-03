@@ -1,4 +1,4 @@
-import type { UnionToIntersection } from 'type-fest'
+import type { UnionToIntersection } from 'type-fest';
 
 interface CoreOptions {
     depth: number
@@ -19,8 +19,9 @@ interface ExtensionOptions {
 
 type Options = CoreOptions & ExtensionOptions
 
-type Composed = (...args: any) => any
-type Composable = (deps: Modules) => (...args: any) => any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Composed = (...args: any[]) => unknown
+type Composable = (deps: Modules) => Composed
 type Module = Record<PropertyKey, Composable | Composed>
 type Modules = Record<PropertyKey, Module>
 
