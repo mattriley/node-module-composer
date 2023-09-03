@@ -30,7 +30,8 @@
         "pre": "npx task pre",
         "setup": "npm i && npx task setup",
         "start": "npx task start",
-        "test": "npx task test"
+        "test": "npx task test",
+        "tsd": "npx tsd"
     },
     "dependencies": {
         "flat": "^5.0.2",
@@ -50,6 +51,7 @@
         "npm-check-updates": "^16.13.2",
         "task-library": "^0.269.0",
         "testing": "file:./testing",
+        "tsd": "^0.29.0",
         "type-fest": "^4.3.1"
     },
     "keywords": [

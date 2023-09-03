@@ -43,4 +43,6 @@ interface Composer<T extends Modules> {
     compose: Compose<T> & Asis<T>
 }
 
-export default function composer<T extends Modules>(config: T): Composer<T>
+declare function composer<T extends Modules>(config: T): Composer<T>
+
+export default composer;
