@@ -2,25 +2,81 @@ import { expectType } from 'tsd/dist/index';
 
 import composer from './main';
 
-type BarDeps = {
-    foo: { doAThing: () => void }
+type Toy = string
+type Food = string
+
+type ServeFood = (food: Food, bowl: Food[]) => void 
+type FillBowl = (choice: Food, bowl: Food[]) => void 
+type RandomToy = () => Toy 
+type Play = () => void 
+type Eat = () => void 
+
+type HumanDeps = {
+    food: { serve: ServeFood }
+}
+
+type PlayDeps = {
+    toys: { randomToy: () => Toy }
+    util: { shuffle: (str: string) => string}
+}
+
+type EatDeps = {
+    human: { fillBowl: FillBowl }
 }
 
 const modules = { 
-    foo: { doAThing: () => () => {} },
+    util : {
+        shuffle: (str: string) => [...str].sort(() => Math.random() - 0.5).join('')
+    },
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    bar: { doAThing: ({ foo }: BarDeps) => () => 1 }
+    food: { 
+        serve: (): ServeFood => (food, bowl) => { bowl.push(food); }
+    },
+    
+    human: { 
+        fillBowl: ({ food }: HumanDeps): FillBowl => (choice, bowl) => food.serve(choice, bowl)
+    },
+    
+    toys: { 
+        randomToy: (): RandomToy => () => 'yarn'
+    },
+
+    cat: { 
+        play: ({ toys, util }: PlayDeps): Play => () => {
+            const toy = toys.randomToy();
+            util.shuffle(toy);
+        } ,
+
+        eat: ({ human }: EatDeps): Eat => () => {
+            const bowl: Food[] = [];
+            human.fillBowl('tuna', bowl);
+            
+            while (bowl.length > 0) {
+                // have a nibble
+                bowl.pop();
+            }
+        } 
+    }
 };
 
 const { compose } = composer(modules);
 
+// compose as-is with no dependencies
+const { util } = compose.asis('util');
+expectType<typeof modules.util>(util);
+
 // compose with no dependencies
-expectType<{ foo: { doAThing: () => void }}>(compose('foo', {}));
+const { food } = compose('food', {});
+expectType<{ serve: ServeFood }>(food);
 
 // compose with a dependency
-const { foo } = compose('foo', {});
-expectType<{ bar: { doAThing: () => number }}>(compose('bar', { foo }));
+const { human } = compose('human', { food });
+expectType<{ fillBowl: FillBowl }>(human);
 
-// compose as-is with no dependencies
-expectType<{ foo: { doAThing: () => () => void } }>(compose.asis('foo'));
+// compose with no dependencies
+const { toys } = compose('toys', { food });
+expectType<{ randomToy: RandomToy }>(toys);
+
+// compose with multiple dependencies across functions
+const { cat } = compose('cat',  { toys, util, human });
+expectType<{ play: Play, eat: Eat }>(cat);
