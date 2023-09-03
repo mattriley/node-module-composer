@@ -5,7 +5,7 @@ import composer from './main';
 type Toy = string
 type Food = string
 
-type ServeFood = (food: Food, bowl: Food[]) => void
+type ServeFood = (food: Food) => Food[]
 type FillBowl = (choice: Food, bowl: Food[]) => void
 type RandomToy = () => Toy
 type Play = () => void
@@ -30,11 +30,11 @@ const modules = {
     },
 
     food: {
-        serve: (): ServeFood => (food, bowl) => { bowl.push(food); }
+        serve: (): ServeFood => (food) => [food, food, food]
     },
 
     human: {
-        fillBowl: ({ food }: HumanDeps): FillBowl => (choice, bowl) => food.serve(choice, bowl)
+        fillBowl: ({ food }: HumanDeps): FillBowl => (choice, bowl) => bowl.concat(food.serve(choice))
     },
 
     toys: {
