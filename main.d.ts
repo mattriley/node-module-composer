@@ -25,7 +25,7 @@ type Composable = (deps: Modules) => Composed
 type Module = Record<PropertyKey, Composable | Composed>
 type Modules = Record<PropertyKey, Module>
 
-type ComposedModule<T extends Module> = {
+export type ComposedModule<T extends Module> = {
     [K in keyof T]: ReturnType<T[K]>
 }
 
