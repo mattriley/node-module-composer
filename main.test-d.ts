@@ -71,6 +71,12 @@ const modules = {
     usesSelf: {
         brushTeeth: (): BrushTeeth => () => { },
         tidyUp: ({ usesSelf }: UsesSelfDeps): TidyUp => () => { usesSelf.brushTeeth(); }
+    },
+
+    setupModule: {
+        setup: () => () => ({
+            green: () => { }
+        })
     }
 };
 
@@ -109,3 +115,7 @@ composeWithoutConfig('toys', { config });
 // config is not required as a dependency when passing a list in
 const { compose: composeWithListOfConfig } = composer(modules, { config: [{}, config] });
 composeWithListOfConfig('toys', {});
+
+// module is composed using the setup function
+const { setupModule } = compose('setupModule', {});
+expectType<{ green: () => void }>(setupModule);

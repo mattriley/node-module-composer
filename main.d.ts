@@ -25,14 +25,21 @@ interface ComposerOptions {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Composed = (...args: any[]) => unknown
+type Composed = (...args: any[]) => any
 type Composable = (deps: Modules) => Composed
+type SetupComposable = { setup: (deps: Modules) => Composed }
 type Module = Record<PropertyKey, Composable | Composed>
 type Modules = Record<PropertyKey, Module>
 
-export type ComposedModule<T extends Module> = {
+type ComposedBySetup<T extends SetupComposable> = ReturnType<ReturnType<T['setup']>>
+type ComposedIndividually<T extends Module> = {
     [K in keyof T]: ReturnType<T[K]>
 }
+
+export type ComposedModule<T extends Module> =
+    T extends SetupComposable
+    ? ComposedBySetup<T>
+    : ComposedIndividually<T>
 
 type ModuleParameters<T extends Module, Key = keyof T> =
     Key extends PropertyKey ? Parameters<T[Key]>[0] : never
