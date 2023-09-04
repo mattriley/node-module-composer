@@ -30,7 +30,7 @@ const modules = {
     },
 
     food: {
-        serve: (): ServeFood => (food) => [food, food, food]
+        serve: (): ServeFood => food => [food, food, food]
     },
 
     human: {
