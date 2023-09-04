@@ -43,8 +43,8 @@ A contrived example to set the scene.
 import composer from 'module-composer';
 import modules from './modules/index.js';
 
-export default () => {
-    const { compose } = composer(modules);
+export default ({ config }) => {
+    const { compose } = composer(modules, { config });
     const { repositories } = compose('repositories');
     const { services } = compose('services', { repositories });
     const { views } = compose('views', { services });
@@ -57,7 +57,6 @@ export default () => {
 import compose from './compose.js';
 const { views } = compose();
 views.welcome.render(); 
-// internally, view can access services, services can access repositories
 ```
 
 ## Background
@@ -611,78 +610,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 111.09195899963379,
-            "endTime": 111.51074999570847,
-            "duration": 0.4187909960746765
+            "startTime": 66.73625001311302,
+            "endTime": 67.15883299708366,
+            "duration": 0.4225829839706421
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 111.63075000047684,
-            "endTime": 111.70995900034904,
-            "duration": 0.07920899987220764
+            "startTime": 67.27366599440575,
+            "endTime": 67.34366601705551,
+            "duration": 0.07000002264976501
         },
         "core": {
             "path": "core",
-            "startTime": 112.3731250166893,
-            "endTime": 112.52454200387001,
-            "duration": 0.15141698718070984
+            "startTime": 68.00279101729393,
+            "endTime": 68.15370801091194,
+            "duration": 0.15091699361801147
         },
         "io": {
             "path": "io",
-            "startTime": 112.56700000166893,
-            "endTime": 112.67408400774002,
-            "duration": 0.1070840060710907
+            "startTime": 68.19641602039337,
+            "endTime": 68.30525001883507,
+            "duration": 0.10883399844169617
         },
         "services": {
             "path": "services",
-            "startTime": 113.0225419998169,
-            "endTime": 113.34466701745987,
-            "duration": 0.32212501764297485
+            "startTime": 68.64791601896286,
+            "endTime": 68.98145800828934,
+            "duration": 0.33354198932647705
         },
         "ui": {
             "path": "ui",
-            "startTime": 113.40008401870728,
-            "endTime": 113.44658401608467,
-            "duration": 0.04649999737739563
+            "startTime": 69.04154101014137,
+            "endTime": 69.08795800805092,
+            "duration": 0.0464169979095459
         },
         "elements": {
             "path": "elements",
-            "startTime": 113.497584015131,
-            "endTime": 113.63199999928474,
-            "duration": 0.13441598415374756
+            "startTime": 69.14295801520348,
+            "endTime": 69.27787500619888,
+            "duration": 0.1349169909954071
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 113.66899999976158,
-            "endTime": 113.69704201817513,
-            "duration": 0.0280420184135437
+            "startTime": 69.31300002336502,
+            "endTime": 69.33895799517632,
+            "duration": 0.025957971811294556
         },
         "components": {
             "path": "components",
-            "startTime": 114.18862500786781,
-            "endTime": 114.80325001478195,
-            "duration": 0.6146250069141388
+            "startTime": 69.82508301734924,
+            "endTime": 70.4457080066204,
+            "duration": 0.6206249892711639
         },
         "styles": {
             "path": "styles",
-            "startTime": 114.87054201960564,
-            "endTime": 114.94179201126099,
-            "duration": 0.07124999165534973
+            "startTime": 70.51495799422264,
+            "endTime": 70.58670800924301,
+            "duration": 0.07175001502037048
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 114.98733401298523,
-            "endTime": 115.00979200005531,
-            "duration": 0.022457987070083618
+            "startTime": 70.6307080090046,
+            "endTime": 70.65270799398422,
+            "duration": 0.021999984979629517
         },
         "startup": {
             "path": "startup",
-            "startTime": 115.17787501215935,
-            "endTime": 115.22333401441574,
-            "duration": 0.04545900225639343
+            "startTime": 70.82533299922943,
+            "endTime": 70.8751659989357,
+            "duration": 0.04983299970626831
         }
     },
-    "totalDuration": 2.041375994682312,
+    "totalDuration": 2.0573759377002716,
     "durationUnit": "ms"
 }
 ```

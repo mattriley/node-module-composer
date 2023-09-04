@@ -13,8 +13,8 @@ A contrived example to set the scene.
 import composer from 'module-composer';
 import modules from './modules/index.js';
 
-export default () => {
-    const { compose } = composer(modules);
+export default ({ config }) => {
+    const { compose } = composer(modules, { config });
     const { repositories } = compose('repositories');
     const { services } = compose('services', { repositories });
     const { views } = compose('views', { services });
@@ -27,7 +27,6 @@ export default () => {
 import compose from './compose.js';
 const { views } = compose();
 views.welcome.render(); 
-// internally, view can access services, services can access repositories
 ```
 
 ## Background
