@@ -20,7 +20,7 @@ interface ExtensionOptions {
 type Options = CoreOptions & ExtensionOptions
 
 type ComposerOptionsConfig = UnknownRecord | UnknownRecord[]
-interface ComposerOptions extends UnknownRecord {
+interface ComposerOptions {
     config?: ComposerOptionsConfig
 }
 
@@ -37,7 +37,10 @@ export type ComposedModule<T extends Module> = {
 type ModuleParameters<T extends Module, Key = keyof T> =
     Key extends PropertyKey ? Parameters<T[Key]>[0] : never
 
-type ModuleDependencies<T extends Module, C extends ComposerOptions> = C['config'] extends ComposerOptionsConfig ? Omit<UnionToIntersection<NonNullable<ModuleParameters<T>>>, 'config'> : UnionToIntersection<NonNullable<ModuleParameters<T>>>
+type ModuleDependencies<T extends Module, C extends ComposerOptions> =
+    C['config'] extends ComposerOptionsConfig
+    ? Omit<UnionToIntersection<NonNullable<ModuleParameters<T>>>, 'config'>
+    : UnionToIntersection<NonNullable<ModuleParameters<T>>>
 
 type Compose<T extends Modules, C extends ComposerOptions> = <Path extends keyof T>(path: Path, deps: ModuleDependencies<T[Path], C>, opts?: Partial<Options>) => Record<Path, ComposedModule<T[Path]>>
 
