@@ -1,5 +1,5 @@
 const Session = require('./session');
-const Configurer = require('./configurer');
+const Configure = require('./configure');
 
 module.exports = (target, options = {}) => {
 
@@ -13,7 +13,7 @@ module.exports = (target, options = {}) => {
         return { compose, configure, ...session.configAliases };
     };
 
-    const configure = Configurer(createComposer, options.defaultConfig, options.config);
+    const configure = Configure(createComposer, options.defaultConfig, options.config);
     return configure();
 
 };
