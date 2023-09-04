@@ -8,8 +8,7 @@ const composer = (target, options = {}) => {
         const make = (path, deps, opts) => session.external.compose(path, deps, opts);
         const deep = (path, deps, opts) => make(path, deps, { ...opts, depth: Infinity });
         const asis = (path, opts) => make(path, null, opts);
-        const done = () => session.external;
-        const compose = Object.assign(make, session.external, { make, deep, asis, done });
+        const compose = Object.assign(make, session.external, { session: session.external }, { make, deep, asis });
         return { compose, configure, ...session.configAliases };
     };
 

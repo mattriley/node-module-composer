@@ -67,4 +67,11 @@ module.exports = ({ test, assert }) => composer => {
         assert.deepEqual(compose.dependencies, { mod1: [], mod2: ['mod1'] });
     });
 
+    test('attempt to re-compose', () => {
+        const target = { mod: {} };
+        const { compose } = composer(target);
+        compose('mod', {});
+        assert.throws(() => compose('mod', {}), /^Error: mod is already composed$/);
+    });
+
 };
