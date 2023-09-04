@@ -63,7 +63,9 @@ const modules = {
     }
 };
 
-const { compose } = composer(modules, { config: { availableToys: ['yarn', 'bell', 'feather'] } });
+const config = { availableToys: ['yarn', 'bell', 'feather'] };
+
+const { compose } = composer(modules, { config });
 
 // compose as-is with no dependencies
 const { util } = compose.asis('util');
@@ -87,8 +89,8 @@ expectType<{ play: Play, eat: Eat }>(cat);
 
 // config is required as a dependency if it is not passed into the composer and an option
 const { compose: composeWithoutConfig } = composer(modules);
-composeWithoutConfig('toys', { config: { availableToys: ['yarn', 'bell', 'feather'] } });
+composeWithoutConfig('toys', { config });
 
 // config is not required as a dependency when passing a list in
-const { compose: composeWithListOfConfig } = composer(modules, { config: [{}, { availableToys: ['yarn', 'bell', 'feather'] }] });
+const { compose: composeWithListOfConfig } = composer(modules, { config: [{}, config] });
 composeWithListOfConfig('toys', {});
