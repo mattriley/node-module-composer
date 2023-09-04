@@ -11,6 +11,7 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
 ## Table of Contents
 
 - [Install](#install)
+- [At a glance](#at-a-glance)
 - [Background](#background)
 - [How it works](#how-it-works)
 - [Composition root](#composition-root)
@@ -22,6 +23,7 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
 - [Testability](#testability)
 - [Extensions](#extensions)
 - [Advanced example: Agile Avatars](#advanced-example-agile-avatars)
+- [Design principles](#design-principles)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -30,6 +32,32 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
 ###### <p align="right"><a href="https://www.npmjs.com/package/module-composer">https://www.npmjs.com/package/module-composer</a></p>
 ```sh
 npm install module-composer
+```
+
+## At a glance
+
+A contrived example to set the scene.
+
+```js
+// compose.js
+import composer from 'module-composer';
+import modules from './modules/index.js';
+
+export default () => {
+    const { compose } = composer(modules);
+    const { repositories } = compose('repositories');
+    const { services } = compose('services', { repositories });
+    const { views } = compose('views', { services });
+    return compose.modules;
+}
+```
+
+```js
+// app.js
+import compose from './compose.js';
+const { views } = compose();
+views.welcome.render(); 
+// internally, view can access services, services can access repositories
 ```
 
 ## Background
@@ -583,78 +611,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 90.16187497973442,
-            "endTime": 90.5735829770565,
-            "duration": 0.4117079973220825
+            "startTime": 111.09195899963379,
+            "endTime": 111.51074999570847,
+            "duration": 0.4187909960746765
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 90.68566599488258,
-            "endTime": 90.75995799899101,
-            "duration": 0.07429200410842896
+            "startTime": 111.63075000047684,
+            "endTime": 111.70995900034904,
+            "duration": 0.07920899987220764
         },
         "core": {
             "path": "core",
-            "startTime": 91.42120799422264,
-            "endTime": 91.580874979496,
-            "duration": 0.1596669852733612
+            "startTime": 112.3731250166893,
+            "endTime": 112.52454200387001,
+            "duration": 0.15141698718070984
         },
         "io": {
             "path": "io",
-            "startTime": 91.62520799040794,
-            "endTime": 91.7360409796238,
-            "duration": 0.11083298921585083
+            "startTime": 112.56700000166893,
+            "endTime": 112.67408400774002,
+            "duration": 0.1070840060710907
         },
         "services": {
             "path": "services",
-            "startTime": 92.0774160027504,
-            "endTime": 92.40270799398422,
-            "duration": 0.3252919912338257
+            "startTime": 113.0225419998169,
+            "endTime": 113.34466701745987,
+            "duration": 0.32212501764297485
         },
         "ui": {
             "path": "ui",
-            "startTime": 92.45895799994469,
-            "endTime": 92.50454097986221,
-            "duration": 0.045582979917526245
+            "startTime": 113.40008401870728,
+            "endTime": 113.44658401608467,
+            "duration": 0.04649999737739563
         },
         "elements": {
             "path": "elements",
-            "startTime": 92.55616599321365,
-            "endTime": 92.69129100441933,
-            "duration": 0.13512501120567322
+            "startTime": 113.497584015131,
+            "endTime": 113.63199999928474,
+            "duration": 0.13441598415374756
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 92.7270829975605,
-            "endTime": 92.75720798969269,
-            "duration": 0.03012499213218689
+            "startTime": 113.66899999976158,
+            "endTime": 113.69704201817513,
+            "duration": 0.0280420184135437
         },
         "components": {
             "path": "components",
-            "startTime": 93.24670800566673,
-            "endTime": 93.86279100179672,
-            "duration": 0.6160829961299896
+            "startTime": 114.18862500786781,
+            "endTime": 114.80325001478195,
+            "duration": 0.6146250069141388
         },
         "styles": {
             "path": "styles",
-            "startTime": 93.92854100465775,
-            "endTime": 94.00283297896385,
-            "duration": 0.07429197430610657
+            "startTime": 114.87054201960564,
+            "endTime": 114.94179201126099,
+            "duration": 0.07124999165534973
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 94.04483300447464,
-            "endTime": 94.06754100322723,
-            "duration": 0.022707998752593994
+            "startTime": 114.98733401298523,
+            "endTime": 115.00979200005531,
+            "duration": 0.022457987070083618
         },
         "startup": {
             "path": "startup",
-            "startTime": 94.25770798325539,
-            "endTime": 94.30454099178314,
-            "duration": 0.04683300852775574
+            "startTime": 115.17787501215935,
+            "endTime": 115.22333401441574,
+            "duration": 0.04545900225639343
         }
     },
-    "totalDuration": 2.0525409281253815,
+    "totalDuration": 2.041375994682312,
     "durationUnit": "ms"
 }
 ```
@@ -903,4 +931,6 @@ graph TD;
 };
 ```
 
+## Design principles
 
+- Vanilla and non-intrusive. Structures passed to Module Composer should have no knowledge of / no dependency on Module Composer.

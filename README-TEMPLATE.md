@@ -4,6 +4,32 @@
 
 <%- await lib.renderCode('npm install module-composer', 'sh', 'https://www.npmjs.com/package/module-composer') %>
 
+## At a glance
+
+A contrived example to set the scene.
+
+```js
+// compose.js
+import composer from 'module-composer';
+import modules from './modules/index.js';
+
+export default () => {
+    const { compose } = composer(modules);
+    const { repositories } = compose('repositories');
+    const { services } = compose('services', { repositories });
+    const { views } = compose('views', { services });
+    return compose.modules;
+}
+```
+
+```js
+// app.js
+import compose from './compose.js';
+const { views } = compose();
+views.welcome.render(); 
+// internally, view can access services, services can access repositories
+```
+
 ## Background
 
 Why is it so common for JavaScript applications these days (backend _and_ frontend) to be organised and reasoned about in terms of scripts and files, and navigated via a convoluted maze of file imports?
@@ -526,4 +552,6 @@ https://agileavatars.com • https://github.com/mattriley/agile-avatars
 
 <%- await lib.compose(modules => lib.renderCode(modules.composition.eject(), 'js'), '../agile-avatars/src/compose.js') %>
 
+## Design principles
 
+- Vanilla and non-intrusive. Structures passed to Module Composer should have no knowledge of / no dependency on Module Composer.
