@@ -88,3 +88,7 @@ expectType<{ play: Play, eat: Eat }>(cat);
 // config is required as a dependency if it is not passed into the composer and an option
 const { compose: composeWithoutConfig } = composer(modules);
 composeWithoutConfig('toys', { config: { availableToys: ['yarn', 'bell', 'feather'] } });
+
+// config is not required as a dependency when passing a list in
+const { compose: composeWithListOfConfig } = composer(modules, { config: [{}, { availableToys: ['yarn', 'bell', 'feather'] }] });
+composeWithListOfConfig('toys', {});
