@@ -42,7 +42,7 @@ type ModuleDependencies<T extends Module, C extends ComposerOptions> =
     ? Omit<UnionToIntersection<NonNullable<ModuleParameters<T>>>, 'config'>
     : UnionToIntersection<NonNullable<ModuleParameters<T>>>
 
-type Compose<T extends Modules, C extends ComposerOptions> = <Path extends keyof T>(path: Path, deps: ModuleDependencies<T[Path], C>, opts?: Partial<Options>) => Record<Path, ComposedModule<T[Path]>>
+type Compose<T extends Modules, C extends ComposerOptions> = <Path extends keyof T>(path: Path, deps: Omit<ModuleDependencies<T[Path], C>, Path>, opts?: Partial<Options>) => Record<Path, ComposedModule<T[Path]>>
 
 interface Asis<T extends Modules> {
     asis<Path extends keyof T>(path: Path, opts?: Partial<Options>): Record<Path, T[Path]>
