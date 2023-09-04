@@ -1,5 +1,12 @@
 module.exports = ({ test, assert }) => composer => {
 
+    test('standalone config utility', () => {
+        const defaultConfig = { a: 1 };
+        const configs = [{ b: 2 }];
+        const config = composer.configure(defaultConfig, configs);
+        assert.deepEqual(config, { a: 1, b: 2 });
+    });
+
     test('config object provided as an option', () => {
         const configs = [{ a: 1 }];
         const { compose, config } = composer({}, { config: configs[0] });

@@ -1,7 +1,7 @@
 const Session = require('./session');
 const Configure = require('./configure');
 
-module.exports = (target, options = {}) => {
+const composer = (target, options = {}) => {
 
     const createComposer = (config = {}) => {
         const session = Session(target, options, config);
@@ -17,3 +17,6 @@ module.exports = (target, options = {}) => {
     return configure();
 
 };
+
+const configure = Configure();
+module.exports = Object.assign(composer, { configure });
