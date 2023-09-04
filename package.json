@@ -17,10 +17,12 @@
     "files": [
         "core.js",
         "main.js",
+        "main.d.ts",
         "src/**/*",
         "extensions/*"
     ],
     "main": "./main.js",
+    "types": "./main.d.ts",
     "scripts": {
         "cov": "npx task cov",
         "deploy": "npx task deploy",
@@ -28,13 +30,16 @@
         "pre": "npx task pre",
         "setup": "npm i && npx task setup",
         "start": "npx task start",
-        "test": "npx task test"
+        "test": "npx task test",
+        "tsd": "npx tsd"
     },
     "dependencies": {
         "flat": "^5.0.2",
         "lodash": "^4.17.21"
     },
     "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^6.5.0",
+        "@typescript-eslint/parser": "^6.5.0",
         "cloc": "^2.11.0",
         "doctoc": "^2.2.1",
         "ejs": "^3.1.9",
@@ -47,7 +52,12 @@
         "node-sloc": "^0.2.1",
         "npm-check-updates": "^16.13.2",
         "task-library": "^0.269.0",
-        "testing": "file:./testing"
+        "testing": "file:./testing",
+        "tsd": "^0.29.0",
+        "typescript": "^5.2.2"
+    },
+    "peerDependencies": {
+        "type-fest": "^4.3.1"
     },
     "keywords": [
         "application-architecture",

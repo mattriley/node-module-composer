@@ -45,6 +45,21 @@
             "off"
         ]
     },
-    "overrides": [],
+    "overrides": [
+        {
+            "files": [
+                "main.d.ts",
+                "main.test-d.ts"
+            ],
+            "extends": [
+                "eslint:recommended",
+                "plugin:@typescript-eslint/recommended"
+            ],
+            "parser": "@typescript-eslint/parser",
+            "plugins": [
+                "@typescript-eslint"
+            ]
+        }
+    ],
     "plugins": []
 }
