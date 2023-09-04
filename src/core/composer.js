@@ -1,18 +1,7 @@
 const Session = require('./session');
-const _ = require('./util');
+const Configurer = require('./configurer');
 
 module.exports = (target, options = {}) => {
-
-    const createConfigurer = () => {
-        const mergeWith = (customiser, ...configs) => {
-            const flatConfigs = [options.defaultConfig, options.config, ...configs].flat();
-            const config = flatConfigs.reduce((acc, c) => _.mergeWith(acc, _.invokeOrReturn(c, acc), customiser), {});
-            return createComposer(config);
-        };
-        const merge = (...configs) => mergeWith(undefined, ...configs);
-        const configure = Object.assign(merge, { merge, mergeWith });
-        return { configure };
-    };
 
     const createComposer = (config = {}) => {
         const session = Session(target, options, config);
@@ -24,7 +13,7 @@ module.exports = (target, options = {}) => {
         return { compose, configure, ...session.configAliases };
     };
 
-    const { configure } = createConfigurer();
+    const configure = Configurer(createComposer, options.defaultConfig, options.config);
     return configure();
 
 };
