@@ -222,7 +222,7 @@ Module Composer provides convenient utility functions for managing application c
 
 ### Merge configuration with the `configure.merge` function
 
-`configure.merge`, or simply `configure` takes objects, arrays of objects, and functions and merges them in the order specified using [Lodash merge](https://lodash.com/docs#merge). Functions are invoked with the preceeding merged value as an argument, and the result takes the function's place in the merge sequence. The resulting 
+`configure.merge`, or simply `configure` takes objects, arrays of objects, and functions and merges them in the order specified using [Lodash merge](https://lodash.com/docs#merge). Functions are invoked with the preceeding merged value as an argument, and the result takes the function's place in the merge sequence.  
 
 ```js
 import { configure } from 'module-composer';

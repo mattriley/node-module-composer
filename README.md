@@ -250,7 +250,7 @@ Module Composer provides convenient utility functions for managing application c
 
 ### Merge configuration with the `configure.merge` function
 
-`configure.merge`, or simply `configure` takes objects, arrays of objects, and functions and merges them in the order specified using [Lodash merge](https://lodash.com/docs#merge). Functions are invoked with the preceeding merged value as an argument, and the result takes the function's place in the merge sequence. The resulting 
+`configure.merge`, or simply `configure` takes objects, arrays of objects, and functions and merges them in the order specified using [Lodash merge](https://lodash.com/docs#merge). Functions are invoked with the preceeding merged value as an argument, and the result takes the function's place in the merge sequence.  
 
 ```js
 import { configure } from 'module-composer';
@@ -583,78 +583,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 90.5478749871254,
-            "endTime": 90.96324998140335,
-            "duration": 0.4153749942779541
+            "startTime": 90.16187497973442,
+            "endTime": 90.5735829770565,
+            "duration": 0.4117079973220825
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 91.08154198527336,
-            "endTime": 91.15129199624062,
-            "duration": 0.06975001096725464
+            "startTime": 90.68566599488258,
+            "endTime": 90.75995799899101,
+            "duration": 0.07429200410842896
         },
         "core": {
             "path": "core",
-            "startTime": 91.80787500739098,
-            "endTime": 91.9699589908123,
-            "duration": 0.16208398342132568
+            "startTime": 91.42120799422264,
+            "endTime": 91.580874979496,
+            "duration": 0.1596669852733612
         },
         "io": {
             "path": "io",
-            "startTime": 92.02099999785423,
-            "endTime": 92.13099998235703,
-            "duration": 0.10999998450279236
+            "startTime": 91.62520799040794,
+            "endTime": 91.7360409796238,
+            "duration": 0.11083298921585083
         },
         "services": {
             "path": "services",
-            "startTime": 92.483334004879,
-            "endTime": 92.80620899796486,
-            "duration": 0.3228749930858612
+            "startTime": 92.0774160027504,
+            "endTime": 92.40270799398422,
+            "duration": 0.3252919912338257
         },
         "ui": {
             "path": "ui",
-            "startTime": 92.86283400654793,
-            "endTime": 92.90962499380112,
-            "duration": 0.04679098725318909
+            "startTime": 92.45895799994469,
+            "endTime": 92.50454097986221,
+            "duration": 0.045582979917526245
         },
         "elements": {
             "path": "elements",
-            "startTime": 92.96158400177956,
-            "endTime": 93.10095900297165,
-            "duration": 0.1393750011920929
+            "startTime": 92.55616599321365,
+            "endTime": 92.69129100441933,
+            "duration": 0.13512501120567322
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 93.13908398151398,
-            "endTime": 93.16499999165535,
-            "duration": 0.02591601014137268
+            "startTime": 92.7270829975605,
+            "endTime": 92.75720798969269,
+            "duration": 0.03012499213218689
         },
         "components": {
             "path": "components",
-            "startTime": 93.6626670062542,
-            "endTime": 94.27562499046326,
-            "duration": 0.6129579842090607
+            "startTime": 93.24670800566673,
+            "endTime": 93.86279100179672,
+            "duration": 0.6160829961299896
         },
         "styles": {
             "path": "styles",
-            "startTime": 94.34679198265076,
-            "endTime": 94.42295899987221,
-            "duration": 0.0761670172214508
+            "startTime": 93.92854100465775,
+            "endTime": 94.00283297896385,
+            "duration": 0.07429197430610657
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 94.46420899033546,
-            "endTime": 94.48499998450279,
-            "duration": 0.02079099416732788
+            "startTime": 94.04483300447464,
+            "endTime": 94.06754100322723,
+            "duration": 0.022707998752593994
         },
         "startup": {
             "path": "startup",
-            "startTime": 94.6550000011921,
-            "endTime": 94.70420899987221,
-            "duration": 0.049208998680114746
+            "startTime": 94.25770798325539,
+            "endTime": 94.30454099178314,
+            "duration": 0.04683300852775574
         }
     },
-    "totalDuration": 2.0512909591197968,
+    "totalDuration": 2.0525409281253815,
     "durationUnit": "ms"
 }
 ```
