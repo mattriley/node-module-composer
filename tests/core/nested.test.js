@@ -1,6 +1,6 @@
 module.exports = ({ test, assert }) => composer => {
 
-    test('deps are applied to nested modules', () => {
+    test('nested module', () => {
         const target = {
             mod1: { modA: { fun: () => () => 2 } },
             mod2: { modB: { fun: ({ mod1 }) => () => mod1.modA.fun() } }

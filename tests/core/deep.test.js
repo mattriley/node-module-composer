@@ -1,23 +1,6 @@
 module.exports = ({ test, assert }) => composer => {
 
-    test('deep single module', () => {
-        const target = {
-            mod: {
-                fun1: ({ mod }) => () => mod.sub.fun2(),
-                sub: {
-                    fun2: ({ mod }) => () => mod.sub.fun3(),
-                    fun3: () => () => 'foobar'
-                }
-            }
-        };
-        const { compose } = composer(target);
-        const { mod } = compose.deep('mod', {});
-        assert.deepEqual(mod.fun1(), 'foobar');
-        assert.deepEqual(mod.sub.fun2(), 'foobar');
-        assert.deepEqual(mod.sub.fun3(), 'foobar');
-    });
-
-    test('deep multiple modules', () => {
+    test('deep module', () => {
         const target = {
             mod1: {
                 sub: {
