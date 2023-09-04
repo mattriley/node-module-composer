@@ -1,4 +1,4 @@
-import type { UnionToIntersection } from 'type-fest';
+import type { UnionToIntersection, UnknownRecord } from 'type-fest';
 
 interface CoreOptions {
     depth: number
@@ -32,18 +32,18 @@ export type ComposedModule<T extends Module> = {
 type ModuleParameters<T extends Module, Key = keyof T> =
     Key extends PropertyKey ? Parameters<T[Key]>[0] : never
 
-type ModuleDependencies<T extends Module> = UnionToIntersection<NonNullable<ModuleParameters<T>>>
+type ModuleDependencies<T extends Module, C> = C extends UnknownRecord ? Omit<UnionToIntersection<NonNullable<ModuleParameters<T>>>, 'config'> : UnionToIntersection<NonNullable<ModuleParameters<T>>>
 
-type Compose<T extends Modules> = <Path extends keyof T>(path: Path, deps: ModuleDependencies<T[Path]>, opts?: Partial<Options>) => Record<Path, ComposedModule<T[Path]>>
+type Compose<T extends Modules, C> = <Path extends keyof T>(path: Path, deps: ModuleDependencies<T[Path], C>, opts?: Partial<Options>) => Record<Path, ComposedModule<T[Path]>>
 
 interface Asis<T extends Modules> {
     asis<Path extends keyof T>(path: Path, opts?: Partial<Options>): Record<Path, T[Path]>
 }
 
-interface Composer<T extends Modules> {
-    compose: Compose<T> & Asis<T>
+interface Composer<T extends Modules, C> {
+    compose: Compose<T, C> & Asis<T>
 }
 
-declare function composer<T extends Modules>(config: T): Composer<T>
+declare function composer<T extends Modules, C>(target: T, config?: C): Composer<T, C>
 
 export default composer;

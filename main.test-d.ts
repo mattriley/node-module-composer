@@ -15,6 +15,10 @@ type HumanDeps = {
     food: { serve: ServeFood }
 }
 
+type RandomToyDeps = {
+    config: { availableToys: string[] }
+}
+
 type PlayDeps = {
     toys: { randomToy: () => Toy }
     util: { shuffle: (str: string) => string }
@@ -38,7 +42,7 @@ const modules = {
     },
 
     toys: {
-        randomToy: (): RandomToy => () => 'yarn'
+        randomToy: ({ config }: RandomToyDeps): RandomToy => () => config.availableToys[Math.floor(Math.random() * config.availableToys.length)]
     },
 
     cat: {
@@ -59,7 +63,7 @@ const modules = {
     }
 };
 
-const { compose } = composer(modules);
+const { compose } = composer(modules, { config: { availableToys: ['yarn', 'bell', 'feather'] } });
 
 // compose as-is with no dependencies
 const { util } = compose.asis('util');
@@ -73,10 +77,14 @@ expectType<{ serve: ServeFood }>(food);
 const { human } = compose('human', { food });
 expectType<{ fillBowl: FillBowl }>(human);
 
-// compose with no dependencies
-const { toys } = compose('toys', { food });
+// compose with only config dependency
+const { toys } = compose('toys', {});
 expectType<{ randomToy: RandomToy }>(toys);
 
 // compose with multiple dependencies across functions
 const { cat } = compose('cat', { toys, util, human });
 expectType<{ play: Play, eat: Eat }>(cat);
+
+// config is required as a dependency if it is not passed into the composer and an option
+const { compose: composeWithoutConfig } = composer(modules);
+composeWithoutConfig('toys', { config: { availableToys: ['yarn', 'bell', 'feather'] } });
