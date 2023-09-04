@@ -1,6 +1,6 @@
 module.exports = ({ test, assert }) => composer => {
 
-    test('module can be accessed internally by name', () => {
+    test('self reference by name', () => {
         const target = {
             mod: {
                 fun1: () => () => 1,
@@ -8,11 +8,11 @@ module.exports = ({ test, assert }) => composer => {
             }
         };
         const { compose } = composer(target);
-        const { mod } = compose('mod', {});
+        const { mod } = compose('mod');
         assert.deepEqual(mod.fun2(), 1);
     });
 
-    test('module can be accessed internally using self', () => {
+    test('self reference by literal self', () => {
         const target = {
             mod: {
                 fun1: () => () => 1,
@@ -20,8 +20,20 @@ module.exports = ({ test, assert }) => composer => {
             }
         };
         const { compose } = composer(target);
-        const { mod } = compose('mod', {});
+        const { mod } = compose('mod');
         assert.deepEqual(mod.fun2(), 1);
+    });
+
+    test('literal self not visible externally', () => {
+        const target = {
+            mod: {
+                fun1: () => () => 1,
+                fun2: ({ self }) => () => self.fun1()
+            }
+        };
+        const { compose } = composer(target);
+        const { self } = compose('mod');
+        assert.equal(self, undefined);
     });
 
 };
