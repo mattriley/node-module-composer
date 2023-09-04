@@ -19,4 +19,4 @@ const composer = (target, options = {}) => {
 };
 
 const configure = Configure();
-module.exports = Object.assign(composer, { configure });
+module.exports = Object.assign(composer, { composer, configure });
