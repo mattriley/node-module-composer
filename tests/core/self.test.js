@@ -24,7 +24,7 @@ module.exports = ({ test, assert }) => composer => {
         assert.deepEqual(mod.fun2(), 1);
     });
 
-    test('literal self not visible externally', () => {
+    test('literal self not accessible externally', () => {
         const target = {
             mod: {
                 fun1: () => () => 1,
