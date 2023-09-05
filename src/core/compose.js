@@ -1,4 +1,5 @@
 const _ = require('./util');
+const flatten = module => _.mapKeys(_.flat(module), (v, k) => k.split('.').pop());
 
 module.exports = session => (path, deps = {}, opts = {}) => {
 
@@ -9,17 +10,19 @@ module.exports = session => (path, deps = {}, opts = {}) => {
     if (session.composedDependencies[path]) throw new Error(`${path} is already composed`);
 
     const options = session.getModuleOptions(path, opts);
-    const { args, customiser, depth, overrides } = options;
+    const { args, customiser, depth, flat, overrides } = options;
 
     const recurse = (target, parentPath, deps, currentDepth = 0) => {
         if (!deps) return target;
         if (currentDepth === depth) return target;
         if (!_.isPlainObject(target)) return target;
-        const self = {};
-        const depsMod = _.set({ self, ...session.configAliases, ...deps }, parentPath, self);
+        const here = {};
+        const depsMod = _.set({ self: here, ...session.configAliases, ...deps }, parentPath, here);
         const argsMod = { ...session.configAliases, ...args };
         const evaluate = (val, key) => _.isPlainFunction(val) ? val(depsMod, argsMod) : recurse(val, [parentPath, key].join('.'), depsMod, currentDepth + 1);
-        return Object.assign(self, _.mapValues(target, evaluate));
+        const evaluated = _.mapValues(target, evaluate);
+        const maybeFlattened = flat ? flatten(evaluated) : evaluated;
+        return Object.assign(here, maybeFlattened);
     };
 
     const maybePromise = _.flow([

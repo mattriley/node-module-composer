@@ -4,6 +4,31 @@
 
 <%- await lib.renderCode('npm install module-composer', 'sh', 'https://www.npmjs.com/package/module-composer') %>
 
+## At a glance
+
+A contrived example to set the scene.
+
+```js
+// compose.js
+import composer from 'module-composer';
+import modules from './modules/index.js';
+
+export default ({ config }) => {
+    const { compose } = composer(modules, { config });
+    const { repositories } = compose('repositories');
+    const { services } = compose('services', { repositories });
+    const { views } = compose('views', { services });
+    return compose.modules;
+}
+```
+
+```js
+// app.js
+import compose from './compose.js';
+const { views } = compose();
+views.welcome.render(); 
+```
+
 ## Background
 
 Why is it so common for JavaScript applications these days (backend _and_ frontend) to be organised and reasoned about in terms of scripts and files, and navigated via a convoluted maze of file imports?
@@ -216,22 +241,101 @@ Recommended reading:
 
 - [Pure-Impure Segregation Principle](https://tyrrrz.me/blog/pure-impure-segregation-principle) — Oleksii Holub
 
-## Application configuration / constants
+## Application configuration
 
-The `configure` function accepts application configuration and makes it available to all modules as a dependency named `config`.
+Module Composer provides convenient utility functions for managing application configuration.
 
-For convenience, `config` accepts multiple configuration objects, merging them together using [Lodash merge](https://lodash.com/docs#merge) in the order specified. A "customisation" function may also be provided. The customisation function will be invoked with the preceeding merged config as an argument, and the return value then also being merged.
+### Merge configuration with the `configure.merge` function
+
+`configure.merge`, or simply `configure` takes objects, arrays of objects, and functions and merges them in the order specified using [Lodash merge](https://lodash.com/docs#merge). Functions are invoked with the preceeding merged value as an argument, and the result takes the function's place in the merge sequence.  
 
 ```js
-const { configure } = composer(modules);
-const { compose, config } = configure(defaultConfig, userConfig, config => {});
+import { configure } from 'module-composer';
+
+const defaultConfig = { a: 1 };
+const userConfig = { b: 2 };
+const deriveConfig = config => ({ c: config.a + config.b });
+const config = configure(defaultConfig, userConfig, deriveConfig);
+// Result is { a: 1, b: 2, c: 3 }
 ```
 
-An alias can be configured in case a name other than `config` is more appropriate. By default, the alias is `constants` and can be changed using the `configAlias` option:
+### Custom merging with the `configure.mergeWith` function
+
+`configure.mergeWith` applies a customiser function as the first argument using [Lodash mergeWith](https://lodash.com/docs/#mergeWith). The following example demonstrates array concatenation.
 
 ```js
-const { configure } = composer(modules, { configAlias: 'settings' });
-const { compose, settings } = configure(defaultConfig, userConfig, config => {});
+import { configure } from 'module-composer';
+
+const customiser = (objValue, srcValue) => {
+    if (Array.isArray(objValue)) return objValue.concat(srcValue);
+};
+
+const defaultConfig = { arr: [1] };
+const userConfig = { arr: [2] };
+const config = configure.mergeWith(customiser, defaultConfig, userConfig);
+// config is { arr: [1, 2] }
+```
+
+### Configuration as an option
+
+Module Composer can also take configuration as an option with the same behaviour as `configure.merge`. This not only returns the resulting configuration but also injects it automatically into each composed module.
+
+```js
+import composer from 'module-composer';
+
+const defaultConfig = { a: 1 };
+const userConfig = { b: 2 };
+const deriveConfig = config => ({ c: config.a + config.b });
+const { compose, config } = composer(modules, { config: [defaultConfig, userConfig, deriveConfig] });
+// config is { a: 1, b: 2, c: 3 }
+const { mod } = compose('mod', { dep }); // config injected automatically
+```
+
+For added convienience, `defaultConfig` is also an option that will take precedence over `config`.
+
+```js
+import composer from 'module-composer';
+
+const defaultConfig = { a: 1 };
+const config = { b: 2 };
+const { compose, config } = composer(modules, { defaultConfig, config });
+// config is { a: 1, b: 2 }
+```
+
+### Freezing config
+
+To encourage immutability, configuration is frozen (deeply) to prevent modification. In effect, turning config into constants. This effect can be disabled with the `freezeConfig` option.
+
+#### Frozen config
+
+```js
+const { compose, config } = composer(modules, { config: { a: 1 } });
+config.a = 2; // has no effect
+```
+
+#### Unfrozen config
+
+```js
+const { compose, config } = composer(modules, { config: { a: 1 }, freezeConfig: false });
+config.a = 2; // change is applied
+```
+
+### Config aliases
+
+The `configAlias` option takes a string or array of string specifying alternative words to be used to reference config. Config aliases are also injected into each module automatically. By default, config is automatically aliased to `constants`, since config should not change once injected. 
+
+#### Default alias
+
+```js
+const { compose, config, constants } = composer(modules, { config: { a: 1 } });
+// config and constants are the same object reference
+```
+
+#### Custom alias
+
+```js
+const { compose, config, settings } = composer(modules, { config: { a: 1 }, configAlias: 'settings' });
+// config and settings are the same object reference
 ```
 
 ## Fitness functions
@@ -447,4 +551,6 @@ https://agileavatars.com • https://github.com/mattriley/agile-avatars
 
 <%- await lib.compose(modules => lib.renderCode(modules.composition.eject(), 'js'), '../agile-avatars/src/compose.js') %>
 
+## Design principles
 
+- Vanilla and non-intrusive. Structures passed to Module Composer should have no knowledge of / no dependency on Module Composer.

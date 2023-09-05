@@ -4,6 +4,7 @@ const get = require('lodash/get');
 const has = require('lodash/has');
 const isFunction = require('lodash/isFunction');
 const isPlainObject = require('lodash/isPlainObject');
+const mapKeys = require('lodash/mapKeys');
 const mapValues = require('lodash/mapValues');
 const merge = require('lodash/merge');
 const mergeWith = require('lodash/mergeWith');
@@ -13,6 +14,7 @@ const set = require('lodash/set');
 const unset = require('lodash/unset');
 const flow = require('lodash/flow');
 const omit = require('lodash/omit');
+const flat = require('flat');
 
 const isPlainFunction = val => isFunction(val) && !val.hasOwnProperty('prototype');
 const isPromise = val => val && typeof val.then == 'function';
@@ -64,6 +66,7 @@ const invokeAtOrReturn = (obj, path, ...args) => invokeOrReturn(get(obj, path, o
 module.exports = {
     cloneDeep,
     deepFreeze,
+    flat,
     flatMapKeys,
     flow,
     get,
@@ -73,6 +76,7 @@ module.exports = {
     isPlainFunction,
     isPlainObject,
     isPromise,
+    mapKeys,
     mapValues,
     matchPaths,
     merge,

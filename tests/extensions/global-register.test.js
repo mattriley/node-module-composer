@@ -6,8 +6,7 @@ module.exports = ({ test, assert }) => composer => {
         const target = { foo: {}, window: {} };
         const { compose } = composer(target, { globalThis });
         compose('foo', { bar: {} });
-        const composition = compose.done();
-        assert.deepEqual(globalThis.compositions.at(-1), { 'module-composer': composition });
+        assert.deepEqual(globalThis.compositions.at(-1), { 'module-composer': compose.session });
     });
 
     test('composition is unnamed upon failure to read package.json', () => {
@@ -15,8 +14,7 @@ module.exports = ({ test, assert }) => composer => {
         const target = { foo: {}, window: {} };
         const { compose } = composer(target, { globalThis });
         compose('foo', { bar: {} });
-        const composition = compose.done();
-        assert.deepEqual(globalThis.compositions.at(-1), { 'Unnamed Composition': composition });
+        assert.deepEqual(globalThis.compositions.at(-1), { 'Unnamed Composition': compose.session });
     });
 
     test('register composition with custom name', () => {
@@ -25,8 +23,7 @@ module.exports = ({ test, assert }) => composer => {
         const { configure } = composer(target, { globalThis });
         const { compose } = configure(configs);
         compose('foo', { bar: {} });
-        const composition = compose.done();
-        assert.deepEqual(globalThis.compositions.at(-1), { 'custom-name': composition });
+        assert.deepEqual(globalThis.compositions.at(-1), { 'custom-name': compose.session });
     });
 
 };

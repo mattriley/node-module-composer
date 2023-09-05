@@ -1,6 +1,6 @@
 # Module Composer
 
-<p align="right"><code>100% cov</code>&nbsp;<code>333 sloc</code>&nbsp;<code>15 files</code>&nbsp;<code>2 deps</code>&nbsp;<code>13 dev deps</code></p>
+<p align="right"><code>100% cov</code>&nbsp;<code>338 sloc</code>&nbsp;<code>15 files</code>&nbsp;<code>2 deps</code>&nbsp;<code>13 dev deps</code></p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
@@ -11,17 +11,19 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
 ## Table of Contents
 
 - [Install](#install)
+- [At a glance](#at-a-glance)
 - [Background](#background)
 - [How it works](#how-it-works)
 - [Composition root](#composition-root)
 - [File-per-function](#file-per-function)
 - [Dependency injection](#dependency-injection)
 - [Functional programming](#functional-programming)
-- [Application configuration / constants](#application-configuration--constants)
+- [Application configuration](#application-configuration)
 - [Fitness functions](#fitness-functions)
 - [Testability](#testability)
 - [Extensions](#extensions)
 - [Advanced example: Agile Avatars](#advanced-example-agile-avatars)
+- [Design principles](#design-principles)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -30,6 +32,31 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
 ###### <p align="right"><a href="https://www.npmjs.com/package/module-composer">https://www.npmjs.com/package/module-composer</a></p>
 ```sh
 npm install module-composer
+```
+
+## At a glance
+
+A contrived example to set the scene.
+
+```js
+// compose.js
+import composer from 'module-composer';
+import modules from './modules/index.js';
+
+export default ({ config }) => {
+    const { compose } = composer(modules, { config });
+    const { repositories } = compose('repositories');
+    const { services } = compose('services', { repositories });
+    const { views } = compose('views', { services });
+    return compose.modules;
+}
+```
+
+```js
+// app.js
+import compose from './compose.js';
+const { views } = compose();
+views.welcome.render(); 
 ```
 
 ## Background
@@ -244,22 +271,101 @@ Recommended reading:
 
 - [Pure-Impure Segregation Principle](https://tyrrrz.me/blog/pure-impure-segregation-principle) — Oleksii Holub
 
-## Application configuration / constants
+## Application configuration
 
-The `configure` function accepts application configuration and makes it available to all modules as a dependency named `config`.
+Module Composer provides convenient utility functions for managing application configuration.
 
-For convenience, `config` accepts multiple configuration objects, merging them together using [Lodash merge](https://lodash.com/docs#merge) in the order specified. A "customisation" function may also be provided. The customisation function will be invoked with the preceeding merged config as an argument, and the return value then also being merged.
+### Merge configuration with the `configure.merge` function
+
+`configure.merge`, or simply `configure` takes objects, arrays of objects, and functions and merges them in the order specified using [Lodash merge](https://lodash.com/docs#merge). Functions are invoked with the preceeding merged value as an argument, and the result takes the function's place in the merge sequence.  
 
 ```js
-const { configure } = composer(modules);
-const { compose, config } = configure(defaultConfig, userConfig, config => {});
+import { configure } from 'module-composer';
+
+const defaultConfig = { a: 1 };
+const userConfig = { b: 2 };
+const deriveConfig = config => ({ c: config.a + config.b });
+const config = configure(defaultConfig, userConfig, deriveConfig);
+// Result is { a: 1, b: 2, c: 3 }
 ```
 
-An alias can be configured in case a name other than `config` is more appropriate. By default, the alias is `constants` and can be changed using the `configAlias` option:
+### Custom merging with the `configure.mergeWith` function
+
+`configure.mergeWith` applies a customiser function as the first argument using [Lodash mergeWith](https://lodash.com/docs/#mergeWith). The following example demonstrates array concatenation.
 
 ```js
-const { configure } = composer(modules, { configAlias: 'settings' });
-const { compose, settings } = configure(defaultConfig, userConfig, config => {});
+import { configure } from 'module-composer';
+
+const customiser = (objValue, srcValue) => {
+    if (Array.isArray(objValue)) return objValue.concat(srcValue);
+};
+
+const defaultConfig = { arr: [1] };
+const userConfig = { arr: [2] };
+const config = configure.mergeWith(customiser, defaultConfig, userConfig);
+// config is { arr: [1, 2] }
+```
+
+### Configuration as an option
+
+Module Composer can also take configuration as an option with the same behaviour as `configure.merge`. This not only returns the resulting configuration but also injects it automatically into each composed module.
+
+```js
+import composer from 'module-composer';
+
+const defaultConfig = { a: 1 };
+const userConfig = { b: 2 };
+const deriveConfig = config => ({ c: config.a + config.b });
+const { compose, config } = composer(modules, { config: [defaultConfig, userConfig, deriveConfig] });
+// config is { a: 1, b: 2, c: 3 }
+const { mod } = compose('mod', { dep }); // config injected automatically
+```
+
+For added convienience, `defaultConfig` is also an option that will take precedence over `config`.
+
+```js
+import composer from 'module-composer';
+
+const defaultConfig = { a: 1 };
+const config = { b: 2 };
+const { compose, config } = composer(modules, { defaultConfig, config });
+// config is { a: 1, b: 2 }
+```
+
+### Freezing config
+
+To encourage immutability, configuration is frozen (deeply) to prevent modification. In effect, turning config into constants. This effect can be disabled with the `freezeConfig` option.
+
+#### Frozen config
+
+```js
+const { compose, config } = composer(modules, { config: { a: 1 } });
+config.a = 2; // has no effect
+```
+
+#### Unfrozen config
+
+```js
+const { compose, config } = composer(modules, { config: { a: 1 }, freezeConfig: false });
+config.a = 2; // change is applied
+```
+
+### Config aliases
+
+The `configAlias` option takes a string or array of string specifying alternative words to be used to reference config. Config aliases are also injected into each module automatically. By default, config is automatically aliased to `constants`, since config should not change once injected. 
+
+#### Default alias
+
+```js
+const { compose, config, constants } = composer(modules, { config: { a: 1 } });
+// config and constants are the same object reference
+```
+
+#### Custom alias
+
+```js
+const { compose, config, settings } = composer(modules, { config: { a: 1 }, configAlias: 'settings' });
+// config and settings are the same object reference
 ```
 
 ## Fitness functions
@@ -504,78 +610,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 66.94208288192749,
-            "endTime": 67.36837482452393,
-            "duration": 0.42629194259643555
+            "startTime": 68.06637498736382,
+            "endTime": 68.49104100465775,
+            "duration": 0.42466601729393005
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 67.4857497215271,
-            "endTime": 67.5567078590393,
-            "duration": 0.07095813751220703
+            "startTime": 68.6071250140667,
+            "endTime": 68.67654100060463,
+            "duration": 0.06941598653793335
         },
         "core": {
             "path": "core",
-            "startTime": 68.22499990463257,
-            "endTime": 68.39774990081787,
-            "duration": 0.17274999618530273
+            "startTime": 69.39304101467133,
+            "endTime": 69.54995799064636,
+            "duration": 0.15691697597503662
         },
         "io": {
             "path": "io",
-            "startTime": 68.44145774841309,
-            "endTime": 68.55399990081787,
-            "duration": 0.11254215240478516
+            "startTime": 69.59241598844528,
+            "endTime": 69.69787499308586,
+            "duration": 0.10545900464057922
         },
         "services": {
             "path": "services",
-            "startTime": 68.93441677093506,
-            "endTime": 69.26558303833008,
-            "duration": 0.33116626739501953
+            "startTime": 70.0486249923706,
+            "endTime": 70.38291600346565,
+            "duration": 0.334291011095047
         },
         "ui": {
             "path": "ui",
-            "startTime": 69.32654190063477,
-            "endTime": 69.39133310317993,
-            "duration": 0.06479120254516602
+            "startTime": 70.43995800614357,
+            "endTime": 70.48633301258087,
+            "duration": 0.046375006437301636
         },
         "elements": {
             "path": "elements",
-            "startTime": 69.44545793533325,
-            "endTime": 69.60079193115234,
-            "duration": 0.1553339958190918
+            "startTime": 70.5387080013752,
+            "endTime": 70.67729100584984,
+            "duration": 0.1385830044746399
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 69.63808298110962,
-            "endTime": 69.66654205322266,
-            "duration": 0.02845907211303711
+            "startTime": 70.71191599965096,
+            "endTime": 70.73770800232887,
+            "duration": 0.02579200267791748
         },
         "components": {
             "path": "components",
-            "startTime": 70.23058271408081,
-            "endTime": 70.87391710281372,
-            "duration": 0.6433343887329102
+            "startTime": 71.22775000333786,
+            "endTime": 71.8425000011921,
+            "duration": 0.6147499978542328
         },
         "styles": {
             "path": "styles",
-            "startTime": 70.94262504577637,
-            "endTime": 71.01670789718628,
-            "duration": 0.07408285140991211
+            "startTime": 71.91262501478195,
+            "endTime": 71.9909580051899,
+            "duration": 0.07833299040794373
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 71.0609998703003,
-            "endTime": 71.08150005340576,
-            "duration": 0.02050018310546875
+            "startTime": 72.0324999988079,
+            "endTime": 72.05308300256729,
+            "duration": 0.020583003759384155
         },
         "startup": {
             "path": "startup",
-            "startTime": 71.2604169845581,
-            "endTime": 71.30766677856445,
-            "duration": 0.047249794006347656
+            "startTime": 72.22841599583626,
+            "endTime": 72.27466601133347,
+            "duration": 0.04625001549720764
         }
     },
-    "totalDuration": 2.1474599838256836,
+    "totalDuration": 2.0614150166511536,
     "durationUnit": "ms"
 }
 ```
@@ -824,4 +930,6 @@ graph TD;
 };
 ```
 
+## Design principles
 
+- Vanilla and non-intrusive. Structures passed to Module Composer should have no knowledge of / no dependency on Module Composer.

@@ -2,15 +2,20 @@
 
 function code_gen {
 
-    local dest="$PACKAGE_ROOT/extensions"
-    rm -rf "$dest"; mkdir "$dest"
+    local main="$PACKAGE_ROOT/main.js"
+    rm "$main"
+
+    local extensions="$PACKAGE_ROOT/extensions"
+    rm -rf "$extensions"; mkdir "$extensions"
 
     for extension_file in "$SRC/extensions/"*; do 
         local extension_base; extension_base="$(basename "$extension_file")"
-        local extension_name="${extension_base%.*}"
-        local code="require('module-composer/src/core/extensions').register('$extension_name', require('module-composer/src/extensions/$extension_name'));"
-        echo "$code" > "$dest/$extension_base"
+        local f="${extension_base%.*}"
+        echo "require('module-composer/src/core/extensions').register('$f', require('module-composer/src/extensions/$f'));" > "$extensions/$extension_base"
+        echo "require('./extensions/$f');" >> "$main"
     done;
+
+    echo "module.exports = require('./core');" >> "$main"
 
 }
 

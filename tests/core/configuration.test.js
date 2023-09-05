@@ -1,5 +1,12 @@
 module.exports = ({ test, assert }) => composer => {
 
+    test('standalone config utility', () => {
+        const defaultConfig = { a: 1 };
+        const configs = [{ b: 2 }];
+        const config = composer.configure(defaultConfig, configs);
+        assert.deepEqual(config, { a: 1, b: 2 });
+    });
+
     test('config object provided as an option', () => {
         const configs = [{ a: 1 }];
         const { compose, config } = composer({}, { config: configs[0] });
@@ -30,6 +37,13 @@ module.exports = ({ test, assert }) => composer => {
         assert.deepEqual(config, configs[0]);
         assert.notEqual(config, configs[0]);
         assert.equal(config, compose.config);
+    });
+
+    test('config provided as an option and also via configure', () => {
+        const configs = [{ a: 1 }, { b: 2 }];
+        const { configure } = composer({}, { config: configs[0] });
+        const { config } = configure(configs[1]);
+        assert.deepEqual(config, { a: 1, b: 2 });
     });
 
     test('array of config', () => {
