@@ -4,6 +4,7 @@ const get = require('lodash/get');
 const has = require('lodash/has');
 const isFunction = require('lodash/isFunction');
 const isPlainObject = require('lodash/isPlainObject');
+const mapKeys = require('lodash/mapKeys');
 const mapValues = require('lodash/mapValues');
 const merge = require('lodash/merge');
 const mergeWith = require('lodash/mergeWith');
@@ -73,6 +74,7 @@ module.exports = {
     isPlainFunction,
     isPlainObject,
     isPromise,
+    mapKeys,
     mapValues,
     matchPaths,
     merge,

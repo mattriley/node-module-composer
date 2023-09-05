@@ -1,6 +1,7 @@
 const Session = require('./session');
 const Configure = require('./configure');
 const util = require('./util');
+const flatten = require('flat');
 
 const composer = (target, options = {}) => {
 
@@ -11,12 +12,11 @@ const composer = (target, options = {}) => {
         const asis = (path, opts) => make(path, null, opts);
 
         const flat = (path, deps, opts) => {
-            const modules = util.get(session.target, path);
-            const results = Object.keys(modules).map(key => util.get(session.compose(`${path}.${key}`, deps, opts), `${path}.${key}`));
-            return util.set({}, path, Object.assign({}, ...results));
+            const { composition, ...modules } = deep(path, deps, opts);
+            composition;
+            const res = util.mapKeys(flatten(util.get(modules, path)), (v, k) => k.split('.').pop());
+            return util.set(modules, path, res);
         };
-
-        module.exports = { flat };
 
         const compose = Object.assign(make, session.external, { session: session.external }, { make, deep, flat, asis });
         return { compose, configure, ...session.configAliases };
