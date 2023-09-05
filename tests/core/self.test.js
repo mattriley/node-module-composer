@@ -27,9 +27,9 @@ module.exports = ({ test, assert }) => composer => {
     test('self reference by literal self in deep module', () => {
         const target = {
             mod: {
+                fun1: () => () => 1,
                 sub: {
-                    fun1: () => () => 1,
-                    fun2: ({ self }) => () => self.sub.fun1()
+                    fun2: ({ self }) => () => self.fun1()
                 }
             }
         };
