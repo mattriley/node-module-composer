@@ -8,15 +8,10 @@ const composer = (target, options = {}) => {
         const session = Session(target, options, config);
         const make = (path, deps, opts) => session.compose(path, deps, opts);
         const deep = (path, deps, opts) => make(path, deps, { ...opts, depth: Infinity });
+        const flat = (path, deps, opts) => make(path, deps, { ...opts, depth: Infinity, flat: true });
         const asis = (path, opts) => make(path, null, opts);
-
-        const flat = (path, deps, opts) => {
-            const modules = _.omit(deep(path, deps, opts), ['composition']);
-            const res = _.mapKeys(_.flat(_.get(modules, path)), (v, k) => k.split('.').pop());
-            return _.set(modules, path, res);
-        };
-
-        const compose = Object.assign(make, session.external, { session: session.external }, { make, deep, flat, asis });
+        const variations = { make, deep, flat, asis };
+        const compose = Object.assign(make, session.external, { session: session.external }, variations);
         return { compose, configure, ...session.configAliases };
     };
 
