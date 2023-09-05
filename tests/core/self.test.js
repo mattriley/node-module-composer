@@ -24,6 +24,20 @@ module.exports = ({ test, assert }) => composer => {
         assert.deepEqual(mod.fun2(), 1);
     });
 
+    test('self reference by literal self in deep module', () => {
+        const target = {
+            mod: {
+                sub: {
+                    fun1: () => () => 1,
+                    fun2: ({ self }) => () => self.sub.fun1()
+                }
+            }
+        };
+        const { compose } = composer(target);
+        const { mod } = compose.deep('mod');
+        assert.deepEqual(mod.sub.fun2(), 1);
+    });
+
     test('literal self not accessible externally', () => {
         const target = {
             mod: {
