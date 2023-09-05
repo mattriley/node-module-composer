@@ -15,11 +15,11 @@ module.exports = session => (path, deps = {}, opts = {}) => {
         if (!deps) return target;
         if (currentDepth === depth) return target;
         if (!_.isPlainObject(target)) return target;
-        const self = {};
-        const depsMod = _.set({ self, ...session.configAliases, ...deps }, parentPath, self);
+        const here = {};
+        const depsMod = _.set({ self: here, ...session.configAliases, ...deps }, parentPath, here);
         const argsMod = { ...session.configAliases, ...args };
         const evaluate = (val, key) => _.isPlainFunction(val) ? val(depsMod, argsMod) : recurse(val, [parentPath, key].join('.'), depsMod, currentDepth + 1);
-        return Object.assign(self, _.mapValues(target, evaluate));
+        return Object.assign(here, _.mapValues(target, evaluate));
     };
 
     const maybePromise = _.flow([
