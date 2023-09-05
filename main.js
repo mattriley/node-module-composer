@@ -1,6 +1,5 @@
 require('./extensions/access-modifiers');
 require('./extensions/eject');
-require('./extensions/flat');
 require('./extensions/function-alias');
 require('./extensions/global-register');
 require('./extensions/mermaid');

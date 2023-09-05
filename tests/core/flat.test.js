@@ -1,7 +1,5 @@
 module.exports = ({ test, assert }) => composer => {
 
-    require('module-composer/extensions/flat');
-
     test('submodules are flattened', () => {
         const target = {
             module: {

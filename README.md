@@ -1,6 +1,6 @@
 # Module Composer
 
-<p align="right"><code>100% cov</code>&nbsp;<code>337 sloc</code>&nbsp;<code>16 files</code>&nbsp;<code>2 deps</code>&nbsp;<code>13 dev deps</code></p>
+<p align="right"><code>100% cov</code>&nbsp;<code>337 sloc</code>&nbsp;<code>15 files</code>&nbsp;<code>2 deps</code>&nbsp;<code>13 dev deps</code></p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
@@ -610,78 +610,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 96.7986249923706,
-            "endTime": 97.20862498879433,
-            "duration": 0.4099999964237213
+            "startTime": 116.74641701579094,
+            "endTime": 117.16083300113678,
+            "duration": 0.41441598534584045
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 97.32320800423622,
-            "endTime": 97.39312499761581,
-            "duration": 0.0699169933795929
+            "startTime": 117.27462500333786,
+            "endTime": 117.3446249961853,
+            "duration": 0.06999999284744263
         },
         "core": {
             "path": "core",
-            "startTime": 98.05016699433327,
-            "endTime": 98.2035000026226,
-            "duration": 0.15333300828933716
+            "startTime": 117.99312502145767,
+            "endTime": 118.14250001311302,
+            "duration": 0.14937499165534973
         },
         "io": {
             "path": "io",
-            "startTime": 98.24625000357628,
-            "endTime": 98.34974998235703,
-            "duration": 0.10349997878074646
+            "startTime": 118.18812501430511,
+            "endTime": 118.29095801711082,
+            "duration": 0.10283300280570984
         },
         "services": {
             "path": "services",
-            "startTime": 98.70041698217392,
-            "endTime": 99.0230830013752,
-            "duration": 0.3226660192012787
+            "startTime": 118.63616701960564,
+            "endTime": 118.96308299899101,
+            "duration": 0.326915979385376
         },
         "ui": {
             "path": "ui",
-            "startTime": 99.0786249935627,
-            "endTime": 99.12495797872543,
-            "duration": 0.046332985162734985
+            "startTime": 119.01937499642372,
+            "endTime": 119.06470802426338,
+            "duration": 0.045333027839660645
         },
         "elements": {
             "path": "elements",
-            "startTime": 99.17624998092651,
-            "endTime": 99.3147499859333,
-            "duration": 0.13850000500679016
+            "startTime": 119.11983302235603,
+            "endTime": 119.25841701030731,
+            "duration": 0.1385839879512787
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 99.35054197907448,
-            "endTime": 99.37629199028015,
-            "duration": 0.025750011205673218
+            "startTime": 119.2950000166893,
+            "endTime": 119.3206669986248,
+            "duration": 0.0256669819355011
         },
         "components": {
             "path": "components",
-            "startTime": 99.85754197835922,
-            "endTime": 100.46891698241234,
-            "duration": 0.6113750040531158
+            "startTime": 119.81079199910164,
+            "endTime": 120.41995799541473,
+            "duration": 0.6091659963130951
         },
         "styles": {
             "path": "styles",
-            "startTime": 100.53683298826218,
-            "endTime": 100.60999998450279,
-            "duration": 0.07316699624061584
+            "startTime": 120.49304202198982,
+            "endTime": 120.56691700220108,
+            "duration": 0.07387498021125793
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 100.65137499570847,
-            "endTime": 100.67399999499321,
-            "duration": 0.022624999284744263
+            "startTime": 120.60870802402496,
+            "endTime": 120.6297080218792,
+            "duration": 0.020999997854232788
         },
         "startup": {
             "path": "startup",
-            "startTime": 100.84212499856949,
-            "endTime": 100.88837498426437,
-            "duration": 0.046249985694885254
+            "startTime": 120.79633301496506,
+            "endTime": 120.84158301353455,
+            "duration": 0.045249998569488525
         }
     },
-    "totalDuration": 2.023415982723236,
+    "totalDuration": 2.0224149227142334,
     "durationUnit": "ms"
 }
 ```
