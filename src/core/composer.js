@@ -1,7 +1,6 @@
 const _ = require('./util');
 const Session = require('./session');
 const Configure = require('./configure');
-const flatten = require('flat');
 
 const composer = (target, options = {}) => {
 
@@ -13,7 +12,7 @@ const composer = (target, options = {}) => {
 
         const flat = (path, deps, opts) => {
             const modules = _.omit(deep(path, deps, opts), ['composition']);
-            const res = _.mapKeys(flatten(_.get(modules, path)), (v, k) => k.split('.').pop());
+            const res = _.mapKeys(_.flat(_.get(modules, path)), (v, k) => k.split('.').pop());
             return _.set(modules, path, res);
         };
 

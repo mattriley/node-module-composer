@@ -1,5 +1,4 @@
-const flatten = require('flat');
-const util = require('module-composer/src/core/util');
+const _ = require('module-composer/src/core/util');
 
 const eject = session => () => {
     const target = session.targetModules;
@@ -9,7 +8,7 @@ const eject = session => () => {
 
     const lines = Object.entries(deps).flatMap(([targetKey, deps]) => {
         const moduleName = targetKey.split('.').pop();
-        const keys = Object.keys(flatten({ [moduleName]: util.get(target, targetKey) }));
+        const keys = Object.keys(_.flat({ [moduleName]: _.get(target, targetKey) }));
         return [
             '',
             `const ${moduleName} = { ...modules.${targetKey} };`,
