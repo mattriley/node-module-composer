@@ -27,13 +27,22 @@ interface ComposerOptions {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Composed = (...args: any[]) => any
 type Composable = (deps: Modules) => Composed
+type ModuleFunction = Composable | Composed
 type SetupComposable = { setup: (deps: Modules) => Composed }
-type Module = Record<PropertyKey, Composable | Composed>
+
+type Module<T = UnknownRecord> = {
+    [K in keyof T]: T[K] extends ModuleFunction
+    ? ModuleFunction
+    : Module<T[K]>
+}
+
 type Modules = Record<PropertyKey, Module>
 
 type ComposedBySetup<T extends SetupComposable> = ReturnType<ReturnType<T['setup']>>
 type ComposedIndividually<T extends Module> = {
-    [K in keyof T]: ReturnType<T[K]>
+    [K in keyof T]: T[K] extends ModuleFunction
+    ? ReturnType<T[K]>
+    : ComposedModule<T[K]>
 }
 
 export type ComposedModule<T extends Module> =
@@ -42,7 +51,11 @@ export type ComposedModule<T extends Module> =
     : ComposedIndividually<T>
 
 type ModuleParameters<T extends Module, Key = keyof T> =
-    Key extends PropertyKey ? Parameters<T[Key]>[0] : never
+    Key extends PropertyKey
+    ? T[Key] extends ModuleFunction
+    ? Parameters<T[Key]>[0]
+    : ModuleParameters<T[Key]>
+    : never
 
 type ModuleDependencies<T extends Module, C extends ComposerOptions> =
     C['config'] extends ComposerOptionsConfig

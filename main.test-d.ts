@@ -77,6 +77,14 @@ const modules = {
         setup: () => () => ({
             green: () => { }
         })
+    },
+
+    flattenMe: {
+        module: {
+            mod1: { fun1: () => () => 1 },
+            mod2: { fun2: () => () => 2 }
+        },
+        mod3: { fun3: () => () => 2 }
     }
 };
 
