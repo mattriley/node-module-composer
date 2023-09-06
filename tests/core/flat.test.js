@@ -14,4 +14,27 @@ module.exports = ({ test, assert }) => composer => {
         assert.deepEqual(fun2(), 2);
     });
 
+    test('deps are flat', () => {
+        const target = {
+            module: {
+                sub1: {
+                    fun1: () => () => 1,
+                    fun2: ({ self, module }) => () => {
+                        assert.equal(self, module)
+                        return module.fun1();
+                    },
+                    sub2: {
+                        fun3: ({ self, module }) => () => {
+                            assert.equal(self, module)
+                            return module.fun2();
+                        }
+                    }
+                },
+            }
+        };
+        const { compose } = composer(target);
+        const { module } = compose.flat('module', {});
+        assert.deepEqual(module.fun3(), 1);
+    });
+
 };
