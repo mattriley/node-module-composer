@@ -19,16 +19,16 @@ module.exports = ({ test, assert }) => composer => {
                 sub1: {
                     fun1: () => () => 1,
                     fun2: ({ self, mod }) => () => {
-                        assert.equal(self, mod)
+                        assert.equal(self, mod);
                         return mod.fun1();
                     },
                     sub2: {
                         fun3: ({ self, mod }) => () => {
-                            assert.equal(self, mod)
+                            assert.equal(self, mod);
                             return mod.fun2();
                         }
                     }
-                },
+                }
             }
         };
         const { compose } = composer(target);

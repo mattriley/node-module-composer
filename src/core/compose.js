@@ -1,7 +1,7 @@
 const _ = require('./util');
 const flatten = module => _.mapKeys(_.flat(module), (v, k) => k.split('.').pop());
 
-module.exports = session => (path, deps = {}, opts = {}) => {
+module.exports = session => (path, deps, opts = {}) => {
 
     if (!path) throw new Error('Missing path');
     if (!_.has(session.target, path)) throw new Error(`${path} not found`);
@@ -12,8 +12,9 @@ module.exports = session => (path, deps = {}, opts = {}) => {
     const options = session.getModuleOptions(path, opts);
     const { args, customiser, depth, flat, overrides } = options;
 
+    if (depth === 0 && !!deps) throw new Error('Unexpected deps');
+
     const recurse = (target, parentPath, deps, currentDepth = 0) => {
-        if (!deps) return target;
         if (currentDepth === depth) return target;
         if (!_.isPlainObject(target)) return target;
         const self = {};
