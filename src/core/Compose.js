@@ -17,7 +17,7 @@ module.exports = session => (path, deps = {}, opts = {}) => {
         if (currentDepth === depth) return target;
         if (!_.isPlainObject(target)) return target;
         const self = {};
-        const depsMod = _.set({ self, ...session.configAliases, ...deps }, parentPath);
+        const depsMod = _.set({ self, ...session.configAliases, ...deps }, parentPath, self);
         const argsMod = { ...session.configAliases, ...args };
         const evaluate = (val, key) => _.isPlainFunction(val) ? val(depsMod, argsMod) : recurse(val, [parentPath, key].join('.'), depsMod, currentDepth + 1);
         const evaluated = _.mapValues(target, evaluate);
