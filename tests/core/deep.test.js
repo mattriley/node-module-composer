@@ -23,15 +23,15 @@ module.exports = ({ test, assert }) => composer => {
     test('custom depth', () => {
         const fun = () => { };
         const target = {
-            mod1: {
-                mod2: {
-                    mod3: { fun }
+            mod: {
+                sub1: {
+                    sub2: { fun }
                 }
             }
         };
         const { compose } = composer(target, { depth: 1 });
-        const { mod1 } = compose('mod1', {});
-        assert.deepEqual(mod1.mod2.mod3.fun, fun);
+        const { mod } = compose('mod', {});
+        assert.deepEqual(mod.sub1.sub2.fun, fun);
     });
 
     test('self at depth', () => {
