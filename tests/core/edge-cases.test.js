@@ -32,14 +32,14 @@ module.exports = ({ test, assert }) => composer => {
     test('non-plain-objects are returned as-is', () => {
         const target = {
             mod1: {
-                modA: nonPlainObjects,
+                sub: nonPlainObjects,
                 ...nonPlainObjects
             },
             ...nonPlainObjects
         };
         const { compose } = composer(target);
         const { mod1 } = compose.deep('mod1', {});
-        assert.deepEqual(mod1.modA, nonPlainObjects);
+        assert.deepEqual(mod1.sub, nonPlainObjects);
     });
 
 };
