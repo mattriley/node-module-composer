@@ -28,14 +28,15 @@ module.exports = ({ test, assert }) => composer => {
         const target = {
             mod: {
                 fun1: () => () => 1,
+                fun2: ({ self }) => () => self.fun1(),
                 sub: {
-                    fun2: ({ self }) => () => self.fun1()
+                    fun3: ({ self }) => () => self.fun2()
                 }
             }
         };
         const { compose } = composer(target);
         const { mod } = compose.deep('mod');
-        assert.deepEqual(mod.sub.fun2(), 1);
+        assert.deepEqual(mod.sub.fun3(), 1);
     });
 
     test('literal self not accessible externally', () => {
