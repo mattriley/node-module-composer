@@ -1,16 +1,18 @@
 const Session = require('./session');
+const Compose = require('./compose');
 const Configure = require('./configure');
 
 const composer = (target, options = {}) => {
 
     const createComposer = (config = {}) => {
         const session = Session(target, options, config);
-        const make = (path, deps, opts) => session.compose(path, deps, opts);
+        const compose = Compose(session);
+        const make = (path, deps, opts) => compose(path, deps, opts);
         const deep = (path, deps, opts) => make(path, deps, { ...opts, depth: Infinity });
         const flat = (path, deps, opts) => deep(path, deps, { ...opts, flat: true });
         const asis = (path, opts) => make(path, null, { ...opts, depth: 0 });
         const variations = { make, deep, flat, asis };
-        const compose = Object.assign(make, session.external, { session: session.external }, variations);
+        Object.assign(compose, session.external, { session: session.external }, variations);
         return { compose, configure, ...session.configAliases };
     };
 
