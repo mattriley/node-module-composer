@@ -48,8 +48,7 @@
     "overrides": [
         {
             "files": [
-                "main.d.ts",
-                "main.test-d.ts"
+                "*.ts"
             ],
             "extends": [
                 "eslint:recommended",

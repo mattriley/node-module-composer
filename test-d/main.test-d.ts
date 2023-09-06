@@ -1,6 +1,6 @@
 import { expectType } from 'tsd/dist/index';
 
-import composer from './main';
+import composer from '../main';
 
 type Toy = string
 type Food = string
