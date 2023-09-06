@@ -14,7 +14,7 @@ const set = require('lodash/set');
 const unset = require('lodash/unset');
 const flow = require('lodash/flow');
 const omit = require('lodash/omit');
-const flat = require('flat');
+const flat = require('./flatten');
 
 const isPlainFunction = val => isFunction(val) && !val.hasOwnProperty('prototype');
 const isPromise = val => val && typeof val.then == 'function';

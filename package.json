@@ -31,7 +31,6 @@
         "test": "npx task test"
     },
     "dependencies": {
-        "flat": "^5.0.2",
         "lodash": "^4.17.21"
     },
     "devDependencies": {
