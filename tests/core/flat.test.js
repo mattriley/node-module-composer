@@ -1,40 +1,39 @@
 module.exports = ({ test, assert }) => composer => {
 
-    test('submodules are flattened', () => {
+    test('substructure is flattened', () => {
         const target = {
-            module: {
-                mod1: { fun1: () => () => 1 },
-                mod2: { fun2: () => () => 2 }
+            foobar: {
+                sub1: { fun1: () => () => 1 },
+                sub2: { fun2: () => () => 2 }
             }
         };
         const { compose } = composer(target);
-        const { module } = compose.flat('module', {});
-        const { fun1, fun2 } = module;
-        assert.deepEqual(fun1(), 1);
-        assert.deepEqual(fun2(), 2);
+        const { foobar } = compose.flat('foobar');
+        assert.deepEqual(foobar.fun1(), 1);
+        assert.deepEqual(foobar.fun2(), 2);
     });
 
     test('deps are flat', () => {
         const target = {
-            module: {
+            foobar: {
                 sub1: {
                     fun1: () => () => 1,
-                    fun2: ({ self, module }) => () => {
-                        assert.equal(self, module)
-                        return module.fun1();
+                    fun2: ({ self, foobar }) => () => {
+                        assert.equal(self, foobar)
+                        return foobar.fun1();
                     },
                     sub2: {
-                        fun3: ({ self, module }) => () => {
-                            assert.equal(self, module)
-                            return module.fun2();
+                        fun3: ({ self, foobar }) => () => {
+                            assert.equal(self, foobar)
+                            return foobar.fun2();
                         }
                     }
                 },
             }
         };
         const { compose } = composer(target);
-        const { module } = compose.flat('module', {});
-        assert.deepEqual(module.fun3(), 1);
+        const { foobar } = compose.flat('foobar');
+        assert.deepEqual(foobar.fun3(), 1);
     });
 
 };
