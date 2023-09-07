@@ -59,20 +59,17 @@ const flatMapKeys = (obj, iteratee) => {
     }));
 };
 
-const flat = (target, opts = {}) => {
+const flat = (obj, parentKey = '') => {
+    return Object.keys(obj).reduce((result, key) => {
+        const newKey = parentKey ? `${parentKey}.${key}` : key;
 
-    const { delimiter = '.', depth = Infinity } = opts;
-
-    const step = (obj, prev, currentDepth = 1, output = {}) => {
-        Object.entries(obj).forEach(([key, val]) => {
-            const newKey = prev && delimiter ? prev + delimiter + key : key;
-            const deeper = isPlainObject(obj) && Object.keys(val).length && currentDepth < depth;
-            deeper ? step(val, newKey, currentDepth + 1, output) : output[newKey] = val;
-        });
-        return output;
-    };
-
-    return step(target);
+        if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+            const nestedObject = flat(obj[key], newKey);
+            return { ...result, ...nestedObject };
+        } else {
+            return { ...result, [newKey]: obj[key] };
+        }
+    }, {});
 };
 
 
