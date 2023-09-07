@@ -6,7 +6,7 @@ const precompose = session => ({ path, target, options }) => {
     const getView = (prefix, cb) => {
         const matches = util.matchPaths(target, cb, depth);
         const paths = matches.map(path => path.map(str => str.replace(prefix, '').trim()));
-        const view = util.replacePaths(target, matches, paths);
+        const view = util.replaceAt(target, matches, paths);
         return [view, paths];
     };
 
@@ -25,7 +25,7 @@ const precompose = session => ({ path, target, options }) => {
 
 const postcompose = session => ({ path, target }) => {
     const { privatePaths } = session.getState()[path];
-    return util.removePaths(target, privatePaths);
+    return util.removeAt(target, privatePaths);
 };
 
 module.exports = { precompose, postcompose };
