@@ -50,11 +50,10 @@ const flattenObject = (obj, opts = {}) => {
     const recurse = (obj, parentKey = '') => {
         return Object.entries(obj).reduce((acc, [key, val]) => {
             const newKey = parentKey && delimiter ? parentKey + delimiter + key : key;
-            const changes = isPlainObject(val) ? recurse(val, newKey) : { [newKey]: val };
+            const changes = isPlainObject(val) ? recurse(val, delimiter ? newKey : '') : { [newKey]: val };
             return { ...acc, ...changes };
         }, {});
     };
-
     return recurse(obj);
 };
 

@@ -1,5 +1,5 @@
 const _ = require('./util');
-const flatten = module => _.mapKeys(_.flattenObject(module), (v, k) => k.split('.').pop());
+const flatten = module => _.flattenObject(module, { delimiter: null });
 
 module.exports = session => (path, deps, opts = {}) => {
 
