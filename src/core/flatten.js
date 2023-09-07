@@ -1,10 +1,3 @@
-function isBuffer(obj) {
-    return obj &&
-        obj.constructor &&
-        (typeof obj.constructor.isBuffer === 'function') &&
-        obj.constructor.isBuffer(obj)
-}
-
 function keyIdentity(key) {
     return key
 }
@@ -23,7 +16,6 @@ module.exports = (target, opts) => {
             const value = object[key]
             const isarray = opts.safe && Array.isArray(value)
             const type = Object.prototype.toString.call(value)
-            const isbuffer = isBuffer(value)
             const isobject = (
                 type === '[object Object]' ||
                 type === '[object Array]'
@@ -33,7 +25,7 @@ module.exports = (target, opts) => {
                 ? prev + delimiter + transformKey(key)
                 : transformKey(key)
 
-            if (!isarray && !isbuffer && isobject && Object.keys(value).length &&
+            if (!isarray && isobject && Object.keys(value).length &&
                 (!opts.maxDepth || currentDepth < maxDepth)) {
                 return step(value, newKey, currentDepth + 1)
             }
