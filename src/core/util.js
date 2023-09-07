@@ -72,10 +72,11 @@ const flat = (target, opts = {}) => {
             const newKey = prev ? prev + delimiter + key : key
 
             if (isobject && Object.keys(value).length && (currentDepth < maxDepth)) {
-                return step(value, newKey, currentDepth + 1)
+                step(value, newKey, currentDepth + 1)
+            } else {
+                output[newKey] = value
             }
 
-            output[newKey] = value
         })
     }
 
