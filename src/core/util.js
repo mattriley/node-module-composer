@@ -68,15 +68,9 @@ const flat = (target, opts = {}) => {
         Object.entries(obj).forEach(([key, val]) => {
             const newKey = prev ? prev + delimiter + key : key
             const deeper = isPlainObject(obj) && Object.keys(val).length && currentDepth < maxDepth;
-
-            if (deeper) {
-                step(val, newKey, currentDepth + 1)
-            } else {
-                output[newKey] = val
-            }
-
-        })
-    }
+            deeper ? step(val, newKey, currentDepth + 1) : output[newKey] = val
+        });
+    };
 
     step(target)
 
