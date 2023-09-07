@@ -62,15 +62,23 @@ const flatMapKeys = (obj, iteratee) => {
 const flat = (obj, parentKey = '') => {
     return Object.keys(obj).reduce((result, key) => {
         const newKey = parentKey ? `${parentKey}.${key}` : key;
-
-        if (isPlainObject(obj[key])) {
-            const nestedObject = flat(obj[key], newKey);
-            return { ...result, ...nestedObject };
-        } else {
-            return { ...result, [newKey]: obj[key] };
-        }
+        const changes = isPlainObject(obj[key]) ? flat(obj[key], newKey) : { [newKey]: obj[key] };
+        return { ...result, ...changes };
     }, {});
 };
+
+// const flat = (obj, parentKey = '') => {
+//     return Object.keys(obj).reduce((result, key) => {
+//         const newKey = parentKey ? `${parentKey}.${key}` : key;
+
+//         if (isPlainObject(obj[key])) {
+//             const nestedObject = flat(obj[key], newKey);
+//             return { ...result, ...nestedObject };
+//         } else {
+//             return { ...result, [newKey]: obj[key] };
+//         }
+//     }, {});
+// };
 
 
 const invokeOrReturn = (target, ...args) => target && isPlainFunction(target) ? target(...args) : target;
