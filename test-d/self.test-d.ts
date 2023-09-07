@@ -39,6 +39,6 @@ import composer from '../main';
         }
     };
     const { compose } = composer(target);
-    const { mod } = compose('mod');
+    const { mod } = compose.deep('mod');
     expectType<() => number>(mod.sub.fun2);
 }

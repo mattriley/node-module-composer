@@ -38,17 +38,23 @@ type Module<T = UnknownRecord> = {
 
 type Modules = Record<PropertyKey, Module | unknown>
 
+type AllowedMaxDepth = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
+type IncrementDepth<N extends number> = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10][N]
+
 type ComposedBySetup<T extends SetupComposable> = ReturnType<ReturnType<T['setup']>>
-type ComposedIndividually<T extends Module> = {
-    [K in keyof T]: T[K] extends ModuleFunction
+type ComposedIndividually<T extends Module, MaxDepth extends AllowedMaxDepth, N extends number> = {
+    [K in keyof T]:
+    N extends MaxDepth
+    ? T[K]
+    : T[K] extends ModuleFunction
     ? ReturnType<T[K]>
-    : ComposedModule<T[K]>
+    : ComposedModule<T[K], MaxDepth, IncrementDepth<N>>
 }
 
-export type ComposedModule<T extends Module> =
+export type ComposedModule<T extends Module, MaxDepth extends AllowedMaxDepth, N extends number = 0> =
     T extends SetupComposable
     ? ComposedBySetup<T>
-    : ComposedIndividually<T>
+    : ComposedIndividually<T, MaxDepth, N>
 
 type ModuleParameters<T extends Module, Key = keyof T> =
     Key extends PropertyKey
@@ -63,7 +69,7 @@ type ModuleDependencies<T extends Module, C extends ComposerOptions> =
     : UnionToIntersection<NonNullable<ModuleParameters<T>>>
 
 type Deps<T extends Modules, Path extends keyof T, C extends ComposerOptions> = Omit<ModuleDependencies<ModulePath<T, Path>, C>, Path | 'self'>
-type ComposeResult<T extends Modules, Path extends keyof T> = Record<Path, ComposedModule<ModulePath<T, Path>>>
+type ComposeResult<T extends Modules, Path extends keyof T, MaxDepth extends AllowedMaxDepth> = Record<Path, ComposedModule<ModulePath<T, Path>, MaxDepth>>
 
 type ModuleKeys<T> = ConditionalKeys<T, Module>
 type ModulePath<T, Path extends keyof T> = T extends Module ? T[Path] : never
@@ -71,14 +77,19 @@ type ModulePath<T, Path extends keyof T> = T extends Module ? T[Path] : never
 type Compose<T extends Modules, C extends ComposerOptions> = <Path extends ModuleKeys<T>, PathDeps = Deps<T, Path, C>>(
     path: Path,
     ...args: PathDeps extends EmptyObject ? [PathDeps?, Partial<Options>?] : [PathDeps, Partial<Options>?]
-) => ComposeResult<T, Path>
+) => ComposeResult<T, Path, 1>
+
+type DeepCompose<T extends Modules, C extends ComposerOptions> = <Path extends ModuleKeys<T>, PathDeps = Deps<T, Path, C>>(
+    path: Path,
+    ...args: PathDeps extends EmptyObject ? [PathDeps?, Partial<Options>?] : [PathDeps, Partial<Options>?]
+) => ComposeResult<T, Path, 10>
 
 interface Asis<T extends Modules> {
     asis<Path extends keyof T>(path: Path, opts?: Partial<Options>): Record<Path, T[Path]>
 }
 
 interface Deep<T extends Modules, C extends ComposerOptions> {
-    deep: Compose<T, C>
+    deep: DeepCompose<T, C>
 }
 
 interface Target<T> {
