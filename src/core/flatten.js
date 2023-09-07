@@ -1,7 +1,7 @@
 module.exports = (target, opts = {}) => {
 
     const delimiter = opts.delimiter ?? '.'
-    const maxDepth = opts.maxDepth
+    const maxDepth = opts.maxDepth ?? Infinity
     const output = {}
 
     const step = (object, prev, currentDepth = 1) => {
@@ -12,7 +12,7 @@ module.exports = (target, opts = {}) => {
             const newKey = prev ? prev + delimiter + key : key
 
             if (isobject && Object.keys(value).length &&
-                (!opts.maxDepth || currentDepth < maxDepth)) {
+                (currentDepth < maxDepth)) {
                 return step(value, newKey, currentDepth + 1)
             }
 
