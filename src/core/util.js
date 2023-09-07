@@ -14,7 +14,6 @@ const set = require('lodash/set');
 const unset = require('lodash/unset');
 const flow = require('lodash/flow');
 const omit = require('lodash/omit');
-const flat = require('./flatten');
 
 const isPlainFunction = val => isFunction(val) && !val.hasOwnProperty('prototype');
 const isPromise = val => val && typeof val.then == 'function';
@@ -59,6 +58,32 @@ const flatMapKeys = (obj, iteratee) => {
         return iteratee(val, key, obj).map(key => [key, val]);
     }));
 };
+
+const flat = (target, opts = {}) => {
+
+    const { delimiter = '.', maxDepth = Infinity } = opts;
+    const output = {}
+
+    const step = (object, prev, currentDepth = 1) => {
+        Object.keys(object).forEach(function (key) {
+            const value = object[key]
+            const type = Object.prototype.toString.call(value)
+            const isobject = type === '[object Object]'
+            const newKey = prev ? prev + delimiter + key : key
+
+            if (isobject && Object.keys(value).length && (currentDepth < maxDepth)) {
+                return step(value, newKey, currentDepth + 1)
+            }
+
+            output[newKey] = value
+        })
+    }
+
+    step(target)
+
+    return output
+}
+
 
 const invokeOrReturn = (target, ...args) => target && isPlainFunction(target) ? target(...args) : target;
 const invokeAtOrReturn = (obj, path, ...args) => invokeOrReturn(get(obj, path, obj), ...args);
