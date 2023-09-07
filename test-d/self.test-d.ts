@@ -11,7 +11,7 @@ import composer from '../main';
         }
     };
     const { compose } = composer(target);
-    const { mod } = compose('mod', {});
+    const { mod } = compose('mod');
     expectType<() => number>(mod.fun2);
 }
 
@@ -24,7 +24,7 @@ import composer from '../main';
         }
     };
     const { compose } = composer(target);
-    const { mod } = compose('mod', {});
+    const { mod } = compose('mod');
     expectType<() => number>(mod.fun2);
 }
 
@@ -34,11 +34,11 @@ import composer from '../main';
         mod: {
             fun1: () => () => 1,
             sub: {
-                fun2: ({ self }) => () => self.fun1()
+                fun2: ({ self }: { self: { fun1: () => number } }) => () => self.fun1()
             }
         }
     };
     const { compose } = composer(target);
-    const { mod } = compose('mod', {});
+    const { mod } = compose('mod');
     expectType<() => number>(mod.sub.fun2);
 }

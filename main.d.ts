@@ -1,4 +1,4 @@
-import type { ConditionalKeys, UnionToIntersection, UnknownRecord } from 'type-fest';
+import type { ConditionalKeys, EmptyObject, UnionToIntersection, UnknownRecord } from 'type-fest';
 
 interface CoreOptions {
     depth: number
@@ -62,8 +62,16 @@ type ModuleDependencies<T extends Module, C extends ComposerOptions> =
     ? Omit<UnionToIntersection<NonNullable<ModuleParameters<T>>>, 'config'>
     : UnionToIntersection<NonNullable<ModuleParameters<T>>>
 
+type Deps<T extends Modules, Path extends keyof T, C extends ComposerOptions> = Omit<ModuleDependencies<ModulePath<T, Path>, C>, Path | 'self'>
+type ComposeResult<T extends Modules, Path extends keyof T> = Record<Path, ComposedModule<ModulePath<T, Path>>>
+
+type ModuleKeys<T> = ConditionalKeys<T, Module>
 type ModulePath<T, Path extends keyof T> = T extends Module ? T[Path] : never
-type Compose<T extends Modules, C extends ComposerOptions> = <Path extends ConditionalKeys<T, Module>>(path: Path, deps: Omit<ModuleDependencies<ModulePath<T, Path>, C>, Path | 'self'>, opts?: Partial<Options>) => Record<Path, ComposedModule<ModulePath<T, Path>>>
+
+type Compose<T extends Modules, C extends ComposerOptions> = <Path extends ModuleKeys<T>, PathDeps = Deps<T, Path, C>>(
+    path: Path,
+    ...args: PathDeps extends EmptyObject ? [PathDeps?, Partial<Options>?] : [PathDeps, Partial<Options>?]
+) => ComposeResult<T, Path>
 
 interface Asis<T extends Modules> {
     asis<Path extends keyof T>(path: Path, opts?: Partial<Options>): Record<Path, T[Path]>

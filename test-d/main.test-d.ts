@@ -80,7 +80,7 @@ const { util } = compose.asis('util');
 expectType<typeof modules.util>(util);
 
 // compose with no dependencies
-const { food } = compose('food', {});
+const { food } = compose('food');
 expectType<{ serve: ServeFood }>(food);
 
 // compose with a dependency
@@ -88,7 +88,7 @@ const { human } = compose('human', { food });
 expectType<{ fillBowl: FillBowl }>(human);
 
 // compose with only config dependency
-const { toys } = compose('toys', {});
+const { toys } = compose('toys');
 expectType<{ randomToy: RandomToy }>(toys);
 
 // compose with multiple dependencies across functions
@@ -101,4 +101,4 @@ composeWithoutConfig('toys', { config });
 
 // config is not required as a dependency when passing a list in
 const { compose: composeWithListOfConfig } = composer(modules, { config: [{}, config] });
-composeWithListOfConfig('toys', {});
+composeWithListOfConfig('toys');

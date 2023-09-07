@@ -18,7 +18,7 @@ import composer from '../main';
     };
 
     const { compose } = composer(target);
-    const { mod1 } = compose.deep('mod1', {});
+    const { mod1 } = compose.deep('mod1');
     const { mod2 } = compose.deep('mod2', { mod1 });
 
     expectType<() => string>(mod1.sub.fun);
@@ -36,7 +36,7 @@ import composer from '../main';
         }
     };
     const { compose } = composer(target);
-    const { mod } = compose.deep('mod', {});
+    const { mod } = compose.deep('mod');
 
     expectType<() => string>(mod.sub.fun1);
     expectType<() => string>(mod.sub.fun2);

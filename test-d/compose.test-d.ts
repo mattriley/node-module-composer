@@ -13,7 +13,7 @@ import composer from '../main';
 {
     const target = { mod: '' };
     const { compose } = composer(target);
-    expectError(compose('mod', {}));
+    expectError(compose('mod'));
 }
 
 // result of module's setup function is returned from compose
@@ -24,6 +24,6 @@ import composer from '../main';
         })
     } };
     const { compose } = composer(target);
-    const { mod } = compose('mod', {});
+    const { mod } = compose('mod');
     expectType<{ green: () => void }>(mod);
 }
