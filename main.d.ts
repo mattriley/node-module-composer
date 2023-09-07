@@ -1,4 +1,4 @@
-import type { UnionToIntersection, UnknownRecord } from 'type-fest';
+import type { ConditionalKeys, UnionToIntersection, UnknownRecord } from 'type-fest';
 
 interface CoreOptions {
     depth: number
@@ -36,7 +36,7 @@ type Module<T = UnknownRecord> = {
     : Module<T[K]>
 }
 
-type Modules = Record<PropertyKey, Module>
+type Modules = Record<PropertyKey, Module | unknown>
 
 type ComposedBySetup<T extends SetupComposable> = ReturnType<ReturnType<T['setup']>>
 type ComposedIndividually<T extends Module> = {
@@ -62,7 +62,8 @@ type ModuleDependencies<T extends Module, C extends ComposerOptions> =
     ? Omit<UnionToIntersection<NonNullable<ModuleParameters<T>>>, 'config'>
     : UnionToIntersection<NonNullable<ModuleParameters<T>>>
 
-type Compose<T extends Modules, C extends ComposerOptions> = <Path extends keyof T>(path: Path, deps: Omit<ModuleDependencies<T[Path], C>, Path | 'self'>, opts?: Partial<Options>) => Record<Path, ComposedModule<T[Path]>>
+type ModulePath<T, Path extends keyof T> = T extends Module ? T[Path] : never
+type Compose<T extends Modules, C extends ComposerOptions> = <Path extends ConditionalKeys<T, Module>>(path: Path, deps: Omit<ModuleDependencies<ModulePath<T, Path>, C>, Path | 'self'>, opts?: Partial<Options>) => Record<Path, ComposedModule<ModulePath<T, Path>>>
 
 interface Asis<T extends Modules> {
     asis<Path extends keyof T>(path: Path, opts?: Partial<Options>): Record<Path, T[Path]>
