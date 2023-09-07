@@ -49,8 +49,12 @@ const flattenObject = (obj, opts = {}) => {
     const { delimiter = '.' } = opts;
     const recurse = (obj, parentKey = '') => {
         return Object.entries(obj).reduce((acc, [key, val]) => {
+            const done = !isPlainObject(val);
             const newKey = parentKey && delimiter ? parentKey + delimiter + key : key;
-            const changes = isPlainObject(val) ? recurse(val, delimiter ? newKey : '') : { [newKey]: val };
+            if (done) return { ...acc, [newKey]: val };
+            const changes = recurse(val, delimiter ? newKey : '');
+            const collision = Object.keys(changes).find(key => acc[key]);
+            if (collision) throw new Error(`Collision: ${collision}`);
             return { ...acc, ...changes };
         }, {});
     };
