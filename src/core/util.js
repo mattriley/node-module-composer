@@ -67,11 +67,9 @@ const flat = (target, opts = {}) => {
     const step = (object, prev, currentDepth = 1) => {
         Object.keys(object).forEach(function (key) {
             const value = object[key]
-            const type = Object.prototype.toString.call(value)
-            const isobject = type === '[object Object]'
             const newKey = prev ? prev + delimiter + key : key
 
-            if (isobject && Object.keys(value).length && (currentDepth < maxDepth)) {
+            if (isPlainObject(object) && Object.keys(value).length && (currentDepth < maxDepth)) {
                 step(value, newKey, currentDepth + 1)
             } else {
                 output[newKey] = value
