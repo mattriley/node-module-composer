@@ -8,7 +8,7 @@ const eject = session => () => {
 
     const lines = Object.entries(deps).flatMap(([targetKey, deps]) => {
         const moduleName = targetKey.split('.').pop();
-        const keys = Object.keys(_.flat({ [moduleName]: _.get(target, targetKey) }));
+        const keys = Object.keys(_.flattenObject({ [moduleName]: _.get(target, targetKey) }));
         return [
             '',
             `const ${moduleName} = { ...modules.${targetKey} };`,

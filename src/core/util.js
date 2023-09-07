@@ -59,27 +59,13 @@ const flatMapKeys = (obj, iteratee) => {
     }));
 };
 
-const flat = (obj, parentKey = '') => {
+const flattenObject = (obj, parentKey = '') => {
     return Object.entries(obj).reduce((acc, [key, val]) => {
         const newKey = parentKey ? `${parentKey}.${key}` : key;
-        const changes = isPlainObject(val) ? flat(val, newKey) : { [newKey]: val };
+        const changes = isPlainObject(val) ? flattenObject(val, newKey) : { [newKey]: val };
         return { ...acc, ...changes };
     }, {});
 };
-
-// const flat = (obj, parentKey = '') => {
-//     return Object.keys(obj).reduce((result, key) => {
-//         const newKey = parentKey ? `${parentKey}.${key}` : key;
-
-//         if (isPlainObject(obj[key])) {
-//             const nestedObject = flat(obj[key], newKey);
-//             return { ...result, ...nestedObject };
-//         } else {
-//             return { ...result, [newKey]: obj[key] };
-//         }
-//     }, {});
-// };
-
 
 const invokeOrReturn = (target, ...args) => target && isPlainFunction(target) ? target(...args) : target;
 const invokeAtOrReturn = (obj, path, ...args) => invokeOrReturn(get(obj, path, obj), ...args);
@@ -87,7 +73,7 @@ const invokeAtOrReturn = (obj, path, ...args) => invokeOrReturn(get(obj, path, o
 module.exports = {
     cloneDeep,
     deepFreeze,
-    flat,
+    flattenObject,
     flatMapKeys,
     flow,
     get,
