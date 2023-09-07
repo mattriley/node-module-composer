@@ -51,7 +51,7 @@ type ComposedIndividually<T extends Module, MaxDepth extends AllowedMaxDepth, N 
     : ComposedModule<T[K], MaxDepth, IncrementDepth<N>>
 }
 
-export type ComposedModule<T extends Module, MaxDepth extends AllowedMaxDepth, N extends number = 0> =
+type ComposedModule<T extends Module, MaxDepth extends AllowedMaxDepth, N extends number = 0> =
     T extends SetupComposable
     ? ComposedBySetup<T>
     : ComposedIndividually<T, MaxDepth, N>
