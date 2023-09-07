@@ -64,11 +64,11 @@ const flat = (target, opts = {}) => {
     const { delimiter = '.', maxDepth = Infinity } = opts;
     const output = {}
 
-    const step = (object, prev, currentDepth = 1) => {
-        Object.keys(object).forEach(function (key) {
-            const value = object[key]
+    const step = (obj, prev, currentDepth = 1) => {
+        Object.keys(obj).forEach(function (key) {
+            const value = obj[key]
             const newKey = prev ? prev + delimiter + key : key
-            const deeper = isPlainObject(object) && Object.keys(value).length && currentDepth < maxDepth;
+            const deeper = isPlainObject(obj) && Object.keys(value).length && currentDepth < maxDepth;
 
             if (deeper) {
                 step(value, newKey, currentDepth + 1)
