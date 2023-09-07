@@ -89,7 +89,6 @@ module.exports = {
     merge,
     mergeWith,
     omit,
-    pick,
     pickBy,
     removePaths,
     replacePaths,
