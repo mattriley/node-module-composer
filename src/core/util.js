@@ -61,19 +61,19 @@ const flatMapKeys = (obj, iteratee) => {
 
 const flat = (target, opts = {}) => {
 
-    const { delimiter = '.', maxDepth = Infinity } = opts;
+    const { delimiter = '.', depth = Infinity } = opts;
 
     const step = (obj, prev, currentDepth = 1, output = {}) => {
         Object.entries(obj).forEach(([key, val]) => {
-            const newKey = prev ? prev + delimiter + key : key
-            const deeper = isPlainObject(obj) && Object.keys(val).length && currentDepth < maxDepth;
-            deeper ? step(val, newKey, currentDepth + 1, output) : output[newKey] = val
+            const newKey = prev && delimiter ? prev + delimiter + key : key;
+            const deeper = isPlainObject(obj) && Object.keys(val).length && currentDepth < depth;
+            deeper ? step(val, newKey, currentDepth + 1, output) : output[newKey] = val;
         });
         return output;
     };
 
-    return step(target)
-}
+    return step(target);
+};
 
 
 const invokeOrReturn = (target, ...args) => target && isPlainFunction(target) ? target(...args) : target;
