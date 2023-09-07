@@ -10,8 +10,6 @@ type FillBowl = (choice: Food, bowl: Food[]) => void
 type RandomToy = () => Toy
 type Play = () => void
 type Eat = () => void
-type BrushTeeth = () => void
-type TidyUp = () => void
 
 type HumanDeps = {
     food: { serve: ServeFood }
@@ -28,10 +26,6 @@ type PlayDeps = {
 
 type EatDeps = {
     human: { fillBowl: FillBowl }
-}
-
-type UsesSelfDeps = {
-    usesSelf: { brushTeeth: () => void }
 }
 
 const modules = {
@@ -68,17 +62,6 @@ const modules = {
         }
     },
 
-    usesSelf: {
-        brushTeeth: (): BrushTeeth => () => { },
-        tidyUp: ({ usesSelf }: UsesSelfDeps): TidyUp => () => { usesSelf.brushTeeth(); }
-    },
-
-    setupModule: {
-        setup: () => () => ({
-            green: () => { }
-        })
-    },
-
     flattenMe: {
         module: {
             mod1: { fun1: () => () => 1 },
@@ -112,10 +95,6 @@ expectType<{ randomToy: RandomToy }>(toys);
 const { cat } = compose('cat', { toys, util, human });
 expectType<{ play: Play, eat: Eat }>(cat);
 
-// self dependencies are not required to be provided
-const { usesSelf } = compose('usesSelf', {});
-expectType<{ brushTeeth: BrushTeeth, tidyUp: TidyUp }>(usesSelf);
-
 // config is required as a dependency if it is not passed into the composer and an option
 const { compose: composeWithoutConfig } = composer(modules);
 composeWithoutConfig('toys', { config });
@@ -123,7 +102,3 @@ composeWithoutConfig('toys', { config });
 // config is not required as a dependency when passing a list in
 const { compose: composeWithListOfConfig } = composer(modules, { config: [{}, config] });
 composeWithListOfConfig('toys', {});
-
-// module is composed using the setup function
-const { setupModule } = compose('setupModule', {});
-expectType<{ green: () => void }>(setupModule);
