@@ -60,10 +60,10 @@ const flatMapKeys = (obj, iteratee) => {
 };
 
 const flat = (obj, parentKey = '') => {
-    return Object.keys(obj).reduce((result, key) => {
+    return Object.entries(obj).reduce((acc, [key, val]) => {
         const newKey = parentKey ? `${parentKey}.${key}` : key;
-        const changes = isPlainObject(obj[key]) ? flat(obj[key], newKey) : { [newKey]: obj[key] };
-        return { ...result, ...changes };
+        const changes = isPlainObject(val) ? flat(val, newKey) : { [newKey]: val };
+        return { ...acc, ...changes };
     }, {});
 };
 
