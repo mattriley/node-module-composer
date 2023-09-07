@@ -1,13 +1,9 @@
-function keyIdentity(key) {
-    return key
-}
-
 module.exports = (target, opts) => {
     opts = opts || {}
 
     const delimiter = opts.delimiter || '.'
     const maxDepth = opts.maxDepth
-    const transformKey = opts.transformKey || keyIdentity
+    const transformKey = opts.transformKey || (key => key)
     const output = {}
 
     function step(object, prev, currentDepth) {
