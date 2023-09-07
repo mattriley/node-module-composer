@@ -63,7 +63,7 @@ const flat = (obj, parentKey = '') => {
     return Object.keys(obj).reduce((result, key) => {
         const newKey = parentKey ? `${parentKey}.${key}` : key;
 
-        if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+        if (isPlainObject(obj[key])) {
             const nestedObject = flat(obj[key], newKey);
             return { ...result, ...nestedObject };
         } else {
