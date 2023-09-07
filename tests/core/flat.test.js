@@ -36,4 +36,19 @@ module.exports = ({ test, assert }) => composer => {
         assert.deepEqual(mod.fun3(), 1);
     });
 
+    // test('collision', () => {
+    //     const target = {
+    //         mod: {
+    //             sub1: {
+    //                 fun: () => () => 1
+    //             },
+    //             sub2: {
+    //                 fun: () => () => 2
+    //             }
+    //         }
+    //     };
+    //     const { compose } = composer(target);
+    //     assert.throws(() => compose.flat('mod'), /^Error: Collision: fun$/);
+    // });
+
 };

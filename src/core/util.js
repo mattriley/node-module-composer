@@ -45,12 +45,17 @@ const flatMapKeys = (obj, iteratee) => {
     }));
 };
 
-const flattenObject = (obj, parentKey = '') => {
-    return Object.entries(obj).reduce((acc, [key, val]) => {
-        const newKey = parentKey ? `${parentKey}.${key}` : key;
-        const changes = isPlainObject(val) ? flattenObject(val, newKey) : { [newKey]: val };
-        return { ...acc, ...changes };
-    }, {});
+const flattenObject = obj => {
+    const recurse = (obj, parentKey = '') => {
+        return Object.entries(obj).reduce((acc, [key, val]) => {
+            const newKey = parentKey ? `${parentKey}.${key}` : key;
+            // const newKey = key;
+            const changes = isPlainObject(val) ? recurse(val, newKey) : { [newKey]: val };
+            return { ...acc, ...changes };
+        }, {});
+    };
+
+    return recurse(obj);
 };
 
 const removeAt = (obj, paths) => {
