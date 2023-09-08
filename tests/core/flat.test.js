@@ -33,6 +33,7 @@ module.exports = ({ test, assert }) => composer => {
         };
         const { compose } = composer(target);
         const { mod } = compose.flat('mod');
+        assert.equal(mod.sub1, undefined);
         assert.deepEqual(mod.fun3(), 1);
     });
 
@@ -50,5 +51,20 @@ module.exports = ({ test, assert }) => composer => {
         const { compose } = composer(target);
         assert.throws(() => compose.flat('mod'), /^Error: Collision: fun$/);
     });
+
+    // test('custom depth', { only: false }, () => {
+    //     const fun = () => { };
+    //     const target = {
+    //         mod: {
+    //             sub1: {
+    //                 sub2: { fun }
+    //             }
+    //         }
+    //     };
+    //     const { compose } = composer(target, { _depth: 1 });
+    //     const { mod } = compose.flat('mod');
+    //     console.warn({ mod });
+    //     assert.deepEqual(mod.sub2.fun, fun);
+    // });
 
 };

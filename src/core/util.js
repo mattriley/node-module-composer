@@ -15,11 +15,11 @@ const pickBy = require('lodash/pickBy');
 const set = require('lodash/set');
 const unset = require('lodash/unset');
 
+const clearObject = obj => { Object.keys(obj).forEach(key => delete obj[key]); return obj; };
 const invokeOrReturn = (target, ...args) => target && isPlainFunction(target) ? target(...args) : target;
 const invokeAtOrReturn = (obj, path, ...args) => invokeOrReturn(get(obj, path, obj), ...args);
 const isPlainFunction = val => isFunction(val) && !val.hasOwnProperty('prototype');
 const isPromise = val => val && typeof val.then == 'function';
-
 
 const matchPaths = (obj, cb, depth, currentDepth = 0, currentPath = []) => {
     return Object.entries(obj).flatMap(([key, val]) => {
@@ -47,10 +47,10 @@ const flatMapKeys = (obj, iteratee) => {
 
 const flattenObject = (obj, opts = {}) => {
     const defaults = { delimiter: '.', depth: Infinity };
-    const { delimiter, depth } = { ...defaults, ...opts };
+    const { delimiter } = { ...defaults, ...opts };
     const recurse = (obj, parentKey = '', currentDepth = 0) => {
         return Object.entries(obj).reduce((acc, [key, val]) => {
-            if (currentDepth === depth) return acc; // { ...acc, [key]: val };
+            // if (currentDepth === depth) return acc; // { ...acc, [key]: val };
             const done = !isPlainObject(val);
             const newKey = parentKey && delimiter ? parentKey + delimiter + key : key;
             if (done) return { ...acc, [newKey]: val };
@@ -81,6 +81,7 @@ const replaceAt = (obj, fromArray, toArray) => {
 };
 
 module.exports = {
+    clearObject,
     cloneDeep,
     deepFreeze,
     flattenObject,
