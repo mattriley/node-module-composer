@@ -12,11 +12,11 @@ module.exports = session => (path, deps, opts = {}) => {
     const { args, customiser, depth, flat, overrides } = options;
     if (depth === 0 && !!deps) throw new Error('Unexpected deps');
 
-    const recurse = (target, parentkey, deps, currentDepth = 0) => {
+    const recurse = (target, parentKey, deps, currentDepth = 0) => {
         if (currentDepth === depth) return target;
         if (!_.isPlainObject(target)) return target;
         const self = {};
-        const depsMod = { [parentkey]: self, self, ...session.configAliases, ...deps };
+        const depsMod = { [parentKey]: self, self, ...session.configAliases, ...deps };
         const argsMod = { ...session.configAliases, ...args };
         const evaluate = (val, key) => _.isPlainFunction(val) ? val(depsMod, argsMod) : recurse(val, key, depsMod, currentDepth + 1);
         const evaluated = _.mapValues(target, evaluate);
