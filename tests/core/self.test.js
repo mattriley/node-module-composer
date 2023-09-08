@@ -28,9 +28,15 @@ module.exports = ({ test, assert }) => composer => {
         const target = {
             mod: {
                 fun1: () => () => 1,
-                fun2: ({ self }) => () => self.fun1(),
+                fun2: ({ self, mod }) => () => {
+                    assert.equal(mod, self);
+                    return self.fun1();
+                },
                 sub: {
-                    fun3: ({ self }) => () => self.fun2()
+                    fun3: ({ self, mod }) => () => {
+                        assert.equal(mod, self);
+                        return self.fun2();
+                    }
                 }
             }
         };
