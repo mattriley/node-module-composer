@@ -9,7 +9,7 @@ module.exports = opts => {
     if (invalidOpts.length) throw new Error(`Invalid option: ${invalidOpts.join(', ')}`);
 
     const defaults = DefaultOptions();
-    const globalOptions = { ...defaults.core, ...defaults.extensions, ...opts };
+    const globalOptions = { ...defaults, ...opts };
 
     const getModuleOptions = (path, opts) => {
         const invalidOpts = Object.keys(opts).filter(opt => recognisedComposeOpts.indexOf(opt) === -1);
