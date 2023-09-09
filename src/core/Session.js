@@ -30,7 +30,7 @@ module.exports = (target, options = {}, config = {}) => {
 
     const maybeFrozenConfig = globalOptions.freezeConfig ? _.deepFreeze(config) : config;
     const configAliases = globalOptions.configAlias.reduce((acc, alias) => Object.assign(acc, { [alias]: maybeFrozenConfig }), {});
-    const external = { ...state, globalOptions, target, targetModules, ...configAliases };
+    const external = { ...state, globalOptions, target, targetModules, config, ...configAliases };
     const session = { ...external, external, configAliases, getComposeOptions, registerModule, registerAlias };
     const { precomposers, postcomposers, ...extensionFunctions } = extensions.setup(session);
     Object.assign(session, { precomposers, postcomposers });
