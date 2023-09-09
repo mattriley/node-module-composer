@@ -7,7 +7,7 @@ module.exports = session => (path, deps, opts = {}) => {
     const target = _.get(session.target, path);
     if (!_.isPlainObject(target)) throw new Error(`${path} must be a plain object`);
     if (session.composedDependencies[path]) throw new Error(`${path} is already composed`);
-    const options = session.getModuleOptions(path, opts);
+    const options = session.getComposeOptions(path, opts);
     const { args, customiser, depth, flat, overrides } = options;
     if (depth === 0 && !!deps) throw new Error('Unexpected deps');
 

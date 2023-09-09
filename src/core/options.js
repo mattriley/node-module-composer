@@ -1,15 +1,17 @@
 const constants = require('./constants');
 const _ = require('./util');
 
+const validate = (opts, defaults) => {
+    const invalid = Object.keys(opts).filter(opt => Object.keys(defaults).indexOf(opt) === -1);
+    if (invalid.length) throw new Error(`Invalid option: ${invalid.join(', ')}`);
+};
+
 module.exports = opts => {
-    const invalidOpts = Object.keys(opts).filter(opt => constants.composerOptions.indexOf(opt) === -1);
-    if (invalidOpts.length) throw new Error(`Invalid option: ${invalidOpts.join(', ')}`);
+    validate(opts, constants.composerDefaultOptions);
+    const globalOptions = { ...constants.composerDefaultOptions, ...opts };
 
-    const globalOptions = { ...constants.defaultOptions, ...opts };
-
-    const getModuleOptions = (path, opts) => {
-        const invalidOpts = Object.keys(opts).filter(opt => constants.composeOptions.indexOf(opt) === -1);
-        if (invalidOpts.length) throw new Error(`Invalid option: ${invalidOpts.join(', ')}`);
+    const getComposeOptions = (path, opts) => {
+        validate(opts, constants.composeDefaultOptions);
 
         return {
             ...globalOptions, ...opts,
@@ -18,6 +20,6 @@ module.exports = opts => {
         };
     };
 
-    return { globalOptions, getModuleOptions };
+    return { globalOptions, getComposeOptions };
 
 };

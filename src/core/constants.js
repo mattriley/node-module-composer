@@ -20,8 +20,4 @@ const composerDefaultOptions = {
     globalThis: globalThis
 };
 
-module.exports = {
-    composeOptions: Object.keys(composeDefaultOptions),
-    composerOptions: Object.keys(composerDefaultOptions),
-    defaultOptions: composerDefaultOptions
-};
+module.exports = { composeDefaultOptions, composerDefaultOptions };

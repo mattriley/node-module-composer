@@ -7,7 +7,7 @@ module.exports = (target, options = {}, config = {}) => {
     if (!_.isPlainObject(target)) throw new Error('target must be a plain object');
 
     const targetModules = _.pickBy(target, _.isPlainObject);
-    const { globalOptions, getModuleOptions } = Options(options);
+    const { globalOptions, getComposeOptions } = Options(options);
 
     const state = {
         dependencies: _.mapValues(targetModules, () => []),
@@ -31,7 +31,7 @@ module.exports = (target, options = {}, config = {}) => {
     config = globalOptions.freezeConfig ? _.deepFreeze(config) : config;
     const configAliases = globalOptions.configAlias.reduce((acc, alias) => Object.assign(acc, { [alias]: config }), { config });
     const external = { ...state, globalOptions, target, targetModules, config };
-    const session = { ...external, external, configAliases, getModuleOptions, registerModule, registerAlias };
+    const session = { ...external, external, configAliases, getComposeOptions, registerModule, registerAlias };
     const { precomposers, postcomposers, ...extensionFunctions } = extensions.setup(session);
     Object.assign(session, { precomposers, postcomposers });
     Object.assign(session.external, extensionFunctions);
