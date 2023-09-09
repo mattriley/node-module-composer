@@ -14,12 +14,12 @@ module.exports = session => (path, deps, opts = {}) => {
 
     const self = {};
     const depsMod = { [path]: self, self, ...session.configAliases, ...deps };
+    const argsMod = { ...session.configAliases, ...args };
 
     const recurse = (target, currentDepth = 0) => {
         if (currentDepth === depth) return target;
         if (!_.isPlainObject(target)) return target;
         const here = currentDepth === 0 ? self : {};
-        const argsMod = { ...session.configAliases, ...args };
         const evaluate = val => _.isPlainFunction(val) ? val(depsMod, argsMod) : recurse(val, currentDepth + 1);
         const evaluated = _.mapValues(target, evaluate);
         if (!flat) return Object.assign(here, evaluated);
