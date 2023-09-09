@@ -24,7 +24,7 @@ module.exports = session => (path, deps, opts = {}) => {
         const evaluated = _.mapValues(target, evaluate);
         if (!flat) return Object.assign(here, evaluated);
         const flattened = _.flattenObject(evaluated, { delimiter: null });
-        return Object.assign(_.clearObject(here), flattened);
+        return Object.assign(here, flattened);
     };
 
     const maybePromise = _.flow([

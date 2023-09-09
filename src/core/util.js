@@ -15,7 +15,6 @@ const pickBy = require('lodash/pickBy');
 const set = require('lodash/set');
 const unset = require('lodash/unset');
 
-const clearObject = obj => { Object.keys(obj).forEach(key => delete obj[key]); return obj; };
 const invokeOrReturn = (target, ...args) => target && isPlainFunction(target) ? target(...args) : target;
 const invokeAtOrReturn = (obj, path, ...args) => invokeOrReturn(get(obj, path, obj), ...args);
 const isPlainFunction = val => isFunction(val) && !val.hasOwnProperty('prototype');
@@ -80,7 +79,6 @@ const replaceAt = (obj, fromArray, toArray) => {
 };
 
 module.exports = {
-    clearObject,
     cloneDeep,
     deepFreeze,
     flattenObject,
