@@ -12,27 +12,20 @@ const composeDefaultOptions = {
 
 const composeOptions = Object.keys(composeDefaultOptions);
 
-// const composeOptions = [
-//     'customiser',
-//     'depth',
-//     'flat',
-//     'overrides',
-//     'functionAlias',
-//     'moduleAlias',
-//     'privatePrefix',
-//     'publicPrefix'
-// ];
 
-const composerOptions = [
-    ...composeOptions,
-    'configAlias',
-    'freezeConfig',
-    'defaultConfig',
-    'config',
-    'extensions',
-    'compositionModule',
-    'globalThis'
-];
+const composerDefaultOptions = {
+    ...composeDefaultOptions,
+    configAlias: ['constants'],
+    freezeConfig: true,
+    defaultConfig: {},
+    config: {},
+    extensions: true,
+    compositionModule: true,
+    globalThis: globalThis
+};
+
+const composerOptions = Object.keys(composerDefaultOptions);
+
 
 const defaultOptions = {
     customiser: 'setup',
