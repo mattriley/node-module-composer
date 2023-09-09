@@ -21,19 +21,34 @@ module.exports = ({ test, assert }) => composer => {
     });
 
     test('option to customise depth globally', () => {
-        const fun = () => { };
         const target = {
             mod: {
                 sub1: {
-                    sub2: { fun }
+                    sub2: {
+                        fun: () => 1
+                    }
                 }
             }
         };
         const { compose } = composer(target, { depth: 1 });
-        const { mod } = compose('mod', {});
-        assert.deepEqual(mod.sub1.sub2.fun, fun);
+        const { mod } = compose('mod');
+        assert.equal(mod.sub1.sub2.fun(), 1);
     });
 
 
+    test('option to customise depth globally', () => {
+        const target = {
+            mod: {
+                sub1: {
+                    sub2: {
+                        fun: () => 1
+                    }
+                }
+            }
+        };
+        const { compose } = composer(target);
+        const { mod } = compose('mod', {}, { depth: 1 });
+        assert.equal(mod.sub1.sub2.fun(), 1);
+    });
 
 };
