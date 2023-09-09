@@ -57,4 +57,24 @@ module.exports = ({ test, assert }) => composer => {
         assert.equal(self, undefined);
     });
 
+    test('cannot access substructure as a dependency', () => {
+        const target = {
+            mod: {
+                fun1: () => () => 1,
+                fun2: ({ self }) => () => {
+                    return self.fun1();
+                },
+                sub: {
+                    fun3: ({ self, sub }) => () => {
+                        assert.equal(sub, undefined);
+                        return self.fun2();
+                    }
+                }
+            }
+        };
+        const { compose } = composer(target);
+        const { mod } = compose.deep('mod');
+        assert.deepEqual(mod.sub.fun3(), 1);
+    });
+
 };
