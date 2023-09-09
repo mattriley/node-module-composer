@@ -1,4 +1,5 @@
 const _ = require('./util');
+const validOpts = ['customiser', 'depth', 'flat', 'overrides', 'functionAlias', 'moduleAlias', 'privatePrefix', 'publicPrefix'];
 
 module.exports = session => (path, deps, opts = {}) => {
 
@@ -8,6 +9,8 @@ module.exports = session => (path, deps, opts = {}) => {
     if (!_.isPlainObject(target)) throw new Error(`${path} must be a plain object`);
     if (session.composedDependencies[path]) throw new Error(`${path} is already composed`);
 
+    const invalidOpts = Object.keys(opts).filter(opt => validOpts.indexOf(opt) === -1);
+    if (invalidOpts.length) throw new Error(`Invalid option(s): ${invalidOpts.join(', ')}`);
     const options = session.getModuleOptions(path, opts);
     const { args, customiser, depth, flat, overrides } = options;
     if (depth === 0 && !!deps) throw new Error('Unexpected deps');

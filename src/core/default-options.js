@@ -2,9 +2,10 @@ module.exports = () => {
 
     return {
         core: {
-            depth: 1,
-            overrides: {},
             customiser: 'setup',
+            depth: 1,
+            flat: false,
+            overrides: {},
             configAlias: ['constants'],
             freezeConfig: true,
             defaultConfig: {},
