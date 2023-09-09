@@ -3,24 +3,24 @@ module.exports = ({ test, assert }) => composer => {
     test('deep module', () => {
         const target = {
             mod1: {
-                sub: {
-                    fun: () => () => 'foobar'
+                sub1: {
+                    fun1: () => () => 1
                 }
             },
             mod2: {
-                sub: {
-                    fun: ({ mod1 }) => () => mod1.sub.fun()
+                sub2: {
+                    fun2: ({ mod1 }) => () => mod1.sub1.fun1()
                 }
             }
         };
         const { compose } = composer(target);
-        const { mod1 } = compose.deep('mod1', {});
+        const { mod1 } = compose.deep('mod1');
         const { mod2 } = compose.deep('mod2', { mod1 });
-        assert.deepEqual(mod1.sub.fun(), 'foobar');
-        assert.deepEqual(mod2.sub.fun(), 'foobar');
+        assert.deepEqual(mod1.sub1.fun1(), 1);
+        assert.deepEqual(mod2.sub2.fun2(), 1);
     });
 
-    test('custom depth', () => {
+    test('option to customise depth globally', () => {
         const fun = () => { };
         const target = {
             mod: {
@@ -34,19 +34,6 @@ module.exports = ({ test, assert }) => composer => {
         assert.deepEqual(mod.sub1.sub2.fun, fun);
     });
 
-    test('self at depth', () => {
-        const target = {
-            mod: {
-                sub: {
-                    fun1: ({ self }) => () => self.sub.fun2(),
-                    fun2: () => () => 'foobar'
-                }
-            }
-        };
-        const { compose } = composer(target);
-        const { mod } = compose.deep('mod', {});
-        assert.deepEqual(mod.sub.fun1(), 'foobar');
-        assert.deepEqual(mod.sub.fun2(), 'foobar');
-    });
+
 
 };
