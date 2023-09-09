@@ -74,4 +74,10 @@ module.exports = ({ test, assert }) => composer => {
         assert.throws(() => compose('mod', {}), /^Error: mod is already composed$/);
     });
 
+    test('invalid options', () => {
+        const target = { mod: {} };
+        const { compose } = composer(target);
+        assert.throws(() => compose('mod', {}, { foo: 'bar', bar: 'foo' }), 'Error: Invalid option(s): foo, bar');
+    });
+
 };
