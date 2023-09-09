@@ -9,6 +9,7 @@ module.exports = opts => {
     const getModuleOptions = (path, opts) => {
         return {
             ...globalOptions, ...opts,
+            moduleAlias: opts.moduleAlias ?? globalOptions.moduleAlias[path],
             overrides: opts.overrides ? _.set(_.cloneDeep(globalOptions.overrides), path, opts.overrides) : globalOptions.overrides
         };
     };
