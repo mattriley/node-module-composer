@@ -1,22 +1,10 @@
 module.exports = () => {
 
-    const compose = {
+    return {
         core: {
             depth: 1,
             overrides: {},
-            customiser: 'setup'
-        },
-        extensions: {
-            publicPrefix: '$',
-            privatePrefix: '_',
-            functionAlias: {},
-            moduleAlias: []
-        }
-    };
-
-    const composer = {
-        core: {
-            ...compose.core,
+            customiser: 'setup',
             configAlias: ['constants'],
             freezeConfig: true,
             defaultConfig: {},
@@ -25,11 +13,12 @@ module.exports = () => {
             compositionModule: true
         },
         extensions: {
-            ...compose.extensions,
+            publicPrefix: '$',
+            privatePrefix: '_',
+            functionAlias: {},
+            moduleAlias: [],
             globalThis: globalThis
         }
     };
-
-    return { compose, composer };
 
 };
