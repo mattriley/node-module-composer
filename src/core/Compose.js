@@ -22,8 +22,8 @@ module.exports = session => (path, deps, opts = {}) => {
         const here = currentDepth === 0 ? self : {};
         const evaluate = val => _.isPlainFunction(val) ? val({ here, ...depsMod }, argsMod) : recurse(val, currentDepth + 1);
         const evaluated = _.mapValues(target, evaluate);
-        if (!flat) return Object.assign(here, evaluated);
-        return Object.assign(here, _.flattenObject(evaluated));
+        const result = flat ? _.flattenObject(evaluated) : evaluated;
+        return Object.assign(here, result);
     };
 
     const maybePromise = _.flow([
