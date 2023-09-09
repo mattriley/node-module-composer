@@ -12,13 +12,13 @@ module.exports = session => (path, deps, opts = {}) => {
     if (depth === 0 && !!deps) throw new Error('Unexpected deps');
 
     const self = {};
-    const depsMod = { [path]: self, self, ...session.configAliases, ...deps };
+    const selfDeps = { ...session.configAliases, self, [path]: self, ...deps };
 
     const recurse = (target, currentDepth = 0) => {
         if (currentDepth === depth) return target;
         if (!_.isPlainObject(target)) return target;
         const here = currentDepth === 0 ? self : {};
-        const evaluate = val => _.isPlainFunction(val) ? val({ here, ...depsMod }, args) : recurse(val, currentDepth + 1);
+        const evaluate = val => _.isPlainFunction(val) ? val({ here, ...selfDeps }, args) : recurse(val, currentDepth + 1);
         const evaluated = _.mapValues(target, evaluate);
         const result = flat ? _.flattenObject(evaluated) : evaluated;
         return Object.assign(here, result);
