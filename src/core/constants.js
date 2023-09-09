@@ -1,14 +1,27 @@
 
-const composeOptions = [
-    'customiser',
-    'depth',
-    'flat',
-    'overrides',
-    'functionAlias',
-    'moduleAlias',
-    'privatePrefix',
-    'publicPrefix'
-];
+const composeDefaultOptions = {
+    customiser: 'setup',
+    depth: 1,
+    flat: false,
+    overrides: {},
+    publicPrefix: '$',
+    privatePrefix: '_',
+    functionAlias: [],
+    moduleAlias: []
+};
+
+const composeOptions = Object.keys(composeDefaultOptions);
+
+// const composeOptions = [
+//     'customiser',
+//     'depth',
+//     'flat',
+//     'overrides',
+//     'functionAlias',
+//     'moduleAlias',
+//     'privatePrefix',
+//     'publicPrefix'
+// ];
 
 const composerOptions = [
     ...composeOptions,
