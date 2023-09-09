@@ -46,11 +46,10 @@ const flatMapKeys = (obj, iteratee) => {
 };
 
 const flattenObject = (obj, opts = {}) => {
-    const defaults = { delimiter: '.', depth: Infinity };
+    const defaults = { delimiter: '.' };
     const { delimiter } = { ...defaults, ...opts };
     const recurse = (obj, parentKey = '', currentDepth = 0) => {
         return Object.entries(obj).reduce((acc, [key, val]) => {
-            // if (currentDepth === depth) return acc; // { ...acc, [key]: val };
             const done = !isPlainObject(val);
             const newKey = parentKey && delimiter ? parentKey + delimiter + key : key;
             if (done) return { ...acc, [newKey]: val };
