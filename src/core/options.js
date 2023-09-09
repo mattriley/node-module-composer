@@ -1,18 +1,14 @@
-const DefaultOptions = require('./default-options');
+const constants = require('./constants');
 const _ = require('./util');
 
-const recognisedComposeOpts = ['customiser', 'depth', 'flat', 'overrides', 'functionAlias', 'moduleAlias', 'privatePrefix', 'publicPrefix'];
-const recognisedComposerOpts = [...recognisedComposeOpts, 'configAlias', 'freezeConfig', 'defaultConfig', 'config', 'extensions', 'compositionModule', 'globalThis'];
-
 module.exports = opts => {
-    const invalidOpts = Object.keys(opts).filter(opt => recognisedComposerOpts.indexOf(opt) === -1);
+    const invalidOpts = Object.keys(opts).filter(opt => constants.composerOptions.indexOf(opt) === -1);
     if (invalidOpts.length) throw new Error(`Invalid option: ${invalidOpts.join(', ')}`);
 
-    const defaults = DefaultOptions();
-    const globalOptions = { ...defaults, ...opts };
+    const globalOptions = { ...constants.defaultOptions, ...opts };
 
     const getModuleOptions = (path, opts) => {
-        const invalidOpts = Object.keys(opts).filter(opt => recognisedComposeOpts.indexOf(opt) === -1);
+        const invalidOpts = Object.keys(opts).filter(opt => constants.composeOptions.indexOf(opt) === -1);
         if (invalidOpts.length) throw new Error(`Invalid option: ${invalidOpts.join(', ')}`);
 
         return {
