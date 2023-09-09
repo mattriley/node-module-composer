@@ -72,4 +72,23 @@ module.exports = ({ test, assert }) => composer => {
         assert.deepEqual(compose.dependencies, { mod1: [], mod2: ['mod1'] });
     });
 
+    test('option to override locally overrides globally', () => {
+        const target = {
+            mod: {
+                fun: () => () => 0
+            }
+        };
+        const globalOverrides = {
+            mod: {
+                fun: () => 1
+            }
+        };
+        const localOverrides = {
+            fun: () => 2
+        };
+        const { compose } = composer(target, { overrides: globalOverrides });
+        const { mod } = compose('mod', {}, { overrides: localOverrides });
+        assert.equal(mod.fun(), 2);
+    });
+
 };
