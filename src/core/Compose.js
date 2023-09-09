@@ -15,12 +15,12 @@ module.exports = session => (path, deps, opts = {}) => {
     const self = {};
     const depsMod = { [path]: self, self, ...session.configAliases, ...deps };
 
-    const recurse = (target, deps, currentDepth = 0) => {
+    const recurse = (target, currentDepth = 0) => {
         if (currentDepth === depth) return target;
         if (!_.isPlainObject(target)) return target;
         const here = currentDepth === 0 ? self : {};
         const argsMod = { ...session.configAliases, ...args };
-        const evaluate = val => _.isPlainFunction(val) ? val(depsMod, argsMod) : recurse(val, depsMod, currentDepth + 1);
+        const evaluate = val => _.isPlainFunction(val) ? val(depsMod, argsMod) : recurse(val, currentDepth + 1);
         const evaluated = _.mapValues(target, evaluate);
         if (!flat) return Object.assign(here, evaluated);
         const flattened = _.flattenObject(evaluated, { delimiter: null });
@@ -29,7 +29,7 @@ module.exports = session => (path, deps, opts = {}) => {
 
     const maybePromise = _.flow([
         ...session.precomposers.map(func => target => func({ path, target, options }) ?? target),
-        target => recurse(target, deps),
+        target => recurse(target),
         target => _.invokeAtOrReturn(target, customiser, args)
     ])(target);
 
