@@ -33,4 +33,16 @@ module.exports = ({ test, assert }) => composer => {
         assert.throws(() => compose('mod', {}), /^Error: mod.setup must return a plain object$/);
     });
 
+    test('option to customise customiser locally', () => {
+        const customised = { foo: 1 };
+        const target = {
+            mod: {
+                init: () => () => customised
+            }
+        };
+        const { compose } = composer(target);
+        const { mod } = compose('mod', {}, { customiser: 'init' });
+        assert.deepEqual(mod, customised);
+    });
+
 };
