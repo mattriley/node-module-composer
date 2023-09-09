@@ -50,7 +50,7 @@ const validateComposeOptions = ajv.compile(composeOptionsSchema);
 const validateComposerOptions = ajv.compile(composerOptionsSchema);
 
 const throwError = errors => {
-    const message = errors.map(error => `${error.instancePath} ${error.message}`).join('\n');
+    const message = errors.map(error => `${error.instancePath} ${error.message}`.trim()).join('\n');
     throw new Error(message);
 };
 

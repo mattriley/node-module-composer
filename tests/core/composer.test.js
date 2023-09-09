@@ -7,7 +7,7 @@ module.exports = ({ test, assert }) => composer => {
 
     test('invalid options', () => {
         const target = { mod: {} };
-        assert.throws(() => composer(target, { foo: 'bar', bar: 'foo' }), 'Error: Invalid option(s): foo, bar');
+        assert.throws(() => composer(target, { foo: 'bar', bar: 'foo' }), /Error: must NOT have additional properties/);
     });
 
 };
