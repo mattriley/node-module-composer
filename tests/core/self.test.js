@@ -27,13 +27,20 @@ module.exports = ({ test, assert }) => composer => {
     test('self reference by literal self in deep module', () => {
         const target = {
             mod: {
-                fun1: () => () => 1,
+                fun1: ({ self, mod }) => () => {
+                    assert.equal(mod, self);
+                    return 1;
+                },
                 fun2: ({ self, mod }) => () => {
                     assert.equal(mod, self);
-                    return self.fun1();
+                    return self.sub.fun3();
                 },
                 sub: {
                     fun3: ({ self, mod }) => () => {
+                        assert.equal(mod, self);
+                        return self.fun1();
+                    },
+                    fun4: ({ self, mod }) => () => {
                         assert.equal(mod, self);
                         return self.fun2();
                     }
@@ -42,7 +49,7 @@ module.exports = ({ test, assert }) => composer => {
         };
         const { compose } = composer(target);
         const { mod } = compose.deep('mod');
-        assert.deepEqual(mod.sub.fun3(), 1);
+        assert.deepEqual(mod.sub.fun4(), 1);
     });
 
     test('literal self not accessible externally', () => {
@@ -67,28 +74,6 @@ module.exports = ({ test, assert }) => composer => {
                 sub: {
                     fun3: ({ self, sub }) => () => {
                         assert.equal(sub, undefined);
-                        return self.fun2();
-                    }
-                }
-            }
-        };
-        const { compose } = composer(target);
-        const { mod } = compose.deep('mod');
-        assert.deepEqual(mod.sub.fun3(), 1);
-    });
-
-    test('access substructure with literal here', () => {
-        const target = {
-            mod: {
-                fun1: () => () => 1,
-                fun2: ({ self, here }) => () => {
-                    assert.notEqual(here.fun1, undefined);
-                    return self.fun1();
-                },
-                sub: {
-                    fun3: ({ self }) => () => {
-                        // here not working here
-                        // assert.notEqual(here.fun3, undefined);
                         return self.fun2();
                     }
                 }
