@@ -84,4 +84,28 @@ module.exports = ({ test, assert }) => composer => {
         assert.deepEqual(mod.sub.fun3(), 1);
     });
 
+    test('self reference by literal here in deep module', () => {
+        const target = {
+            mod: {
+                fun1: ({ here }) => () => {
+                    return here.fun2();
+                },
+                fun2: ({ here }) => () => {
+                    return here.sub.fun3();
+                },
+                sub: {
+                    fun3: ({ here }) => () => {
+                        return here.fun4();
+                    },
+                    fun4: () => () => {
+                        return 1;
+                    }
+                }
+            }
+        };
+        const { compose } = composer(target);
+        const { mod } = compose.deep('mod');
+        assert.deepEqual(mod.fun1(), 1);
+    });
+
 };

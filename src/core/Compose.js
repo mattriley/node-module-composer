@@ -20,7 +20,7 @@ module.exports = session => (path, deps, opts = {}) => {
         if (currentDepth === depth) return target;
         if (!_.isPlainObject(target)) return target;
         const here = currentDepth === 0 ? self : {};
-        const evaluate = val => _.isPlainFunction(val) ? val(depsMod, argsMod) : recurse(val, currentDepth + 1);
+        const evaluate = val => _.isPlainFunction(val) ? val({ here, ...depsMod }, argsMod) : recurse(val, currentDepth + 1);
         const evaluated = _.mapValues(target, evaluate);
         if (!flat) return Object.assign(here, evaluated);
         const flattened = _.flattenObject(evaluated, { delimiter: null });
