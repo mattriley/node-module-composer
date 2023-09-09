@@ -1,25 +1,35 @@
 module.exports = () => {
 
-    const core = {
-        depth: 1,
-        overrides: {},
-        customiser: 'setup',
-        configAlias: ['constants'],
-        freezeConfig: true,
-        defaultConfig: {},
-        config: {},
-        extensions: true,
-        compositionModule: true
+    const compose = {
+        core: {
+            depth: 1,
+            overrides: {},
+            customiser: 'setup'
+        },
+        extensions: {
+            publicPrefix: '$',
+            privatePrefix: '_',
+            functionAlias: {},
+            moduleAlias: []
+        }
     };
 
-    const extensions = {
-        globalThis: globalThis,
-        publicPrefix: '$',
-        privatePrefix: '_',
-        functionAlias: {},
-        moduleAlias: []
+    const composer = {
+        core: {
+            ...compose.core,
+            configAlias: ['constants'],
+            freezeConfig: true,
+            defaultConfig: {},
+            config: {},
+            extensions: true,
+            compositionModule: true
+        },
+        extensions: {
+            ...compose.extensions,
+            globalThis: globalThis
+        }
     };
 
-    return { ...core, ...extensions };
+    return { compose, composer };
 
 };
