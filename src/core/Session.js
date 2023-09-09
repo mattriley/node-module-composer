@@ -29,7 +29,7 @@ module.exports = (target, options = {}, config = {}) => {
     };
 
     config = globalOptions.freezeConfig ? _.deepFreeze(config) : config;
-    const configAliases = globalOptions.configAlias.reduce((acc, alias) => Object.assign(acc, { [alias]: config }), { config });
+    const configAliases = globalOptions.configAlias.reduce((acc, alias) => Object.assign(acc, { [alias]: config }), {});
     const external = { ...state, globalOptions, target, targetModules, config };
     const session = { ...external, external, configAliases, getComposeOptions, registerModule, registerAlias };
     const { precomposers, postcomposers, ...extensionFunctions } = extensions.setup(session);

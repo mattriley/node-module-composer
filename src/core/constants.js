@@ -11,7 +11,7 @@ const composeDefaultOptions = {
 
 const composerDefaultOptions = {
     ...composeDefaultOptions,
-    configAlias: ['constants'],
+    configAlias: ['config', 'constants'],
     freezeConfig: true,
     defaultConfig: {},
     config: {},
