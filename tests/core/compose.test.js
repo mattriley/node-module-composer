@@ -78,7 +78,14 @@ module.exports = ({ test, assert }) => composer => {
         const target = { mod: {} };
         const { compose } = composer(target);
         const { composition } = compose.modules;
-        assert.deepEqual(composition, composition.modules.composition);
+        assert.equal(composition, composition.modules.composition);
+    });
+
+    test('option to exclude composition module', () => {
+        const target = { mod: {} };
+        const { compose } = composer(target, { compositionModule: false });
+        const { composition } = compose.modules;
+        assert.equal(composition, undefined);
     });
 
 };

@@ -35,7 +35,8 @@ module.exports = (target, options = {}, config = {}) => {
     const { precomposers, postcomposers, ...extensionFunctions } = extensions.setup(session);
     Object.assign(session, { precomposers, postcomposers });
     Object.assign(session.external, extensionFunctions);
-    Object.assign(state.modules, { composition: session.external, ...configAliases, ...state.modules });
+    Object.assign(state.modules, { ...configAliases, ...state.modules });
+    if (globalOptions.compositionModule) Object.assign(state.modules, { composition: session.external });
     return session;
 
 }; 

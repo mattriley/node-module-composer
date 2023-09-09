@@ -8,7 +8,8 @@ module.exports = () => {
         freezeConfig: true,
         defaultConfig: {},
         config: {},
-        extensions: true
+        extensions: true,
+        compositionModule: true
     };
 
     const extensions = {
