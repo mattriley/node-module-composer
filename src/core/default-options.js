@@ -16,7 +16,7 @@ module.exports = () => {
         extensions: {
             publicPrefix: '$',
             privatePrefix: '_',
-            functionAlias: {},
+            functionAlias: [],
             moduleAlias: [],
             globalThis: globalThis
         }
