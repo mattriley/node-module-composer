@@ -8,8 +8,11 @@ module.exports = opts => {
 
     const getModuleOptions = (path, opts) => {
         return {
+            ...globalOptions,
             ...defaults.compose.core,
-            ...defaults.compose.extensions, ...opts,
+            ...defaults.compose.extensions,
+            ...opts,
+            customiser: opts.customiser ?? defaults.compose.customiser ?? globalOptions.customiser,
             overrides: opts.overrides ? _.set(_.cloneDeep(globalOptions.overrides), path, opts.overrides) : globalOptions.overrides
         };
     };
