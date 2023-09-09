@@ -2,7 +2,7 @@ const configKeys = ['compositionName', 'appName', 'displayName', 'packageName'];
 
 const globalRegister = session => {
 
-    const { globalThis } = session.globalOptions;
+    const { globalThis } = session.composerOptions;
     const { compositions = [] } = globalThis;
 
     const readPackageName = () => {

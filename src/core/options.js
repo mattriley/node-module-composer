@@ -8,18 +8,18 @@ const validate = (opts, defaults) => {
 
 module.exports = opts => {
     validate(opts, constants.composerDefaultOptions);
-    const globalOptions = { ...constants.composerDefaultOptions, ...opts };
+    const composerOptions = { ...constants.composerDefaultOptions, ...opts };
 
     const getComposeOptions = (path, opts) => {
         validate(opts, constants.composeDefaultOptions);
 
         return {
-            ...globalOptions, ...opts,
-            moduleAlias: opts.moduleAlias ?? globalOptions.moduleAlias[path],
-            overrides: opts.overrides ? _.set(_.cloneDeep(globalOptions.overrides), path, opts.overrides) : globalOptions.overrides
+            ...composerOptions, ...opts,
+            moduleAlias: opts.moduleAlias ?? composerOptions.moduleAlias[path],
+            overrides: opts.overrides ? _.set(_.cloneDeep(composerOptions.overrides), path, opts.overrides) : composerOptions.overrides
         };
     };
 
-    return { globalOptions, getComposeOptions };
+    return { composerOptions, getComposeOptions };
 
 };
