@@ -1,70 +1,19 @@
 const DefaultOptions = require('./default-options');
 const _ = require('./util');
-const Ajv = require('ajv');
 
-const composeOptionsSchema = {
-    type: 'object',
-    properties: {
-        customiser: { type: 'string' },
-        depth: { type: 'number' },
-        flat: { type: 'boolean' },
-        overrides: { type: 'object' },
-        functionAlias: { type: 'array' },
-        moduleAlias: {
-            anyOf: [
-                { type: 'string' },
-                { type: 'array', items: { type: 'string' } }
-            ]
-        },
-        privatePrefix: { type: 'string' },
-        publicPrefix: { type: 'string' }
-    },
-    required: [],
-    additionalProperties: false
-};
-
-const composerOptionsSchema = {
-    type: 'object',
-    properties: {
-        ...composeOptionsSchema.properties,
-        moduleAlias: { type: 'object' },
-        configAlias: { type: 'array' },
-        freezeConfig: { type: 'boolean' },
-        defaultConfig: { type: 'object' },
-        config: {
-            anyOf: [
-                { type: 'object' },
-                { type: 'array', items: { type: 'object' } }
-            ]
-        },
-        extensions: { type: 'boolean' },
-        compositionModule: { type: 'boolean' },
-        globalThis: { type: 'object' }
-    },
-    required: [],
-    additionalProperties: false
-};
-
-const ajv = new Ajv({ strictNumbers: false });
-const validateComposeOptions = ajv.compile(composeOptionsSchema);
-const validateComposerOptions = ajv.compile(composerOptionsSchema);
-
-const throwError = errors => {
-    const message = errors.map(error => `${error.instancePath} ${error.message}`.trim()).join('\n');
-    throw new Error(message);
-};
+const recognisedComposeOpts = ['customiser', 'depth', 'flat', 'overrides', 'functionAlias', 'moduleAlias', 'privatePrefix', 'publicPrefix'];
+const recognisedComposerOpts = [...recognisedComposeOpts, 'configAlias', 'freezeConfig', 'defaultConfig', 'config', 'extensions', 'compositionModule', 'globalThis'];
 
 module.exports = opts => {
-
-    const valid = validateComposerOptions(opts);
-    if (!valid) throwError(validateComposerOptions.errors);
+    const invalidOpts = Object.keys(opts).filter(opt => recognisedComposerOpts.indexOf(opt) === -1);
+    if (invalidOpts.length) throw new Error(`Invalid option: ${invalidOpts.join(', ')}`);
 
     const defaults = DefaultOptions();
     const globalOptions = { ...defaults.core, ...defaults.extensions, ...opts };
 
     const getModuleOptions = (path, opts) => {
-        const valid = validateComposeOptions(opts);
-        if (!valid) throwError(validateComposeOptions.errors);
+        const invalidOpts = Object.keys(opts).filter(opt => recognisedComposeOpts.indexOf(opt) === -1);
+        if (invalidOpts.length) throw new Error(`Invalid option: ${invalidOpts.join(', ')}`);
 
         return {
             ...globalOptions, ...opts,
