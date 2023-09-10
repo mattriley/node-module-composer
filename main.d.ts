@@ -1,4 +1,4 @@
-import type { ConditionalKeys, EmptyObject, UnionToIntersection, UnknownRecord } from 'type-fest';
+import type { ConditionalKeys, EmptyObject, Simplify, UnionToIntersection, UnknownRecord } from 'type-fest';
 
 interface CoreOptions {
     depth: number
@@ -54,7 +54,7 @@ type ComposedIndividually<T extends Module, MaxDepth extends AllowedMaxDepth, N 
 type ComposedModule<T extends Module, MaxDepth extends AllowedMaxDepth, N extends number = 0> =
     T extends SetupComposable
     ? ComposedBySetup<T>
-    : ComposedIndividually<T, MaxDepth, N>
+    : Simplify<ComposedIndividually<T, MaxDepth, N>>
 
 type ModuleParameters<T extends Module, Key = keyof T> =
     Key extends PropertyKey
