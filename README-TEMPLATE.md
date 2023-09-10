@@ -497,20 +497,46 @@ graph TD;
 
 Pretty cool, huh!
 
-### `module-alias`: Reference modules with alternative names
+### `module-alias`: Reference *modules* with alternative names
 
 The `moduleAlias` option takes a string or array of string specifying alternative names for a module.
 
-In the following example, `_` is a reference to `util`:
+In the following examples, `fb` is an alias of `foobar`.
+
+As a `compose` option, applies to associated module:
 
 ```js
 const { compose } = composer(modules};
-const { util, _ } = compose('util', { dep1, dep2 }, { moduleAlias: '_' });
+const { foobar, fb } = compose('foobar', { dep1, dep2 }, { moduleAlias: 'fb' });
+```
 
-// or
+As a `composer` option, applies to named module:
 
-const { compose } = composer(modules, { moduleAlias: { util: '_' } }};
-const { util, _ } = compose('util', { dep1, dep2 });
+```js
+const { compose } = composer(modules, { moduleAlias: { foobar: 'fb' } }};
+const { foobar, fb } = compose('foobar', { dep1, dep2 });
+```
+
+### `function-alias`: Reference *functions* with alternative names
+
+The `functionAlias` option takes an array of entries specifying patterns and replacements for any matching function.
+
+In the following examples, `getVal` is an alias of `getValue`.
+
+As a `compose` option, applies to associated module:
+
+```js
+const { compose } = composer(modules};
+const { foobar } = compose('foobar', { dep1, dep2 }, { functionAlias: [ [/Value$/, 'Val'] ] });
+const { getValue, getVal } = foobar;
+```
+
+As a `composer` option, applies to any module:
+
+```js
+const { compose } = composer(modules, { functionAlias: [ [/Value$/, 'Val'] ] });
+const { foobar } = compose('foobar', { dep1, dep2 });
+const { getValue, getVal } = foobar;
 ```
 
 ### `eject`: Opt out of Module Composer
