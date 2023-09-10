@@ -8,7 +8,11 @@ const validate = (opts, defaults) => {
 
 module.exports = opts => {
     validate(opts, constants.composerDefaultOptions);
-    const composerOptions = { ...constants.composerDefaultOptions, ...opts };
+    const unprocessedComposerOptions = { ...constants.composerDefaultOptions, ...opts };
+    const composerOptions = {
+        ...unprocessedComposerOptions,
+        configAlias: [unprocessedComposerOptions.configAlias].flat()
+    };
 
     const getComposeOptions = (path, opts) => {
         validate(opts, constants.composeDefaultOptions);

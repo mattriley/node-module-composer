@@ -13,6 +13,7 @@ const composer = (target, options = {}) => {
         const asis = (path, opts) => make(path, null, { ...opts, depth: 0 });
         const variations = { make, deep, flat, asis };
         Object.assign(compose, session.external, { session: session.external }, variations);
+        console.warn(session.configAliases)
         return { compose, configure, ...session.configAliases };
     };
 
