@@ -543,30 +543,11 @@ const { getValue, getVal } = foobar;
 
 Module Composer can be _ejected_ by generating the equivalent vanilla JavaScript code. Well, that's the vision anyway! The current implementation has some limitations. Please raise an issue if you'd like to see this developed further.
 
-<!-- Take the composition root of the Gravatar SPA example:
-
-%- await lib.renderCode(lib.fetchCode('examples/gravatar-spa/src/compose.mjs')) %> 
-
-Mermaid digram:
-
-%- await lib.compose(c => lib.renderCode(c.mermaid(), 'mermaid'), 'examples/gravatar-spa/src/compose.mjs') %>
-
-Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
-
-%- await lib.compose(c => lib.renderCode(c.eject(), 'js'), 'examples/gravatar-spa/src/compose.mjs') %>
--->
-
 ### `perf`: Meaure composition performance
 
 Module Composer is fast. In fact, so fast that it needs to be measured with sub-millisecond precision. Performance is measured by default for easy analysis.
 
-Use `compose.stats` to see the total composition duration, and a break down of duration per module.
-
-<!-- #### gravatar-spa example stats
-
-%- process.env.COMPUTER_HARDWARE %>
-
-%- await lib.compose(c => lib.renderCode(JSON.stringify(c.extensions.perf, null, 4), 'js'), 'examples/gravatar-spa/src/compose.mjs') %> -->
+Use `compose.perf()` to see the total composition duration, and a break down of duration per module.
 
 ## Advanced example: Agile Avatars
 

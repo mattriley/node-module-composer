@@ -14,4 +14,6 @@ const postcompose = session => ({ path }) => {
     session.setState({ totalDuration, modules });
 };
 
-module.exports = { precompose, postcompose };
+const perf = session => () => session.extensions.perf;
+
+module.exports = { precompose, postcompose, perf };

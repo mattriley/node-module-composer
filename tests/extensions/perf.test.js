@@ -7,7 +7,7 @@ module.exports = ({ test, assert }) => composer => {
         const { compose } = composer(target);
         compose('foo', { bar: {} });
         compose('bar', { bar: {} });
-        const { perf } = compose.extensions;
+        const perf = compose.perf();
         assert.deepEqual(perf.durationUnit, 'ms');
         assert(perf.totalDuration > 0);
         assert(perf.modules.foo.duration > 0);

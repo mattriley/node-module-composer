@@ -1,6 +1,6 @@
 # Module Composer
 
-<p align="right"><code>100% cov</code>&nbsp;<code>357 sloc</code>&nbsp;<code>15 files</code>&nbsp;<code>1 deps</code>&nbsp;<code>13 dev deps</code></p>
+<p align="right"><code>100% cov</code>&nbsp;<code>358 sloc</code>&nbsp;<code>15 files</code>&nbsp;<code>1 deps</code>&nbsp;<code>13 dev deps</code></p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
@@ -588,30 +588,11 @@ const { getValue, getVal } = foobar;
 
 Module Composer can be _ejected_ by generating the equivalent vanilla JavaScript code. Well, that's the vision anyway! The current implementation has some limitations. Please raise an issue if you'd like to see this developed further.
 
-<!-- Take the composition root of the Gravatar SPA example:
-
-%- await lib.renderCode(lib.fetchCode('examples/gravatar-spa/src/compose.mjs'))  
-
-Mermaid digram:
-
-%- await lib.compose(c => lib.renderCode(c.mermaid(), 'mermaid'), 'examples/gravatar-spa/src/compose.mjs') 
-
-Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
-
-%- await lib.compose(c => lib.renderCode(c.eject(), 'js'), 'examples/gravatar-spa/src/compose.mjs') 
--->
-
 ### `perf`: Meaure composition performance
 
 Module Composer is fast. In fact, so fast that it needs to be measured with sub-millisecond precision. Performance is measured by default for easy analysis.
 
-Use `compose.stats` to see the total composition duration, and a break down of duration per module.
-
-<!-- #### gravatar-spa example stats
-
-%- process.env.COMPUTER_HARDWARE 
-
-%- await lib.compose(c => lib.renderCode(JSON.stringify(c.extensions.perf, null, 4), 'js'), 'examples/gravatar-spa/src/compose.mjs')  -->
+Use `compose.perf()` to see the total composition duration, and a break down of duration per module.
 
 ## Advanced example: Agile Avatars
 
@@ -663,78 +644,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 67.22020900249481,
-            "endTime": 67.69608399271965,
-            "duration": 0.47587499022483826
+            "startTime": 65.91120800375938,
+            "endTime": 66.38037499785423,
+            "duration": 0.46916699409484863
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 67.80745899677277,
-            "endTime": 67.88166700303555,
-            "duration": 0.07420800626277924
+            "startTime": 66.49074999988079,
+            "endTime": 66.56395800411701,
+            "duration": 0.07320800423622131
         },
         "core": {
             "path": "core",
-            "startTime": 68.54345899820328,
-            "endTime": 68.76099999248981,
-            "duration": 0.21754099428653717
+            "startTime": 67.23450000584126,
+            "endTime": 67.4547079950571,
+            "duration": 0.22020798921585083
         },
         "io": {
             "path": "io",
-            "startTime": 68.80391699075699,
-            "endTime": 68.91724999248981,
-            "duration": 0.11333300173282623
+            "startTime": 67.50062499940395,
+            "endTime": 67.61249999701977,
+            "duration": 0.11187499761581421
         },
         "services": {
             "path": "services",
-            "startTime": 69.22370900213718,
-            "endTime": 69.61066699028015,
-            "duration": 0.3869579881429672
+            "startTime": 67.90687499940395,
+            "endTime": 68.30529199540615,
+            "duration": 0.39841699600219727
         },
         "ui": {
             "path": "ui",
-            "startTime": 69.66824999451637,
-            "endTime": 69.72149999439716,
-            "duration": 0.05324999988079071
+            "startTime": 68.36287499964237,
+            "endTime": 68.41220800578594,
+            "duration": 0.049333006143569946
         },
         "elements": {
             "path": "elements",
-            "startTime": 69.77295899391174,
-            "endTime": 69.90191699564457,
-            "duration": 0.12895800173282623
+            "startTime": 68.46329200267792,
+            "endTime": 68.58804200589657,
+            "duration": 0.12475000321865082
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 69.93691699206829,
-            "endTime": 69.96212500333786,
-            "duration": 0.025208011269569397
+            "startTime": 68.62129199504852,
+            "endTime": 68.64729200303555,
+            "duration": 0.0260000079870224
         },
         "components": {
             "path": "components",
-            "startTime": 70.45866699516773,
-            "endTime": 71.01516699790955,
-            "duration": 0.5565000027418137
+            "startTime": 69.1324580013752,
+            "endTime": 69.70229199528694,
+            "duration": 0.5698339939117432
         },
         "styles": {
             "path": "styles",
-            "startTime": 71.18704199790955,
-            "endTime": 71.26950000226498,
-            "duration": 0.0824580043554306
+            "startTime": 69.83379200100899,
+            "endTime": 69.91066700220108,
+            "duration": 0.0768750011920929
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 71.31312499940395,
-            "endTime": 71.34183399379253,
-            "duration": 0.028708994388580322
+            "startTime": 69.95575000345707,
+            "endTime": 69.98025000095367,
+            "duration": 0.02449999749660492
         },
         "startup": {
             "path": "startup",
-            "startTime": 71.50149999558926,
-            "endTime": 71.54962499439716,
-            "duration": 0.048124998807907104
+            "startTime": 70.14425000548363,
+            "endTime": 70.19687500596046,
+            "duration": 0.05262500047683716
         }
     },
-    "totalDuration": 2.191122993826866,
+    "totalDuration": 2.1967919915914536,
     "durationUnit": "ms"
 }
 ```
