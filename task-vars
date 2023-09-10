@@ -3,8 +3,9 @@
 export NODE_VERSION="20.5.0"
 
 export DEV_TASKS="edit | test-watch"
+export README_TOC_MAX_LEVEL=3
 
 export COV_STATEMENTS=100
-export COV_BRANCHES=99
+export COV_BRANCHES=100
 export COV_FUNCTIONS=100
 export COV_LINES=100
