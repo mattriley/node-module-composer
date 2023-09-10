@@ -454,7 +454,7 @@ import 'module-composer/extensions/mermaid.js';
 import composer from 'module-composer/core';
 ```
 
-### Generate Mermaid diagrams with the `mermaid` extension
+### `mermaid`: Generate dependency diagrams
 
 A picture paints a thousand words. There's no better aid for reasoning about software design than a good old-fashioned dependency diagram.
 
@@ -495,9 +495,9 @@ graph TD;
     services-->stores;
 ```
 
-Pretty cool, huh?!
+Pretty cool, huh!
 
-### Alternative module names with the `module-alias` extension
+### `module-alias`: Reference modules with alternative names
 
 In the following examples, `_` is a reference to `util`:
 
@@ -513,7 +513,7 @@ const { compose } = composer(modules, { moduleAlias: { util: '_' } }};
 const { util, _ } = compose('util', { dep1, dep2 });
 ```
 
-### Ejecting (opting out) with the `eject` extension
+### `eject`: Opt out of Module Composer
 
 Module Composer can be _ejected_ by generating the equivalent vanilla JavaScript code. Well, that's the vision anyway! The current implementation has some limitations. Please raise an issue if you'd like to see this developed further.
 
@@ -530,7 +530,7 @@ Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 %- await lib.compose(c => lib.renderCode(c.eject(), 'js'), 'examples/gravatar-spa/src/compose.mjs') %>
 -->
 
-### Meaure performance with the `perf` extensions
+### `perf`: Meaure composition performance
 
 Module Composer is fast. In fact, so fast that it needs to be measured with sub-millisecond precision. Performance is measured by default for easy analysis.
 

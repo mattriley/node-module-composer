@@ -487,7 +487,7 @@ import 'module-composer/extensions/mermaid.js';
 import composer from 'module-composer/core';
 ```
 
-### Generate Mermaid diagrams with the `mermaid` extension
+### `mermaid`: Generate dependency diagrams
 
 A picture paints a thousand words. There's no better aid for reasoning about software design than a good old-fashioned dependency diagram.
 
@@ -528,9 +528,9 @@ graph TD;
     services-->stores;
 ```
 
-Pretty cool, huh?!
+Pretty cool, huh!
 
-### Alternative module names with the `module-alias` extension
+### `module-alias`: Reference modules with alternative names
 
 In the following examples, `_` is a reference to `util`:
 
@@ -546,7 +546,7 @@ const { compose } = composer(modules, { moduleAlias: { util: '_' } }};
 const { util, _ } = compose('util', { dep1, dep2 });
 ```
 
-### Ejecting (opting out) with the `eject` extension
+### `eject`: Opt out of Module Composer
 
 Module Composer can be _ejected_ by generating the equivalent vanilla JavaScript code. Well, that's the vision anyway! The current implementation has some limitations. Please raise an issue if you'd like to see this developed further.
 
@@ -563,7 +563,7 @@ Use `compose.eject()` to generate the equivalent vanilla JavaScript code:
 %- await lib.compose(c => lib.renderCode(c.eject(), 'js'), 'examples/gravatar-spa/src/compose.mjs') 
 -->
 
-### Meaure performance with the `perf` extensions
+### `perf`: Meaure composition performance
 
 Module Composer is fast. In fact, so fast that it needs to be measured with sub-millisecond precision. Performance is measured by default for easy analysis.
 
@@ -625,78 +625,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 107.42945799231529,
-            "endTime": 107.883499994874,
-            "duration": 0.4540420025587082
+            "startTime": 66.01199999451637,
+            "endTime": 66.46491599082947,
+            "duration": 0.4529159963130951
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 107.99645799398422,
-            "endTime": 108.07095800340176,
-            "duration": 0.07450000941753387
+            "startTime": 66.58112499117851,
+            "endTime": 66.6557080000639,
+            "duration": 0.0745830088853836
         },
         "core": {
             "path": "core",
-            "startTime": 108.72970800101757,
-            "endTime": 108.95029099285603,
-            "duration": 0.2205829918384552
+            "startTime": 67.31583300232887,
+            "endTime": 67.5395409911871,
+            "duration": 0.22370798885822296
         },
         "io": {
             "path": "io",
-            "startTime": 108.9934159964323,
-            "endTime": 109.1013749986887,
-            "duration": 0.10795900225639343
+            "startTime": 67.58274999260902,
+            "endTime": 67.69033299386501,
+            "duration": 0.10758300125598907
         },
         "services": {
             "path": "services",
-            "startTime": 109.39820799231529,
-            "endTime": 109.77650000154972,
-            "duration": 0.3782920092344284
+            "startTime": 67.98720799386501,
+            "endTime": 68.3581250011921,
+            "duration": 0.3709170073270798
         },
         "ui": {
             "path": "ui",
-            "startTime": 109.83070799708366,
-            "endTime": 109.88079099357128,
-            "duration": 0.05008299648761749
+            "startTime": 68.41812498867512,
+            "endTime": 68.47545799612999,
+            "duration": 0.05733300745487213
         },
         "elements": {
             "path": "elements",
-            "startTime": 109.93345800042152,
-            "endTime": 110.0619580000639,
-            "duration": 0.12849999964237213
+            "startTime": 68.5321249961853,
+            "endTime": 68.65916599333286,
+            "duration": 0.12704099714756012
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 110.0937079936266,
-            "endTime": 110.11924999952316,
-            "duration": 0.0255420058965683
+            "startTime": 68.69233299791813,
+            "endTime": 68.71841599047184,
+            "duration": 0.026082992553710938
         },
         "components": {
             "path": "components",
-            "startTime": 110.62754100561142,
-            "endTime": 111.22837500274181,
-            "duration": 0.600833997130394
+            "startTime": 69.20191599428654,
+            "endTime": 69.7659579962492,
+            "duration": 0.5640420019626617
         },
         "styles": {
             "path": "styles",
-            "startTime": 111.3525829911232,
-            "endTime": 111.43166600167751,
-            "duration": 0.07908301055431366
+            "startTime": 69.89000000059605,
+            "endTime": 69.97004099190235,
+            "duration": 0.08004099130630493
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 111.47320799529552,
-            "endTime": 111.49516600370407,
-            "duration": 0.021958008408546448
+            "startTime": 70.01279099285603,
+            "endTime": 70.03704099357128,
+            "duration": 0.024250000715255737
         },
         "startup": {
             "path": "startup",
-            "startTime": 111.65358300507069,
-            "endTime": 111.70570799708366,
-            "duration": 0.0521249920129776
+            "startTime": 70.19662499427795,
+            "endTime": 70.243915989995,
+            "duration": 0.047290995717048645
         }
     },
-    "totalDuration": 2.1935010254383087,
+    "totalDuration": 2.1557879894971848,
     "durationUnit": "ms"
 }
 ```
