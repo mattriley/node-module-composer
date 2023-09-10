@@ -530,7 +530,23 @@ graph TD;
 
 Pretty cool, huh?!
 
-### Ejecting (opting out of Module Composer) with the `eject` extension
+### Alternative module names with the `module-alias` extension
+
+In the following examples, `_` is a reference to `util`:
+
+```js
+const { compose } = composer(modules};
+const { util, _ } = compose('util', { dep1, dep2 }, { moduleAlias: '_' });
+```
+
+Or
+
+```js
+const { compose } = composer(modules, { moduleAlias: { util: '_' } }};
+const { util, _ } = compose('util', { dep1, dep2 });
+```
+
+### Ejecting (opting out) with the `eject` extension
 
 Module Composer can be _ejected_ by generating the equivalent vanilla JavaScript code. Well, that's the vision anyway! The current implementation has some limitations. Please raise an issue if you'd like to see this developed further.
 
@@ -609,78 +625,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 94.55470799654722,
-            "endTime": 95.01691599935293,
-            "duration": 0.46220800280570984
+            "startTime": 107.42945799231529,
+            "endTime": 107.883499994874,
+            "duration": 0.4540420025587082
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 95.13062499463558,
-            "endTime": 95.20404099673033,
-            "duration": 0.07341600209474564
+            "startTime": 107.99645799398422,
+            "endTime": 108.07095800340176,
+            "duration": 0.07450000941753387
         },
         "core": {
             "path": "core",
-            "startTime": 95.86387499421835,
-            "endTime": 96.08558299392462,
-            "duration": 0.2217079997062683
+            "startTime": 108.72970800101757,
+            "endTime": 108.95029099285603,
+            "duration": 0.2205829918384552
         },
         "io": {
             "path": "io",
-            "startTime": 96.1294159963727,
-            "endTime": 96.24112499505281,
-            "duration": 0.11170899868011475
+            "startTime": 108.9934159964323,
+            "endTime": 109.1013749986887,
+            "duration": 0.10795900225639343
         },
         "services": {
             "path": "services",
-            "startTime": 96.5404579937458,
-            "endTime": 96.91274999827147,
-            "duration": 0.37229200452566147
+            "startTime": 109.39820799231529,
+            "endTime": 109.77650000154972,
+            "duration": 0.3782920092344284
         },
         "ui": {
             "path": "ui",
-            "startTime": 96.96762499958277,
-            "endTime": 97.01824999600649,
-            "duration": 0.050624996423721313
+            "startTime": 109.83070799708366,
+            "endTime": 109.88079099357128,
+            "duration": 0.05008299648761749
         },
         "elements": {
             "path": "elements",
-            "startTime": 97.06937499344349,
-            "endTime": 97.19433299452066,
-            "duration": 0.12495800107717514
+            "startTime": 109.93345800042152,
+            "endTime": 110.0619580000639,
+            "duration": 0.12849999964237213
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 97.22812499850988,
-            "endTime": 97.25412499904633,
-            "duration": 0.026000000536441803
+            "startTime": 110.0937079936266,
+            "endTime": 110.11924999952316,
+            "duration": 0.0255420058965683
         },
         "components": {
             "path": "components",
-            "startTime": 97.74941599369049,
-            "endTime": 98.30754099786282,
-            "duration": 0.5581250041723251
+            "startTime": 110.62754100561142,
+            "endTime": 111.22837500274181,
+            "duration": 0.600833997130394
         },
         "styles": {
             "path": "styles",
-            "startTime": 98.4302079975605,
-            "endTime": 98.50895799696445,
-            "duration": 0.07874999940395355
+            "startTime": 111.3525829911232,
+            "endTime": 111.43166600167751,
+            "duration": 0.07908301055431366
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 98.55070799589157,
-            "endTime": 98.57487499713898,
-            "duration": 0.024167001247406006
+            "startTime": 111.47320799529552,
+            "endTime": 111.49516600370407,
+            "duration": 0.021958008408546448
         },
         "startup": {
             "path": "startup",
-            "startTime": 98.73312499374151,
-            "endTime": 98.78312499821186,
-            "duration": 0.05000000447034836
+            "startTime": 111.65358300507069,
+            "endTime": 111.70570799708366,
+            "duration": 0.0521249920129776
         }
     },
-    "totalDuration": 2.1539580151438713,
+    "totalDuration": 2.1935010254383087,
     "durationUnit": "ms"
 }
 ```

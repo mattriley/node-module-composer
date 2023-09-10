@@ -497,7 +497,23 @@ graph TD;
 
 Pretty cool, huh?!
 
-### Ejecting (opting out of Module Composer) with the `eject` extension
+### Alternative module names with the `module-alias` extension
+
+In the following examples, `_` is a reference to `util`:
+
+```js
+const { compose } = composer(modules};
+const { util, _ } = compose('util', { dep1, dep2 }, { moduleAlias: '_' });
+```
+
+Or
+
+```js
+const { compose } = composer(modules, { moduleAlias: { util: '_' } }};
+const { util, _ } = compose('util', { dep1, dep2 });
+```
+
+### Ejecting (opting out) with the `eject` extension
 
 Module Composer can be _ejected_ by generating the equivalent vanilla JavaScript code. Well, that's the vision anyway! The current implementation has some limitations. Please raise an issue if you'd like to see this developed further.
 
