@@ -28,8 +28,8 @@ module.exports = (target, options = {}, config = {}) => {
         return state.modules;
     };
 
-    const maybeFrozenConfig = composerOptions.freezeConfig ? _.deepFreeze(config) : config;
-    const configAliases = composerOptions.configAlias.reduce((acc, alias) => Object.assign(acc, { [alias]: maybeFrozenConfig }), { config: maybeFrozenConfig });
+    config = composerOptions.freezeConfig ? _.deepFreeze(config) : config;
+    const configAliases = composerOptions.configAlias.reduce((acc, alias) => Object.assign(acc, { [alias]: config }), { config });
     const external = { ...state, composerOptions, target, targetModules, ...configAliases };
     const session = { ...external, external, configAliases, getComposeOptions, registerModule, registerAlias };
     const { precomposers, postcomposers, ...extensionFunctions } = extensions.setup(session);
