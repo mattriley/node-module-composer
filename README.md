@@ -352,7 +352,7 @@ config.a = 2; // change is applied
 
 ### Config aliases
 
-The `configAlias` option takes a string or array of string specifying alternative words to be used to reference config. Config aliases are also injected into each module automatically. By default, config is automatically aliased to `constants`, since config should not change once injected. 
+The `configAlias` option takes a string or array of string specifying alternative names for config. Config aliases are also injected into each module automatically. By default, config is automatically aliased to `constants`, since config should not change once injected. 
 
 #### Default alias
 
@@ -532,16 +532,16 @@ Pretty cool, huh!
 
 ### `module-alias`: Reference modules with alternative names
 
-In the following examples, `_` is a reference to `util`:
+The `moduleAlias` option takes a string or array of string specifying alternative names for a module.
+
+In the following example, `_` is a reference to `util`:
 
 ```js
 const { compose } = composer(modules};
 const { util, _ } = compose('util', { dep1, dep2 }, { moduleAlias: '_' });
-```
 
-Or
+// or
 
-```js
 const { compose } = composer(modules, { moduleAlias: { util: '_' } }};
 const { util, _ } = compose('util', { dep1, dep2 });
 ```
@@ -625,78 +625,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 66.01199999451637,
-            "endTime": 66.46491599082947,
-            "duration": 0.4529159963130951
+            "startTime": 67.5531250089407,
+            "endTime": 68.02516700327396,
+            "duration": 0.4720419943332672
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 66.58112499117851,
-            "endTime": 66.6557080000639,
-            "duration": 0.0745830088853836
+            "startTime": 68.13600000739098,
+            "endTime": 68.2097500115633,
+            "duration": 0.07375000417232513
         },
         "core": {
             "path": "core",
-            "startTime": 67.31583300232887,
-            "endTime": 67.5395409911871,
-            "duration": 0.22370798885822296
+            "startTime": 68.89550000429153,
+            "endTime": 69.12320800125599,
+            "duration": 0.22770799696445465
         },
         "io": {
             "path": "io",
-            "startTime": 67.58274999260902,
-            "endTime": 67.69033299386501,
-            "duration": 0.10758300125598907
+            "startTime": 69.16658300161362,
+            "endTime": 69.27466700971127,
+            "duration": 0.10808400809764862
         },
         "services": {
             "path": "services",
-            "startTime": 67.98720799386501,
-            "endTime": 68.3581250011921,
-            "duration": 0.3709170073270798
+            "startTime": 69.57329200208187,
+            "endTime": 69.95925000309944,
+            "duration": 0.3859580010175705
         },
         "ui": {
             "path": "ui",
-            "startTime": 68.41812498867512,
-            "endTime": 68.47545799612999,
-            "duration": 0.05733300745487213
+            "startTime": 70.01450000703335,
+            "endTime": 70.06341700255871,
+            "duration": 0.04891699552536011
         },
         "elements": {
             "path": "elements",
-            "startTime": 68.5321249961853,
-            "endTime": 68.65916599333286,
-            "duration": 0.12704099714756012
+            "startTime": 70.12020801007748,
+            "endTime": 70.24754200875759,
+            "duration": 0.12733399868011475
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 68.69233299791813,
-            "endTime": 68.71841599047184,
-            "duration": 0.026082992553710938
+            "startTime": 70.28066700696945,
+            "endTime": 70.30616700649261,
+            "duration": 0.025499999523162842
         },
         "components": {
             "path": "components",
-            "startTime": 69.20191599428654,
-            "endTime": 69.7659579962492,
-            "duration": 0.5640420019626617
+            "startTime": 70.80175000429153,
+            "endTime": 71.3592500090599,
+            "duration": 0.5575000047683716
         },
         "styles": {
             "path": "styles",
-            "startTime": 69.89000000059605,
-            "endTime": 69.97004099190235,
-            "duration": 0.08004099130630493
+            "startTime": 71.49012500047684,
+            "endTime": 71.56833299994469,
+            "duration": 0.07820799946784973
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 70.01279099285603,
-            "endTime": 70.03704099357128,
-            "duration": 0.024250000715255737
+            "startTime": 71.61295799911022,
+            "endTime": 71.63487499952316,
+            "duration": 0.02191700041294098
         },
         "startup": {
             "path": "startup",
-            "startTime": 70.19662499427795,
-            "endTime": 70.243915989995,
-            "duration": 0.047290995717048645
+            "startTime": 71.79916700720787,
+            "endTime": 71.84641700983047,
+            "duration": 0.04725000262260437
         }
     },
-    "totalDuration": 2.1557879894971848,
+    "totalDuration": 2.1741680055856705,
     "durationUnit": "ms"
 }
 ```

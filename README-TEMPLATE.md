@@ -322,7 +322,7 @@ config.a = 2; // change is applied
 
 ### Config aliases
 
-The `configAlias` option takes a string or array of string specifying alternative words to be used to reference config. Config aliases are also injected into each module automatically. By default, config is automatically aliased to `constants`, since config should not change once injected. 
+The `configAlias` option takes a string or array of string specifying alternative names for config. Config aliases are also injected into each module automatically. By default, config is automatically aliased to `constants`, since config should not change once injected. 
 
 #### Default alias
 
@@ -499,16 +499,16 @@ Pretty cool, huh!
 
 ### `module-alias`: Reference modules with alternative names
 
-In the following examples, `_` is a reference to `util`:
+The `moduleAlias` option takes a string or array of string specifying alternative names for a module.
+
+In the following example, `_` is a reference to `util`:
 
 ```js
 const { compose } = composer(modules};
 const { util, _ } = compose('util', { dep1, dep2 }, { moduleAlias: '_' });
-```
 
-Or
+// or
 
-```js
 const { compose } = composer(modules, { moduleAlias: { util: '_' } }};
 const { util, _ } = compose('util', { dep1, dep2 });
 ```
