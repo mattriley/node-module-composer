@@ -241,6 +241,26 @@ Recommended reading:
 
 - [Pure-Impure Segregation Principle](https://tyrrrz.me/blog/pure-impure-segregation-principle) — Oleksii Holub
 
+## Self referencing
+
+Module functions can reference others functions in the same module either by name, or by the special alias `self`.
+
+```js
+const modules = {
+    foobar: {
+        fun1: ({ foobar }) => () => foobar.fun2(),
+        fun2: ({ self }) => () => self.fun3(),
+        fun3: () => () => 'Hello World'
+    }
+};
+
+const { compose } = composer(modules);
+const { foobar } = compose('foobar');
+foobar.fun1(); // Returns "Hello World"
+```
+
+
+
 ## Application configuration
 
 Module Composer provides convenient utility functions for managing application configuration.
