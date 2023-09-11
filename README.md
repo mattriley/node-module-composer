@@ -592,21 +592,20 @@ The `privatePrefix` and `publicPrefix` options take a string specifying a prefix
 Typically only one prefix is required, since any unprefixed functions will assume the opposite. If both prefixes are used, unprefixed default to private.
 
 ```js
-const foo = {
-    public: ({ self }) => () => { /* self.private is accessible */ },
-    _private: ({ self }) => () => { /* self.public is accessible */ }
+const modules = {
+    foo: {
+        public: ({ foo }) => () => { /* ✅ foo.private */ },
+        _private: ({ foo }) => () => { /* ✅ foo.public */ }
+    },
+    bar: {
+        $public: ({ foo, bar }) => () => { /* ❌ foo.private, ✅ bar.private */ },
+        private: ({ foo, bar }) => () => { /* ✅ foo.public, ✅ bar.public */ }
+    }
 };
 
-const bar = {
-    $public: ({ self }) => () => { /* self.private is accessible */ },
-    private: ({ self }) => () => { /* self.public is accessible */ }
-};
-
-
-const { compose } = composer({ foobar });
-const { foo } = compose('foo');
-const { bar } = compose('bar');
-// In both cases, function "public" is accessible, while "private" is NOT accessible
+const { compose } = composer(modules);
+const { foo } = compose('foo'); // ✅ foo.public, ❌ foo.private
+const { bar } = compose('bar', { foo }); // ✅ bar.public, ❌ bar.private
 ```
 
 ### `eject`: Opt out of Module Composer
@@ -669,78 +668,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 66.9833750128746,
-            "endTime": 67.45595800876617,
-            "duration": 0.47258299589157104
+            "startTime": 67.27458301186562,
+            "endTime": 67.75145801901817,
+            "duration": 0.4768750071525574
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 67.57029101252556,
-            "endTime": 67.64416599273682,
-            "duration": 0.07387498021125793
+            "startTime": 67.86537501215935,
+            "endTime": 67.93900001049042,
+            "duration": 0.07362499833106995
         },
         "core": {
             "path": "core",
-            "startTime": 68.31854099035263,
-            "endTime": 68.54583299160004,
-            "duration": 0.227292001247406
+            "startTime": 68.62483301758766,
+            "endTime": 68.84950000047684,
+            "duration": 0.22466698288917542
         },
         "io": {
             "path": "io",
-            "startTime": 68.58970800042152,
-            "endTime": 68.7039999961853,
-            "duration": 0.11429199576377869
+            "startTime": 68.89545801281929,
+            "endTime": 69.01000002026558,
+            "duration": 0.11454200744628906
         },
         "services": {
             "path": "services",
-            "startTime": 68.99420800805092,
-            "endTime": 69.37799999117851,
-            "duration": 0.383791983127594
+            "startTime": 69.32045802474022,
+            "endTime": 69.70416602492332,
+            "duration": 0.38370800018310547
         },
         "ui": {
             "path": "ui",
-            "startTime": 69.44383299350739,
-            "endTime": 69.49300000071526,
-            "duration": 0.04916700720787048
+            "startTime": 69.75912502408028,
+            "endTime": 69.80908301472664,
+            "duration": 0.049957990646362305
         },
         "elements": {
             "path": "elements",
-            "startTime": 69.54458299279213,
-            "endTime": 69.6721659898758,
-            "duration": 0.12758299708366394
+            "startTime": 69.86020800471306,
+            "endTime": 69.98512500524521,
+            "duration": 0.12491700053215027
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 69.70491600036621,
-            "endTime": 69.73062500357628,
-            "duration": 0.02570900321006775
+            "startTime": 70.01795801520348,
+            "endTime": 70.043791025877,
+            "duration": 0.02583301067352295
         },
         "components": {
             "path": "components",
-            "startTime": 70.22937500476837,
-            "endTime": 70.80370798707008,
-            "duration": 0.574332982301712
+            "startTime": 70.53479102253914,
+            "endTime": 71.1158330142498,
+            "duration": 0.5810419917106628
         },
         "styles": {
             "path": "styles",
-            "startTime": 70.93004101514816,
-            "endTime": 71.00841599702835,
-            "duration": 0.07837498188018799
+            "startTime": 71.24833300709724,
+            "endTime": 71.32820799946785,
+            "duration": 0.07987499237060547
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 71.05141600966454,
-            "endTime": 71.07558301091194,
-            "duration": 0.024167001247406006
+            "startTime": 71.37033301591873,
+            "endTime": 71.39387500286102,
+            "duration": 0.02354198694229126
         },
         "startup": {
             "path": "startup",
-            "startTime": 71.23216599225998,
-            "endTime": 71.29304099082947,
-            "duration": 0.060874998569488525
+            "startTime": 71.55850002169609,
+            "endTime": 71.60933300852776,
+            "duration": 0.05083298683166504
         }
     },
-    "totalDuration": 2.2120429277420044,
+    "totalDuration": 2.2094169557094574,
     "durationUnit": "ms"
 }
 ```

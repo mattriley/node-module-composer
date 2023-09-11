@@ -546,21 +546,20 @@ The `privatePrefix` and `publicPrefix` options take a string specifying a prefix
 Typically only one prefix is required, since any unprefixed functions will assume the opposite. If both prefixes are used, unprefixed default to private.
 
 ```js
-const foo = {
-    public: ({ self }) => () => { /* self.private is accessible */ },
-    _private: ({ self }) => () => { /* self.public is accessible */ }
+const modules = {
+    foo: {
+        public: ({ foo }) => () => { /* ✅ foo.private */ },
+        _private: ({ foo }) => () => { /* ✅ foo.public */ }
+    },
+    bar: {
+        $public: ({ foo, bar }) => () => { /* ❌ foo.private, ✅ bar.private */ },
+        private: ({ foo, bar }) => () => { /* ✅ foo.public, ✅ bar.public */ }
+    }
 };
 
-const bar = {
-    $public: ({ self }) => () => { /* self.private is accessible */ },
-    private: ({ self }) => () => { /* self.public is accessible */ }
-};
-
-
-const { compose } = composer({ foobar });
-const { foo } = compose('foo');
-const { bar } = compose('bar');
-// In both cases, function "public" is accessible, while "private" is NOT accessible
+const { compose } = composer(modules);
+const { foo } = compose('foo'); // ✅ foo.public, ❌ foo.private
+const { bar } = compose('bar', { foo }); // ✅ bar.public, ❌ bar.private
 ```
 
 ### `eject`: Opt out of Module Composer
