@@ -15,8 +15,21 @@ const precompose = session => ({ path, target, options }) => {
     const anyPublic = !!markedPublicPaths.length;
     const anyPrivate = !!markedPrivatePaths.length;
 
-    const [publicView] = anyPublic ? getView(publicPrefix, key => key.startsWith(publicPrefix)) : anyPrivate ? getView(privatePrefix, key => !key.startsWith(privatePrefix)) : getView(publicPrefix, () => true);
-    const [privateView, privatePaths] = anyPrivate ? getView(privatePrefix, key => key.startsWith(privatePrefix)) : anyPublic ? getView(publicPrefix, key => !key.startsWith(publicPrefix)) : getView(privatePrefix, () => false);
+    const [publicView] =
+        anyPublic ?
+            getView(publicPrefix, key => key.startsWith(publicPrefix)) :
+            anyPrivate ?
+                getView(privatePrefix, key => !key.startsWith(privatePrefix)) :
+                getView(publicPrefix, () => true);
+
+    const [privateView, privatePaths] =
+        anyPrivate && anyPublic ?
+            getView(privatePrefix, key => key.startsWith(privatePrefix) || !key.startsWith(publicPrefix)) :
+            anyPrivate ?
+                getView(privatePrefix, key => key.startsWith(privatePrefix)) :
+                anyPublic ?
+                    getView(publicPrefix, key => !key.startsWith(publicPrefix)) :
+                    getView(privatePrefix, () => false);
 
     session.setState({ [path]: { privatePaths } });
 

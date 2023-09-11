@@ -82,4 +82,20 @@ module.exports = ({ test, assert }) => composer => {
         assert.equal(mod.sub.fun4, undefined);
     });
 
+    test('private, public and unspecified', () => {
+        const target = {
+            mod: {
+                $fun1: ({ mod }) => () => mod.fun2(),
+                _fun2: ({ mod }) => () => mod.fun3(),
+                fun3: () => () => 1
+            }
+        };
+        const { compose } = composer(target);
+        const { mod } = compose.deep('mod', {});
+        assert.deepEqual(mod.fun1(), 1);
+        assert.notEqual(mod.fun1, undefined);
+        assert.equal(mod.fun2, undefined);
+        assert.equal(mod.fun3, undefined);
+    });
+
 };
