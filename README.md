@@ -1,6 +1,6 @@
 # Module Composer
 
-<p align="right"><code>100% cov</code>&nbsp;<code>358 sloc</code>&nbsp;<code>15 files</code>&nbsp;<code>1 deps</code>&nbsp;<code>13 dev deps</code></p>
+<p align="right"><code>100% cov</code>&nbsp;<code>374 sloc</code>&nbsp;<code>15 files</code>&nbsp;<code>1 deps</code>&nbsp;<code>13 dev deps</code></p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
@@ -32,6 +32,7 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
   - [`mermaid`: Generate dependency diagrams](#mermaid-generate-dependency-diagrams)
   - [`module-alias`: Reference *modules* with alternative names](#module-alias-reference-modules-with-alternative-names)
   - [`function-alias`: Reference *functions* with alternative names](#function-alias-reference-functions-with-alternative-names)
+  - [`access-modifiers`: True public/private module functions](#access-modifiers-true-publicprivate-module-functions)
   - [`eject`: Opt out of Module Composer](#eject-opt-out-of-module-composer)
   - [`perf`: Meaure composition performance](#perf-meaure-composition-performance)
 - [Advanced example: Agile Avatars](#advanced-example-agile-avatars)
@@ -584,6 +585,42 @@ const { foobar } = compose('foobar', { dep1, dep2 });
 const { getValue, getVal } = foobar;
 ```
 
+### `access-modifiers`: True public/private module functions
+
+Module Composer can create alternate views for a module for external (public) or internal (private) use. This is achieved by naming functions with a prefix. The options `privatePrefix` (default `_`) and `publicPrefix` (default `$`) can be used to customise prefixes. The prefixes are removed from the final result.
+
+Rules:
+- If function with neither `privatePrefix` or `publicPrefix` exist, other functions are considered **public**
+- If functions with only `privatePrefix` exist, other functions are considered **public**
+- If functions with only `publicPrefix` exist, other functions are considered **private**
+- If functions with both `privatePrefix` and `publicPrefix` exist, other functions are considered **private**
+
+Example illustrating private:
+
+```js
+const foobar = {
+    _private: ({ public }) => () => 1,
+    public: ({ private }) => () => 2
+};
+
+const { compose } = composer({ foobar });
+const { foobar } = compose('foobar');
+const { public } = foobar;
+```
+
+Example illustrating public:
+
+```js
+const foobar = {
+    private: ({ public }) => () => 1,
+    $public: ({ private }) => () => 2
+};
+
+const { compose } = composer({ foobar });
+const { foobar } = compose('foobar');
+const { public } = foobar;
+```
+
 ### `eject`: Opt out of Module Composer
 
 Module Composer can be _ejected_ by generating the equivalent vanilla JavaScript code. Well, that's the vision anyway! The current implementation has some limitations. Please raise an issue if you'd like to see this developed further.
@@ -644,78 +681,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 65.91120800375938,
-            "endTime": 66.38037499785423,
-            "duration": 0.46916699409484863
+            "startTime": 66.05362498760223,
+            "endTime": 66.546541005373,
+            "duration": 0.4929160177707672
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 66.49074999988079,
-            "endTime": 66.56395800411701,
-            "duration": 0.07320800423622131
+            "startTime": 66.66949999332428,
+            "endTime": 66.74724999070168,
+            "duration": 0.07774999737739563
         },
         "core": {
             "path": "core",
-            "startTime": 67.23450000584126,
-            "endTime": 67.4547079950571,
-            "duration": 0.22020798921585083
+            "startTime": 67.41295799612999,
+            "endTime": 67.63124999403954,
+            "duration": 0.2182919979095459
         },
         "io": {
             "path": "io",
-            "startTime": 67.50062499940395,
-            "endTime": 67.61249999701977,
-            "duration": 0.11187499761581421
+            "startTime": 67.67649999260902,
+            "endTime": 67.79695799946785,
+            "duration": 0.12045800685882568
         },
         "services": {
             "path": "services",
-            "startTime": 67.90687499940395,
-            "endTime": 68.30529199540615,
-            "duration": 0.39841699600219727
+            "startTime": 68.09674999117851,
+            "endTime": 68.4784579873085,
+            "duration": 0.3817079961299896
         },
         "ui": {
             "path": "ui",
-            "startTime": 68.36287499964237,
-            "endTime": 68.41220800578594,
-            "duration": 0.049333006143569946
+            "startTime": 68.53549998998642,
+            "endTime": 68.58491599559784,
+            "duration": 0.04941600561141968
         },
         "elements": {
             "path": "elements",
-            "startTime": 68.46329200267792,
-            "endTime": 68.58804200589657,
-            "duration": 0.12475000321865082
+            "startTime": 68.63654100894928,
+            "endTime": 68.76641601324081,
+            "duration": 0.12987500429153442
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 68.62129199504852,
-            "endTime": 68.64729200303555,
-            "duration": 0.0260000079870224
+            "startTime": 68.79958298802376,
+            "endTime": 68.82574999332428,
+            "duration": 0.02616700530052185
         },
         "components": {
             "path": "components",
-            "startTime": 69.1324580013752,
-            "endTime": 69.70229199528694,
-            "duration": 0.5698339939117432
+            "startTime": 69.32404100894928,
+            "endTime": 69.8904159963131,
+            "duration": 0.5663749873638153
         },
         "styles": {
             "path": "styles",
-            "startTime": 69.83379200100899,
-            "endTime": 69.91066700220108,
-            "duration": 0.0768750011920929
+            "startTime": 70.01654100418091,
+            "endTime": 70.09679099917412,
+            "duration": 0.08024999499320984
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 69.95575000345707,
-            "endTime": 69.98025000095367,
-            "duration": 0.02449999749660492
+            "startTime": 70.13983300328255,
+            "endTime": 70.16220799088478,
+            "duration": 0.022374987602233887
         },
         "startup": {
             "path": "startup",
-            "startTime": 70.14425000548363,
-            "endTime": 70.19687500596046,
-            "duration": 0.05262500047683716
+            "startTime": 70.32291600108147,
+            "endTime": 70.37187498807907,
+            "duration": 0.04895898699760437
         }
     },
-    "totalDuration": 2.1967919915914536,
+    "totalDuration": 2.2145409882068634,
     "durationUnit": "ms"
 }
 ```

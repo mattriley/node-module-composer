@@ -9,7 +9,7 @@ module.exports = ({ test, assert }) => composer => {
                 fun2: ({ mod }) => () => mod.sub.fun3(),
                 sub: {
                     fun3: ({ mod }) => () => mod.sub.fun4(),
-                    fun4: () => () => 1,
+                    fun4: () => () => 1
                 }
             }
         };
@@ -29,7 +29,7 @@ module.exports = ({ test, assert }) => composer => {
                 _fun2: ({ mod }) => () => mod.sub.fun3(),
                 sub: {
                     fun3: ({ mod }) => () => mod.sub.fun4(),
-                    _fun4: () => () => 1,
+                    _fun4: () => () => 1
                 }
             }
         };
@@ -49,7 +49,7 @@ module.exports = ({ test, assert }) => composer => {
                 fun2: ({ mod }) => () => mod.sub.fun3(),
                 sub: {
                     $fun3: ({ mod }) => () => mod.sub.fun4(),
-                    fun4: () => () => 1,
+                    fun4: () => () => 1
                 }
             }
         };
@@ -69,7 +69,7 @@ module.exports = ({ test, assert }) => composer => {
                 _fun2: ({ mod }) => () => mod.sub.fun3(),
                 sub: {
                     $fun3: ({ mod }) => () => mod.sub.fun4(),
-                    _fun4: () => () => 1,
+                    _fun4: () => () => 1
                 }
             }
         };
