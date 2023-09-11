@@ -32,7 +32,7 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
   - [`mermaid`: Generate dependency diagrams](#mermaid-generate-dependency-diagrams)
   - [`module-alias`: Reference *modules* with alternative names](#module-alias-reference-modules-with-alternative-names)
   - [`function-alias`: Reference *functions* with alternative names](#function-alias-reference-functions-with-alternative-names)
-  - [`access-modifiers`: True public/private module functions](#access-modifiers-true-publicprivate-module-functions)
+  - [`access-modifiers`: True public and private functions](#access-modifiers-true-public-and-private-functions)
   - [`eject`: Opt out of Module Composer](#eject-opt-out-of-module-composer)
   - [`perf`: Meaure composition performance](#perf-meaure-composition-performance)
 - [Advanced example: Agile Avatars](#advanced-example-agile-avatars)
@@ -585,40 +585,28 @@ const { foobar } = compose('foobar', { dep1, dep2 });
 const { getValue, getVal } = foobar;
 ```
 
-### `access-modifiers`: True public/private module functions
+### `access-modifiers`: True public and private functions
 
-Module Composer can create alternate views for a module for external (public) or internal (private) use. This is achieved by naming functions with a prefix. The options `privatePrefix` (default `_`) and `publicPrefix` (default `$`) can be used to customise prefixes. The prefixes are removed from the final result.
+The `privatePrefix` and `publicPrefix` options take a string specifying a prefix used to determine whether a function should be considered private or public. By default, these are set to `_` and `$` respectively. The prefixes are stripped from the final result.
 
-Rules:
-- If function with neither `privatePrefix` or `publicPrefix` exist, other functions are considered **public**
-- If functions with only `privatePrefix` exist, other functions are considered **public**
-- If functions with only `publicPrefix` exist, other functions are considered **private**
-- If functions with both `privatePrefix` and `publicPrefix` exist, other functions are considered **private**
-
-Example illustrating private:
+Typically only one prefix is required, since any unprefixed functions will assume the opposite. If both prefixes are used, unprefixed default to private.
 
 ```js
-const foobar = {
-    _private: ({ public }) => () => 1,
-    public: ({ private }) => () => 2
+const foo = {
+    public: ({ self }) => () => { /* self.private is accessible */ },
+    _private: ({ self }) => () => { /* self.public is accessible */ }
 };
 
-const { compose } = composer({ foobar });
-const { foobar } = compose('foobar');
-const { public } = foobar;
-```
-
-Example illustrating public:
-
-```js
-const foobar = {
-    private: ({ public }) => () => 1,
-    $public: ({ private }) => () => 2
+const bar = {
+    $public: ({ self }) => () => { /* self.private is accessible */ },
+    private: ({ self }) => () => { /* self.public is accessible */ }
 };
 
+
 const { compose } = composer({ foobar });
-const { foobar } = compose('foobar');
-const { public } = foobar;
+const { foo } = compose('foo');
+const { bar } = compose('bar');
+// In both cases, function "public" is accessible, while "private" is NOT accessible
 ```
 
 ### `eject`: Opt out of Module Composer
@@ -681,78 +669,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 66.05362498760223,
-            "endTime": 66.546541005373,
-            "duration": 0.4929160177707672
+            "startTime": 66.9833750128746,
+            "endTime": 67.45595800876617,
+            "duration": 0.47258299589157104
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 66.66949999332428,
-            "endTime": 66.74724999070168,
-            "duration": 0.07774999737739563
+            "startTime": 67.57029101252556,
+            "endTime": 67.64416599273682,
+            "duration": 0.07387498021125793
         },
         "core": {
             "path": "core",
-            "startTime": 67.41295799612999,
-            "endTime": 67.63124999403954,
-            "duration": 0.2182919979095459
+            "startTime": 68.31854099035263,
+            "endTime": 68.54583299160004,
+            "duration": 0.227292001247406
         },
         "io": {
             "path": "io",
-            "startTime": 67.67649999260902,
-            "endTime": 67.79695799946785,
-            "duration": 0.12045800685882568
+            "startTime": 68.58970800042152,
+            "endTime": 68.7039999961853,
+            "duration": 0.11429199576377869
         },
         "services": {
             "path": "services",
-            "startTime": 68.09674999117851,
-            "endTime": 68.4784579873085,
-            "duration": 0.3817079961299896
+            "startTime": 68.99420800805092,
+            "endTime": 69.37799999117851,
+            "duration": 0.383791983127594
         },
         "ui": {
             "path": "ui",
-            "startTime": 68.53549998998642,
-            "endTime": 68.58491599559784,
-            "duration": 0.04941600561141968
+            "startTime": 69.44383299350739,
+            "endTime": 69.49300000071526,
+            "duration": 0.04916700720787048
         },
         "elements": {
             "path": "elements",
-            "startTime": 68.63654100894928,
-            "endTime": 68.76641601324081,
-            "duration": 0.12987500429153442
+            "startTime": 69.54458299279213,
+            "endTime": 69.6721659898758,
+            "duration": 0.12758299708366394
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 68.79958298802376,
-            "endTime": 68.82574999332428,
-            "duration": 0.02616700530052185
+            "startTime": 69.70491600036621,
+            "endTime": 69.73062500357628,
+            "duration": 0.02570900321006775
         },
         "components": {
             "path": "components",
-            "startTime": 69.32404100894928,
-            "endTime": 69.8904159963131,
-            "duration": 0.5663749873638153
+            "startTime": 70.22937500476837,
+            "endTime": 70.80370798707008,
+            "duration": 0.574332982301712
         },
         "styles": {
             "path": "styles",
-            "startTime": 70.01654100418091,
-            "endTime": 70.09679099917412,
-            "duration": 0.08024999499320984
+            "startTime": 70.93004101514816,
+            "endTime": 71.00841599702835,
+            "duration": 0.07837498188018799
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 70.13983300328255,
-            "endTime": 70.16220799088478,
-            "duration": 0.022374987602233887
+            "startTime": 71.05141600966454,
+            "endTime": 71.07558301091194,
+            "duration": 0.024167001247406006
         },
         "startup": {
             "path": "startup",
-            "startTime": 70.32291600108147,
-            "endTime": 70.37187498807907,
-            "duration": 0.04895898699760437
+            "startTime": 71.23216599225998,
+            "endTime": 71.29304099082947,
+            "duration": 0.060874998569488525
         }
     },
-    "totalDuration": 2.2145409882068634,
+    "totalDuration": 2.2120429277420044,
     "durationUnit": "ms"
 }
 ```

@@ -539,40 +539,28 @@ const { foobar } = compose('foobar', { dep1, dep2 });
 const { getValue, getVal } = foobar;
 ```
 
-### `access-modifiers`: True public/private module functions
+### `access-modifiers`: True public and private functions
 
-Module Composer can create alternate views for a module for external (public) or internal (private) use. This is achieved by naming functions with a prefix. The options `privatePrefix` (default `_`) and `publicPrefix` (default `$`) can be used to customise prefixes. The prefixes are removed from the final result.
+The `privatePrefix` and `publicPrefix` options take a string specifying a prefix used to determine whether a function should be considered private or public. By default, these are set to `_` and `$` respectively. The prefixes are stripped from the final result.
 
-Rules:
-- If function with neither `privatePrefix` or `publicPrefix` exist, other functions are considered **public**
-- If functions with only `privatePrefix` exist, other functions are considered **public**
-- If functions with only `publicPrefix` exist, other functions are considered **private**
-- If functions with both `privatePrefix` and `publicPrefix` exist, other functions are considered **private**
-
-Example illustrating private:
+Typically only one prefix is required, since any unprefixed functions will assume the opposite. If both prefixes are used, unprefixed default to private.
 
 ```js
-const foobar = {
-    _private: ({ public }) => () => 1,
-    public: ({ private }) => () => 2
+const foo = {
+    public: ({ self }) => () => { /* self.private is accessible */ },
+    _private: ({ self }) => () => { /* self.public is accessible */ }
 };
 
-const { compose } = composer({ foobar });
-const { foobar } = compose('foobar');
-const { public } = foobar;
-```
-
-Example illustrating public:
-
-```js
-const foobar = {
-    private: ({ public }) => () => 1,
-    $public: ({ private }) => () => 2
+const bar = {
+    $public: ({ self }) => () => { /* self.private is accessible */ },
+    private: ({ self }) => () => { /* self.public is accessible */ }
 };
 
+
 const { compose } = composer({ foobar });
-const { foobar } = compose('foobar');
-const { public } = foobar;
+const { foo } = compose('foo');
+const { bar } = compose('bar');
+// In both cases, function "public" is accessible, while "private" is NOT accessible
 ```
 
 ### `eject`: Opt out of Module Composer
