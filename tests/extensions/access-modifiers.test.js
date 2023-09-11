@@ -2,44 +2,24 @@ module.exports = ({ test, assert }) => composer => {
 
     require('module-composer/extensions/access-modifiers');
 
-    test('privates are accessible internally without prefix', () => {
+    test('private and unspecified', () => {
         const target = {
             mod: {
-                _fun1: () => () => 1,
-                fun2: ({ mod }) => () => mod.fun1()
-            }
-        };
-        const { compose } = composer(target);
-        const { mod } = compose('mod', {});
-        assert.deepEqual(mod.fun2(), 1);
-    });
-
-    test('privates are are accessible internally deeply without prefix', () => {
-        const target = {
-            mod: {
+                fun1: ({ mod }) => () => mod.fun2(),
+                _fun2: ({ mod }) => () => mod.sub.fun3(),
                 sub: {
-                    _fun1: () => () => 1,
-                    fun2: ({ mod }) => () => mod.sub.fun1()
+                    fun3: ({ mod }) => () => mod.sub.fun4(),
+                    _fun4: () => () => 1,
                 }
             }
         };
         const { compose } = composer(target);
         const { mod } = compose.deep('mod', {});
-        assert.deepEqual(mod.sub.fun2(), 1);
-    });
-
-    test('privates are not accessible externally neither with or without prefix', () => {
-        const target = {
-            mod: {
-                _fun1: () => () => 1,
-                fun2: () => () => 2
-            }
-        };
-        const { compose } = composer(target);
-        const { mod } = compose('mod', {});
-        assert.deepEqual(mod._fun1, undefined);
-        assert.deepEqual(mod.fun1, undefined);
-        assert.equal(mod, compose.modules.mod);
+        assert.deepEqual(mod.fun1(), 1);
+        assert.notEqual(mod.fun1, undefined);
+        assert.equal(mod.fun2, undefined);
+        assert.notEqual(mod.sub.fun3, undefined);
+        assert.equal(mod.sub.fun4, undefined);
     });
 
     test('accessibility of publics', () => {
