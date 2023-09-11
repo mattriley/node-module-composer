@@ -548,7 +548,7 @@ Typically only one prefix is required, since any unprefixed functions will assum
 ```js
 const modules = {
     foo: {
-        public: ({ foo }) => () =>   { /* ✅ foo.private */ },
+        public:   ({ foo }) => () => { /* ✅ foo.private */ },
         _private: ({ foo }) => () => { /* ✅ foo.public  */ }
     },
     bar: {
