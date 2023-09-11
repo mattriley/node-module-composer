@@ -294,16 +294,32 @@ const modules = {
     foobar: {
         fun1: ({ foobar }) => () => foobar.fun2(),
         fun2: ({ self }) => () => self.fun3(),
-        fun3: () => () => 'Hello World'
+        fun3: () => () => 'hello world'
     }
 };
 
 const { compose } = composer(modules);
 const { foobar } = compose('foobar');
-foobar.fun1(); // Returns "Hello World"
+foobar.fun1(); // == "hello world"
 ```
 
+In the case of deep modules, `here` is a reference to the current level in the object hierarchy.
 
+```js
+const modules = {
+    foobar: {
+        fun1: ({ here }) => () => here.sub.fun2(),
+        sub: {
+            fun2: ({ here }) => () => here.fun3(),
+            fun3: () => () => 'hello world'
+        }
+    }
+};
+
+const { compose } = composer(modules);
+const { foobar } = compose.deep('foobar');
+foobar.fun1(); // == "hello world"
+```
 
 ## Application configuration
 
@@ -689,78 +705,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 65.07291600108147,
-            "endTime": 65.55287501215935,
-            "duration": 0.47995901107788086
+            "startTime": 66.73533299565315,
+            "endTime": 67.19641700387001,
+            "duration": 0.4610840082168579
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 65.66850000619888,
-            "endTime": 65.74583300948143,
-            "duration": 0.077333003282547
+            "startTime": 67.30633300542831,
+            "endTime": 67.38199999928474,
+            "duration": 0.07566699385643005
         },
         "core": {
             "path": "core",
-            "startTime": 66.47699999809265,
-            "endTime": 66.71004101634026,
-            "duration": 0.23304101824760437
+            "startTime": 68.05662497878075,
+            "endTime": 68.27266699075699,
+            "duration": 0.21604201197624207
         },
         "io": {
             "path": "io",
-            "startTime": 66.75737500190735,
-            "endTime": 66.88479101657867,
-            "duration": 0.12741601467132568
+            "startTime": 68.31579199433327,
+            "endTime": 68.42562499642372,
+            "duration": 0.1098330020904541
         },
         "services": {
             "path": "services",
-            "startTime": 67.20654100179672,
-            "endTime": 67.60066601634026,
-            "duration": 0.3941250145435333
+            "startTime": 68.72541698813438,
+            "endTime": 69.1001670062542,
+            "duration": 0.374750018119812
         },
         "ui": {
             "path": "ui",
-            "startTime": 67.66395801305771,
-            "endTime": 67.7166660130024,
-            "duration": 0.05270799994468689
+            "startTime": 69.15504199266434,
+            "endTime": 69.2035000026226,
+            "duration": 0.04845800995826721
         },
         "elements": {
             "path": "elements",
-            "startTime": 67.77404099702835,
-            "endTime": 67.90725001692772,
-            "duration": 0.1332090198993683
+            "startTime": 69.25483298301697,
+            "endTime": 69.3841669857502,
+            "duration": 0.1293340027332306
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 67.94095799326897,
-            "endTime": 67.97162500023842,
-            "duration": 0.030667006969451904
+            "startTime": 69.41720798611641,
+            "endTime": 69.44341698288918,
+            "duration": 0.026208996772766113
         },
         "components": {
             "path": "components",
-            "startTime": 68.51466602087021,
-            "endTime": 69.17875000834465,
-            "duration": 0.6640839874744415
+            "startTime": 69.93895798921585,
+            "endTime": 70.49545800685883,
+            "duration": 0.5565000176429749
         },
         "styles": {
             "path": "styles",
-            "startTime": 69.31470799446106,
-            "endTime": 69.40049999952316,
-            "duration": 0.08579200506210327
+            "startTime": 70.6194169819355,
+            "endTime": 70.69999998807907,
+            "duration": 0.08058300614356995
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 69.44466599822044,
-            "endTime": 69.46966600418091,
-            "duration": 0.025000005960464478
+            "startTime": 70.74287497997284,
+            "endTime": 70.76725000143051,
+            "duration": 0.02437502145767212
         },
         "startup": {
             "path": "startup",
-            "startTime": 69.63654100894928,
-            "endTime": 69.68812501430511,
-            "duration": 0.05158400535583496
+            "startTime": 70.92779198288918,
+            "endTime": 70.97650000452995,
+            "duration": 0.04870802164077759
         }
     },
-    "totalDuration": 2.3549180924892426,
+    "totalDuration": 2.1515431106090546,
     "durationUnit": "ms"
 }
 ```

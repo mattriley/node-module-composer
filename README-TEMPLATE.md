@@ -250,16 +250,32 @@ const modules = {
     foobar: {
         fun1: ({ foobar }) => () => foobar.fun2(),
         fun2: ({ self }) => () => self.fun3(),
-        fun3: () => () => 'Hello World'
+        fun3: () => () => 'hello world'
     }
 };
 
 const { compose } = composer(modules);
 const { foobar } = compose('foobar');
-foobar.fun1(); // Returns "Hello World"
+foobar.fun1(); // == "hello world"
 ```
 
+In the case of deep modules, `here` is a reference to the current level in the object hierarchy.
 
+```js
+const modules = {
+    foobar: {
+        fun1: ({ here }) => () => here.sub.fun2(),
+        sub: {
+            fun2: ({ here }) => () => here.fun3(),
+            fun3: () => () => 'hello world'
+        }
+    }
+};
+
+const { compose } = composer(modules);
+const { foobar } = compose.deep('foobar');
+foobar.fun1(); // == "hello world"
+```
 
 ## Application configuration
 
