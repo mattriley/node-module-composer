@@ -548,17 +548,17 @@ Typically only one prefix is required, since any unprefixed functions will assum
 ```js
 const modules = {
     foo: {
-        public: ({ foo }) => () => { /* ✅ foo.private */ },
-        _private: ({ foo }) => () => { /* ✅ foo.public */ }
+        public: ({ foo }) => () =>   { /* ✅ foo.private */ },
+        _private: ({ foo }) => () => { /* ✅ foo.public  */ }
     },
     bar: {
         $public: ({ foo, bar }) => () => { /* ❌ foo.private, ✅ bar.private */ },
-        private: ({ foo, bar }) => () => { /* ✅ foo.public, ✅ bar.public */ }
+        private: ({ foo, bar }) => () => { /* ✅ foo.public,  ✅ bar.public  */ }
     }
 };
 
 const { compose } = composer(modules);
-const { foo } = compose('foo'); // ✅ foo.public, ❌ foo.private
+const { foo } = compose('foo');          // ✅ foo.public, ❌ foo.private
 const { bar } = compose('bar', { foo }); // ✅ bar.public, ❌ bar.private
 ```
 
