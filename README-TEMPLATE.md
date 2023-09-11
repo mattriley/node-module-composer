@@ -539,6 +539,42 @@ const { foobar } = compose('foobar', { dep1, dep2 });
 const { getValue, getVal } = foobar;
 ```
 
+### `access-modifiers`: True public/private module functions
+
+Module Composer can create alternate views for a module for external (public) or internal (private) use. This is achieved by naming functions with a prefix. The options `privatePrefix` (default `_`) and `publicPrefix` (default `$`) can be used to customise prefixes. The prefixes are removed from the final result.
+
+Rules:
+- If function with neither `privatePrefix` or `publicPrefix` exist, other functions are considered **public**
+- If functions with only `privatePrefix` exist, other functions are considered **public**
+- If functions with only `publicPrefix` exist, other functions are considered **private**
+- If functions with both `privatePrefix` and `publicPrefix` exist, other functions are considered **private**
+
+Example illustrating private:
+
+```js
+const foobar = {
+    _private: ({ public }) => () => 1,
+    public: ({ private }) => () => 2
+};
+
+const { compose } = composer({ foobar });
+const { foobar } = compose('foobar');
+const { public } = foobar;
+```
+
+Example illustrating public:
+
+```js
+const foobar = {
+    private: ({ public }) => () => 1,
+    $public: ({ private }) => () => 2
+};
+
+const { compose } = composer({ foobar });
+const { foobar } = compose('foobar');
+const { public } = foobar;
+```
+
 ### `eject`: Opt out of Module Composer
 
 Module Composer can be _ejected_ by generating the equivalent vanilla JavaScript code. Well, that's the vision anyway! The current implementation has some limitations. Please raise an issue if you'd like to see this developed further.
