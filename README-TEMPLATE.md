@@ -29,6 +29,316 @@ const { views } = compose();
 views.welcome.render(); 
 ```
 
+# API Reference
+
+## Composing modules
+
+### `compose.make` or just `compose`: Compose a module
+
+
+### `compose.deep`: Compose a deep module
+
+
+### `compose.flat`: Compose and flatten a module
+
+
+### `compose.asis`: Register an existing module
+
+
+## Self referencing
+
+Module functions can reference others functions in the same module either by name, or by the special alias `self`.
+
+```js
+const modules = {
+    foobar: {
+        fun1: ({ foobar }) => () => foobar.fun2(),
+        fun2: ({ self }) => () => self.fun3(),
+        fun3: () => () => 'hello world'
+    }
+};
+
+const { compose } = composer(modules);
+const { foobar } = compose('foobar');
+foobar.fun1(); // == "hello world"
+```
+
+In the case of deep modules, `here` is a reference to the current level in the object hierarchy.
+
+```js
+const modules = {
+    foobar: {
+        fun1: ({ here }) => () => here.sub.fun2(),
+        sub: {
+            fun2: ({ here }) => () => here.fun3(),
+            fun3: () => () => 'hello world'
+        }
+    }
+};
+
+const { compose } = composer(modules);
+const { foobar } = compose.deep('foobar');
+foobar.fun1(); // == "hello world"
+```
+
+## Overriding modules
+
+Module Composer provides an `overrides` option to override any part of the dependency graph:
+
+In the tests:
+
+```js
+const overrides = {
+    someHttpClient: {
+        post: () => {
+            return { status: 201 };
+        }
+    }
+};
+```
+
+In the composition:
+
+```js
+const { compose } = composer(modules, { overrides });
+```
+
+
+
+## Application configuration
+
+Module Composer provides convenient utility functions for managing application configuration.
+
+### `configure.merge` or just `configure`: Merge config objects
+
+`configure.merge`, or simply `configure` takes objects, arrays of objects, and functions and merges them in the order specified using [Lodash merge](https://lodash.com/docs#merge). Functions are invoked with the preceeding merged value as an argument, and the result takes the function's place in the merge sequence.  
+
+```js
+import { configure } from 'module-composer';
+
+const defaultConfig = { a: 1 };
+const userConfig = { b: 2 };
+const deriveConfig = config => ({ c: config.a + config.b });
+const config = configure(defaultConfig, userConfig, deriveConfig);
+// Result is { a: 1, b: 2, c: 3 }
+```
+
+### `configure.mergeWith`: Custom merge config objects
+
+`configure.mergeWith` applies a customiser function as the first argument using [Lodash mergeWith](https://lodash.com/docs/#mergeWith). The following example demonstrates array concatenation.
+
+```js
+import { configure } from 'module-composer';
+
+const customiser = (objValue, srcValue) => {
+    if (Array.isArray(objValue)) return objValue.concat(srcValue);
+};
+
+const defaultConfig = { arr: [1] };
+const userConfig = { arr: [2] };
+const config = configure.mergeWith(customiser, defaultConfig, userConfig);
+// config is { arr: [1, 2] }
+```
+
+### Configuration as an option
+
+Module Composer can also take configuration as an option with the same behaviour as `configure.merge`. This not only returns the resulting configuration but also injects it automatically into each composed module.
+
+```js
+import composer from 'module-composer';
+
+const defaultConfig = { a: 1 };
+const userConfig = { b: 2 };
+const deriveConfig = config => ({ c: config.a + config.b });
+const { compose, config } = composer(modules, { config: [defaultConfig, userConfig, deriveConfig] });
+// config is { a: 1, b: 2, c: 3 }
+const { mod } = compose('mod', { dep }); // config injected automatically
+```
+
+For added convienience, `defaultConfig` is also an option that will take precedence over `config`.
+
+```js
+import composer from 'module-composer';
+
+const defaultConfig = { a: 1 };
+const config = { b: 2 };
+const { compose, config } = composer(modules, { defaultConfig, config });
+// config is { a: 1, b: 2 }
+```
+
+### Freezing config
+
+To encourage immutability, configuration is frozen (deeply) to prevent modification. In effect, turning config into constants. This effect can be disabled with the `freezeConfig` option.
+
+#### Frozen config
+
+```js
+const { compose, config } = composer(modules, { config: { a: 1 } });
+config.a = 2; // has no effect
+```
+
+#### Unfrozen config
+
+```js
+const { compose, config } = composer(modules, { config: { a: 1 }, freezeConfig: false });
+config.a = 2; // change is applied
+```
+
+### Config aliases
+
+The `configAlias` option takes a string or array of string specifying alternative names for config. Config aliases are also injected into each module automatically. By default, config is automatically aliased to `constants`, since config should not change once injected. 
+
+#### Default alias
+
+```js
+const { compose, config, constants } = composer(modules, { config: { a: 1 } });
+// config and constants are the same object reference
+```
+
+#### Custom alias
+
+```js
+const { compose, config, settings } = composer(modules, { config: { a: 1 }, configAlias: 'settings' });
+// config and settings are the same object reference
+```
+
+
+## Extensions
+
+Module Composer features a number of built-in extensions.
+
+Extensions are enabled by default.
+
+To selectively enable extensions, import each extension from `module-composer/extensions/`, then import `module-composer/core`:
+
+Taking the `mermaid` extension as an example: 
+
+```js
+import 'module-composer/extensions/mermaid.js';
+import composer from 'module-composer/core';
+```
+
+### `mermaid`: Generate dependency diagrams
+
+A picture paints a thousand words. There's no better aid for reasoning about software design than a good old-fashioned dependency diagram.
+
+Module Composer supports Mermaid diagrams by generating *Mermaid* diagram-as-code syntax for a given composition.
+
+> Mermaid is a tool for creating diagrams and visualizations using text and code.<br/> https://mermaid-js.github.io • https://github.com/mermaid-js/mermaid
+
+Did you know that GitHub can render diagrams directly from Mermaid syntax?! See [Include diagrams in your Markdown files with Mermaid](https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/) for more information.
+
+Given the following composition:
+
+```js
+import composer from 'module-composer';
+import modules from './modules/index.js';
+
+export default () => {
+    const { compose } = composer(modules);
+    const { stores } = compose('stores');
+    const { services } = compose('services', { stores });
+    compose('components', { services });
+    return compose.modules;
+};
+```
+
+Use `compose.mermaid()` to generate the following Mermaid diagram-as-code:
+
+```
+graph TD;
+    components-->services;
+    services-->stores;
+```
+
+Which Mermaid renders as:
+
+```mermaid
+graph TD;
+    components-->services;
+    services-->stores;
+```
+
+Pretty cool, huh!
+
+### `module-alias`: Reference *modules* with alternative names
+
+The `moduleAlias` option takes a string or array of string specifying alternative names for a module.
+
+In the following examples, `fb` is an alias of `foobar`.
+
+As a `compose` option, applies to associated module:
+
+```js
+const { compose } = composer(modules};
+const { foobar, fb } = compose('foobar', { dep1, dep2 }, { moduleAlias: 'fb' });
+```
+
+As a `composer` option, applies to named module:
+
+```js
+const { compose } = composer(modules, { moduleAlias: { foobar: 'fb' } }};
+const { foobar, fb } = compose('foobar', { dep1, dep2 });
+```
+
+### `function-alias`: Reference *functions* with alternative names
+
+The `functionAlias` option takes an array of entries specifying patterns and replacements for any matching function.
+
+In the following examples, `getVal` is an alias of `getValue`.
+
+As a `compose` option, applies to associated module:
+
+```js
+const { compose } = composer(modules};
+const { foobar } = compose('foobar', { dep1, dep2 }, { functionAlias: [ [/Value$/, 'Val'] ] });
+const { getValue, getVal } = foobar;
+```
+
+As a `composer` option, applies to any module:
+
+```js
+const { compose } = composer(modules, { functionAlias: [ [/Value$/, 'Val'] ] });
+const { foobar } = compose('foobar', { dep1, dep2 });
+const { getValue, getVal } = foobar;
+```
+
+### `access-modifiers`: True public and private functions
+
+The `privatePrefix` and `publicPrefix` options take a string specifying a prefix used to determine whether a function should be considered private or public. By default, these are set to `_` and `$` respectively. The prefixes are stripped from the final result.
+
+Typically only one prefix is required, since any unprefixed functions will assume the opposite. If both prefixes are used, unprefixed default to private.
+
+```js
+const modules = {
+    foo: {
+        public:   ({ foo }) => () => { /* ✅ foo.private */ },
+        _private: ({ foo }) => () => { /* ✅ foo.public  */ }
+    },
+    bar: {
+        $public: ({ foo, bar }) => () => { /* ❌ foo.private, ✅ bar.private */ },
+        private: ({ foo, bar }) => () => { /* ✅ foo.public,  ✅ bar.public  */ }
+    }
+};
+
+const { compose } = composer(modules);
+const { foo } = compose('foo');          // ✅ foo.public, ❌ foo.private
+const { bar } = compose('bar', { foo }); // ✅ bar.public, ❌ bar.private
+```
+
+### `eject`: Opt out of Module Composer
+
+Module Composer can be _ejected_ by generating the equivalent vanilla JavaScript code. Well, that's the vision anyway! The current implementation has some limitations. Please raise an issue if you'd like to see this developed further.
+
+### `perf`: Meaure composition performance
+
+Module Composer is fast. In fact, so fast that it needs to be measured with sub-millisecond precision. Performance is measured by default for easy analysis.
+
+Use `compose.perf()` to see the total composition duration, and a break down of duration per module.
+
+
+# Why Module Composer?
+
 ## Background
 
 Why is it so common for JavaScript applications these days (backend _and_ frontend) to be organised and reasoned about in terms of scripts and files, and navigated via a convoluted maze of file imports?
@@ -241,139 +551,6 @@ Recommended reading:
 
 - [Pure-Impure Segregation Principle](https://tyrrrz.me/blog/pure-impure-segregation-principle) — Oleksii Holub
 
-## Self referencing
-
-Module functions can reference others functions in the same module either by name, or by the special alias `self`.
-
-```js
-const modules = {
-    foobar: {
-        fun1: ({ foobar }) => () => foobar.fun2(),
-        fun2: ({ self }) => () => self.fun3(),
-        fun3: () => () => 'hello world'
-    }
-};
-
-const { compose } = composer(modules);
-const { foobar } = compose('foobar');
-foobar.fun1(); // == "hello world"
-```
-
-In the case of deep modules, `here` is a reference to the current level in the object hierarchy.
-
-```js
-const modules = {
-    foobar: {
-        fun1: ({ here }) => () => here.sub.fun2(),
-        sub: {
-            fun2: ({ here }) => () => here.fun3(),
-            fun3: () => () => 'hello world'
-        }
-    }
-};
-
-const { compose } = composer(modules);
-const { foobar } = compose.deep('foobar');
-foobar.fun1(); // == "hello world"
-```
-
-## Application configuration
-
-Module Composer provides convenient utility functions for managing application configuration.
-
-### Merge configuration with the `configure.merge` function
-
-`configure.merge`, or simply `configure` takes objects, arrays of objects, and functions and merges them in the order specified using [Lodash merge](https://lodash.com/docs#merge). Functions are invoked with the preceeding merged value as an argument, and the result takes the function's place in the merge sequence.  
-
-```js
-import { configure } from 'module-composer';
-
-const defaultConfig = { a: 1 };
-const userConfig = { b: 2 };
-const deriveConfig = config => ({ c: config.a + config.b });
-const config = configure(defaultConfig, userConfig, deriveConfig);
-// Result is { a: 1, b: 2, c: 3 }
-```
-
-### Custom merging with the `configure.mergeWith` function
-
-`configure.mergeWith` applies a customiser function as the first argument using [Lodash mergeWith](https://lodash.com/docs/#mergeWith). The following example demonstrates array concatenation.
-
-```js
-import { configure } from 'module-composer';
-
-const customiser = (objValue, srcValue) => {
-    if (Array.isArray(objValue)) return objValue.concat(srcValue);
-};
-
-const defaultConfig = { arr: [1] };
-const userConfig = { arr: [2] };
-const config = configure.mergeWith(customiser, defaultConfig, userConfig);
-// config is { arr: [1, 2] }
-```
-
-### Configuration as an option
-
-Module Composer can also take configuration as an option with the same behaviour as `configure.merge`. This not only returns the resulting configuration but also injects it automatically into each composed module.
-
-```js
-import composer from 'module-composer';
-
-const defaultConfig = { a: 1 };
-const userConfig = { b: 2 };
-const deriveConfig = config => ({ c: config.a + config.b });
-const { compose, config } = composer(modules, { config: [defaultConfig, userConfig, deriveConfig] });
-// config is { a: 1, b: 2, c: 3 }
-const { mod } = compose('mod', { dep }); // config injected automatically
-```
-
-For added convienience, `defaultConfig` is also an option that will take precedence over `config`.
-
-```js
-import composer from 'module-composer';
-
-const defaultConfig = { a: 1 };
-const config = { b: 2 };
-const { compose, config } = composer(modules, { defaultConfig, config });
-// config is { a: 1, b: 2 }
-```
-
-### Freezing config
-
-To encourage immutability, configuration is frozen (deeply) to prevent modification. In effect, turning config into constants. This effect can be disabled with the `freezeConfig` option.
-
-#### Frozen config
-
-```js
-const { compose, config } = composer(modules, { config: { a: 1 } });
-config.a = 2; // has no effect
-```
-
-#### Unfrozen config
-
-```js
-const { compose, config } = composer(modules, { config: { a: 1 }, freezeConfig: false });
-config.a = 2; // change is applied
-```
-
-### Config aliases
-
-The `configAlias` option takes a string or array of string specifying alternative names for config. Config aliases are also injected into each module automatically. By default, config is automatically aliased to `constants`, since config should not change once injected. 
-
-#### Default alias
-
-```js
-const { compose, config, constants } = composer(modules, { config: { a: 1 } });
-// config and constants are the same object reference
-```
-
-#### Custom alias
-
-```js
-const { compose, config, settings } = composer(modules, { config: { a: 1 }, configAlias: 'settings' });
-// config and settings are the same object reference
-```
-
 ## Fitness functions
 
 Module Composer can describe the dependency graph to enable _fitness functions_ on coupling.
@@ -475,140 +652,7 @@ In the composition:
 const { compose } = composer(modules, { overrides });
 ```
 
-## Extensions
-
-Module Composer features a number of built-in extensions.
-
-Extensions are enabled by default.
-
-To selectively enable extensions, import each extension from `module-composer/extensions/`, then import `module-composer/core`:
-
-Taking the `mermaid` extension as an example: 
-
-```js
-import 'module-composer/extensions/mermaid.js';
-import composer from 'module-composer/core';
-```
-
-### `mermaid`: Generate dependency diagrams
-
-A picture paints a thousand words. There's no better aid for reasoning about software design than a good old-fashioned dependency diagram.
-
-Module Composer supports Mermaid diagrams by generating *Mermaid* diagram-as-code syntax for a given composition.
-
-> Mermaid is a tool for creating diagrams and visualizations using text and code.<br/> https://mermaid-js.github.io • https://github.com/mermaid-js/mermaid
-
-Did you know that GitHub can render diagrams directly from Mermaid syntax?! See [Include diagrams in your Markdown files with Mermaid](https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/) for more information.
-
-Given the following composition:
-
-```js
-import composer from 'module-composer';
-import modules from './modules/index.js';
-
-export default () => {
-    const { compose } = composer(modules);
-    const { stores } = compose('stores');
-    const { services } = compose('services', { stores });
-    compose('components', { services });
-    return compose.modules;
-};
-```
-
-Use `compose.mermaid()` to generate the following Mermaid diagram-as-code:
-
-```
-graph TD;
-    components-->services;
-    services-->stores;
-```
-
-Which Mermaid renders as:
-
-```mermaid
-graph TD;
-    components-->services;
-    services-->stores;
-```
-
-Pretty cool, huh!
-
-### `module-alias`: Reference *modules* with alternative names
-
-The `moduleAlias` option takes a string or array of string specifying alternative names for a module.
-
-In the following examples, `fb` is an alias of `foobar`.
-
-As a `compose` option, applies to associated module:
-
-```js
-const { compose } = composer(modules};
-const { foobar, fb } = compose('foobar', { dep1, dep2 }, { moduleAlias: 'fb' });
-```
-
-As a `composer` option, applies to named module:
-
-```js
-const { compose } = composer(modules, { moduleAlias: { foobar: 'fb' } }};
-const { foobar, fb } = compose('foobar', { dep1, dep2 });
-```
-
-### `function-alias`: Reference *functions* with alternative names
-
-The `functionAlias` option takes an array of entries specifying patterns and replacements for any matching function.
-
-In the following examples, `getVal` is an alias of `getValue`.
-
-As a `compose` option, applies to associated module:
-
-```js
-const { compose } = composer(modules};
-const { foobar } = compose('foobar', { dep1, dep2 }, { functionAlias: [ [/Value$/, 'Val'] ] });
-const { getValue, getVal } = foobar;
-```
-
-As a `composer` option, applies to any module:
-
-```js
-const { compose } = composer(modules, { functionAlias: [ [/Value$/, 'Val'] ] });
-const { foobar } = compose('foobar', { dep1, dep2 });
-const { getValue, getVal } = foobar;
-```
-
-### `access-modifiers`: True public and private functions
-
-The `privatePrefix` and `publicPrefix` options take a string specifying a prefix used to determine whether a function should be considered private or public. By default, these are set to `_` and `$` respectively. The prefixes are stripped from the final result.
-
-Typically only one prefix is required, since any unprefixed functions will assume the opposite. If both prefixes are used, unprefixed default to private.
-
-```js
-const modules = {
-    foo: {
-        public:   ({ foo }) => () => { /* ✅ foo.private */ },
-        _private: ({ foo }) => () => { /* ✅ foo.public  */ }
-    },
-    bar: {
-        $public: ({ foo, bar }) => () => { /* ❌ foo.private, ✅ bar.private */ },
-        private: ({ foo, bar }) => () => { /* ✅ foo.public,  ✅ bar.public  */ }
-    }
-};
-
-const { compose } = composer(modules);
-const { foo } = compose('foo');          // ✅ foo.public, ❌ foo.private
-const { bar } = compose('bar', { foo }); // ✅ bar.public, ❌ bar.private
-```
-
-### `eject`: Opt out of Module Composer
-
-Module Composer can be _ejected_ by generating the equivalent vanilla JavaScript code. Well, that's the vision anyway! The current implementation has some limitations. Please raise an issue if you'd like to see this developed further.
-
-### `perf`: Meaure composition performance
-
-Module Composer is fast. In fact, so fast that it needs to be measured with sub-millisecond precision. Performance is measured by default for easy analysis.
-
-Use `compose.perf()` to see the total composition duration, and a break down of duration per module.
-
-## Advanced example: Agile Avatars
+# Advanced example: Agile Avatars
 
 > Great looking avatars for your agile board and experiment in FRAMEWORK-LESS, vanilla JavaScript.<br/>
 https://agileavatars.com • https://github.com/mattriley/agile-avatars
