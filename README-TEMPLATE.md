@@ -35,9 +35,43 @@ views.welcome.render();
 
 ### `compose.make` or just `compose`: Compose a module
 
+```js
+const modules = {
+    mod1: {
+        fun1: ({ mod2 }) => () => mod2.fun2()
+    },
+    mod2: {
+        fun2: () => () => 'hello world'
+    }
+};
+
+const { compose } = composer(modules);
+const { mod1 } = compose('mod1');
+const { mod2 } = compose('mod2', { mod1 });
+mod1.fun1(); // == "hello world"
+```
 
 ### `compose.deep`: Compose a deep module
 
+```js
+const modules = {
+    mod1: {
+        sub: {
+            fun1: ({ mod2 }) => () => mod2.sub.fun2();
+        }
+    },
+    mod2: {
+        sub: {
+            fun2: () => () => 'hello world'
+        }
+    }
+};
+
+const { compose } = composer(modules);
+const { mod1 } = compose('mod1');
+const { mod2 } = compose('mod2', { mod1 });
+mod1.sub.fun1(); // == "hello world"
+```
 
 ### `compose.flat`: Compose and flatten a module
 
