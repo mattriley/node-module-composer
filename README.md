@@ -19,6 +19,8 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
     - [`compose.flat`: Compose and flatten a module](#composeflat-compose-and-flatten-a-module)
     - [`compose.asis`: Register an existing module](#composeasis-register-an-existing-module)
   - [Self referencing](#self-referencing)
+    - [`self`: Refer to the same module](#self-refer-to-the-same-module)
+    - [`here`: Refer to the same level](#here-refer-to-the-same-level)
   - [Overriding modules](#overriding-modules)
   - [Application configuration](#application-configuration)
     - [`configure.merge` or just `configure`: Merge config objects](#configuremerge-or-just-configure-merge-config-objects)
@@ -90,17 +92,17 @@ views.welcome.render();
 ```js
 const modules = {
     mod1: {
-        fun1: ({ mod2 }) => () => mod2.fun2()
+        fun1: () => () => 'hello world'
     },
     mod2: {
-        fun2: () => () => 'hello world'
+        fun2: ({ mod1 }) => () => mod1.fun1()
     }
 };
 
 const { compose } = composer(modules);
 const { mod1 } = compose('mod1');
 const { mod2 } = compose('mod2', { mod1 });
-mod1.fun1(); // == "hello world"
+mod2.fun2(); // == "hello world"
 ```
 
 ### `compose.deep`: Compose a deep module
@@ -108,32 +110,68 @@ mod1.fun1(); // == "hello world"
 ```js
 const modules = {
     mod1: {
-        sub: {
-            fun1: ({ mod2 }) => () => mod2.sub.fun2();
+        sub1: { // 👀
+            fun1: () => () => 'hello world'
         }
     },
     mod2: {
-        sub: {
-            fun2: () => () => 'hello world'
+        sub2: { // 👀
+            fun2: ({ mod1 }) => () => mod1.sub1.fun1();
         }
     }
 };
 
 const { compose } = composer(modules);
-const { mod1 } = compose('mod1');
-const { mod2 } = compose('mod2', { mod1 });
-mod1.sub.fun1(); // == "hello world"
+const { mod1 } = compose.deep('mod1');
+const { mod2 } = compose.deep('mod2', { mod1 });
+mod2.sub2.fun2(); // == "hello world"
 ```
 
 ### `compose.flat`: Compose and flatten a module
 
+```js
+const modules = {
+    mod1: {
+        sub1: {
+            fun1: () => () => 'hello world'
+        }
+    },
+    mod2: {
+        sub2: {
+            fun2: ({ mod1 }) => () => mod1.fun1();
+        }
+    }
+};
+
+const { compose } = composer(modules);
+const { mod1 } = compose.flat('mod1');
+const { mod2 } = compose.flat('mod2', { mod1 });
+mod2.fun2(); // == "hello world"
+```
 
 ### `compose.asis`: Register an existing module
 
+```js
+const modules = {
+    mod1: {
+        fun1: () => 'hello world' // 👀 no higher order function
+    },
+    mod2: {
+        fun2: ({ mod1 }) => () => mod1.fun1()
+    }
+};
+
+const { compose } = composer(modules);
+const { mod1 } = compose.asis('mod1');
+const { mod2 } = compose('mod2', { mod1 });
+mod2.fun2(); // == "hello world"
+```
 
 ## Self referencing
 
 Module functions can reference others functions in the same module either by name, or by the special alias `self`.
+
+### `self`: Refer to the same module
 
 ```js
 const modules = {
@@ -148,6 +186,8 @@ const { compose } = composer(modules);
 const { foobar } = compose('foobar');
 foobar.fun1(); // == "hello world"
 ```
+
+### `here`: Refer to the same level
 
 In the case of deep modules, `here` is a reference to the current level in the object hierarchy.
 
@@ -791,78 +831,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 113.04070895910263,
-            "endTime": 113.4929170012474,
-            "duration": 0.4522080421447754
+            "startTime": 66.32062500715256,
+            "endTime": 66.79041701555252,
+            "duration": 0.4697920083999634
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 113.60458397865295,
-            "endTime": 113.68104195594788,
-            "duration": 0.07645797729492188
+            "startTime": 66.90183299779892,
+            "endTime": 66.97525000572205,
+            "duration": 0.07341700792312622
         },
         "core": {
             "path": "core",
-            "startTime": 114.35108399391174,
-            "endTime": 114.58291697502136,
-            "duration": 0.23183298110961914
+            "startTime": 67.64579200744629,
+            "endTime": 67.86420798301697,
+            "duration": 0.2184159755706787
         },
         "io": {
             "path": "io",
-            "startTime": 114.62783396244049,
-            "endTime": 114.73954200744629,
-            "duration": 0.11170804500579834
+            "startTime": 67.90737497806549,
+            "endTime": 68.01720798015594,
+            "duration": 0.1098330020904541
         },
         "services": {
             "path": "services",
-            "startTime": 115.05320900678635,
-            "endTime": 115.47529196739197,
-            "duration": 0.42208296060562134
+            "startTime": 68.31029200553894,
+            "endTime": 68.69062501192093,
+            "duration": 0.3803330063819885
         },
         "ui": {
             "path": "ui",
-            "startTime": 115.53370898962021,
-            "endTime": 115.58583396673203,
-            "duration": 0.052124977111816406
+            "startTime": 68.74579203128815,
+            "endTime": 68.79437500238419,
+            "duration": 0.04858297109603882
         },
         "elements": {
             "path": "elements",
-            "startTime": 115.64258396625519,
-            "endTime": 115.78491699695587,
-            "duration": 0.1423330307006836
+            "startTime": 68.85312497615814,
+            "endTime": 68.98079198598862,
+            "duration": 0.12766700983047485
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 115.82108396291733,
-            "endTime": 115.84958398342133,
-            "duration": 0.028500020503997803
+            "startTime": 69.01629197597504,
+            "endTime": 69.04216700792313,
+            "duration": 0.0258750319480896
         },
         "components": {
             "path": "components",
-            "startTime": 116.35020899772644,
-            "endTime": 116.91329199075699,
-            "duration": 0.5630829930305481
+            "startTime": 69.52579200267792,
+            "endTime": 70.08170801401138,
+            "duration": 0.5559160113334656
         },
         "styles": {
             "path": "styles",
-            "startTime": 117.0397920012474,
-            "endTime": 117.1179170012474,
-            "duration": 0.078125
+            "startTime": 70.20595800876617,
+            "endTime": 70.28691703081131,
+            "duration": 0.0809590220451355
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 117.16033399105072,
-            "endTime": 117.18245899677277,
-            "duration": 0.0221250057220459
+            "startTime": 70.32879197597504,
+            "endTime": 70.35062497854233,
+            "duration": 0.02183300256729126
         },
         "startup": {
             "path": "startup",
-            "startTime": 117.34383398294449,
-            "endTime": 117.3943749666214,
-            "duration": 0.0505409836769104
+            "startTime": 70.51458299160004,
+            "endTime": 70.56966698169708,
+            "duration": 0.0550839900970459
         }
     },
-    "totalDuration": 2.2311220169067383,
+    "totalDuration": 2.1677080392837524,
     "durationUnit": "ms"
 }
 ```

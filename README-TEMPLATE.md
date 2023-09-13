@@ -38,17 +38,17 @@ views.welcome.render();
 ```js
 const modules = {
     mod1: {
-        fun1: ({ mod2 }) => () => mod2.fun2()
+        fun1: () => () => 'hello world'
     },
     mod2: {
-        fun2: () => () => 'hello world'
+        fun2: ({ mod1 }) => () => mod1.fun1()
     }
 };
 
 const { compose } = composer(modules);
 const { mod1 } = compose('mod1');
 const { mod2 } = compose('mod2', { mod1 });
-mod1.fun1(); // == "hello world"
+mod2.fun2(); // == "hello world"
 ```
 
 ### `compose.deep`: Compose a deep module
@@ -56,32 +56,68 @@ mod1.fun1(); // == "hello world"
 ```js
 const modules = {
     mod1: {
-        sub: {
-            fun1: ({ mod2 }) => () => mod2.sub.fun2();
+        sub1: { // 👀
+            fun1: () => () => 'hello world'
         }
     },
     mod2: {
-        sub: {
-            fun2: () => () => 'hello world'
+        sub2: { // 👀
+            fun2: ({ mod1 }) => () => mod1.sub1.fun1();
         }
     }
 };
 
 const { compose } = composer(modules);
-const { mod1 } = compose('mod1');
-const { mod2 } = compose('mod2', { mod1 });
-mod1.sub.fun1(); // == "hello world"
+const { mod1 } = compose.deep('mod1');
+const { mod2 } = compose.deep('mod2', { mod1 });
+mod2.sub2.fun2(); // == "hello world"
 ```
 
 ### `compose.flat`: Compose and flatten a module
 
+```js
+const modules = {
+    mod1: {
+        sub1: {
+            fun1: () => () => 'hello world'
+        }
+    },
+    mod2: {
+        sub2: {
+            fun2: ({ mod1 }) => () => mod1.fun1();
+        }
+    }
+};
+
+const { compose } = composer(modules);
+const { mod1 } = compose.flat('mod1');
+const { mod2 } = compose.flat('mod2', { mod1 });
+mod2.fun2(); // == "hello world"
+```
 
 ### `compose.asis`: Register an existing module
 
+```js
+const modules = {
+    mod1: {
+        fun1: () => 'hello world' // 👀 no higher order function
+    },
+    mod2: {
+        fun2: ({ mod1 }) => () => mod1.fun1()
+    }
+};
+
+const { compose } = composer(modules);
+const { mod1 } = compose.asis('mod1');
+const { mod2 } = compose('mod2', { mod1 });
+mod2.fun2(); // == "hello world"
+```
 
 ## Self referencing
 
 Module functions can reference others functions in the same module either by name, or by the special alias `self`.
+
+### `self`: Refer to the same module
 
 ```js
 const modules = {
@@ -96,6 +132,8 @@ const { compose } = composer(modules);
 const { foobar } = compose('foobar');
 foobar.fun1(); // == "hello world"
 ```
+
+### `here`: Refer to the same level
 
 In the case of deep modules, `here` is a reference to the current level in the object hierarchy.
 
