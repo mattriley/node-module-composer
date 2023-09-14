@@ -19,12 +19,6 @@ module.exports = ({ test, assert }) => composer => {
         assert.deepEqual(compose.dependencies, {});
     });
 
-    test('target keys are omitted from composed dependencies list', () => {
-        const target = { mod: {} };
-        const { compose } = composer(target);
-        assert.deepEqual(compose.composedDependencies, {});
-    });
-
     test('target keys that are not plain objects are omitted from dependencies list', () => {
         const target = { mod: 1 };
         const { compose } = composer(target);

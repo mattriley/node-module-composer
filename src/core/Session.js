@@ -10,8 +10,7 @@ module.exports = (target, options = {}, config = {}) => {
     const { composerOptions, getComposeOptions } = Options(options);
 
     const state = {
-        dependencies: {}, //_.mapValues(targetModules, () => []),
-        composedDependencies: {},
+        dependencies: {},
         modules: { ...targetModules },
         extensions: {}
     };
@@ -19,7 +18,7 @@ module.exports = (target, options = {}, config = {}) => {
     const registerModule = (path, module, deps) => {
         _.set(state.modules, path, module);
         const depKeys = Object.keys(deps ?? {}).filter(k => k !== path);
-        state.dependencies[path] = state.composedDependencies[path] = depKeys;
+        state.dependencies[path] = depKeys;
         return state.modules;
     };
 
