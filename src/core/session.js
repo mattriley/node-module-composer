@@ -10,7 +10,7 @@ module.exports = (target, options = {}, config = {}) => {
     const { composerOptions, getComposeOptions } = Options(options);
 
     const state = {
-        dependencies: _.mapValues(targetModules, () => []),
+        dependencies: {}, //_.mapValues(targetModules, () => []),
         composedDependencies: {},
         modules: { ...targetModules },
         extensions: {}

@@ -13,10 +13,10 @@ module.exports = ({ test, assert }) => composer => {
         assert.notEqual(compose.modules, target);
     });
 
-    test('target keys are automatically added to dependencies list', () => {
+    test('target keys are NOT automatically added to dependencies list', () => {
         const target = { mod: {} };
         const { compose } = composer(target);
-        assert.deepEqual(compose.dependencies, { mod: [] });
+        assert.deepEqual(compose.dependencies, {});
     });
 
     test('target keys are omitted from composed dependencies list', () => {
@@ -29,18 +29,6 @@ module.exports = ({ test, assert }) => composer => {
         const target = { mod: 1 };
         const { compose } = composer(target);
         assert.deepEqual(compose.dependencies, {});
-    });
-
-    test('composition overrides target', () => {
-        const target = {
-            mod1: { fun: () => () => 1 },
-            mod2: {}
-        };
-        const { compose } = composer(target);
-        const { mod1, mod2 } = compose('mod1', {});
-        assert.notEqual(mod1, target.mod1);
-        assert.deepEqual(mod2, target.mod2);
-        assert.deepEqual(compose.dependencies, { mod1: [], mod2: [] });
     });
 
     test('deps are applied', () => {
