@@ -2,18 +2,18 @@ module.exports = ({ test, assert }) => composer => {
 
     test('nested module', () => {
         const target = {
-            mod1: { sub1: { fun: () => () => 2 } },
-            mod2: { sub2: { fun: ({ mod1 }) => () => mod1.sub1.fun() } }
+            sup1: { mod1: { fun1: () => () => 1 } },
+            sup2: { mod2: { fun2: ({ sup1 }) => () => sup1.mod1.fun1() } }
         };
         const { compose } = composer(target);
-        const { mod1 } = compose('mod1.sub1', {});
-        const { mod2 } = compose('mod2.sub2', { mod1 });
-        assert.deepEqual(mod2.sub2.fun(), 2);
+        const { sup1 } = compose('sup1.mod1', {});
+        const { sup2 } = compose('sup2.mod2', { sup1 });
+        assert.deepEqual(sup2.mod2.fun2(), 1);
         assert.deepEqual(compose.dependencies, {
-            'mod1': [],
-            'mod1.sub1': [],
-            'mod2': [],
-            'mod2.sub2': ['mod1']
+            sup1: [],
+            sup2: [],
+            'sup1.mod1': [],
+            'sup2.mod2': ['sup1']
         });
     });
 
