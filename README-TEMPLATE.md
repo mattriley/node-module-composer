@@ -121,9 +121,7 @@ mod2.fun2(); // == "hello world"
 
 ### Nested modules
 
-Modules that have an organisational superstructure can be composed by specifying the path (delimited by dot) to the module. 
-
-This can be useful for namespacing modules to avoid naming collisions.
+Modules that have an organisational superstructure can be composed by specifying the path (delimited by dot) to the module. This can be useful for namespacing modules to avoid naming collisions.
 
 ```js
 const modules = {
@@ -153,16 +151,16 @@ Module functions can reference others functions in the same module either by nam
 
 ```js
 const modules = {
-    foobar: {
-        fun1: ({ foobar }) => () => foobar.fun2(),
-        fun2: ({ self }) => () => self.fun3(),
+    mod: {
+        fun1: ({ mod }) => () => mod.fun2(),
+        fun2: ({ self }) => () => self.fun3(), // 👀 self is an alias of mod
         fun3: () => () => 'hello world'
     }
 };
 
 const { compose } = composer(modules);
-const { foobar } = compose('foobar');
-foobar.fun1(); // == "hello world"
+const { mod } = compose('mod');
+mod.fun1(); // == "hello world"
 ```
 
 ### `here`: Refer to the same level
@@ -171,23 +169,23 @@ In the case of deep modules, `here` is a reference to the current level in the o
 
 ```js
 const modules = {
-    foobar: {
-        fun1: ({ here }) => () => here.sub.fun2(),
+    mod: {
+        fun1: ({ here }) => () => here.sub.fun2(), // 👀 here is an alias of mod
         sub: {
-            fun2: ({ here }) => () => here.fun3(),
+            fun2: ({ here }) => () => here.fun3(), // 👀 here is an alias of mod.sub
             fun3: () => () => 'hello world'
         }
     }
 };
 
 const { compose } = composer(modules);
-const { foobar } = compose.deep('foobar');
-foobar.fun1(); // == "hello world"
+const { mod } = compose.deep('mod');
+mod.fun1(); // == "hello world"
 ```
 
 ## Overriding modules
 
-Module Composer provides an `overrides` option to override any part of the dependency graph:
+Module Composer provides an `overrides` option to override any part of the dependency graph. This can be useful for stubbing in tests.
 
 In the tests:
 
@@ -206,8 +204,6 @@ In the composition:
 ```js
 const { compose } = composer(modules, { overrides });
 ```
-
-
 
 ## Application configuration
 
@@ -389,22 +385,37 @@ const { foobar, fb } = compose('foobar', { dep1, dep2 });
 
 The `functionAlias` option takes an array of entries specifying patterns and replacements for any matching function.
 
-In the following examples, `getVal` is an alias of `getValue`.
-
 As a `compose` option, applies to associated module:
 
 ```js
+const modules = {
+    mod: {
+        fun1: () => () => 'hello world',
+        fun2: ({ mod }) => () => mod.fn1(), // 👀 fn1 is an alias of fun1
+    } 
+};
+
 const { compose } = composer(modules};
-const { foobar } = compose('foobar', { dep1, dep2 }, { functionAlias: [ [/Value$/, 'Val'] ] });
-const { getValue, getVal } = foobar;
+const { mod } = compose('mod', { dep1, dep2 }, { functionAlias: [ [/fun/, 'fn'] ] });
+mod.fn2(); // == "hello world" 👀 fn2 is an alias of fun2
 ```
 
 As a `composer` option, applies to any module:
 
 ```js
-const { compose } = composer(modules, { functionAlias: [ [/Value$/, 'Val'] ] });
-const { foobar } = compose('foobar', { dep1, dep2 });
-const { getValue, getVal } = foobar;
+const modules = {
+    mod1: {
+        fun1: () => () => 'hello world'        
+    },
+    mod2: {
+        fun2: ({ mod1 }) => () => mod1.fn1(), // 👀 fn1 is an alias of fun1
+    }
+};
+
+const { compose } = composer(modules, { functionAlias: [ [/fun/, 'fn'] ] }}; // 👀 composer option
+const { mod1 } = compose('mod1');
+const { mod2 } = compose('mod2', { mod1 });
+mod2.fn2(); // == "hello world" 👀 fn2 is an alias of fun2
 ```
 
 ### `access-modifiers`: True public and private functions
