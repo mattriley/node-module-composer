@@ -1,6 +1,6 @@
 const util = require('../core/util');
 
-const postcompose = () => ({ target, options }) => {
+const precompose = () => ({ target, options }) => {
     const { functionAlias } = options;
     return util.flatMapKeys(target, (val, key) => {
         const aliasKeys = functionAlias.map(([from, to]) => key.replace(from, to));
@@ -8,4 +8,4 @@ const postcompose = () => ({ target, options }) => {
     });
 };
 
-module.exports = { postcompose };
+module.exports = { precompose };

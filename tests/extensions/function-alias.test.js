@@ -32,4 +32,21 @@ module.exports = ({ test, assert }) => composer => {
         assert.equal(mod.getVals, mod.getValues);
     });
 
+    test('function alias used internally', () => {
+        const modules = {
+            mod: {
+                fun1: ({ mod }) => () => mod.getVal(),
+                getValue: () => () => 1
+            }
+        };
+
+        const functionAlias = [
+            ['Value', 'Val']
+        ];
+
+        const { compose } = composer(modules);
+        const { mod } = compose('mod', {}, { functionAlias });
+        assert.equal(mod.fun1(), 1);
+    });
+
 };
