@@ -53,15 +53,17 @@ mod2.fun2(); // == "hello world"
 
 ### `compose.deep`: Compose a deep module
 
+For modules that have organisational substructures.
+
 ```js
 const modules = {
     mod1: {
-        sub1: { // 👀
+        sub1: { // 👀 organisational substructure
             fun1: () => () => 'hello world'
         }
     },
     mod2: {
-        sub2: { // 👀
+        sub2: { // 👀 organisational substructure
             fun2: ({ mod1 }) => () => mod1.sub1.fun1();
         }
     }
@@ -75,15 +77,17 @@ mod2.sub2.fun2(); // == "hello world"
 
 ### `compose.flat`: Compose and flatten a module
 
+For modules that have organisational substructures for development convenience that should be stripped from (flattened in) the final result.
+
 ```js
 const modules = {
     mod1: {
-        sub1: {
+        sub1: { // 👀 organisational substructure
             fun1: () => () => 'hello world'
         }
     },
     mod2: {
-        sub2: {
+        sub2: { // 👀 organisational substructure
             fun2: ({ mod1 }) => () => mod1.fun1();
         }
     }
@@ -97,10 +101,12 @@ mod2.fun2(); // == "hello world"
 
 ### `compose.asis`: Register an existing module
 
+For modules that don't require dependencies.
+
 ```js
 const modules = {
     mod1: {
-        fun1: () => 'hello world' // 👀 no higher order function
+        fun1: () => 'hello world' // 👀 no higher order function to accept deps
     },
     mod2: {
         fun2: ({ mod1 }) => () => mod1.fun1()
@@ -111,6 +117,32 @@ const { compose } = composer(modules);
 const { mod1 } = compose.asis('mod1');
 const { mod2 } = compose('mod2', { mod1 });
 mod2.fun2(); // == "hello world"
+```
+
+### Nested modules
+
+Modules that have an organisational superstructure can be composed by specifying the path (delimited by dot) to the module. 
+
+This can be useful for namespacing modules to avoid naming collisions.
+
+```js
+const modules = {
+    sup1: {  // 👀 organisational superstructure
+        mod: { // 👀 same module name
+            fun1: () => () => 'hello world'
+        }
+    },
+    sup2: { // 👀 organisational superstructure
+        mod: { // 👀 same module name
+            fun2: ({ sup1 }) => () => sup1.mod1.fun1();
+        }
+    }
+};
+
+const { compose } = composer(modules);
+const { sup1 } = compose.flat('sup1.mod'); // 👀 delimited by dot
+const { sup2 } = compose.flat('sup2.mod', { sup1 });  // 👀 delimited by dot
+sup2.mod.fun2(); // == "hello world"
 ```
 
 ## Self referencing

@@ -18,6 +18,7 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
     - [`compose.deep`: Compose a deep module](#composedeep-compose-a-deep-module)
     - [`compose.flat`: Compose and flatten a module](#composeflat-compose-and-flatten-a-module)
     - [`compose.asis`: Register an existing module](#composeasis-register-an-existing-module)
+    - [Nested modules](#nested-modules)
   - [Self referencing](#self-referencing)
     - [`self`: Refer to the same module](#self-refer-to-the-same-module)
     - [`here`: Refer to the same level](#here-refer-to-the-same-level)
@@ -107,15 +108,17 @@ mod2.fun2(); // == "hello world"
 
 ### `compose.deep`: Compose a deep module
 
+For modules that have organisational substructures.
+
 ```js
 const modules = {
     mod1: {
-        sub1: { // 👀
+        sub1: { // 👀 organisational substructure
             fun1: () => () => 'hello world'
         }
     },
     mod2: {
-        sub2: { // 👀
+        sub2: { // 👀 organisational substructure
             fun2: ({ mod1 }) => () => mod1.sub1.fun1();
         }
     }
@@ -129,15 +132,17 @@ mod2.sub2.fun2(); // == "hello world"
 
 ### `compose.flat`: Compose and flatten a module
 
+For modules that have organisational substructures for development convenience that should be stripped from (flattened in) the final result.
+
 ```js
 const modules = {
     mod1: {
-        sub1: {
+        sub1: { // 👀 organisational substructure
             fun1: () => () => 'hello world'
         }
     },
     mod2: {
-        sub2: {
+        sub2: { // 👀 organisational substructure
             fun2: ({ mod1 }) => () => mod1.fun1();
         }
     }
@@ -151,10 +156,12 @@ mod2.fun2(); // == "hello world"
 
 ### `compose.asis`: Register an existing module
 
+For modules that don't require dependencies.
+
 ```js
 const modules = {
     mod1: {
-        fun1: () => 'hello world' // 👀 no higher order function
+        fun1: () => 'hello world' // 👀 no higher order function to accept deps
     },
     mod2: {
         fun2: ({ mod1 }) => () => mod1.fun1()
@@ -165,6 +172,32 @@ const { compose } = composer(modules);
 const { mod1 } = compose.asis('mod1');
 const { mod2 } = compose('mod2', { mod1 });
 mod2.fun2(); // == "hello world"
+```
+
+### Nested modules
+
+Modules that have an organisational superstructure can be composed by specifying the path (delimited by dot) to the module. 
+
+This can be useful for namespacing modules to avoid naming collisions.
+
+```js
+const modules = {
+    sup1: {  // 👀 organisational superstructure
+        mod: { // 👀 same module name
+            fun1: () => () => 'hello world'
+        }
+    },
+    sup2: { // 👀 organisational superstructure
+        mod: { // 👀 same module name
+            fun2: ({ sup1 }) => () => sup1.mod1.fun1();
+        }
+    }
+};
+
+const { compose } = composer(modules);
+const { sup1 } = compose.flat('sup1.mod'); // 👀 delimited by dot
+const { sup2 } = compose.flat('sup2.mod', { sup1 });  // 👀 delimited by dot
+sup2.mod.fun2(); // == "hello world"
 ```
 
 ## Self referencing
@@ -831,78 +864,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 67.15820902585983,
-            "endTime": 67.61404204368591,
-            "duration": 0.4558330178260803
+            "startTime": 95.0911660194397,
+            "endTime": 95.56070798635483,
+            "duration": 0.4695419669151306
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 67.72762501239777,
-            "endTime": 67.80087500810623,
-            "duration": 0.07324999570846558
+            "startTime": 95.67395800352097,
+            "endTime": 95.74754101037979,
+            "duration": 0.07358300685882568
         },
         "core": {
             "path": "core",
-            "startTime": 68.46066701412201,
-            "endTime": 68.68666702508926,
-            "duration": 0.22600001096725464
+            "startTime": 96.42987501621246,
+            "endTime": 96.6555410027504,
+            "duration": 0.22566598653793335
         },
         "io": {
             "path": "io",
-            "startTime": 68.73466700315475,
-            "endTime": 68.84883403778076,
-            "duration": 0.11416703462600708
+            "startTime": 96.69941598176956,
+            "endTime": 96.81095802783966,
+            "duration": 0.11154204607009888
         },
         "services": {
             "path": "services",
-            "startTime": 69.15512502193451,
-            "endTime": 69.53545904159546,
-            "duration": 0.3803340196609497
+            "startTime": 97.1034579873085,
+            "endTime": 97.48841601610184,
+            "duration": 0.38495802879333496
         },
         "ui": {
             "path": "ui",
-            "startTime": 69.5901250243187,
-            "endTime": 69.64129203557968,
-            "duration": 0.05116701126098633
+            "startTime": 97.54237502813339,
+            "endTime": 97.59641599655151,
+            "duration": 0.05404096841812134
         },
         "elements": {
             "path": "elements",
-            "startTime": 69.6924170255661,
-            "endTime": 69.81870901584625,
-            "duration": 0.12629199028015137
+            "startTime": 97.64791601896286,
+            "endTime": 97.77708297967911,
+            "duration": 0.12916696071624756
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 69.85316705703735,
-            "endTime": 69.87983405590057,
-            "duration": 0.026666998863220215
+            "startTime": 97.80841600894928,
+            "endTime": 97.83404099941254,
+            "duration": 0.025624990463256836
         },
         "components": {
             "path": "components",
-            "startTime": 70.38795900344849,
-            "endTime": 70.9460420012474,
-            "duration": 0.5580829977989197
+            "startTime": 98.32920801639557,
+            "endTime": 98.88541597127914,
+            "duration": 0.5562079548835754
         },
         "styles": {
             "path": "styles",
-            "startTime": 71.07587504386902,
-            "endTime": 71.15725004673004,
-            "duration": 0.08137500286102295
+            "startTime": 99.00937497615814,
+            "endTime": 99.08916598558426,
+            "duration": 0.07979100942611694
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 71.1985000371933,
-            "endTime": 71.22216701507568,
+            "startTime": 99.1310830116272,
+            "endTime": 99.15474998950958,
             "duration": 0.023666977882385254
         },
         "startup": {
             "path": "startup",
-            "startTime": 71.38637501001358,
-            "endTime": 71.43450003862381,
-            "duration": 0.04812502861022949
+            "startTime": 99.31520801782608,
+            "endTime": 99.3644580245018,
+            "duration": 0.049250006675720215
         }
     },
-    "totalDuration": 2.1649600863456726,
+    "totalDuration": 2.183039903640747,
     "durationUnit": "ms"
 }
 ```
