@@ -33,7 +33,7 @@ const precompose = session => ({ path, target, options }) => {
 
     session.setState({ [path]: { privatePaths } });
 
-    return util.merge({}, privateView, publicView);
+    return { target: util.merge({}, privateView, publicView) };
 };
 
 const postcompose = session => ({ path, target }) => {

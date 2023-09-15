@@ -1,5 +1,7 @@
 const _ = require('./util');
 
+
+
 module.exports = session => (path, deps, opts = {}) => {
 
     if (!path) throw new Error('Missing path');
@@ -25,12 +27,14 @@ module.exports = session => (path, deps, opts = {}) => {
     };
 
     const maybePromise = _.flow([
-        ...session.precomposers.map(func => target => func({ path, target, options }) ?? target),
+        () => _.pipeAssign(session.precomposers.map(fun => arg => fun(arg)), { path, target, deps, options }),
+        ({ target }) => target,
         target => recurse(target),
         target => _.invokeAtOrReturn(target, customiser, args)
-    ])(target);
+    ])({});
 
     const next = target => {
+        console.warn(target);
         if (customiser && !_.isPlainObject(target)) throw new Error(`${path}.${customiser} must return a plain object`);
 
         return _.flow([

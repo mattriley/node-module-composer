@@ -59,6 +59,10 @@ const flattenObject = (obj, opts = {}) => {
     return recurse(obj);
 };
 
+const pipeAssign = (funs, initial) => {
+    return funs.reduce((acc, fun) => ({ ...acc, ...fun(acc) }), initial);
+};
+
 const removeAt = (obj, paths) => {
     const target = cloneDeep(obj);
     paths.forEach(path => unset(target, path));
@@ -96,6 +100,7 @@ module.exports = {
     mergeWith,
     omit,
     pickBy,
+    pipeAssign,
     removeAt,
     replaceAt,
     set
