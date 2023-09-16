@@ -34,11 +34,13 @@ module.exports = session => (path, deps, opts = {}) => {
         if (customiser && !_.isPlainObject(target)) throw new Error(`${path}.${customiser} must return a plain object`);
         const { deps } = postCustomise;
 
-        return _.flow([
-            target => _.merge(target, _.get(overrides, path)),
-            ...session.postcomposers.map(func => target => func({ path, target, options }) ?? target),
-            target => session.registerModule(path, target, deps)
-        ])(target);
+        _.pipeAssign([
+            ({ target }) => ({ target: _.merge(target, _.get(overrides, path)) }),
+            ...session.postcomposers.map(fun => arg => fun(arg)),
+            ({ target }) => { session.registerModule(path, target, deps); }
+        ], { path, target, options });
+
+        return session.modules;
     };
 
     return _.isPromise(targetMaybePromise) ? targetMaybePromise.then(next) : next(targetMaybePromise);

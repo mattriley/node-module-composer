@@ -38,7 +38,7 @@ const precompose = session => ({ path, target, options }) => {
 
 const postcompose = session => ({ path, target }) => {
     const { privatePaths } = session.getState()[path];
-    return util.removeAt(target, privatePaths);
+    return { target: util.removeAt(target, privatePaths) };
 };
 
 module.exports = { precompose, postcompose };
