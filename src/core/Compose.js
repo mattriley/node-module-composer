@@ -14,12 +14,13 @@ module.exports = session => (path, deps, opts = {}) => {
     if (depth === 0 && !!deps) throw new Error('Unexpected deps');
 
     const self = {};
+    const selfDeps = { ...session.configAliases, self, [path]: self, ...deps };
 
     const recurse = (target, deps, currentDepth = 0) => {
         if (currentDepth === depth) return target;
         if (!_.isPlainObject(target)) return target;
         const here = currentDepth === 0 ? self : {};
-        const evaluate = val => _.isPlainFunction(val) ? val({ here, ...deps }, args) : recurse(val, deps, currentDepth + 1);
+        const evaluate = val => _.isPlainFunction(val) ? val({ here, ...selfDeps, ...deps }, args) : recurse(val, deps, currentDepth + 1);
         const evaluated = _.mapValues(target, evaluate);
         const result = flat ? _.flattenObject(evaluated) : evaluated;
         return Object.assign(here, result);
@@ -27,12 +28,11 @@ module.exports = session => (path, deps, opts = {}) => {
 
     const maybePromise = _.flow([
         () => _.pipeAssign(session.precomposers.map(fun => arg => fun(arg)), { path, target, deps, options }),
-        ({ target, deps }) => recurse(target, { ...session.configAliases, self, [path]: self, ...deps }),
-        target => _.invokeAtOrReturn(target, customiser, args)
+        ({ target, deps }) => ({ target: recurse(target, deps) }),
+        ({ target }) => _.invokeAtOrReturn(target, customiser, args)
     ])({});
 
     const next = target => {
-        console.warn(target);
         if (customiser && !_.isPlainObject(target)) throw new Error(`${path}.${customiser} must return a plain object`);
 
         return _.flow([
