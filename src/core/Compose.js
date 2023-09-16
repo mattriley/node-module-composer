@@ -26,10 +26,10 @@ module.exports = session => (path, deps, opts = {}) => {
         return Object.assign(here, result);
     };
 
-    const maybePromise = _.flow([
+    const targetMaybePromise = _.flow([
         () => _.pipeAssign(session.precomposers.map(fun => arg => fun(arg)), { path, target, deps, options }),
         ({ target, deps }) => ({ target: recurse(target, deps) }),
-        ({ target }) => _.invokeAtOrReturn(target, customiser, args)
+        ({ target }) => ({ target: _.invokeAtOrReturn(target, customiser, args) })
     ])();
 
     const next = target => {
@@ -42,6 +42,6 @@ module.exports = session => (path, deps, opts = {}) => {
         ])(target);
     };
 
-    return _.isPromise(maybePromise) ? maybePromise.then(next) : next(maybePromise);
+    return _.isPromise(targetMaybePromise.target) ? targetMaybePromise.target.then(next) : next(targetMaybePromise.target);
 
 };
