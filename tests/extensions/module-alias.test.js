@@ -26,4 +26,17 @@ module.exports = ({ test, assert }) => composer => {
         assert.deepEqual(modz, mod);
     });
 
+    test('module alias internal', () => {
+        const modules = {
+            mod: {
+                fun1: ({ modz }) => () => modz.fun2(),
+                fun2: () => () => 1
+            }
+        };
+        const { compose } = composer(modules);
+        const { mod, modz } = compose('mod', {}, { moduleAlias: 'modz' });
+        assert.deepEqual(modz, mod);
+        assert.equal(mod.fun1(), 1);
+    });
+
 };

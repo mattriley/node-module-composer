@@ -36,7 +36,7 @@ module.exports = session => (path, deps, opts = {}) => {
         ({ path, target, deps }) => { session.registerModule(path, target, deps); }
     ];
 
-    const { target: targetMaybePromise, ...precomposeResult } = _.pipeAssign(precomposers, { path, target, deps, options });
+    const { target: targetMaybePromise, ...precomposeResult } = _.pipeAssign(precomposers, { path, target, deps, self, options });
 
     const next = target => {
         if (customiser && !_.isPlainObject(target)) throw new Error(`${path}.${customiser} must return a plain object`);
