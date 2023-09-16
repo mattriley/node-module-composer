@@ -25,29 +25,22 @@ module.exports = session => (path, deps, opts = {}) => {
     };
 
     const precomposers = [
-        ...session.precomposers,
+        ...session.precomposers.map(fun => arg => fun(arg)),
         ({ target, deps }) => ({ target: recurse(target, { ...selfDeps, ...deps }) }),
         ({ target }) => ({ target: _.invokeAtOrReturn(target, customiser, args) })
     ];
 
     const postcomposers = [
         ({ path, target }) => ({ target: _.merge(target, _.get(overrides, path)) }),
-        ...session.postcomposers,
+        ...session.postcomposers.map(fun => arg => fun(arg)),
         ({ path, target, deps }) => { session.registerModule(path, target, deps); }
     ];
 
-    const { target: targetMaybePromise, ...postCustomise } = _.pipeAssign([
-        ...precomposers.map(fun => arg => fun(arg))
-    ], { path, target, deps, options });
+    const { target: targetMaybePromise, ...postCustomise } = _.pipeAssign(precomposers, { path, target, deps, options });
 
     const next = target => {
         if (customiser && !_.isPlainObject(target)) throw new Error(`${path}.${customiser} must return a plain object`);
-        const { deps } = postCustomise;
-
-        _.pipeAssign([
-            ...postcomposers.map(fun => arg => fun(arg))
-        ], { path, target, deps, options });
-
+        _.pipeAssign(postcomposers, { target, ...postCustomise });
         return session.modules;
     };
 
