@@ -30,7 +30,7 @@ module.exports = session => (path, deps, opts = {}) => {
         () => _.pipeAssign(session.precomposers.map(fun => arg => fun(arg)), { path, target, deps, options }),
         ({ target, deps }) => ({ target: recurse(target, deps) }),
         ({ target }) => _.invokeAtOrReturn(target, customiser, args)
-    ])({});
+    ])();
 
     const next = target => {
         if (customiser && !_.isPlainObject(target)) throw new Error(`${path}.${customiser} must return a plain object`);
