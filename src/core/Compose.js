@@ -30,6 +30,12 @@ module.exports = session => (path, deps, opts = {}) => {
         ({ target }) => ({ target: _.invokeAtOrReturn(target, customiser, args) })
     ];
 
+    const postcomposers = [
+        ({ path, target }) => ({ target: _.merge(target, _.get(overrides, path)) }),
+        ...session.postcomposers,
+        ({ path, target, deps }) => { session.registerModule(path, target, deps); }
+    ];
+
     const { target: targetMaybePromise, ...postCustomise } = _.pipeAssign([
         ...precomposers.map(fun => arg => fun(arg))
     ], { path, target, deps, options });
@@ -39,10 +45,8 @@ module.exports = session => (path, deps, opts = {}) => {
         const { deps } = postCustomise;
 
         _.pipeAssign([
-            ({ target }) => ({ target: _.merge(target, _.get(overrides, path)) }),
-            ...session.postcomposers.map(fun => arg => fun(arg)),
-            ({ target }) => { session.registerModule(path, target, deps); }
-        ], { path, target, options });
+            ...postcomposers.map(fun => arg => fun(arg))
+        ], { path, target, deps, options });
 
         return session.modules;
     };
