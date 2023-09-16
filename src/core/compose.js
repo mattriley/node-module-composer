@@ -24,10 +24,14 @@ module.exports = session => (path, deps, opts = {}) => {
         return Object.assign(here, result);
     };
 
-    const { target: targetMaybePromise, ...postCustomise } = _.pipeAssign([
-        ...session.precomposers.map(fun => arg => fun(arg)),
+    const precomposers = [
+        ...session.precomposers,
         ({ target, deps }) => ({ target: recurse(target, { ...selfDeps, ...deps }) }),
         ({ target }) => ({ target: _.invokeAtOrReturn(target, customiser, args) })
+    ];
+
+    const { target: targetMaybePromise, ...postCustomise } = _.pipeAssign([
+        ...precomposers.map(fun => arg => fun(arg))
     ], { path, target, deps, options });
 
     const next = target => {
