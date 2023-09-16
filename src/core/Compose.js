@@ -27,10 +27,10 @@ module.exports = session => (path, deps, opts = {}) => {
     };
 
     const targetMaybePromise = _.pipeAssign([
-        () => _.pipeAssign(session.precomposers.map(fun => arg => fun(arg)), { path, target, deps, options }),
+        ...session.precomposers.map(fun => arg => fun(arg)),
         ({ target, deps }) => ({ target: recurse(target, deps) }),
         ({ target }) => ({ target: _.invokeAtOrReturn(target, customiser, args) })
-    ]);
+    ], { path, target, deps, options });
 
     const next = target => {
         if (customiser && !_.isPlainObject(target)) throw new Error(`${path}.${customiser} must return a plain object`);
