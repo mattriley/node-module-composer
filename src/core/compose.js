@@ -1,7 +1,5 @@
 const _ = require('./util');
 
-
-
 module.exports = session => (path, deps, opts = {}) => {
 
     if (!path) throw new Error('Missing path');
