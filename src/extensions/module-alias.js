@@ -1,7 +1,7 @@
 const precompose = () => ({ deps, options }) => {
-    const { moduleAlias } = options;
+    const { moduleAlias = [] } = options;
     const aliasDeps = [moduleAlias].flat().map(alias => ({ [alias]: {} }));
-    return { deps: { ...deps, ...aliasDeps } };
+    return { deps: Object.assign({}, deps, ...aliasDeps) };
 };
 
 const postcompose = session => ({ target, options }) => {
