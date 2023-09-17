@@ -21,26 +21,26 @@ module.exports = ({ test, assert }) => composer => {
             assert.deepEqual(compose.dependencies, { mod1: [], mod2: ['mod1'] });
         };
 
-        await t.test('string as compose option', () => {
+        await t.test('compose option as string', () => {
             const { compose } = composer(modules);
             compose('mod1', {}, { moduleAlias: 'm1' });
             next(compose);
         });
 
-        await t.test('array as compose option', () => {
+        await t.test('compose option as array', () => {
             const { compose } = composer(modules);
             compose('mod1', {}, { moduleAlias: ['m1'] });
             next(compose);
         });
 
-        await t.test('string as composer option', () => {
+        await t.test('composer option as string', () => {
             const moduleAlias = { mod1: 'm1' };
             const { compose } = composer(modules, { moduleAlias });
             compose('mod1');
             next(compose);
         });
 
-        await t.test('string as composer option', () => {
+        await t.test('composer option as array', () => {
             const moduleAlias = { mod1: 'm1' };
             const { compose } = composer(modules, { moduleAlias });
             compose('mod1');
