@@ -1,6 +1,7 @@
 const precompose = session => ({ path, deps, self, options }) => {
-    const aliasByModule = session.setState({ [path]: options.moduleAlias });
-    const selfAlias = Object.fromEntries(options.moduleAlias.map(alias => [alias, self]));
+    const moduleAlias = [options.moduleAlias ?? []].flat();
+    const aliasByModule = session.setState({ [path]: moduleAlias });
+    const selfAlias = Object.fromEntries(moduleAlias.map(alias => [alias, self]));
     const aliases = Object.keys(deps ?? {}).reduce((acc, key) => {
         const aliases = aliasByModule[key] ?? [];
         aliases.forEach(alias => acc[alias] = session.modules[key]);
@@ -10,7 +11,7 @@ const precompose = session => ({ path, deps, self, options }) => {
 };
 
 const postcompose = session => ({ target, options }) => {
-    const { moduleAlias = [] } = options;
+    const moduleAlias = [options.moduleAlias ?? []].flat();
     [moduleAlias].flat().forEach(alias => session.registerAlias(alias, target));
 };
 

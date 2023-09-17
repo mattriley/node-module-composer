@@ -21,6 +21,20 @@ module.exports = ({ test, assert }) => composer => {
             assert.deepEqual(compose.dependencies, { mod1: [], mod2: ['mod1'] });
         };
 
+        await t.test('defaults as string', () => {
+            const defaults = { mod1: { moduleAlias: 'm1' } };
+            const { compose } = composer(modules, { defaults });
+            compose('mod1');
+            next(compose);
+        });
+
+        await t.test('defaults as array', () => {
+            const defaults = { mod1: { moduleAlias: ['m1'] } };
+            const { compose } = composer(modules, { defaults });
+            compose('mod1');
+            next(compose);
+        });
+
         await t.test('compose option as string', () => {
             const { compose } = composer(modules);
             compose('mod1', {}, { moduleAlias: 'm1' });
