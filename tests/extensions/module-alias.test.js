@@ -9,7 +9,7 @@ module.exports = ({ test, assert }) => composer => {
                 fun2: ({ m1 }) => () => m1.fun1()
             },
             mod2: {
-                fun3: ({ m1 }) => () => m1.fun1()
+                fun3: ({ m1 }) => () => m1.fun2()
             }
         };
 

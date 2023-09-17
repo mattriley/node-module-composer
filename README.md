@@ -31,8 +31,8 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
     - [Config aliases](#config-aliases)
   - [Extensions](#extensions)
     - [`mermaid`: Generate dependency diagrams](#mermaid-generate-dependency-diagrams)
-    - [`module-alias`: Reference *modules* with alternative names](#module-alias-reference-modules-with-alternative-names)
-    - [`function-alias`: Reference *functions* with alternative names](#function-alias-reference-functions-with-alternative-names)
+    - [`module-alias`: Reference *modules* by alternative names](#module-alias-reference-modules-by-alternative-names)
+    - [`function-alias`: Reference *functions* by alternative names](#function-alias-reference-functions-by-alternative-names)
     - [`access-modifiers`: True public and private functions](#access-modifiers-true-public-and-private-functions)
     - [`eject`: Opt out of Module Composer](#eject-opt-out-of-module-composer)
     - [`perf`: Meaure composition performance](#perf-meaure-composition-performance)
@@ -416,27 +416,30 @@ graph TD;
 
 Pretty cool, huh!
 
-### `module-alias`: Reference *modules* with alternative names
+### `module-alias`: Reference *modules* by alternative names
 
-The `moduleAlias` option takes a string or array of string specifying alternative names for a module.
+The `moduleAlias` option:
 
-In the following examples, `fb` is an alias of `foobar`.
-
-As a `compose` option, applies to associated module:
-
-```js
-const { compose } = composer(modules};
-const { foobar, fb } = compose('foobar', { dep1, dep2 }, { moduleAlias: 'fb' });
-```
-
-As a `composer` option, applies to named module:
+- As a `composer` option, takes an object keyed by module name with value of string or array of string.
+- As a `compose` option, takes a string or array of string.
 
 ```js
-const { compose } = composer(modules, { moduleAlias: { foobar: 'fb' } }};
-const { foobar, fb } = compose('foobar', { dep1, dep2 });
+const modules = {
+    mod1: {
+        fun1: () => () => 'hello world',
+    },
+    mod2: {
+        fun2: ({ m1 }) => () => m1.fun1() // 👀 m1 is an alias of mod1
+    }
+};
+
+const { compose } = composer(modules);
+const { mod1 } = compose('mod1', {}, { moduleAlias: 'm1' });
+const { m2 } = compose('mod2', { mod1 }, { moduleAlias: 'm2' });
+md2.fun2(); // == 'hello world'  // 👀 m2 is an alias of mod2
 ```
 
-### `function-alias`: Reference *functions* with alternative names
+### `function-alias`: Reference *functions* by alternative names
 
 The `functionAlias` option takes an array of entries specifying patterns and replacements for any matching function.
 
@@ -875,78 +878,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 96.37749993801117,
-            "endTime": 96.82795798778534,
-            "duration": 0.4504580497741699
+            "startTime": 93.8704160451889,
+            "endTime": 94.33066606521606,
+            "duration": 0.46025002002716064
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 96.93737494945526,
-            "endTime": 97.01049995422363,
-            "duration": 0.07312500476837158
+            "startTime": 94.44395804405212,
+            "endTime": 94.51800000667572,
+            "duration": 0.07404196262359619
         },
         "core": {
             "path": "core",
-            "startTime": 97.68320798873901,
-            "endTime": 97.89779198169708,
-            "duration": 0.21458399295806885
+            "startTime": 95.1727499961853,
+            "endTime": 95.39512503147125,
+            "duration": 0.2223750352859497
         },
         "io": {
             "path": "io",
-            "startTime": 97.94225001335144,
-            "endTime": 98.0529580116272,
-            "duration": 0.11070799827575684
+            "startTime": 95.4415830373764,
+            "endTime": 95.55175006389618,
+            "duration": 0.11016702651977539
         },
         "services": {
             "path": "services",
-            "startTime": 98.34495794773102,
-            "endTime": 98.72812497615814,
-            "duration": 0.383167028427124
+            "startTime": 95.84329104423523,
+            "endTime": 96.21370804309845,
+            "duration": 0.3704169988632202
         },
         "ui": {
             "path": "ui",
-            "startTime": 98.7832499742508,
-            "endTime": 98.83258295059204,
-            "duration": 0.04933297634124756
+            "startTime": 96.26995801925659,
+            "endTime": 96.31941604614258,
+            "duration": 0.04945802688598633
         },
         "elements": {
             "path": "elements",
-            "startTime": 98.88387501239777,
-            "endTime": 99.01033294200897,
-            "duration": 0.12645792961120605
+            "startTime": 96.37062501907349,
+            "endTime": 96.49529099464417,
+            "duration": 0.12466597557067871
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 99.0431250333786,
-            "endTime": 99.06924998760223,
-            "duration": 0.026124954223632812
+            "startTime": 96.52799999713898,
+            "endTime": 96.55370795726776,
+            "duration": 0.02570796012878418
         },
         "components": {
             "path": "components",
-            "startTime": 99.57795798778534,
-            "endTime": 100.14170801639557,
-            "duration": 0.5637500286102295
+            "startTime": 97.04812502861023,
+            "endTime": 97.61541604995728,
+            "duration": 0.5672910213470459
         },
         "styles": {
             "path": "styles",
-            "startTime": 100.2664999961853,
-            "endTime": 100.34812498092651,
-            "duration": 0.08162498474121094
+            "startTime": 97.74487495422363,
+            "endTime": 97.8215000629425,
+            "duration": 0.07662510871887207
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 100.38991701602936,
-            "endTime": 100.41387498378754,
-            "duration": 0.02395796775817871
+            "startTime": 97.86308300495148,
+            "endTime": 97.88733303546906,
+            "duration": 0.024250030517578125
         },
         "startup": {
             "path": "startup",
-            "startTime": 100.57266700267792,
-            "endTime": 100.62100005149841,
-            "duration": 0.048333048820495605
+            "startTime": 98.04808306694031,
+            "endTime": 98.09787499904633,
+            "duration": 0.049791932106018066
         }
     },
-    "totalDuration": 2.1516239643096924,
+    "totalDuration": 2.1550410985946655,
     "durationUnit": "ms"
 }
 ```

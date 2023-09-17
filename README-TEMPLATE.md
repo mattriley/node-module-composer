@@ -361,27 +361,30 @@ graph TD;
 
 Pretty cool, huh!
 
-### `module-alias`: Reference *modules* with alternative names
+### `module-alias`: Reference *modules* by alternative names
 
-The `moduleAlias` option takes a string or array of string specifying alternative names for a module.
+The `moduleAlias` option:
 
-In the following examples, `fb` is an alias of `foobar`.
-
-As a `compose` option, applies to associated module:
-
-```js
-const { compose } = composer(modules};
-const { foobar, fb } = compose('foobar', { dep1, dep2 }, { moduleAlias: 'fb' });
-```
-
-As a `composer` option, applies to named module:
+- As a `composer` option, takes an object keyed by module name with value of string or array of string.
+- As a `compose` option, takes a string or array of string.
 
 ```js
-const { compose } = composer(modules, { moduleAlias: { foobar: 'fb' } }};
-const { foobar, fb } = compose('foobar', { dep1, dep2 });
+const modules = {
+    mod1: {
+        fun1: () => () => 'hello world',
+    },
+    mod2: {
+        fun2: ({ m1 }) => () => m1.fun1() // 👀 m1 is an alias of mod1
+    }
+};
+
+const { compose } = composer(modules);
+const { mod1 } = compose('mod1', {}, { moduleAlias: 'm1' });
+const { m2 } = compose('mod2', { mod1 }, { moduleAlias: 'm2' });
+md2.fun2(); // == 'hello world'  // 👀 m2 is an alias of mod2
 ```
 
-### `function-alias`: Reference *functions* with alternative names
+### `function-alias`: Reference *functions* by alternative names
 
 The `functionAlias` option takes an array of entries specifying patterns and replacements for any matching function.
 
