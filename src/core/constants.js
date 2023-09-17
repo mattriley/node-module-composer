@@ -11,6 +11,7 @@ const composeDefaultOptions = {
 
 const composerDefaultOptions = {
     ...composeDefaultOptions,
+    moduleAlias: undefined,
     configAlias: [],
     freezeConfig: true,
     defaultConfig: {},

@@ -363,10 +363,7 @@ Pretty cool, huh!
 
 ### `module-alias`: Reference *modules* by alternative names
 
-The `moduleAlias` option:
-
-- As a `composer` option, takes an object keyed by module name with value of string or array of string.
-- As a `compose` option, takes a string or array of string.
+As a `compose` option, `moduleAlias` takes a string or array of string.
 
 ```js
 const modules = {

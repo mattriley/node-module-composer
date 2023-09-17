@@ -33,19 +33,6 @@ module.exports = ({ test, assert }) => composer => {
             next(compose);
         });
 
-        await t.test('composer option as string', () => {
-            const moduleAlias = { mod1: 'm1' };
-            const { compose } = composer(modules, { moduleAlias });
-            compose('mod1');
-            next(compose);
-        });
-
-        await t.test('composer option as array', () => {
-            const moduleAlias = { mod1: 'm1' };
-            const { compose } = composer(modules, { moduleAlias });
-            compose('mod1');
-            next(compose);
-        });
     });
 
 };
