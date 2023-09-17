@@ -48,7 +48,4 @@ module.exports = ({ test, assert }) => composer => {
         });
     });
 
-
-
-
 };
