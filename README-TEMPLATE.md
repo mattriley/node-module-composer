@@ -381,7 +381,7 @@ const modules = {
 const { compose } = composer(modules);
 const { mod1 } = compose('mod1', {}, { moduleAlias: 'm1' });
 const { m2 } = compose('mod2', { mod1 }, { moduleAlias: 'm2' });
-md2.fun2(); // == 'hello world'  // 👀 m2 is an alias of mod2
+m2.fun2(); // == 'hello world' 👀 m2 is an alias of mod2
 ```
 
 ### `function-alias`: Reference *functions* by alternative names
