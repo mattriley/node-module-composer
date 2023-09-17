@@ -24,56 +24,33 @@ module.exports = ({ test, assert }) => composer => {
             compose('mod', {}, { functionAlias });
             next(compose);
         });
-    });
 
+        await t.test('compose option as regex', () => {
+            const functionAlias = [
+                [/Value/, 'Val']
+            ];
+            const { compose } = composer(modules);
+            compose('mod', {}, { functionAlias });
+            next(compose);
+        });
 
+        await t.test('composer option as string', () => {
+            const functionAlias = [
+                ['Value', 'Val']
+            ];
+            const { compose } = composer(modules, { functionAlias });
+            compose('mod');
+            next(compose);
+        });
 
-    test('function alias string literal', () => {
-        const modules = {
-            mod: {
-                fun1: ({ mod }) => () => mod.getVal(),
-                getValue: () => () => 1
-            }
-        };
-        const functionAlias = [
-            ['Value', 'Val']
-        ];
-        const { compose } = composer(modules);
-        const { mod } = compose('mod', {}, { functionAlias });
-        assert.equal(mod.getVal(), mod.getValue());
-        assert.equal(mod.fun1(), 1);
-    });
-
-    test('function alias regex', () => {
-        const modules = {
-            mod: {
-                fun1: ({ mod }) => () => mod.getVal(),
-                getValue: () => () => 1
-            }
-        };
-        const functionAlias = [
-            [/Value/, 'Val']
-        ];
-        const { compose } = composer(modules);
-        const { mod } = compose('mod', {}, { functionAlias });
-        assert.equal(mod.getVal(), mod.getValue());
-        assert.equal(mod.fun1(), 1);
-    });
-
-    test('function alias composer option', () => {
-        const modules = {
-            mod: {
-                fun1: ({ mod }) => () => mod.getVal(),
-                getValue: () => () => 1
-            }
-        };
-        const functionAlias = [
-            ['Value', 'Val']
-        ];
-        const { compose } = composer(modules, { functionAlias });
-        const { mod } = compose('mod');
-        assert.equal(mod.getVal(), mod.getValue());
-        assert.equal(mod.fun1(), 1);
+        await t.test('composer option as regex', () => {
+            const functionAlias = [
+                [/Value/, 'Val']
+            ];
+            const { compose } = composer(modules, { functionAlias });
+            compose('mod');
+            next(compose);
+        });
     });
 
 };
