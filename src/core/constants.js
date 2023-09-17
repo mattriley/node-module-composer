@@ -18,7 +18,8 @@ const composerDefaultOptions = {
     config: {},
     extensions: true,
     compositionModule: true,
-    globalThis: globalThis
+    globalThis: globalThis,
+    defaults: {}
 };
 
 module.exports = { composeDefaultOptions, composerDefaultOptions };

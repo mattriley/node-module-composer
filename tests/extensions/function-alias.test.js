@@ -34,6 +34,26 @@ module.exports = ({ test, assert }) => composer => {
             next(compose);
         });
 
+        await t.test('defaults as string', () => {
+            const functionAlias = [
+                ['Value', 'Val']
+            ];
+            const defaults = { mod: { functionAlias } };
+            const { compose } = composer(modules, { defaults });
+            compose('mod');
+            next(compose);
+        });
+
+        await t.test('defaults as string', () => {
+            const functionAlias = [
+                [/Value/, 'Val']
+            ];
+            const defaults = { mod: { functionAlias } };
+            const { compose } = composer(modules, { defaults });
+            compose('mod');
+            next(compose);
+        });
+
         await t.test('composer option as string', () => {
             const functionAlias = [
                 ['Value', 'Val']
