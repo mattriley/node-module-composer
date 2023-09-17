@@ -33,7 +33,7 @@ module.exports = session => (path, deps, opts = {}) => {
     const postcomposers = [
         ({ path, target }) => ({ target: _.merge(target, _.get(overrides, path)) }),
         ...session.postcomposers.map(fun => arg => fun(arg)),
-        ({ path, target, deps }) => { session.registerModule(path, target, deps); }
+        ({ path, target }) => { session.registerModule(path, target, deps); }
     ];
 
     const { target: targetMaybePromise, ...precomposeResult } = _.pipeAssign(precomposers, { path, target, deps, self, options });

@@ -17,8 +17,7 @@ module.exports = (target, options = {}, config = {}) => {
 
     const registerModule = (path, module, deps) => {
         _.set(state.modules, path, module);
-        // todo: ignore aliases.
-        const depKeys = Object.keys(deps).filter(k => k !== path);
+        const depKeys = Object.keys(deps ?? {}).filter(k => k !== path);
         state.dependencies[path] = depKeys;
         return state.modules;
     };
