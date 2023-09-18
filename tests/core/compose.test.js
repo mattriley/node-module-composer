@@ -6,13 +6,6 @@ module.exports = ({ test, assert }) => composer => {
         assert.deepEqual(compose.target, target);
     });
 
-    test('default composition is copy of target', () => {
-        const target = { mod: {} };
-        const { compose } = composer(target);
-        assert.deepEqual(compose.modules.mod, target.mod);
-        assert.notEqual(compose.modules, target);
-    });
-
     test('target keys are NOT automatically added to dependencies list', () => {
         const target = { mod: {} };
         const { compose } = composer(target);

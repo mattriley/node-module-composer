@@ -12,7 +12,7 @@ module.exports = (target, options = {}, config = {}) => {
     const state = {
         log: [],
         dependencies: {},
-        modules: { ...targetModules },
+        modules: {},
         extensions: {}
     };
 

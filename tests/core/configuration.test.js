@@ -117,15 +117,8 @@ module.exports = ({ test, assert }) => composer => {
         const target = { config: { a: 2 } };
         const { configure } = composer(target);
         const { compose } = configure(configs);
-        assert.deepEqual(compose.modules.config, target.config);
-    });
-
-    test('module named config', () => {
-        const configs = [{ a: 1 }];
-        const target = { config: { a: 2 } };
-        const { configure } = composer(target);
-        const { compose } = configure(configs);
-        assert.deepEqual(compose.modules.config, target.config);
+        const { config } = compose('config');
+        assert.deepEqual(config, target.config);
     });
 
     test('config is frozen by default', () => {
