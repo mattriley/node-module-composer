@@ -1,28 +1,25 @@
 const _ = require('module-composer/src/core/util');
 
 const eject = session => () => {
-    const target = session.targetModules;
     const deps = session.dependencies;
+    const composedModules = Object.values(session.log).map(log => log.key);
 
-    const targetKeys = Object.keys(deps);
-
-    const lines = Object.entries(deps).flatMap(([targetKey, deps]) => {
-        const moduleName = targetKey.split('.').pop();
-        const keys = Object.keys(_.flattenObject({ [moduleName]: _.get(target, targetKey) }, { delimiter: '.' }));
+    const lines = session.log.flatMap(log => {
+        const funKeys = Object.keys(_.flattenObject({ [log.key]: _.get(session.targetModules, log.path) }, { delimiter: '.' }));
         return [
             '',
-            `const ${moduleName} = { ...modules.${targetKey} };`,
-            `const ${moduleName}Dependencies = { ${[moduleName, ...deps].join(', ')} };`,
-            ...keys.map(key => `${key} = ${key}({ ...${moduleName}Dependencies });`)
+            `const ${log.key} = { ...modules.${log.path} };`,
+            `const ${log.key}Dependencies = { ${[log.key, ...log.depKeys].join(', ')} };`,
+            ...funKeys.map(key => `${key} = ${key}({ ...${log.key}Dependencies });`)
         ];
     }).concat(
         '',
-        `return { ${['...modules', ...targetKeys.map(key => key.split('.').pop())].join(', ')} };`,
+        `return { ${['...modules', ...composedModules].join(', ')} };`,
         ''
     );
 
     const uniqDeps = Array.from(new Set(Object.values(deps).flat()));
-    const args = uniqDeps.filter(dep => !target[dep]);
+    const args = uniqDeps.filter(dep => !session.targetModules[dep]);
 
     return [
         `(modules, { ${args.join(', ')} }) => {`,

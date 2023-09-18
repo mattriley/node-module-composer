@@ -1,6 +1,6 @@
 const util = require('module-composer/src/core/util');
 
-const precompose = session => ({ path, target, options }) => {
+const precompose = session => ({ key, target, options }) => {
     const { depth, publicPrefix, privatePrefix } = options;
 
     const getView = (prefix, cb) => {
@@ -31,13 +31,13 @@ const precompose = session => ({ path, target, options }) => {
                     getView(publicPrefix, key => !key.startsWith(publicPrefix)) :
                     getView(privatePrefix, () => false);
 
-    session.setState({ [path]: { privatePaths } });
+    session.setState({ [key]: { privatePaths } });
 
     return { target: util.merge({}, privateView, publicView) };
 };
 
-const postcompose = session => ({ path, target }) => {
-    const { privatePaths } = session.getState()[path];
+const postcompose = session => ({ key, target }) => {
+    const { privatePaths } = session.getState()[key];
     return { target: util.removeAt(target, privatePaths) };
 };
 

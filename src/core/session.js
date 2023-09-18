@@ -10,20 +10,22 @@ module.exports = (target, options = {}, config = {}) => {
     const { composerOptions, getComposeOptions } = Options(options);
 
     const state = {
+        log: [],
         dependencies: {},
         modules: { ...targetModules },
         extensions: {}
     };
 
-    const registerModule = (path, module, deps) => {
-        _.set(state.modules, path, module);
-        const depKeys = Object.keys(deps ?? {}).filter(k => k !== path);
-        state.dependencies[path] = depKeys;
+    const registerModule = ({ path, key, target, deps, options }) => {
+        _.set(state.modules, key, target);
+        const depKeys = Object.keys(deps ?? {}).filter(k => k !== key);
+        state.dependencies[key] = depKeys;
+        state.log.push({ path, key, depKeys, options });
         return state.modules;
     };
 
-    const registerAlias = (path, module) => {
-        _.set(state.modules, path, module);
+    const registerAlias = (key, module) => {
+        _.set(state.modules, key, module);
         return state.modules;
     };
 

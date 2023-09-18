@@ -6,13 +6,15 @@ module.exports = session => (path, deps, opts = {}) => {
     if (!_.has(session.target, path)) throw new Error(`${path} not found`);
     const target = _.get(session.target, path);
     if (!_.isPlainObject(target)) throw new Error(`${path} must be a plain object`);
-    if (session.dependencies[path]) throw new Error(`${path} is already composed`);
-    const options = session.getComposeOptions(path, opts);
+
+    const key = path.split('.').pop();
+    if (session.dependencies[key]) throw new Error(`${key} is already composed`);
+    const options = session.getComposeOptions(key, opts);
     const { args, customiser, depth, flat, overrides } = options;
     if (depth === 0 && !!deps) throw new Error('Unexpected deps');
 
     const self = {};
-    const selfDeps = { ...session.configAliases, self, [path]: self, ...deps };
+    const selfDeps = { ...session.configAliases, self, [key]: self, ...deps };
 
     const recurse = (target, deps = {}, currentDepth = 0) => {
         if (currentDepth === depth) return target;
@@ -31,12 +33,12 @@ module.exports = session => (path, deps, opts = {}) => {
     ];
 
     const postcomposers = [
-        ({ path, target }) => ({ target: _.merge(target, _.get(overrides, path)) }),
+        ({ key, target }) => ({ target: _.merge(target, _.get(overrides, key)) }),
         ...session.postcomposers.map(fun => arg => fun(arg)),
-        ({ path, target }) => { session.registerModule(path, target, deps); }
+        ({ key, target }) => { session.registerModule({ path, key, target, deps, options }); }
     ];
 
-    const { target: targetMaybePromise, ...precomposeResult } = _.pipeAssign(precomposers, { path, target, deps, self, options });
+    const { target: targetMaybePromise, ...precomposeResult } = _.pipeAssign(precomposers, { key, target, deps, self, options });
 
     const next = target => {
         if (customiser && !_.isPlainObject(target)) throw new Error(`${path}.${customiser} must return a plain object`);

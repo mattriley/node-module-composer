@@ -1,15 +1,15 @@
-const precompose = session => ({ path }) => {
+const precompose = session => ({ key }) => {
     const state = session.getState() ?? session.setState({ modules: {}, totalDuration: 0, durationUnit: 'ms' });
-    const modules = { ...state.modules, [path]: { path, startTime: performance.now() } };
+    const modules = { ...state.modules, [key]: { key, startTime: performance.now() } };
     session.setState({ modules });
 };
 
-const postcompose = session => ({ path }) => {
+const postcompose = session => ({ key }) => {
     const state = session.getState();
-    const module = state.modules[path];
+    const module = state.modules[key];
     const endTime = performance.now();
     const duration = endTime - module.startTime;
-    const modules = { ...state.modules, [path]: { ...module, endTime, duration } };
+    const modules = { ...state.modules, [key]: { ...module, endTime, duration } };
     const totalDuration = state.totalDuration + duration;
     session.setState({ totalDuration, modules });
 };

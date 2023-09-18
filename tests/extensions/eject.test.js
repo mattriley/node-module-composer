@@ -56,8 +56,8 @@ module.exports = ({ test, assert }) => composer => {
 `.trim();
 
         const code = compose.eject();
-        const modules = eval(code)(target, { bar });
         assert.deepEqual(code, expectedCode);
+        const modules = eval(code)(target, { bar });
         assert.deepEqual(modules.foobar.getFoobar(), 'foobar');
     });
 
