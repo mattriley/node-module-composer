@@ -38,7 +38,7 @@ import composer from 'module-composer'; // 👀 esm
 const composer = require('module-composer'); // 👀 cjs
 ```
 
-## About options
+## Using options
 
 The last argument of both `composer` and `compose` take options that customise the composition process. Those options may be specified and overridden according to the following rules:
 
@@ -200,7 +200,7 @@ const { mod } = compose.deep('mod');
 mod.fun1(); // == "hello world"
 ```
 
-## Overriding modules
+## Overriding modules • Stubbing made simple
 
 The `overrides` option can be used to override any part of the module hierarchy. This can be useful for stubbing in tests.
 
@@ -228,11 +228,10 @@ Module Composer provides convenient utility functions for managing application c
 
 ### `configure.merge` or just `configure`: Merge config objects
 
-`configure.merge`, or simply `configure` takes objects, arrays of objects, and functions and merges them in the order specified using [Lodash merge](https://lodash.com/docs#merge). Functions are invoked with the preceeding merged value as an argument, and the result takes the function's place in the merge sequence.  
+`configure.merge`, or just `configure` takes objects, arrays of objects, and functions and merges them in the order specified using [Lodash merge](https://lodash.com/docs#merge). Functions are invoked with the preceeding merged value as an argument, and the result takes the function's place in the merge sequence.  
 
 ```js
 import { configure } from 'module-composer';
-
 const defaultConfig = { a: 1 };
 const userConfig = { b: 2 };
 const deriveConfig = config => ({ c: config.a + config.b });
@@ -254,7 +253,7 @@ const customiser = (objValue, srcValue) => {
 const defaultConfig = { arr: [1] };
 const userConfig = { arr: [2] };
 const config = configure.mergeWith(customiser, defaultConfig, userConfig);
-// config is { arr: [1, 2] }
+// == { arr: [1, 2] }
 ```
 
 ### Configuration as an option
@@ -262,26 +261,21 @@ const config = configure.mergeWith(customiser, defaultConfig, userConfig);
 Module Composer can also take configuration as an option with the same behaviour as `configure.merge`. This not only returns the resulting configuration but also injects it automatically into each composed module.
 
 ```js
-import composer from 'module-composer';
+const modules = {
+    mod: {
+        fun: ({ config }) => () => config.c
+    }
+};
 
-const defaultConfig = { a: 1 };
-const userConfig = { b: 2 };
-const deriveConfig = config => ({ c: config.a + config.b });
+const defaultConfig = { a: 'hello' };
+const userConfig = { b: 'world' };
+const deriveConfig = config => ({ c: `${config.a} ${config.b}` });
 const { compose, config } = composer(modules, { config: [defaultConfig, userConfig, deriveConfig] });
-// config is { a: 1, b: 2, c: 3 }
-const { mod } = compose('mod', { dep }); // config injected automatically
+const { mod } = compose('mod'); // 👀 config injected automatically
+mod.fun() // == "hello world"
 ```
 
 For added convienience, `defaultConfig` is also an option that will take precedence over `config`.
-
-```js
-import composer from 'module-composer';
-
-const defaultConfig = { a: 1 };
-const config = { b: 2 };
-const { compose, config } = composer(modules, { defaultConfig, config });
-// config is { a: 1, b: 2 }
-```
 
 ### Freezing config
 
@@ -809,6 +803,6 @@ https://agileavatars.com • https://github.com/mattriley/agile-avatars
 
 <%- await lib.compose(modules => lib.renderCode(modules.composition.eject(), 'js'), '../agile-avatars/src/compose.js') %>
 
-## Design principles
+### Design principles
 
 - Vanilla and non-intrusive. Structures passed to Module Composer should have no knowledge of / no dependency on Module Composer.

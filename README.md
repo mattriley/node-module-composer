@@ -14,7 +14,7 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
   - [At a glance](#at-a-glance)
 - [API Reference](#api-reference)
   - [Import](#import)
-  - [About options](#about-options)
+  - [Using options](#using-options)
   - [Composing modules](#composing-modules)
     - [`compose.make` or just `compose`: Compose a module](#composemake-or-just-compose-compose-a-module)
     - [`compose.deep`: Compose a deep module](#composedeep-compose-a-deep-module)
@@ -24,7 +24,7 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
   - [Self referencing](#self-referencing)
     - [`self`: Refer to the same module](#self-refer-to-the-same-module)
     - [`here`: Refer to the same level](#here-refer-to-the-same-level)
-  - [Overriding modules](#overriding-modules)
+  - [Overriding modules • Stubbing made simple](#overriding-modules-%E2%80%A2-stubbing-made-simple)
   - [Application configuration](#application-configuration)
     - [`configure.merge` or just `configure`: Merge config objects](#configuremerge-or-just-configure-merge-config-objects)
     - [`configure.mergeWith`: Custom merge config objects](#configuremergewith-custom-merge-config-objects)
@@ -50,7 +50,7 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
     - [Example 2: Pure-impure segregation](#example-2-pure-impure-segregation)
   - [Testability](#testability)
 - [Advanced example: Agile Avatars](#advanced-example-agile-avatars)
-  - [Design principles](#design-principles)
+    - [Design principles](#design-principles)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -95,7 +95,7 @@ import composer from 'module-composer'; // 👀 esm
 const composer = require('module-composer'); // 👀 cjs
 ```
 
-## About options
+## Using options
 
 The last argument of both `composer` and `compose` take options that customise the composition process. Those options may be specified and overridden according to the following rules:
 
@@ -257,7 +257,7 @@ const { mod } = compose.deep('mod');
 mod.fun1(); // == "hello world"
 ```
 
-## Overriding modules
+## Overriding modules • Stubbing made simple
 
 The `overrides` option can be used to override any part of the module hierarchy. This can be useful for stubbing in tests.
 
@@ -285,11 +285,10 @@ Module Composer provides convenient utility functions for managing application c
 
 ### `configure.merge` or just `configure`: Merge config objects
 
-`configure.merge`, or simply `configure` takes objects, arrays of objects, and functions and merges them in the order specified using [Lodash merge](https://lodash.com/docs#merge). Functions are invoked with the preceeding merged value as an argument, and the result takes the function's place in the merge sequence.  
+`configure.merge`, or just `configure` takes objects, arrays of objects, and functions and merges them in the order specified using [Lodash merge](https://lodash.com/docs#merge). Functions are invoked with the preceeding merged value as an argument, and the result takes the function's place in the merge sequence.  
 
 ```js
 import { configure } from 'module-composer';
-
 const defaultConfig = { a: 1 };
 const userConfig = { b: 2 };
 const deriveConfig = config => ({ c: config.a + config.b });
@@ -311,7 +310,7 @@ const customiser = (objValue, srcValue) => {
 const defaultConfig = { arr: [1] };
 const userConfig = { arr: [2] };
 const config = configure.mergeWith(customiser, defaultConfig, userConfig);
-// config is { arr: [1, 2] }
+// == { arr: [1, 2] }
 ```
 
 ### Configuration as an option
@@ -319,26 +318,21 @@ const config = configure.mergeWith(customiser, defaultConfig, userConfig);
 Module Composer can also take configuration as an option with the same behaviour as `configure.merge`. This not only returns the resulting configuration but also injects it automatically into each composed module.
 
 ```js
-import composer from 'module-composer';
+const modules = {
+    mod: {
+        fun: ({ config }) => () => config.c
+    }
+};
 
-const defaultConfig = { a: 1 };
-const userConfig = { b: 2 };
-const deriveConfig = config => ({ c: config.a + config.b });
+const defaultConfig = { a: 'hello' };
+const userConfig = { b: 'world' };
+const deriveConfig = config => ({ c: `${config.a} ${config.b}` });
 const { compose, config } = composer(modules, { config: [defaultConfig, userConfig, deriveConfig] });
-// config is { a: 1, b: 2, c: 3 }
-const { mod } = compose('mod', { dep }); // config injected automatically
+const { mod } = compose('mod'); // 👀 config injected automatically
+mod.fun() // == "hello world"
 ```
 
 For added convienience, `defaultConfig` is also an option that will take precedence over `config`.
-
-```js
-import composer from 'module-composer';
-
-const defaultConfig = { a: 1 };
-const config = { b: 2 };
-const { compose, config } = composer(modules, { defaultConfig, config });
-// config is { a: 1, b: 2 }
-```
 
 ### Freezing config
 
@@ -894,78 +888,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 63.85574996471405,
-            "endTime": 64.3095840215683,
-            "duration": 0.45383405685424805
+            "startTime": 120.80299997329712,
+            "endTime": 121.27166700363159,
+            "duration": 0.46866703033447266
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 64.42133402824402,
-            "endTime": 64.4947919845581,
-            "duration": 0.07345795631408691
+            "startTime": 121.3860000371933,
+            "endTime": 121.4597499370575,
+            "duration": 0.07374989986419678
         },
         "core": {
             "path": "core",
-            "startTime": 65.16149997711182,
-            "endTime": 65.3807920217514,
-            "duration": 0.2192920446395874
+            "startTime": 122.13233304023743,
+            "endTime": 122.35087502002716,
+            "duration": 0.2185419797897339
         },
         "io": {
             "path": "io",
-            "startTime": 65.42458403110504,
-            "endTime": 65.53491699695587,
-            "duration": 0.11033296585083008
+            "startTime": 122.39516699314117,
+            "endTime": 122.50874996185303,
+            "duration": 0.11358296871185303
         },
         "services": {
             "path": "services",
-            "startTime": 65.83291697502136,
-            "endTime": 66.20129203796387,
-            "duration": 0.3683750629425049
+            "startTime": 122.81120800971985,
+            "endTime": 123.19391703605652,
+            "duration": 0.3827090263366699
         },
         "ui": {
             "path": "ui",
-            "startTime": 66.25804197788239,
-            "endTime": 66.30637502670288,
-            "duration": 0.048333048820495605
+            "startTime": 123.2480000257492,
+            "endTime": 123.29754197597504,
+            "duration": 0.04954195022583008
         },
         "elements": {
             "path": "elements",
-            "startTime": 66.35695898532867,
-            "endTime": 66.48470902442932,
-            "duration": 0.12775003910064697
+            "startTime": 123.34841704368591,
+            "endTime": 123.47062504291534,
+            "duration": 0.12220799922943115
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 66.51729202270508,
-            "endTime": 66.54566693305969,
-            "duration": 0.028374910354614258
+            "startTime": 123.50479197502136,
+            "endTime": 123.53041696548462,
+            "duration": 0.025624990463256836
         },
         "components": {
             "path": "components",
-            "startTime": 67.03595900535583,
-            "endTime": 67.59466695785522,
-            "duration": 0.5587079524993896
+            "startTime": 124.05458295345306,
+            "endTime": 124.62054193019867,
+            "duration": 0.5659589767456055
         },
         "styles": {
             "path": "styles",
-            "startTime": 67.71762502193451,
-            "endTime": 67.79649996757507,
-            "duration": 0.07887494564056396
+            "startTime": 124.74687492847443,
+            "endTime": 124.82829201221466,
+            "duration": 0.08141708374023438
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 67.83762502670288,
-            "endTime": 67.86133396625519,
-            "duration": 0.02370893955230713
+            "startTime": 124.87287497520447,
+            "endTime": 124.89708304405212,
+            "duration": 0.02420806884765625
         },
         "startup": {
             "path": "startup",
-            "startTime": 68.0205420255661,
-            "endTime": 68.06879198551178,
-            "duration": 0.04824995994567871
+            "startTime": 125.05658304691315,
+            "endTime": 125.10812497138977,
+            "duration": 0.051541924476623535
         }
     },
-    "totalDuration": 2.1392918825149536,
+    "totalDuration": 2.177751898765564,
     "durationUnit": "ms"
 }
 ```
@@ -1214,6 +1208,6 @@ graph TD;
 };
 ```
 
-## Design principles
+### Design principles
 
 - Vanilla and non-intrusive. Structures passed to Module Composer should have no knowledge of / no dependency on Module Composer.
