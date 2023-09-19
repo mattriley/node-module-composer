@@ -46,6 +46,13 @@ The last argument of both `composer` and `compose` take options that customise t
 2. `composer` option, `defaults`, takes an object of `compose` options keyed by module name which override (1) options for said module.
 3. `compose` options apply only the module being composed and override both (1) and (2) for said module.
 
+The following example illustrates with a fictional option:
+
+```js
+const { compose } = composer(modules, { foobar: 1, defaults: { mod: { foobar: 2 } } });
+const { mod } = compose('mod', {}, { foobar: 3 });
+```
+
 ## Composing modules
 
 ### `compose.make` or just `compose`: Compose a module
