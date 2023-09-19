@@ -50,6 +50,8 @@ The last argument of both `composer` and `compose` take options that customise t
 
 ### `compose.make` or just `compose`: Compose a module
 
+For the majority of cases.
+
 ```js
 const modules = {
     mod1: {
@@ -87,7 +89,7 @@ const modules = {
 const { compose } = composer(modules);
 const { mod1 } = compose.deep('mod1');
 const { mod2 } = compose.deep('mod2', { mod1 });
-mod2.sub2.fun2(); // == "hello world"
+mod2.sub2.fun2(); // == "hello world" 👀 sub2 remains
 ```
 
 ### `compose.flat`: Compose and flatten a module
@@ -111,7 +113,7 @@ const modules = {
 const { compose } = composer(modules);
 const { mod1 } = compose.flat('mod1');
 const { mod2 } = compose.flat('mod2', { mod1 });
-mod2.fun2(); // == "hello world"
+mod2.fun2(); // == "hello world" 👀 sub2 removed
 ```
 
 ### `compose.asis`: Register an existing module
@@ -129,7 +131,7 @@ const modules = {
 };
 
 const { compose } = composer(modules);
-const { mod1 } = compose.asis('mod1');
+const { mod1 } = compose.asis('mod1'); // 👀 no deps accepted
 const { mod2 } = compose('mod2', { mod1 });
 mod2.fun2(); // == "hello world"
 ```
@@ -155,7 +157,7 @@ const modules = {
 const { compose } = composer(modules);
 const { mod1 } = compose('sup1.mod1'); // 👀 delimited by dot
 const { mod2 } = compose('sup2.mod2', { mod1 });  // 👀 delimited by dot
-mod2.fun2(); // == "hello world"
+mod2.fun2(); // == "hello world" 👀 sup2 removed
 ```
 
 ## Self referencing
