@@ -13,6 +13,8 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
   - [Install](#install)
   - [At a glance](#at-a-glance)
 - [API Reference](#api-reference)
+  - [Import](#import)
+  - [About options](#about-options)
   - [Composing modules](#composing-modules)
     - [`compose.make` or just `compose`: Compose a module](#composemake-or-just-compose-compose-a-module)
     - [`compose.deep`: Compose a deep module](#composedeep-compose-a-deep-module)
@@ -85,6 +87,21 @@ views.welcome.render();
 ```
 
 # API Reference
+
+## Import
+
+```js
+import composer from 'module-composer'; // 👀 esm
+const composer = require('module-composer'); // 👀 cjs
+```
+
+## About options
+
+The last argument of both `composer` and `compose` take options that customise the composition process. Those options may be specified and overridden according to the following rules:
+
+1. `composer` options apply to all modules by default.
+2. `composer` option, `defaults`, takes an object of `compose` options keyed by module name which override (1) options for said module.
+3. `compose` options apply only the module being composed and override both (1) and (2) for said module.
 
 ## Composing modules
 
@@ -176,26 +193,26 @@ mod2.fun2(); // == "hello world"
 
 ### Nested modules
 
-Modules that have an organisational superstructure can be composed by specifying the path (delimited by dot) to the module. This can be useful for namespacing modules to avoid naming collisions.
+Modules that have an organisational superstructure can be composed by specifying the path (delimited by dot) to the module.
 
 ```js
 const modules = {
     sup1: {  // 👀 organisational superstructure
-        mod: { // 👀 same module name
+        mod1: {
             fun1: () => () => 'hello world'
         }
     },
     sup2: { // 👀 organisational superstructure
-        mod: { // 👀 same module name
-            fun2: ({ sup1 }) => () => sup1.mod1.fun1();
+        mod2: {
+            fun2: ({ mod1 }) => () => mod1.fun1();
         }
     }
 };
 
 const { compose } = composer(modules);
-const { sup1 } = compose.flat('sup1.mod'); // 👀 delimited by dot
-const { sup2 } = compose.flat('sup2.mod', { sup1 });  // 👀 delimited by dot
-sup2.mod.fun2(); // == "hello world"
+const { mod1 } = compose('sup1.mod1'); // 👀 delimited by dot
+const { mod2 } = compose('sup2.mod2', { mod1 });  // 👀 delimited by dot
+mod2.fun2(); // == "hello world"
 ```
 
 ## Self referencing
@@ -240,24 +257,24 @@ mod.fun1(); // == "hello world"
 
 ## Overriding modules
 
-Module Composer provides an `overrides` option to override any part of the dependency graph. This can be useful for stubbing in tests.
-
-In the tests:
+The `overrides` option can be used to override any part of the module hierarchy. This can be useful for stubbing in tests.
 
 ```js
-const overrides = {
-    someHttpClient: {
-        post: () => {
-            return { status: 201 };
-        }
+const modules = {
+    mod: {
+        fun: () => () => http.get('https://foobar.net')
     }
 };
-```
 
-In the composition:
+const overrides = {
+    mod: {
+        fun: () => 'hello world' // 👀 same function, different result
+    }
+};
 
-```js
 const { compose } = composer(modules, { overrides });
+const { mod } = compose('mod');
+mod.fun(); // == "hello world" 👀 avoids the http request
 ```
 
 ## Application configuration
@@ -275,7 +292,7 @@ const defaultConfig = { a: 1 };
 const userConfig = { b: 2 };
 const deriveConfig = config => ({ c: config.a + config.b });
 const config = configure(defaultConfig, userConfig, deriveConfig);
-// Result is { a: 1, b: 2, c: 3 }
+// == { a: 1, b: 2, c: 3 }
 ```
 
 ### `configure.mergeWith`: Custom merge config objects
@@ -875,78 +892,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 66.72549998760223,
-            "endTime": 67.18570899963379,
-            "duration": 0.4602090120315552
+            "startTime": 120.91891610622406,
+            "endTime": 121.38070809841156,
+            "duration": 0.4617919921875
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 67.298583984375,
-            "endTime": 67.37475001811981,
-            "duration": 0.07616603374481201
+            "startTime": 121.49154102802277,
+            "endTime": 121.57675004005432,
+            "duration": 0.08520901203155518
         },
         "core": {
             "path": "core",
-            "startTime": 68.083624958992,
-            "endTime": 68.30229198932648,
-            "duration": 0.21866703033447266
+            "startTime": 122.23079109191895,
+            "endTime": 122.44704103469849,
+            "duration": 0.21624994277954102
         },
         "io": {
             "path": "io",
-            "startTime": 68.34558403491974,
-            "endTime": 68.47116696834564,
-            "duration": 0.12558293342590332
+            "startTime": 122.49029099941254,
+            "endTime": 122.60175001621246,
+            "duration": 0.11145901679992676
         },
         "services": {
             "path": "services",
-            "startTime": 68.79087495803833,
-            "endTime": 69.19012498855591,
-            "duration": 0.3992500305175781
+            "startTime": 122.89641606807709,
+            "endTime": 123.26954102516174,
+            "duration": 0.37312495708465576
         },
         "ui": {
             "path": "ui",
-            "startTime": 69.24729204177856,
-            "endTime": 69.29829204082489,
-            "duration": 0.050999999046325684
+            "startTime": 123.32504105567932,
+            "endTime": 123.37370800971985,
+            "duration": 0.048666954040527344
         },
         "elements": {
             "path": "elements",
-            "startTime": 69.35274994373322,
-            "endTime": 69.47954201698303,
-            "duration": 0.1267920732498169
+            "startTime": 123.42433309555054,
+            "endTime": 123.54808306694031,
+            "duration": 0.12374997138977051
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 69.5182089805603,
-            "endTime": 69.54624998569489,
-            "duration": 0.02804100513458252
+            "startTime": 123.58020806312561,
+            "endTime": 123.60612499713898,
+            "duration": 0.0259169340133667
         },
         "components": {
             "path": "components",
-            "startTime": 70.09112501144409,
-            "endTime": 70.71050000190735,
-            "duration": 0.6193749904632568
+            "startTime": 124.09158301353455,
+            "endTime": 124.67337501049042,
+            "duration": 0.5817919969558716
         },
         "styles": {
             "path": "styles",
-            "startTime": 70.84562504291534,
-            "endTime": 70.92670893669128,
-            "duration": 0.08108389377593994
+            "startTime": 124.79449999332428,
+            "endTime": 124.87562501430511,
+            "duration": 0.08112502098083496
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 70.97124993801117,
-            "endTime": 70.99341702461243,
-            "duration": 0.022167086601257324
+            "startTime": 124.91745805740356,
+            "endTime": 124.94133305549622,
+            "duration": 0.023874998092651367
         },
         "startup": {
             "path": "startup",
-            "startTime": 71.15400004386902,
-            "endTime": 71.20545899868011,
-            "duration": 0.05145895481109619
+            "startTime": 125.10029101371765,
+            "endTime": 125.14825010299683,
+            "duration": 0.047959089279174805
         }
     },
-    "totalDuration": 2.2597930431365967,
+    "totalDuration": 2.180919885635376,
     "durationUnit": "ms"
 }
 ```

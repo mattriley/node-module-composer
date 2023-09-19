@@ -31,6 +31,21 @@ views.welcome.render();
 
 # API Reference
 
+## Import
+
+```js
+import composer from 'module-composer'; // 👀 esm
+const composer = require('module-composer'); // 👀 cjs
+```
+
+## About options
+
+The last argument of both `composer` and `compose` take options that customise the composition process. Those options may be specified and overridden according to the following rules:
+
+1. `composer` options apply to all modules by default.
+2. `composer` option, `defaults`, takes an object of `compose` options keyed by module name which override (1) options for said module.
+3. `compose` options apply only the module being composed and override both (1) and (2) for said module.
+
 ## Composing modules
 
 ### `compose.make` or just `compose`: Compose a module
@@ -121,26 +136,26 @@ mod2.fun2(); // == "hello world"
 
 ### Nested modules
 
-Modules that have an organisational superstructure can be composed by specifying the path (delimited by dot) to the module. This can be useful for namespacing modules to avoid naming collisions.
+Modules that have an organisational superstructure can be composed by specifying the path (delimited by dot) to the module.
 
 ```js
 const modules = {
     sup1: {  // 👀 organisational superstructure
-        mod: { // 👀 same module name
+        mod1: {
             fun1: () => () => 'hello world'
         }
     },
     sup2: { // 👀 organisational superstructure
-        mod: { // 👀 same module name
-            fun2: ({ sup1 }) => () => sup1.mod1.fun1();
+        mod2: {
+            fun2: ({ mod1 }) => () => mod1.fun1();
         }
     }
 };
 
 const { compose } = composer(modules);
-const { sup1 } = compose.flat('sup1.mod'); // 👀 delimited by dot
-const { sup2 } = compose.flat('sup2.mod', { sup1 });  // 👀 delimited by dot
-sup2.mod.fun2(); // == "hello world"
+const { mod1 } = compose('sup1.mod1'); // 👀 delimited by dot
+const { mod2 } = compose('sup2.mod2', { mod1 });  // 👀 delimited by dot
+mod2.fun2(); // == "hello world"
 ```
 
 ## Self referencing
@@ -185,24 +200,24 @@ mod.fun1(); // == "hello world"
 
 ## Overriding modules
 
-Module Composer provides an `overrides` option to override any part of the dependency graph. This can be useful for stubbing in tests.
-
-In the tests:
+The `overrides` option can be used to override any part of the module hierarchy. This can be useful for stubbing in tests.
 
 ```js
-const overrides = {
-    someHttpClient: {
-        post: () => {
-            return { status: 201 };
-        }
+const modules = {
+    mod: {
+        fun: () => () => http.get('https://foobar.net')
     }
 };
-```
 
-In the composition:
+const overrides = {
+    mod: {
+        fun: () => 'hello world' // 👀 same function, different result
+    }
+};
 
-```js
 const { compose } = composer(modules, { overrides });
+const { mod } = compose('mod');
+mod.fun(); // == "hello world" 👀 avoids the http request
 ```
 
 ## Application configuration
@@ -220,7 +235,7 @@ const defaultConfig = { a: 1 };
 const userConfig = { b: 2 };
 const deriveConfig = config => ({ c: config.a + config.b });
 const config = configure(defaultConfig, userConfig, deriveConfig);
-// Result is { a: 1, b: 2, c: 3 }
+// == { a: 1, b: 2, c: 3 }
 ```
 
 ### `configure.mergeWith`: Custom merge config objects
