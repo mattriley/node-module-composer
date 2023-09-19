@@ -200,7 +200,7 @@ const { mod } = compose.deep('mod');
 mod.fun1(); // == "hello world"
 ```
 
-## Overriding modules • Stubbing made simple
+## Overriding modules == Stubbing made simple
 
 The `overrides` option can be used to override any part of the module hierarchy. This can be useful for stubbing in tests.
 

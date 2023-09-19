@@ -24,7 +24,7 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
   - [Self referencing](#self-referencing)
     - [`self`: Refer to the same module](#self-refer-to-the-same-module)
     - [`here`: Refer to the same level](#here-refer-to-the-same-level)
-  - [Overriding modules • Stubbing made simple](#overriding-modules-%E2%80%A2-stubbing-made-simple)
+  - [Overriding modules == Stubbing made simple](#overriding-modules--stubbing-made-simple)
   - [Application configuration](#application-configuration)
     - [`configure.merge` or just `configure`: Merge config objects](#configuremerge-or-just-configure-merge-config-objects)
     - [`configure.mergeWith`: Custom merge config objects](#configuremergewith-custom-merge-config-objects)
@@ -257,7 +257,7 @@ const { mod } = compose.deep('mod');
 mod.fun1(); // == "hello world"
 ```
 
-## Overriding modules • Stubbing made simple
+## Overriding modules == Stubbing made simple
 
 The `overrides` option can be used to override any part of the module hierarchy. This can be useful for stubbing in tests.
 
@@ -888,78 +888,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 120.80299997329712,
-            "endTime": 121.27166700363159,
-            "duration": 0.46866703033447266
+            "startTime": 65.80637502670288,
+            "endTime": 66.26145803928375,
+            "duration": 0.4550830125808716
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 121.3860000371933,
-            "endTime": 121.4597499370575,
-            "duration": 0.07374989986419678
+            "startTime": 66.3802080154419,
+            "endTime": 66.45354211330414,
+            "duration": 0.07333409786224365
         },
         "core": {
             "path": "core",
-            "startTime": 122.13233304023743,
-            "endTime": 122.35087502002716,
-            "duration": 0.2185419797897339
+            "startTime": 67.12887501716614,
+            "endTime": 67.35204207897186,
+            "duration": 0.2231670618057251
         },
         "io": {
             "path": "io",
-            "startTime": 122.39516699314117,
-            "endTime": 122.50874996185303,
-            "duration": 0.11358296871185303
+            "startTime": 67.39620804786682,
+            "endTime": 67.51370811462402,
+            "duration": 0.11750006675720215
         },
         "services": {
             "path": "services",
-            "startTime": 122.81120800971985,
-            "endTime": 123.19391703605652,
-            "duration": 0.3827090263366699
+            "startTime": 67.80779206752777,
+            "endTime": 68.20250010490417,
+            "duration": 0.3947080373764038
         },
         "ui": {
             "path": "ui",
-            "startTime": 123.2480000257492,
-            "endTime": 123.29754197597504,
-            "duration": 0.04954195022583008
+            "startTime": 68.25754201412201,
+            "endTime": 68.31116700172424,
+            "duration": 0.05362498760223389
         },
         "elements": {
             "path": "elements",
-            "startTime": 123.34841704368591,
-            "endTime": 123.47062504291534,
-            "duration": 0.12220799922943115
+            "startTime": 68.36225008964539,
+            "endTime": 68.49195802211761,
+            "duration": 0.129707932472229
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 123.50479197502136,
-            "endTime": 123.53041696548462,
-            "duration": 0.025624990463256836
+            "startTime": 68.52470803260803,
+            "endTime": 68.55025005340576,
+            "duration": 0.025542020797729492
         },
         "components": {
             "path": "components",
-            "startTime": 124.05458295345306,
-            "endTime": 124.62054193019867,
-            "duration": 0.5659589767456055
+            "startTime": 69.09991705417633,
+            "endTime": 69.66141700744629,
+            "duration": 0.5614999532699585
         },
         "styles": {
             "path": "styles",
-            "startTime": 124.74687492847443,
-            "endTime": 124.82829201221466,
-            "duration": 0.08141708374023438
+            "startTime": 69.78912508487701,
+            "endTime": 69.86887502670288,
+            "duration": 0.0797499418258667
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 124.87287497520447,
-            "endTime": 124.89708304405212,
-            "duration": 0.02420806884765625
+            "startTime": 69.91129207611084,
+            "endTime": 69.93570804595947,
+            "duration": 0.024415969848632812
         },
         "startup": {
             "path": "startup",
-            "startTime": 125.05658304691315,
-            "endTime": 125.10812497138977,
-            "duration": 0.051541924476623535
+            "startTime": 70.09591710567474,
+            "endTime": 70.14625000953674,
+            "duration": 0.05033290386199951
         }
     },
-    "totalDuration": 2.177751898765564,
+    "totalDuration": 2.188665986061096,
     "durationUnit": "ms"
 }
 ```
