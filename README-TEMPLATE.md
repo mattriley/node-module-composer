@@ -42,8 +42,8 @@ const composer = require('module-composer'); // 👀 cjs
 
 The last argument of both `composer` and `compose` take options that customise the composition process. Those options may be specified and overridden according to the following rules:
 
-1. `composer` options apply to all modules by default.
-2. `composer` option, `defaults`, takes an object of `compose` options keyed by module name which override (1) options for said module.
+1. Top-level `composer` options apply to all modules by default.
+2. The top-level `composer` option, `defaults`, takes an object of `compose` options keyed by module name which override (1) options for said module.
 3. `compose` options apply only the module being composed and override both (1) and (2) for said module.
 
 The following example illustrates with a fictional option:
@@ -210,6 +210,8 @@ mod.fun1(); // == "hello world"
 ## Overriding modules == Stubbing made simple
 
 The `overrides` option can be used to override any part of the module hierarchy. This can be useful for stubbing in tests.
+
+The top-level `composer` option, `overrides`, takes an object keyed by module name.
 
 ```js
 const modules = {
@@ -418,7 +420,7 @@ const { mod } = compose('mod', { dep1, dep2 }, { functionAlias: [ [/fun/, 'fn'] 
 mod.fn2(); // == "hello world" 👀 fn2 is an alias of fun2
 ```
 
-As a `composer` option, applies to any module:
+As a top-level `composer` option, applies to any module:
 
 ```js
 const modules = {
