@@ -16,28 +16,10 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
   - [Import](#import)
   - [Using options](#using-options)
   - [Composing modules](#composing-modules)
-    - [`compose.make` or just `compose`: Compose a module](#composemake-or-just-compose-compose-a-module)
-    - [`compose.deep`: Compose a deep module](#composedeep-compose-a-deep-module)
-    - [`compose.flat`: Compose and flatten a module](#composeflat-compose-and-flatten-a-module)
-    - [`compose.asis`: Register an existing module](#composeasis-register-an-existing-module)
-    - [Nested modules](#nested-modules)
   - [Self referencing](#self-referencing)
-    - [`self`: Refer to the same module](#self-refer-to-the-same-module)
-    - [`here`: Refer to the same level](#here-refer-to-the-same-level)
   - [Overriding modules == Stubbing made simple](#overriding-modules--stubbing-made-simple)
   - [Application configuration](#application-configuration)
-    - [`configure.merge` or just `configure`: Merge config objects](#configuremerge-or-just-configure-merge-config-objects)
-    - [`configure.mergeWith`: Custom merge config objects](#configuremergewith-custom-merge-config-objects)
-    - [Configuration as an option](#configuration-as-an-option)
-    - [Freezing config](#freezing-config)
-    - [Config aliases](#config-aliases)
   - [Extensions](#extensions)
-    - [`mermaid`: Generate dependency diagrams](#mermaid-generate-dependency-diagrams)
-    - [`module-alias`: Reference *modules* by alternative names](#module-alias-reference-modules-by-alternative-names)
-    - [`function-alias`: Reference *functions* by alternative names](#function-alias-reference-functions-by-alternative-names)
-    - [`access-modifiers`: True public and private functions](#access-modifiers-true-public-and-private-functions)
-    - [`eject`: Opt out of Module Composer](#eject-opt-out-of-module-composer)
-    - [`perf`: Meaure composition performance](#perf-meaure-composition-performance)
 - [Why Module Composer?](#why-module-composer)
   - [Background](#background)
   - [How it works](#how-it-works)
@@ -46,11 +28,8 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
   - [Dependency injection](#dependency-injection)
   - [Functional programming](#functional-programming)
   - [Fitness functions](#fitness-functions)
-    - [Example 1: N-tier architecture](#example-1-n-tier-architecture)
-    - [Example 2: Pure-impure segregation](#example-2-pure-impure-segregation)
   - [Testability](#testability)
 - [Advanced example: Agile Avatars](#advanced-example-agile-avatars)
-    - [Design principles](#design-principles)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -99,9 +78,16 @@ const composer = require('module-composer'); // 👀 cjs
 
 The last argument of both `composer` and `compose` take options that customise the composition process. Those options may be specified and overridden according to the following rules:
 
-1. `composer` options apply to all modules by default.
-2. `composer` option, `defaults`, takes an object of `compose` options keyed by module name which override (1) options for said module.
+1. Top-level `composer` options apply to all modules by default.
+2. The top-level `composer` option, `defaults`, takes an object of `compose` options keyed by module name which override (1) options for said module.
 3. `compose` options apply only the module being composed and override both (1) and (2) for said module.
+
+The following example illustrates with a fictional option:
+
+```js
+const { compose } = composer(modules, { foobar: 1, defaults: { mod: { foobar: 2 } } });
+const { mod } = compose('mod', {}, { foobar: 3 });
+```
 
 ## Composing modules
 
@@ -260,6 +246,8 @@ mod.fun1(); // == "hello world"
 ## Overriding modules == Stubbing made simple
 
 The `overrides` option can be used to override any part of the module hierarchy. This can be useful for stubbing in tests.
+
+The top-level `composer` option, `overrides`, takes an object keyed by module name.
 
 ```js
 const modules = {
@@ -468,7 +456,7 @@ const { mod } = compose('mod', { dep1, dep2 }, { functionAlias: [ [/fun/, 'fn'] 
 mod.fn2(); // == "hello world" 👀 fn2 is an alias of fun2
 ```
 
-As a `composer` option, applies to any module:
+As a top-level `composer` option, applies to any module:
 
 ```js
 const modules = {
@@ -881,85 +869,85 @@ export default ({ window, config, ...options }) => {
 
 #### Performance measurements generated with `perf` extension
 
-MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
+
 
 ```js
 {
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 65.80637502670288,
-            "endTime": 66.26145803928375,
-            "duration": 0.4550830125808716
+            "startTime": 110.10395800322294,
+            "endTime": 110.56216600164771,
+            "duration": 0.45820799842476845
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 66.3802080154419,
-            "endTime": 66.45354211330414,
-            "duration": 0.07333409786224365
+            "startTime": 110.67325000092387,
+            "endTime": 110.74862500280142,
+            "duration": 0.07537500187754631
         },
         "core": {
             "path": "core",
-            "startTime": 67.12887501716614,
-            "endTime": 67.35204207897186,
-            "duration": 0.2231670618057251
+            "startTime": 111.41079100221395,
+            "endTime": 111.63870800286531,
+            "duration": 0.22791700065135956
         },
         "io": {
             "path": "io",
-            "startTime": 67.39620804786682,
-            "endTime": 67.51370811462402,
-            "duration": 0.11750006675720215
+            "startTime": 111.68437500298023,
+            "endTime": 111.7961660027504,
+            "duration": 0.11179099977016449
         },
         "services": {
             "path": "services",
-            "startTime": 67.80779206752777,
-            "endTime": 68.20250010490417,
-            "duration": 0.3947080373764038
+            "startTime": 112.09491600096226,
+            "endTime": 112.47100000083447,
+            "duration": 0.37608399987220764
         },
         "ui": {
             "path": "ui",
-            "startTime": 68.25754201412201,
-            "endTime": 68.31116700172424,
-            "duration": 0.05362498760223389
+            "startTime": 112.52483300119638,
+            "endTime": 112.57591600343585,
+            "duration": 0.051083002239465714
         },
         "elements": {
             "path": "elements",
-            "startTime": 68.36225008964539,
-            "endTime": 68.49195802211761,
-            "duration": 0.129707932472229
+            "startTime": 112.6278330013156,
+            "endTime": 112.75670800358057,
+            "duration": 0.1288750022649765
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 68.52470803260803,
-            "endTime": 68.55025005340576,
-            "duration": 0.025542020797729492
+            "startTime": 112.79016600176692,
+            "endTime": 112.81600000336766,
+            "duration": 0.02583400160074234
         },
         "components": {
             "path": "components",
-            "startTime": 69.09991705417633,
-            "endTime": 69.66141700744629,
-            "duration": 0.5614999532699585
+            "startTime": 113.30529100075364,
+            "endTime": 113.86625000089407,
+            "duration": 0.5609590001404285
         },
         "styles": {
             "path": "styles",
-            "startTime": 69.78912508487701,
-            "endTime": 69.86887502670288,
-            "duration": 0.0797499418258667
+            "startTime": 113.99304100126028,
+            "endTime": 114.07450000196695,
+            "duration": 0.08145900070667267
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 69.91129207611084,
-            "endTime": 69.93570804595947,
-            "duration": 0.024415969848632812
+            "startTime": 114.11725000292063,
+            "endTime": 114.1392080001533,
+            "duration": 0.021957997232675552
         },
         "startup": {
             "path": "startup",
-            "startTime": 70.09591710567474,
-            "endTime": 70.14625000953674,
-            "duration": 0.05033290386199951
+            "startTime": 114.30483300238848,
+            "endTime": 114.35550000146031,
+            "duration": 0.05066699907183647
         }
     },
-    "totalDuration": 2.188665986061096,
+    "totalDuration": 2.1702100038528442,
     "durationUnit": "ms"
 }
 ```
