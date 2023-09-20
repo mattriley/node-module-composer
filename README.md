@@ -1,6 +1,6 @@
 # Module Composer
 
-<p align="right"><code>100% cov</code>&nbsp;<code>395 sloc</code>&nbsp;<code>15 files</code>&nbsp;<code>1 deps</code>&nbsp;<code>13 dev deps</code></p>
+<p align="right"><code>100% cov</code>&nbsp;<code>397 sloc</code>&nbsp;<code>15 files</code>&nbsp;<code>1 deps</code>&nbsp;<code>13 dev deps</code></p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
@@ -16,10 +16,28 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
   - [Import](#import)
   - [Using options](#using-options)
   - [Composing modules](#composing-modules)
+    - [`compose.make` or just `compose`: Compose a module](#composemake-or-just-compose-compose-a-module)
+    - [`compose.deep`: Compose a deep module](#composedeep-compose-a-deep-module)
+    - [`compose.flat`: Compose and flatten a module](#composeflat-compose-and-flatten-a-module)
+    - [`compose.asis`: Register an existing module](#composeasis-register-an-existing-module)
+    - [Nested modules](#nested-modules)
   - [Self referencing](#self-referencing)
+    - [`self`: Refer to the same module](#self-refer-to-the-same-module)
+    - [`here`: Refer to the same level](#here-refer-to-the-same-level)
   - [Overriding modules == Stubbing made simple](#overriding-modules--stubbing-made-simple)
   - [Application configuration](#application-configuration)
+    - [`configure.merge` or just `configure`: Merge config objects](#configuremerge-or-just-configure-merge-config-objects)
+    - [`configure.mergeWith`: Custom merge config objects](#configuremergewith-custom-merge-config-objects)
+    - [Configuration as an option](#configuration-as-an-option)
+    - [Freezing config](#freezing-config)
+    - [Config aliases](#config-aliases)
   - [Extensions](#extensions)
+    - [`mermaid`: Generate dependency diagrams](#mermaid-generate-dependency-diagrams)
+    - [`module-alias`: Reference *modules* by alternative names](#module-alias-reference-modules-by-alternative-names)
+    - [`function-alias`: Reference *functions* by alternative names](#function-alias-reference-functions-by-alternative-names)
+    - [`access-modifiers`: True public and private functions](#access-modifiers-true-public-and-private-functions)
+    - [`eject`: Opt out of Module Composer](#eject-opt-out-of-module-composer)
+    - [`perf`: Meaure composition performance](#perf-meaure-composition-performance)
 - [Why Module Composer?](#why-module-composer)
   - [Background](#background)
   - [How it works](#how-it-works)
@@ -28,8 +46,11 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
   - [Dependency injection](#dependency-injection)
   - [Functional programming](#functional-programming)
   - [Fitness functions](#fitness-functions)
+    - [Example 1: N-tier architecture](#example-1-n-tier-architecture)
+    - [Example 2: Pure-impure segregation](#example-2-pure-impure-segregation)
   - [Testability](#testability)
 - [Advanced example: Agile Avatars](#advanced-example-agile-avatars)
+    - [Design principles](#design-principles)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -869,85 +890,85 @@ export default ({ window, config, ...options }) => {
 
 #### Performance measurements generated with `perf` extension
 
-
+MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 
 ```js
 {
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 110.10395800322294,
-            "endTime": 110.56216600164771,
-            "duration": 0.45820799842476845
+            "startTime": 113.68070793151855,
+            "endTime": 114.14699995517731,
+            "duration": 0.46629202365875244
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 110.67325000092387,
-            "endTime": 110.74862500280142,
-            "duration": 0.07537500187754631
+            "startTime": 114.26016700267792,
+            "endTime": 114.33329200744629,
+            "duration": 0.07312500476837158
         },
         "core": {
             "path": "core",
-            "startTime": 111.41079100221395,
-            "endTime": 111.63870800286531,
-            "duration": 0.22791700065135956
+            "startTime": 114.99445796012878,
+            "endTime": 115.21970796585083,
+            "duration": 0.2252500057220459
         },
         "io": {
             "path": "io",
-            "startTime": 111.68437500298023,
-            "endTime": 111.7961660027504,
-            "duration": 0.11179099977016449
+            "startTime": 115.26341700553894,
+            "endTime": 115.37416696548462,
+            "duration": 0.11074995994567871
         },
         "services": {
             "path": "services",
-            "startTime": 112.09491600096226,
-            "endTime": 112.47100000083447,
-            "duration": 0.37608399987220764
+            "startTime": 115.66837501525879,
+            "endTime": 116.04670798778534,
+            "duration": 0.3783329725265503
         },
         "ui": {
             "path": "ui",
-            "startTime": 112.52483300119638,
-            "endTime": 112.57591600343585,
-            "duration": 0.051083002239465714
+            "startTime": 116.10129201412201,
+            "endTime": 116.15149998664856,
+            "duration": 0.05020797252655029
         },
         "elements": {
             "path": "elements",
-            "startTime": 112.6278330013156,
-            "endTime": 112.75670800358057,
-            "duration": 0.1288750022649765
+            "startTime": 116.20362496376038,
+            "endTime": 116.33045792579651,
+            "duration": 0.1268329620361328
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 112.79016600176692,
-            "endTime": 112.81600000336766,
-            "duration": 0.02583400160074234
+            "startTime": 116.36220800876617,
+            "endTime": 116.38804197311401,
+            "duration": 0.025833964347839355
         },
         "components": {
             "path": "components",
-            "startTime": 113.30529100075364,
-            "endTime": 113.86625000089407,
-            "duration": 0.5609590001404285
+            "startTime": 116.88229191303253,
+            "endTime": 117.45449995994568,
+            "duration": 0.572208046913147
         },
         "styles": {
             "path": "styles",
-            "startTime": 113.99304100126028,
-            "endTime": 114.07450000196695,
-            "duration": 0.08145900070667267
+            "startTime": 117.58899998664856,
+            "endTime": 117.66787493228912,
+            "duration": 0.07887494564056396
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 114.11725000292063,
-            "endTime": 114.1392080001533,
-            "duration": 0.021957997232675552
+            "startTime": 117.71174991130829,
+            "endTime": 117.73366701602936,
+            "duration": 0.021917104721069336
         },
         "startup": {
             "path": "startup",
-            "startTime": 114.30483300238848,
-            "endTime": 114.35550000146031,
-            "duration": 0.05066699907183647
+            "startTime": 117.89749991893768,
+            "endTime": 117.94683301448822,
+            "duration": 0.04933309555053711
         }
     },
-    "totalDuration": 2.1702100038528442,
+    "totalDuration": 2.1789580583572388,
     "durationUnit": "ms"
 }
 ```
