@@ -18,18 +18,11 @@ module.exports = opts => {
 
     const getComposeOptions = (path, opts) => {
         validate(opts, constants.composeDefaultOptions);
-
-        const options = {
-            ...composerOptions,
-            ...composerOptions.defaults[path],
-            ...opts,
-            overrides: opts.overrides ? _.set(_.cloneDeep(composerOptions.overrides), path, opts.overrides) : composerOptions.overrides
-        };
-
+        const options = { ...composerOptions, ...composerOptions.defaults[path], ...opts };
         const moduleAlias = array(options.moduleAlias);
         const functionAlias = array(options.functionAlias);
-
-        return { ...options, moduleAlias, functionAlias };
+        const overrides = opts.overrides ? _.set(_.cloneDeep(composerOptions.overrides), path, options.overrides) : composerOptions.overrides;
+        return { ...options, overrides, moduleAlias, functionAlias };
 
     };
 
