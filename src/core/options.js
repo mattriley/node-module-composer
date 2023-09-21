@@ -1,8 +1,8 @@
 const constants = require('./constants');
 const _ = require('./util');
 
-const applyArrayOptions = (obj, ...keys) => {
-    return Object.fromEntries(keys.map(key => [key, [obj[key] ?? []].flat()]));
+const applyArrayOptions = (...keys) => opts => {
+    return Object.fromEntries(keys.map(key => [key, [opts[key] ?? []].flat()]));
 };
 
 const validate = (opts, defaults) => {
@@ -15,7 +15,7 @@ module.exports = opts => {
     const composerOptions = _.pipeAssign(
         constants.composerDefaultOptions,
         opts,
-        opts => applyArrayOptions(opts, 'configAlias')
+        applyArrayOptions('configAlias')
     );
 
     const getComposeOptions = (key, opts) => {
@@ -24,7 +24,7 @@ module.exports = opts => {
             opts,
             { overrides: opts.overrides ?? composerOptions.overrides[key] },
             opts => ({ ...composerOptions, ...composerOptions.defaults[key], ...opts }),
-            opts => applyArrayOptions(opts, 'moduleAlias', 'functionAlias')
+            applyArrayOptions('moduleAlias', 'functionAlias')
         );
         return composeOptions;
     };
