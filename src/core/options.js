@@ -19,14 +19,12 @@ module.exports = opts => {
 
     const getComposeOptions = (key, opts) => {
         validate(opts, constants.composeDefaultOptions);
-        const overrides = opts.overrides ? _.set(_.cloneDeep(composerOptions.overrides), key, opts.overrides) : composerOptions.overrides;
+        const overrides = opts.overrides ?? composerOptions.overrides[key];
+        const initial = { ...opts, overrides };
         const composeOptions = _.flow([
             opts => Object.assign({}, composerOptions, composerOptions.defaults[key], opts),
-            opts => applyArrayOptions(opts, 'moduleAlias', 'functionAlias'),
-            opts => {
-                return { ...opts, overrides };
-            }
-        ])(opts);
+            opts => applyArrayOptions(opts, 'moduleAlias', 'functionAlias')
+        ])(initial);
         return composeOptions;
     };
 

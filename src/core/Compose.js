@@ -33,7 +33,7 @@ module.exports = session => (path, deps, opts = {}) => {
     ];
 
     const postcomposers = [
-        ({ key, target }) => ({ target: _.merge(target, _.get(overrides, key)) }),
+        ({ target }) => ({ target: _.merge(target, overrides) }),
         ...session.postcomposers.map(fun => arg => fun(arg)),
         ({ key, target }) => { session.registerModule({ path, key, target, deps, options }); }
     ];
