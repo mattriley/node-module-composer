@@ -13,7 +13,8 @@ const validate = (opts, defaults) => {
 module.exports = opts => {
     validate(opts, constants.composerDefaultOptions);
     const composerOptions = _.pipeAssign(
-        { ...constants.composerDefaultOptions, ...opts },
+        constants.composerDefaultOptions,
+        opts,
         opts => applyArrayOptions(opts, 'configAlias')
     );
 
