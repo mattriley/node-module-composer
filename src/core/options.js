@@ -14,8 +14,7 @@ module.exports = opts => {
     const composerOptions = _.pipeAssign(
         opts,
         validate(constants.composerDefaultOptions),
-        constants.composerDefaultOptions,
-        opts,
+        opts => ({ ...constants.composerDefaultOptions, ...opts }),
         applyArrayOptions('configAlias')
     );
     const getComposeOptions = (key, opts) => {
