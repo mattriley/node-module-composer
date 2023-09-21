@@ -13,17 +13,19 @@ const validate = (opts, defaults) => {
 module.exports = opts => {
     validate(opts, constants.composerDefaultOptions);
     const composerOptions = _.pipeAssign([
+        opts,
         opts => ({ ...constants.composerDefaultOptions, ...opts }),
         opts => applyArrayOptions(opts, 'configAlias')
-    ], opts);
+    ]);
 
     const getComposeOptions = (key, opts) => {
         validate(opts, constants.composeDefaultOptions);
         const composeOptions = _.pipeAssign([
+            opts,
             opts => ({ overrides: opts.overrides ?? composerOptions.overrides[key] }),
             opts => ({ ...composerOptions, ...composerOptions.defaults[key], ...opts }),
             opts => applyArrayOptions(opts, 'moduleAlias', 'functionAlias')
-        ], opts);
+        ]);
         return composeOptions;
     };
 

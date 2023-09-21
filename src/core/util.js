@@ -59,8 +59,8 @@ const flattenObject = (obj, opts = {}) => {
     return recurse(obj);
 };
 
-const pipeAssign = (funs, initial) => {
-    return funs.reduce((acc, fun) => ({ ...acc, ...fun(acc) }), initial);
+const pipeAssign = (funs, initial = {}) => {
+    return funs.reduce((acc, fun) => ({ ...acc, ...invokeOrReturn(fun, acc) }), initial);
 };
 
 const removeAt = (obj, paths) => {
