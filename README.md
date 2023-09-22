@@ -51,7 +51,7 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
     - [Example 2: Pure-impure segregation](#example-2-pure-impure-segregation)
   - [Testability](#testability)
 - [Advanced example: Agile Avatars](#advanced-example-agile-avatars)
-    - [Design principles](#design-principles)
+  - [Contribution / Design principles](#contribution--design-principles)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -913,78 +913,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 110.57179093360901,
-            "endTime": 111.02374982833862,
-            "duration": 0.45195889472961426
+            "startTime": 68.14995789527893,
+            "endTime": 68.60958290100098,
+            "duration": 0.4596250057220459
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 111.13404083251953,
-            "endTime": 111.21012496948242,
-            "duration": 0.07608413696289062
+            "startTime": 68.72408294677734,
+            "endTime": 68.79770803451538,
+            "duration": 0.07362508773803711
         },
         "core": {
             "path": "core",
-            "startTime": 111.87925004959106,
-            "endTime": 112.10916590690613,
-            "duration": 0.22991585731506348
+            "startTime": 69.46033310890198,
+            "endTime": 69.68529105186462,
+            "duration": 0.22495794296264648
         },
         "io": {
             "path": "io",
-            "startTime": 112.15512490272522,
-            "endTime": 112.26854085922241,
-            "duration": 0.11341595649719238
+            "startTime": 69.72920799255371,
+            "endTime": 69.83699989318848,
+            "duration": 0.10779190063476562
         },
         "services": {
             "path": "services",
-            "startTime": 112.57420802116394,
-            "endTime": 112.96191596984863,
-            "duration": 0.3877079486846924
+            "startTime": 70.14966607093811,
+            "endTime": 70.52887511253357,
+            "duration": 0.379209041595459
         },
         "ui": {
             "path": "ui",
-            "startTime": 113.01908302307129,
-            "endTime": 113.06749987602234,
-            "duration": 0.048416852951049805
+            "startTime": 70.58779096603394,
+            "endTime": 70.6392080783844,
+            "duration": 0.05141711235046387
         },
         "elements": {
             "path": "elements",
-            "startTime": 113.11870789527893,
-            "endTime": 113.2419159412384,
-            "duration": 0.12320804595947266
+            "startTime": 70.69429111480713,
+            "endTime": 70.82691597938538,
+            "duration": 0.13262486457824707
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 113.27445793151855,
-            "endTime": 113.30004096031189,
-            "duration": 0.02558302879333496
+            "startTime": 70.86145806312561,
+            "endTime": 70.88724994659424,
+            "duration": 0.02579188346862793
         },
         "components": {
             "path": "components",
-            "startTime": 113.79283285140991,
-            "endTime": 114.35450005531311,
-            "duration": 0.5616672039031982
+            "startTime": 71.38816595077515,
+            "endTime": 71.94716596603394,
+            "duration": 0.5590000152587891
         },
         "styles": {
             "path": "styles",
-            "startTime": 114.47820782661438,
-            "endTime": 114.55900001525879,
-            "duration": 0.08079218864440918
+            "startTime": 72.0715000629425,
+            "endTime": 72.15208292007446,
+            "duration": 0.08058285713195801
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 114.60091590881348,
-            "endTime": 114.62454104423523,
-            "duration": 0.02362513542175293
+            "startTime": 72.19495797157288,
+            "endTime": 72.21716594696045,
+            "duration": 0.022207975387573242
         },
         "startup": {
             "path": "startup",
-            "startTime": 114.78737497329712,
-            "endTime": 114.83487486839294,
-            "duration": 0.047499895095825195
+            "startTime": 72.37933301925659,
+            "endTime": 72.42720794677734,
+            "duration": 0.04787492752075195
         }
     },
-    "totalDuration": 2.169875144958496,
+    "totalDuration": 2.1647086143493652,
     "durationUnit": "ms"
 }
 ```
@@ -1233,6 +1233,8 @@ graph TD;
 };
 ```
 
-### Design principles
+## Contribution / Design principles
 
 - Vanilla and non-intrusive. Structures passed to Module Composer should have no knowledge of / no dependency on Module Composer.
+- Bundler friendly. Dependencies should be fine grained to ensure minimum bundle size. Don't rely on tree-shaking.
+- Any non-core features should be implemented as an optional extension.

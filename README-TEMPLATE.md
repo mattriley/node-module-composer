@@ -827,6 +827,8 @@ https://agileavatars.com • https://github.com/mattriley/agile-avatars
 
 <%- await lib.compose(modules => lib.renderCode(modules.composition.eject(), 'js'), '../agile-avatars/src/compose.js') %>
 
-### Design principles
+## Contribution / Design principles
 
 - Vanilla and non-intrusive. Structures passed to Module Composer should have no knowledge of / no dependency on Module Composer.
+- Bundler friendly. Dependencies should be fine grained to ensure minimum bundle size. Don't rely on tree-shaking.
+- Any non-core features should be implemented as an optional extension.
