@@ -226,7 +226,9 @@ const { mod } = compose.deep('mod');
 mod.fun1(); // == "hello world"
 ```
 
-## Overriding modules == Stubbing made simple
+## Overriding modules == Stubbing made easy
+
+Where dependency injection is not used, it's common practice in JavaScript to stub file imports using testing tools. This approach can lead to brittle tests because the tests become coupled to the physical file location of scripts in addition to the modules they export.
 
 The `overrides` option can be used to override any part of the module hierarchy. This can be useful for stubbing in tests.
 
@@ -489,7 +491,6 @@ Module Composer can be _ejected_ by generating the equivalent vanilla JavaScript
 Module Composer is fast. In fact, so fast that it needs to be measured with sub-millisecond precision. Performance is measured by default for easy analysis.
 
 Use `compose.perf()` to see the total composition duration, and a break down of duration per module.
-
 
 # Why Module Composer?
 
@@ -773,34 +774,6 @@ graph TD;
     util["util<br/>(pure)"]-->|NOT OK!|io
     fileUtil["fileUtil<br/>(impure)"]-->|OK!|io
 `, 'mermaid') %>
-
-## Testability
-
-Module Composer encourages reasoning about _modules_ instead of _files_ and this principle also extends to testing.
-
-A common practice in unit testing, is to stub/mock/fake dependencies, especially those dependencies that are not deterministic, or cause _side-effects_, i.e. interact with databases or other external services. 
-
-In JavaScript, this is commonly achieved using a tool that intercepts the file imports of the dependendenies of the file under test. Digest that for a moment. Why on Earth should our test need to know and be coupled to the physical storage location of a unit's dependencies? No wonder these tests are so brittle.
-
-Module Composer provides an `overrides` option to override any part of the dependency graph:
-
-In the tests:
-
-```js
-const overrides = {
-    someHttpClient: {
-        post: () => {
-            return { status: 201 };
-        }
-    }
-};
-```
-
-In the composition:
-
-```js
-const { compose } = composer(modules, { overrides });
-```
 
 # Advanced example: Agile Avatars
 

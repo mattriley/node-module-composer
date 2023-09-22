@@ -25,7 +25,7 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
   - [Self referencing](#self-referencing)
     - [`self`: Refer to the same module](#self-refer-to-the-same-module)
     - [`here`: Refer to the same level](#here-refer-to-the-same-level)
-  - [Overriding modules == Stubbing made simple](#overriding-modules--stubbing-made-simple)
+  - [Overriding modules == Stubbing made easy](#overriding-modules--stubbing-made-easy)
   - [Application configuration](#application-configuration)
     - [`configure.merge` or just `configure`: Merge config objects](#configuremerge-or-just-configure-merge-config-objects)
     - [`configure.mergeWith`: Custom merge config objects](#configuremergewith-custom-merge-config-objects)
@@ -49,7 +49,6 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
   - [Fitness functions](#fitness-functions)
     - [Example 1: N-tier architecture](#example-1-n-tier-architecture)
     - [Example 2: Pure-impure segregation](#example-2-pure-impure-segregation)
-  - [Testability](#testability)
 - [Advanced example: Agile Avatars](#advanced-example-agile-avatars)
   - [Contribution / Design principles](#contribution--design-principles)
 
@@ -284,7 +283,9 @@ const { mod } = compose.deep('mod');
 mod.fun1(); // == "hello world"
 ```
 
-## Overriding modules == Stubbing made simple
+## Overriding modules == Stubbing made easy
+
+Where dependency injection is not used, it's common practice in JavaScript to stub file imports using testing tools. This approach can lead to brittle tests because the tests become coupled to the physical file location of scripts in addition to the modules they export.
 
 The `overrides` option can be used to override any part of the module hierarchy. This can be useful for stubbing in tests.
 
@@ -547,7 +548,6 @@ Module Composer can be _ejected_ by generating the equivalent vanilla JavaScript
 Module Composer is fast. In fact, so fast that it needs to be measured with sub-millisecond precision. Performance is measured by default for easy analysis.
 
 Use `compose.perf()` to see the total composition duration, and a break down of duration per module.
-
 
 # Why Module Composer?
 
@@ -835,34 +835,6 @@ graph TD;
     fileUtil["fileUtil<br/>(impure)"]-->|OK!|io
 ```
 
-## Testability
-
-Module Composer encourages reasoning about _modules_ instead of _files_ and this principle also extends to testing.
-
-A common practice in unit testing, is to stub/mock/fake dependencies, especially those dependencies that are not deterministic, or cause _side-effects_, i.e. interact with databases or other external services. 
-
-In JavaScript, this is commonly achieved using a tool that intercepts the file imports of the dependendenies of the file under test. Digest that for a moment. Why on Earth should our test need to know and be coupled to the physical storage location of a unit's dependencies? No wonder these tests are so brittle.
-
-Module Composer provides an `overrides` option to override any part of the dependency graph:
-
-In the tests:
-
-```js
-const overrides = {
-    someHttpClient: {
-        post: () => {
-            return { status: 201 };
-        }
-    }
-};
-```
-
-In the composition:
-
-```js
-const { compose } = composer(modules, { overrides });
-```
-
 # Advanced example: Agile Avatars
 
 > Great looking avatars for your agile board and experiment in FRAMEWORK-LESS, vanilla JavaScript.<br/>
@@ -913,78 +885,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 68.14995789527893,
-            "endTime": 68.60958290100098,
-            "duration": 0.4596250057220459
+            "startTime": 132.41091700084507,
+            "endTime": 132.86649999953806,
+            "duration": 0.45558299869298935
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 68.72408294677734,
-            "endTime": 68.79770803451538,
-            "duration": 0.07362508773803711
+            "startTime": 132.97804200090468,
+            "endTime": 133.05250000022352,
+            "duration": 0.07445799931883812
         },
         "core": {
             "path": "core",
-            "startTime": 69.46033310890198,
-            "endTime": 69.68529105186462,
-            "duration": 0.22495794296264648
+            "startTime": 133.7134170010686,
+            "endTime": 133.9287919998169,
+            "duration": 0.21537499874830246
         },
         "io": {
             "path": "io",
-            "startTime": 69.72920799255371,
-            "endTime": 69.83699989318848,
-            "duration": 0.10779190063476562
+            "startTime": 133.97475000098348,
+            "endTime": 134.08404199965298,
+            "duration": 0.10929199866950512
         },
         "services": {
             "path": "services",
-            "startTime": 70.14966607093811,
-            "endTime": 70.52887511253357,
-            "duration": 0.379209041595459
+            "startTime": 134.3777499999851,
+            "endTime": 134.755667001009,
+            "duration": 0.3779170010238886
         },
         "ui": {
             "path": "ui",
-            "startTime": 70.58779096603394,
-            "endTime": 70.6392080783844,
-            "duration": 0.05141711235046387
+            "startTime": 134.81254200078547,
+            "endTime": 134.8612500000745,
+            "duration": 0.0487079992890358
         },
         "elements": {
             "path": "elements",
-            "startTime": 70.69429111480713,
-            "endTime": 70.82691597938538,
-            "duration": 0.13262486457824707
+            "startTime": 134.9126249998808,
+            "endTime": 135.03579200059175,
+            "duration": 0.1231670007109642
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 70.86145806312561,
-            "endTime": 70.88724994659424,
-            "duration": 0.02579188346862793
+            "startTime": 135.0682920012623,
+            "endTime": 135.0939170010388,
+            "duration": 0.025624999776482582
         },
         "components": {
             "path": "components",
-            "startTime": 71.38816595077515,
-            "endTime": 71.94716596603394,
-            "duration": 0.5590000152587891
+            "startTime": 135.5973749998957,
+            "endTime": 136.15000000037253,
+            "duration": 0.5526250004768372
         },
         "styles": {
             "path": "styles",
-            "startTime": 72.0715000629425,
-            "endTime": 72.15208292007446,
-            "duration": 0.08058285713195801
+            "startTime": 136.2721250001341,
+            "endTime": 136.35104200057685,
+            "duration": 0.0789170004427433
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 72.19495797157288,
-            "endTime": 72.21716594696045,
-            "duration": 0.022207975387573242
+            "startTime": 136.3933749999851,
+            "endTime": 136.41508400067687,
+            "duration": 0.021709000691771507
         },
         "startup": {
             "path": "startup",
-            "startTime": 72.37933301925659,
-            "endTime": 72.42720794677734,
-            "duration": 0.04787492752075195
+            "startTime": 136.57629200071096,
+            "endTime": 136.6255419999361,
+            "duration": 0.04924999922513962
         }
     },
-    "totalDuration": 2.1647086143493652,
+    "totalDuration": 2.132625997066498,
     "durationUnit": "ms"
 }
 ```
