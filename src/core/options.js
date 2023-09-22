@@ -21,7 +21,7 @@ module.exports = opts => {
         return _.pipeAssign(
             opts,
             validate(constants.composeDefaultOptions),
-            { overrides: opts.overrides ?? composerOptions.overrides[key] },
+            { overrides: opts.overrides ?? composerOptions.overrides?.[key] },
             opts => ({ ...composerOptions, ...composerOptions.defaults[key], ...opts }),
             applyArrayOptions('moduleAlias', 'functionAlias')
         );
