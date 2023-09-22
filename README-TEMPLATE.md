@@ -167,6 +167,25 @@ const { mod2 } = compose('sup2.mod2', { mod1 });  // 👀 delimited by dot
 mod2.fun2(); // == "hello world" 👀 sup2 removed
 ```
 
+### Retrieving modules
+
+For convenience, `compose` returns all previous modules composed, in addition to the most recent.
+
+```js
+const { compose } = composer(modules);
+compose('mod1');
+const { mod1, mod2 } = compose('mod2', { mod1 });  // 👀 mod1 also returned
+```
+
+Composed modules can also be accessed directly with `compose.modules`.
+
+```js
+const { compose } = composer(modules);
+compose('mod1');
+compose('mod2', { mod1 }); 
+const { mod1, mod2 } = compose.modules;  // 👀 both mod1 and mod2 are returned
+```
+
 ## Self referencing
 
 Module functions can reference others functions in the same module either by name, or by the special alias `self`.
@@ -762,10 +781,6 @@ Module Composer encourages reasoning about _modules_ instead of _files_ and this
 A common practice in unit testing, is to stub/mock/fake dependencies, especially those dependencies that are not deterministic, or cause _side-effects_, i.e. interact with databases or other external services. 
 
 In JavaScript, this is commonly achieved using a tool that intercepts the file imports of the dependendenies of the file under test. Digest that for a moment. Why on Earth should our test need to know and be coupled to the physical storage location of a unit's dependencies? No wonder these tests are so brittle.
-
-Here's how mocking is typically achieved with Jest:
-
-TODO: Insert Jest mock example
 
 Module Composer provides an `overrides` option to override any part of the dependency graph:
 

@@ -21,6 +21,7 @@ Bring order to chaos. Level up your JS application architecture with Module Comp
     - [`compose.flat`: Compose and flatten a module](#composeflat-compose-and-flatten-a-module)
     - [`compose.asis`: Register an existing module](#composeasis-register-an-existing-module)
     - [Nested modules](#nested-modules)
+    - [Retrieving modules](#retrieving-modules)
   - [Self referencing](#self-referencing)
     - [`self`: Refer to the same module](#self-refer-to-the-same-module)
     - [`here`: Refer to the same level](#here-refer-to-the-same-level)
@@ -222,6 +223,25 @@ const { compose } = composer(modules);
 const { mod1 } = compose('sup1.mod1'); // 👀 delimited by dot
 const { mod2 } = compose('sup2.mod2', { mod1 });  // 👀 delimited by dot
 mod2.fun2(); // == "hello world" 👀 sup2 removed
+```
+
+### Retrieving modules
+
+For convenience, `compose` returns all previous modules composed, in addition to the most recent.
+
+```js
+const { compose } = composer(modules);
+compose('mod1');
+const { mod1, mod2 } = compose('mod2', { mod1 });  // 👀 mod1 also returned
+```
+
+Composed modules can also be accessed directly with `compose.modules`.
+
+```js
+const { compose } = composer(modules);
+compose('mod1');
+compose('mod2', { mod1 }); 
+const { mod1, mod2 } = compose.modules;  // 👀 both mod1 and mod2 are returned
 ```
 
 ## Self referencing
@@ -823,10 +843,6 @@ A common practice in unit testing, is to stub/mock/fake dependencies, especially
 
 In JavaScript, this is commonly achieved using a tool that intercepts the file imports of the dependendenies of the file under test. Digest that for a moment. Why on Earth should our test need to know and be coupled to the physical storage location of a unit's dependencies? No wonder these tests are so brittle.
 
-Here's how mocking is typically achieved with Jest:
-
-TODO: Insert Jest mock example
-
 Module Composer provides an `overrides` option to override any part of the dependency graph:
 
 In the tests:
@@ -897,78 +913,78 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "stores": {
             "path": "stores",
-            "startTime": 64.92291688919067,
-            "endTime": 65.3929169178009,
-            "duration": 0.4700000286102295
+            "startTime": 110.57179093360901,
+            "endTime": 111.02374982833862,
+            "duration": 0.45195889472961426
         },
         "subscriptions": {
             "path": "subscriptions",
-            "startTime": 65.50429201126099,
-            "endTime": 65.58758401870728,
-            "duration": 0.08329200744628906
+            "startTime": 111.13404083251953,
+            "endTime": 111.21012496948242,
+            "duration": 0.07608413696289062
         },
         "core": {
             "path": "core",
-            "startTime": 66.28524994850159,
-            "endTime": 66.52345895767212,
-            "duration": 0.23820900917053223
+            "startTime": 111.87925004959106,
+            "endTime": 112.10916590690613,
+            "duration": 0.22991585731506348
         },
         "io": {
             "path": "io",
-            "startTime": 66.56624984741211,
-            "endTime": 66.6816668510437,
-            "duration": 0.1154170036315918
+            "startTime": 112.15512490272522,
+            "endTime": 112.26854085922241,
+            "duration": 0.11341595649719238
         },
         "services": {
             "path": "services",
-            "startTime": 66.9869589805603,
-            "endTime": 67.37804198265076,
-            "duration": 0.3910830020904541
+            "startTime": 112.57420802116394,
+            "endTime": 112.96191596984863,
+            "duration": 0.3877079486846924
         },
         "ui": {
             "path": "ui",
-            "startTime": 67.4325840473175,
-            "endTime": 67.48420882225037,
-            "duration": 0.05162477493286133
+            "startTime": 113.01908302307129,
+            "endTime": 113.06749987602234,
+            "duration": 0.048416852951049805
         },
         "elements": {
             "path": "elements",
-            "startTime": 67.54087495803833,
-            "endTime": 67.68137502670288,
-            "duration": 0.14050006866455078
+            "startTime": 113.11870789527893,
+            "endTime": 113.2419159412384,
+            "duration": 0.12320804595947266
         },
         "vendorComponents": {
             "path": "vendorComponents",
-            "startTime": 67.71420884132385,
-            "endTime": 67.74029183387756,
-            "duration": 0.026082992553710938
+            "startTime": 113.27445793151855,
+            "endTime": 113.30004096031189,
+            "duration": 0.02558302879333496
         },
         "components": {
             "path": "components",
-            "startTime": 68.2655839920044,
-            "endTime": 68.83949995040894,
-            "duration": 0.573915958404541
+            "startTime": 113.79283285140991,
+            "endTime": 114.35450005531311,
+            "duration": 0.5616672039031982
         },
         "styles": {
             "path": "styles",
-            "startTime": 68.96766686439514,
-            "endTime": 69.0505838394165,
-            "duration": 0.0829169750213623
+            "startTime": 114.47820782661438,
+            "endTime": 114.55900001525879,
+            "duration": 0.08079218864440918
         },
         "diagnostics": {
             "path": "diagnostics",
-            "startTime": 69.09412503242493,
-            "endTime": 69.11695885658264,
-            "duration": 0.022833824157714844
+            "startTime": 114.60091590881348,
+            "endTime": 114.62454104423523,
+            "duration": 0.02362513542175293
         },
         "startup": {
             "path": "startup",
-            "startTime": 69.4160840511322,
-            "endTime": 69.5074999332428,
-            "duration": 0.0914158821105957
+            "startTime": 114.78737497329712,
+            "endTime": 114.83487486839294,
+            "duration": 0.047499895095825195
         }
     },
-    "totalDuration": 2.2872915267944336,
+    "totalDuration": 2.169875144958496,
     "durationUnit": "ms"
 }
 ```
