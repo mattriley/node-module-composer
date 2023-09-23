@@ -2,6 +2,7 @@ const composeDefaultOptions = {
     customiser: 'setup',
     depth: 1,
     flat: false,
+    args: {},
     overrides: {},
     publicPrefix: '$',
     privatePrefix: '_',

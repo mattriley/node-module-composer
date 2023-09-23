@@ -1,6 +1,6 @@
 # Module Composer
 
-<p align="right"><code>100% cov</code>&nbsp;<code>396 sloc</code>&nbsp;<code>15 files</code>&nbsp;<code>1 deps</code>&nbsp;<code>13 dev deps</code></p>
+<p align="right"><code>100% cov</code>&nbsp;<code>397 sloc</code>&nbsp;<code>15 files</code>&nbsp;<code>1 deps</code>&nbsp;<code>13 dev deps</code></p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
@@ -847,11 +847,13 @@ https://agileavatars.com • https://github.com/mattriley/agile-avatars
 import composer from 'module-composer';
 import modules from './modules/index.js';
 import defaultConfig from './default-config.js';
-const { storage, util } = modules;
 
 export default ({ window, config, ...options }) => {
 
     const { compose } = composer({ window, ...modules }, { defaultConfig, config, ...options });
+
+    const { util } = compose.asis('util');
+    const { storage } = compose.asis('storage');
 
     // Data
     const { stores } = compose('stores', { storage });
@@ -883,80 +885,92 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ```js
 {
     "modules": {
+        "util": {
+            "key": "util",
+            "startTime": 66.50583399832249,
+            "endTime": 66.70916700363159,
+            "duration": 0.20333300530910492
+        },
+        "storage": {
+            "key": "storage",
+            "startTime": 66.8347090035677,
+            "endTime": 66.84870900213718,
+            "duration": 0.013999998569488525
+        },
         "stores": {
-            "path": "stores",
-            "startTime": 63.28645899891853,
-            "endTime": 63.745208997279406,
-            "duration": 0.45874999836087227
+            "key": "stores",
+            "startTime": 66.99629200994968,
+            "endTime": 67.21408399939537,
+            "duration": 0.21779198944568634
         },
         "subscriptions": {
-            "path": "subscriptions",
-            "startTime": 63.856541998684406,
-            "endTime": 63.933041997253895,
-            "duration": 0.07649999856948853
+            "key": "subscriptions",
+            "startTime": 67.2809170037508,
+            "endTime": 67.39462500810623,
+            "duration": 0.1137080043554306
         },
         "core": {
-            "path": "core",
-            "startTime": 64.59504199773073,
-            "endTime": 64.81279199942946,
-            "duration": 0.21775000169873238
+            "key": "core",
+            "startTime": 68.04612500965595,
+            "endTime": 68.1873340010643,
+            "duration": 0.14120899140834808
         },
         "io": {
-            "path": "io",
-            "startTime": 64.8568749986589,
-            "endTime": 64.96433399990201,
-            "duration": 0.10745900124311447
+            "key": "io",
+            "startTime": 68.25795900821686,
+            "endTime": 68.37158399820328,
+            "duration": 0.11362498998641968
         },
         "services": {
-            "path": "services",
-            "startTime": 65.26049999892712,
-            "endTime": 65.6356669999659,
-            "duration": 0.37516700103878975
+            "key": "services",
+            "startTime": 68.68979200720787,
+            "endTime": 69.00104200839996,
+            "duration": 0.3112500011920929
         },
         "ui": {
-            "path": "ui",
-            "startTime": 65.68999999761581,
-            "endTime": 65.73941699787974,
-            "duration": 0.04941700026392937
+            "key": "ui",
+            "startTime": 69.1253750026226,
+            "endTime": 69.17441700398922,
+            "duration": 0.049042001366615295
         },
         "elements": {
-            "path": "elements",
-            "startTime": 65.79133399948478,
-            "endTime": 65.92195899784565,
-            "duration": 0.13062499836087227
+            "key": "elements",
+            "startTime": 69.25349999964237,
+            "endTime": 69.39295899868011,
+            "duration": 0.13945899903774261
         },
         "vendorComponents": {
-            "path": "vendorComponents",
-            "startTime": 65.95529199764132,
-            "endTime": 65.98108399659395,
-            "duration": 0.025791998952627182
+            "key": "vendorComponents",
+            "startTime": 69.57108400762081,
+            "endTime": 69.60929200053215,
+            "duration": 0.038207992911338806
         },
         "components": {
-            "path": "components",
-            "startTime": 66.47800000011921,
-            "endTime": 67.03658399730921,
-            "duration": 0.5585839971899986
+            "key": "components",
+            "startTime": 70.1711670011282,
+            "endTime": 70.58750000596046,
+            "duration": 0.41633300483226776
         },
         "styles": {
-            "path": "styles",
-            "startTime": 67.15966700017452,
-            "endTime": 67.24133399873972,
-            "duration": 0.08166699856519699
+            "key": "styles",
+            "startTime": 70.73429200053215,
+            "endTime": 70.79874999821186,
+            "duration": 0.06445799767971039
         },
         "diagnostics": {
-            "path": "diagnostics",
-            "startTime": 67.28329199925065,
-            "endTime": 67.30670899897814,
-            "duration": 0.023416999727487564
+            "key": "diagnostics",
+            "startTime": 70.85466700792313,
+            "endTime": 70.87475000321865,
+            "duration": 0.020082995295524597
         },
         "startup": {
-            "path": "startup",
-            "startTime": 67.46316699683666,
-            "endTime": 67.51237499713898,
-            "duration": 0.04920800030231476
+            "key": "startup",
+            "startTime": 70.94716700911522,
+            "endTime": 71.00445900857449,
+            "duration": 0.05729199945926666
         }
     },
-    "totalDuration": 2.154335994273424,
+    "totalDuration": 1.8997919708490372,
     "durationUnit": "ms"
 }
 ```
@@ -966,6 +980,21 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
 ###### <p align="right"><em>Can't see the diagram?</em> <a id="link-4" href="https://github.com/mattriley/node-module-composer#user-content-link-4">View it on GitHub</a></p>
 ```mermaid
 graph TD;
+    stores-->storage;
+    subscriptions-->stores;
+    subscriptions-->util;
+    core-->util;
+    io-->window;
+    services-->subscriptions;
+    services-->stores;
+    services-->core;
+    services-->io;
+    services-->util;
+    ui-->window;
+    elements-->ui;
+    elements-->util;
+    vendorComponents-->ui;
+    vendorComponents-->window;
     components-->io;
     components-->ui;
     components-->elements;
@@ -973,17 +1002,10 @@ graph TD;
     components-->services;
     components-->subscriptions;
     components-->util;
-    core-->util;
+    styles-->ui;
+    styles-->subscriptions;
     diagnostics-->stores;
     diagnostics-->util;
-    elements-->ui;
-    elements-->util;
-    io-->window;
-    services-->subscriptions;
-    services-->stores;
-    services-->core;
-    services-->io;
-    services-->util;
     startup-->ui;
     startup-->components;
     startup-->styles;
@@ -992,18 +1014,25 @@ graph TD;
     startup-->stores;
     startup-->util;
     startup-->window;
-    stores-->storage;
-    styles-->ui;
-    styles-->subscriptions;
-    subscriptions-->stores;
-    subscriptions-->util;
-    ui-->window;
-    vendorComponents-->ui;
-    vendorComponents-->window;
 ```
 
 ```
 graph TD;
+    stores-->storage;
+    subscriptions-->stores;
+    subscriptions-->util;
+    core-->util;
+    io-->window;
+    services-->subscriptions;
+    services-->stores;
+    services-->core;
+    services-->io;
+    services-->util;
+    ui-->window;
+    elements-->ui;
+    elements-->util;
+    vendorComponents-->ui;
+    vendorComponents-->window;
     components-->io;
     components-->ui;
     components-->elements;
@@ -1011,17 +1040,10 @@ graph TD;
     components-->services;
     components-->subscriptions;
     components-->util;
-    core-->util;
+    styles-->ui;
+    styles-->subscriptions;
     diagnostics-->stores;
     diagnostics-->util;
-    elements-->ui;
-    elements-->util;
-    io-->window;
-    services-->subscriptions;
-    services-->stores;
-    services-->core;
-    services-->io;
-    services-->util;
     startup-->ui;
     startup-->components;
     startup-->styles;
@@ -1030,20 +1052,24 @@ graph TD;
     startup-->stores;
     startup-->util;
     startup-->window;
-    stores-->storage;
-    styles-->ui;
-    styles-->subscriptions;
-    subscriptions-->stores;
-    subscriptions-->util;
-    ui-->window;
-    vendorComponents-->ui;
-    vendorComponents-->window;
 ```
 
 #### Code generated with `eject` extension
 
 ```js
 (modules, { window }) => {
+
+    const util = { ...modules.util };
+    const utilDependencies = { util };
+    util.debounce = util.debounce({ ...utilDependencies });
+    util.mapValues = util.mapValues({ ...utilDependencies });
+    util.pipe = util.pipe({ ...utilDependencies });
+    util.splitAt = util.splitAt({ ...utilDependencies });
+    util.upperFirst = util.upperFirst({ ...utilDependencies });
+
+    const storage = { ...modules.storage };
+    const storageDependencies = { storage };
+    storage.stateStore = storage.stateStore({ ...storageDependencies });
 
     const stores = { ...modules.stores };
     const storesDependencies = { stores, storage };
@@ -1200,7 +1226,7 @@ graph TD;
     startup.insertNilRole = startup.insertNilRole({ ...startupDependencies });
     startup.start = startup.start({ ...startupDependencies });
 
-    return { ...modules, stores, subscriptions, core, io, services, ui, elements, vendorComponents, components, styles, diagnostics, startup };
+    return { ...modules, util, storage, stores, subscriptions, core, io, services, ui, elements, vendorComponents, components, styles, diagnostics, startup };
 
 };
 ```

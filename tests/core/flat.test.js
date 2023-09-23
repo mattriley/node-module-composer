@@ -61,7 +61,7 @@ module.exports = ({ test, assert }) => composer => {
     //             }
     //         }
     //     };
-    //     const { compose } = composer(target, { _depth: 1 });
+    //     const { compose } = composer(target, { depth: 1 });
     //     const { mod } = compose.flat('mod');
     //     console.warn({ mod });
     //     assert.deepEqual(mod.sub2.fun, fun);
