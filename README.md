@@ -887,90 +887,90 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "util": {
             "key": "util",
-            "startTime": 66.50583399832249,
-            "endTime": 66.70916700363159,
-            "duration": 0.20333300530910492
+            "startTime": 65.93320800364017,
+            "endTime": 66.12904100120068,
+            "duration": 0.1958329975605011
         },
         "storage": {
             "key": "storage",
-            "startTime": 66.8347090035677,
-            "endTime": 66.84870900213718,
-            "duration": 0.013999998569488525
+            "startTime": 66.25187501311302,
+            "endTime": 66.2654580026865,
+            "duration": 0.013582989573478699
         },
         "stores": {
             "key": "stores",
-            "startTime": 66.99629200994968,
-            "endTime": 67.21408399939537,
-            "duration": 0.21779198944568634
+            "startTime": 66.41070801019669,
+            "endTime": 66.63987500965595,
+            "duration": 0.22916699945926666
         },
         "subscriptions": {
             "key": "subscriptions",
-            "startTime": 67.2809170037508,
-            "endTime": 67.39462500810623,
-            "duration": 0.1137080043554306
+            "startTime": 66.71083301305771,
+            "endTime": 66.82595799863338,
+            "duration": 0.11512498557567596
         },
         "core": {
             "key": "core",
-            "startTime": 68.04612500965595,
-            "endTime": 68.1873340010643,
-            "duration": 0.14120899140834808
+            "startTime": 67.48816600441933,
+            "endTime": 67.63383300602436,
+            "duration": 0.14566700160503387
         },
         "io": {
             "key": "io",
-            "startTime": 68.25795900821686,
-            "endTime": 68.37158399820328,
-            "duration": 0.11362498998641968
+            "startTime": 67.7088330090046,
+            "endTime": 67.81745800375938,
+            "duration": 0.10862499475479126
         },
         "services": {
             "key": "services",
-            "startTime": 68.68979200720787,
-            "endTime": 69.00104200839996,
-            "duration": 0.3112500011920929
+            "startTime": 68.15983299911022,
+            "endTime": 68.484375,
+            "duration": 0.32454200088977814
         },
         "ui": {
             "key": "ui",
-            "startTime": 69.1253750026226,
-            "endTime": 69.17441700398922,
-            "duration": 0.049042001366615295
+            "startTime": 68.61379100382328,
+            "endTime": 68.66345800459385,
+            "duration": 0.04966700077056885
         },
         "elements": {
             "key": "elements",
-            "startTime": 69.25349999964237,
-            "endTime": 69.39295899868011,
-            "duration": 0.13945899903774261
+            "startTime": 68.74491600692272,
+            "endTime": 68.89504100382328,
+            "duration": 0.15012499690055847
         },
         "vendorComponents": {
             "key": "vendorComponents",
-            "startTime": 69.57108400762081,
-            "endTime": 69.60929200053215,
-            "duration": 0.038207992911338806
+            "startTime": 69.06691600382328,
+            "endTime": 69.10470800101757,
+            "duration": 0.03779199719429016
         },
         "components": {
             "key": "components",
-            "startTime": 70.1711670011282,
-            "endTime": 70.58750000596046,
-            "duration": 0.41633300483226776
+            "startTime": 69.68075001239777,
+            "endTime": 70.10970801115036,
+            "duration": 0.428957998752594
         },
         "styles": {
             "key": "styles",
-            "startTime": 70.73429200053215,
-            "endTime": 70.79874999821186,
-            "duration": 0.06445799767971039
+            "startTime": 70.26287500560284,
+            "endTime": 70.32508300244808,
+            "duration": 0.06220799684524536
         },
         "diagnostics": {
             "key": "diagnostics",
-            "startTime": 70.85466700792313,
-            "endTime": 70.87475000321865,
-            "duration": 0.020082995295524597
+            "startTime": 70.37825000286102,
+            "endTime": 70.40208300948143,
+            "duration": 0.023833006620407104
         },
         "startup": {
             "key": "startup",
-            "startTime": 70.94716700911522,
-            "endTime": 71.00445900857449,
-            "duration": 0.05729199945926666
+            "startTime": 70.47075000405312,
+            "endTime": 70.5296660065651,
+            "duration": 0.05891600251197815
         }
     },
-    "totalDuration": 1.8997919708490372,
+    "totalDuration": 1.9440409690141678,
     "durationUnit": "ms"
 }
 ```
