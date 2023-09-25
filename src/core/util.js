@@ -1,6 +1,5 @@
 /* eslint-disable no-prototype-builtins */
 const cloneDeep = require('lodash/cloneDeep');
-const flow = require('lodash/flow');
 const get = require('lodash/get');
 const has = require('lodash/has');
 const isFunction = require('lodash/isFunction');
@@ -85,7 +84,6 @@ module.exports = {
     deepFreeze,
     flattenObject,
     flatMapKeys,
-    flow,
     get,
     has,
     invokeAtOrReturn,
