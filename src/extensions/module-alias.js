@@ -1,6 +1,9 @@
 const precompose = session => ({ key, deps, self, options }) => {
     const aliasByModule = session.setState({ [key]: options.moduleAlias });
-    const selfAlias = Object.fromEntries(options.moduleAlias.map(alias => [alias, self]));
+    const selfAlias = Object.fromEntries(options.moduleAlias.map(alias => {
+        if (deps?.[alias]) throw new Error(`${alias} already exists`);
+        return [alias, self];
+    }));
     const aliases = Object.fromEntries(Object.keys(deps ?? {}).flatMap(depKey => {
         const aliases = aliasByModule[depKey] ?? [];
         return aliases.map(alias => [alias, session.modules[depKey]]);

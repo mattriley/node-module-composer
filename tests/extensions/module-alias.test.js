@@ -47,6 +47,13 @@ module.exports = ({ test, assert }) => composer => {
             next(compose);
         });
 
+        await t.test('naming collision', () => {
+            const target = { mod: {} };
+            const m1 = {};
+            const { compose } = composer(target);
+            assert.throws(() => compose('mod', { m1 }, { moduleAlias: ['m1'] }), /^Error: m1 already exists$/);
+        });
+
     });
 
 };
