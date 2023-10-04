@@ -24,4 +24,11 @@ module.exports = ({ test, assert }) => composer => {
         assert.throws(() => compose('mod', {}), /^Error: mod must be a plain object$/);
     });
 
+    test('naming collision', () => {
+        const target = { mod: {} };
+        const mod = {};
+        const { compose } = composer(target);
+        assert.throws(() => compose('mod', { mod }), /^Error: mod already exists$/);
+    });
+
 };

@@ -1,6 +1,6 @@
 # Module Composer
 
-<p align="right"><code>100% cov</code>&nbsp;<code>395 sloc</code>&nbsp;<code>15 files</code>&nbsp;<code>1 deps</code>&nbsp;<code>13 dev deps</code></p>
+<p align="right"><code>100% cov</code>&nbsp;<code>396 sloc</code>&nbsp;<code>15 files</code>&nbsp;<code>1 deps</code>&nbsp;<code>13 dev deps</code></p>
 
 Bring order to chaos. Level up your JS application architecture with Module Composer, a tiny but powerful module composition utility based on functional dependency injection.
 
@@ -887,90 +887,90 @@ MacBook Pro (14 inch, 2021). Apple M1 Max. 32 GB.
     "modules": {
         "util": {
             "key": "util",
-            "startTime": 107.956208050251,
-            "endTime": 108.16041600704193,
-            "duration": 0.20420795679092407
+            "startTime": 107.93333399295807,
+            "endTime": 108.13241696357727,
+            "duration": 0.19908297061920166
         },
         "storage": {
             "key": "storage",
-            "startTime": 108.284333050251,
-            "endTime": 108.29858303070068,
-            "duration": 0.014249980449676514
+            "startTime": 108.25841701030731,
+            "endTime": 108.27295899391174,
+            "duration": 0.014541983604431152
         },
         "stores": {
             "key": "stores",
-            "startTime": 108.44604104757309,
-            "endTime": 108.66604101657867,
-            "duration": 0.21999996900558472
+            "startTime": 108.42479193210602,
+            "endTime": 108.64279198646545,
+            "duration": 0.21800005435943604
         },
         "subscriptions": {
             "key": "subscriptions",
-            "startTime": 108.73475003242493,
-            "endTime": 108.84987503290176,
-            "duration": 0.11512500047683716
+            "startTime": 108.71291697025299,
+            "endTime": 108.82729196548462,
+            "duration": 0.11437499523162842
         },
         "core": {
             "key": "core",
-            "startTime": 109.5120000243187,
-            "endTime": 109.66279101371765,
-            "duration": 0.1507909893989563
+            "startTime": 109.46066701412201,
+            "endTime": 109.6102089881897,
+            "duration": 0.149541974067688
         },
         "io": {
             "key": "io",
-            "startTime": 109.73620802164078,
-            "endTime": 109.84241604804993,
-            "duration": 0.10620802640914917
+            "startTime": 109.68116700649261,
+            "endTime": 109.78291690349579,
+            "duration": 0.10174989700317383
         },
         "services": {
             "key": "services",
-            "startTime": 110.16779100894928,
-            "endTime": 110.48875004053116,
-            "duration": 0.32095903158187866
+            "startTime": 110.10591697692871,
+            "endTime": 110.41999995708466,
+            "duration": 0.3140829801559448
         },
         "ui": {
             "key": "ui",
-            "startTime": 110.61741602420807,
-            "endTime": 110.6708750128746,
-            "duration": 0.053458988666534424
+            "startTime": 110.54187500476837,
+            "endTime": 110.59700000286102,
+            "duration": 0.05512499809265137
         },
         "elements": {
             "key": "elements",
-            "startTime": 110.75237500667572,
-            "endTime": 110.89420801401138,
-            "duration": 0.14183300733566284
+            "startTime": 110.67691695690155,
+            "endTime": 110.81808400154114,
+            "duration": 0.1411670446395874
         },
         "vendorComponents": {
             "key": "vendorComponents",
-            "startTime": 111.07216602563858,
-            "endTime": 111.10895800590515,
-            "duration": 0.036791980266571045
+            "startTime": 110.98624992370605,
+            "endTime": 111.02241694927216,
+            "duration": 0.036167025566101074
         },
         "components": {
             "key": "components",
-            "startTime": 111.71279102563858,
-            "endTime": 112.13641601800919,
-            "duration": 0.42362499237060547
+            "startTime": 111.59658396244049,
+            "endTime": 112.01941692829132,
+            "duration": 0.4228329658508301
         },
         "styles": {
             "key": "styles",
-            "startTime": 112.28320801258087,
-            "endTime": 112.35054099559784,
-            "duration": 0.06733298301696777
+            "startTime": 112.17020893096924,
+            "endTime": 112.23374998569489,
+            "duration": 0.06354105472564697
         },
         "diagnostics": {
             "key": "diagnostics",
-            "startTime": 112.40325003862381,
-            "endTime": 112.42475003004074,
-            "duration": 0.021499991416931152
+            "startTime": 112.29170894622803,
+            "endTime": 112.31187498569489,
+            "duration": 0.02016603946685791
         },
         "startup": {
             "key": "startup",
-            "startTime": 112.49258303642273,
-            "endTime": 112.5477499961853,
-            "duration": 0.05516695976257324
+            "startTime": 112.38112497329712,
+            "endTime": 112.44020891189575,
+            "duration": 0.05908393859863281
         }
     },
-    "totalDuration": 1.9312498569488525,
+    "totalDuration": 1.9094579219818115,
     "durationUnit": "ms"
 }
 ```
