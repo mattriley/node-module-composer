@@ -26,9 +26,11 @@ interface ComposerOptions {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Composed = (...args: any[]) => any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type SetupComposable = { setup: (deps: any) => Composed }
 type Composable = (deps: Modules) => Composed
 type ModuleFunction = Composable | Composed
-type SetupComposable = { setup: (deps: Modules) => Composed }
+
 
 type Module<T = UnknownRecord> = {
     [K in keyof T]: T[K] extends ModuleFunction

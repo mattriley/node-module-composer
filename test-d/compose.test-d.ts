@@ -30,6 +30,20 @@ import composer from '../main';
     expectType<{ green: () => void }>(mod);
 }
 
+// result of module's setup function is returned from compose with dependencies
+{
+    const target = {
+        mod: {
+            setup: ({ config }: { config: object}) => () => ({
+                green: () => config
+            })
+        }
+    };
+    const { compose } = composer(target, { config: { shade: 'dark'}});
+    const { mod } = compose('mod');
+    expectType<{ green: () => object }>(mod);
+}
+
 // compose does not go deep
 {
     const target = {
