@@ -60,7 +60,7 @@ export type ComposedModule<T extends Module, CT extends ComposeType = 'Single'> 
 
 type SetupModule<T extends SetupComposable> = ReturnType<ReturnType<T['setup']>>
 
-type ComposedOrSetupModule<T extends Module, CT extends ComposeType = 'Single'> = Simplify<
+export type ComposedOrSetupModule<T extends Module, CT extends ComposeType = 'Single'> = Simplify<
     T extends SetupComposable
     ? SetupModule<T>
     : ComposedModule<T, CT>
