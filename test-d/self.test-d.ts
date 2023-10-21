@@ -1,6 +1,6 @@
 import { expectType } from 'tsd/dist/index';
 
-import composer from '../main';
+import composer, { ComposedModule } from '../main';
 
 // self dependencies are not required as deps (self reference by name)
 {
@@ -41,4 +41,29 @@ import composer from '../main';
     const { compose } = composer(target);
     const { mod } = compose.deep('mod');
     expectType<() => number>(mod.sub.fun2);
+}
+
+// A self dependency can be typed for use in setup
+{
+    const createModule = () => {
+        const mod = {
+            foo: () => () => 'hello'
+        };
+
+        type Self = ComposedModule<typeof mod>
+
+        return {
+            ...mod,
+            setup: ({ self }: { self: Self }) => () => {
+                return {
+                    process: () => self.foo()
+                };
+            }
+        };
+    };
+
+    const target = { mod: createModule() };
+    const { compose } = composer(target);
+    const { mod } = compose('mod');
+    expectType<string>(mod.process());
 }
