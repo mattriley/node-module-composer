@@ -19,7 +19,7 @@ interface ExtensionOptions {
 
 type Options = CoreOptions & ExtensionOptions
 
-type ComposerOptionsConfig = UnknownRecord | UnknownRecord[]
+type ComposerOptionsConfig = object | object[]
 interface ComposerOptions {
     config?: ComposerOptionsConfig
 }
