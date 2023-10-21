@@ -52,17 +52,19 @@ type ComposeEach<T extends Module, MaxDepth extends AllowedMaxDepth, N extends n
 }
 
 type ComposeType = 'Single' | 'Flat'
-export type ComposedModule<T extends Module, CT extends ComposeType = 'Single'> = 
+export type ComposedModule<T extends Module, CT extends ComposeType = 'Single'> = Simplify<
   CT extends 'Single' 
-  ? Simplify<ComposeEach<T, 1, 0>>
-  : Simplify<ComposeEach<T, 10, 0>>
+  ? ComposeEach<T, 1, 0>
+  : ComposeEach<T, 10, 0>
+>
 
 type SetupModule<T extends SetupComposable> = ReturnType<ReturnType<T['setup']>>
 
-type ComposedOrSetupModule<T extends Module, CT extends ComposeType> =
+type ComposedOrSetupModule<T extends Module, CT extends ComposeType = 'Single'> = Simplify<
     T extends SetupComposable
     ? SetupModule<T>
     : ComposedModule<T, CT>
+>
 
 type ModuleParameters<T extends Module, Key = keyof T> =
     Key extends PropertyKey
