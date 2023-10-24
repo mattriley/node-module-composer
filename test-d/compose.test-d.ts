@@ -66,3 +66,20 @@ import composer from '../main';
     expectType<() => () => string>(mod1.sub.fun);
     expectType<({ mod2 }: { mod2: { sub: { fun: () => string } } }) => () => string>(mod2.sub.fun);
 }
+
+// must specify all dependencies when composing a module
+{
+    const target = {
+        mod2: {
+            fun: ({ mod1, mod3 }: { mod1: { fun: () => string }, mod3: { fun: () => string } }) => () => mod1.fun() + mod3.fun()
+        }
+    };
+
+    const { compose } = composer(target);
+    const mod1 = { fun:  () => 'foobar' };
+    const mod3 = { fun:  () => 'foobar' };
+    expectError(compose('mod2', { }));
+    expectError(compose('mod2', { mod3 }));
+    const { mod2 } = compose('mod2', { mod1, mod3 });
+    expectType<() => string>(mod2.fun);
+}

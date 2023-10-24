@@ -84,14 +84,14 @@ type ComposeResult<T extends Modules, Path extends keyof T, CT extends ComposeTy
 type ModuleKeys<T> = ConditionalKeys<T, Module>
 type ModulePath<T, Path extends keyof T> = T extends Module ? T[Path] : never
 
-type Compose<T extends Modules, C extends ComposerOptions> = <Path extends ModuleKeys<T>, PathDeps = Deps<T, Path, C>>(
+type Compose<T extends Modules, C extends ComposerOptions> = <Path extends ModuleKeys<T>>(
     path: Path,
-    ...args: PathDeps extends EmptyObject ? [PathDeps?, Partial<Options>?] : [PathDeps, Partial<Options>?]
+    ...args: Deps<T, Path, C> extends EmptyObject ? [Deps<T, Path, C>?, Partial<Options>?] : [Deps<T, Path, C>, Partial<Options>?]
 ) => ComposeResult<T, Path, 'Single'>
 
-type DeepCompose<T extends Modules, C extends ComposerOptions> = <Path extends ModuleKeys<T>, PathDeps = Deps<T, Path, C>>(
+type DeepCompose<T extends Modules, C extends ComposerOptions> = <Path extends ModuleKeys<T>>(
     path: Path,
-    ...args: PathDeps extends EmptyObject ? [PathDeps?, Partial<Options>?] : [PathDeps, Partial<Options>?]
+    ...args: Deps<T, Path, C> extends EmptyObject ? [Deps<T, Path, C>?, Partial<Options>?] : [Deps<T, Path, C>, Partial<Options>?]
 ) => ComposeResult<T, Path, 'Flat'>
 
 interface Asis<T extends Modules> {

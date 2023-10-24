@@ -1,4 +1,4 @@
-import { expectType } from 'tsd/dist/index';
+import { expectType, expectError } from 'tsd/dist/index';
 
 import composer from '../main';
 
@@ -40,4 +40,23 @@ import composer from '../main';
 
     expectType<() => string>(mod.sub.fun1);
     expectType<() => string>(mod.sub.fun2);
+}
+
+// must specify all dependencies when composing a deep module
+{
+    const target = {
+        mod2: {
+            sub: {
+                fun: ({ mod1, mod3 }: { mod1: { fun: () => string }, mod3: { fun: () => string } }) => () => mod1.fun() + mod3.fun()
+            }
+        }
+    };
+
+    const { compose } = composer(target);
+    const mod1 = { fun:  () => 'foobar' };
+    const mod3 = { fun:  () => 'foobar' };
+    expectError(compose.deep('mod2', { }));
+    expectError(compose.deep('mod2', { mod3 }));
+    const { mod2 } = compose.deep('mod2', { mod1, mod3 });
+    expectType<() => string>(mod2.sub.fun);
 }
