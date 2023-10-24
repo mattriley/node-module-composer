@@ -60,3 +60,16 @@ import composer from '../main';
     const { mod2 } = compose.deep('mod2', { mod1, mod3 });
     expectType<() => string>(mod2.sub.fun);
 }
+
+// composing a deep module with no dependencies
+{
+    const target = {
+        mod2: {
+            sub: { fun: () => () => 'hello' }
+        }
+    };
+
+    const { compose } = composer(target);
+    const { mod2 } = compose.deep('mod2');
+    expectType<() => string>(mod2.sub.fun);
+}

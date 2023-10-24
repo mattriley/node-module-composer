@@ -83,3 +83,75 @@ import composer from '../main';
     const { mod2 } = compose('mod2', { mod1, mod3 });
     expectType<() => string>(mod2.fun);
 }
+
+// composing a module with no dependencies
+{
+    const target = {
+        mod2: {
+            fun: () => () => 'hello'
+        }
+    };
+
+    const { compose } = composer(target);
+    const { mod2 } = compose('mod2');
+    expectType<() => string>(mod2.fun);
+}
+
+// manually provide a config dependency
+{
+    type Config = { name: string, surname: string }
+    const target = {
+        mod1: {
+            fun: ({ config }: { config: Config }) => () => `hello ${config.name}`
+        },
+        mod2: {
+            fun: ({ mod1, config }: { mod1: { fun: () => string }, config: Config }) => () => `${mod1.fun()} ${config.surname}`
+        }
+    };
+
+    const config: Config = { name: 'harry', surname: 'potter' };
+    const { compose } = composer(target);
+    expectError(compose('mod1'));
+    expectError(compose('mod2', { mod1 }));
+    const { mod1 } = compose('mod1', { config });
+    const { mod2 } = compose('mod2', { mod1, config });
+    expectType<() => string>(mod2.fun);
+}
+
+// config does not need to be specified as a dependency if passed into the composer
+{
+    type Config = { name: string, surname: string }
+    const target = {
+        mod1: {
+            fun: ({ config }: { config: Config }) => () => `hello ${config.name}`
+        },
+        mod2: {
+            fun: ({ mod1, config }: { mod1: { fun: () => string }, config: Config }) => () => `${mod1.fun()} ${config.surname}`
+        }
+    };
+
+    const config: Config = { name: 'harry', surname: 'potter' };
+    const { compose } = composer(target, { config });
+    const { mod1 } = compose('mod1');
+    const { mod2 } = compose('mod2', { mod1 });
+    expectType<() => string>(mod2.fun);
+}
+
+// config can be specified as a list of object to merge
+{
+    type Config = { name: string, surname: string }
+    const target = {
+        mod1: {
+            fun: ({ config }: { config: Config }) => () => `hello ${config.name}`
+        },
+        mod2: {
+            fun: ({ mod1, config }: { mod1: { fun: () => string }, config: Config }) => () => `${mod1.fun()} ${config.surname}`
+        }
+    };
+
+    const config: Config = { name: 'harry', surname: 'potter' };
+    const { compose } = composer(target, { config: [{}, config] });
+    const { mod1 } = compose('mod1');
+    const { mod2 } = compose('mod2', { mod1 });
+    expectType<() => string>(mod2.fun);
+}
