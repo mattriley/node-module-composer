@@ -39,6 +39,9 @@ type Module<T = UnknownRecord> = {
 
 type Modules = Record<PropertyKey, Module | unknown>
 
+type ValuesOf<T> = T[keyof T]
+type ModuleValuesOf<T> = Extract<ValuesOf<T>, Module>
+
 type AllowedMaxDepth = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
 type IncrementDepth<N extends number> = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10][N]
 
@@ -50,6 +53,11 @@ type ComposeEach<T extends Module, MaxDepth extends AllowedMaxDepth, N extends n
     ? ReturnType<T[K]>
     : ComposeEach<T[K], MaxDepth, IncrementDepth<N>>
 }
+
+export type SelfOf<T> = ComposeEach<ModuleValuesOf<T>, 1, 0>
+export type SelfNameOf<T> = keyof T
+export type SpecifiedDepsOf<T, Composed> = Exclude<keyof Composed, SelfNameOf<T>> | never
+export type InjectOf<T, Composed, K extends SpecifiedDepsOf<T, Composed>> = Pick<Omit<Composed, SelfNameOf<T>>, | K> & Record<'self' | SelfNameOf<T>, SelfOf<T>>
 
 type ComposeType = 'Single' | 'Flat'
 export type ComposedModule<T extends Module, CT extends ComposeType = 'Single'> = Simplify<
