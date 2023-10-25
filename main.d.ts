@@ -57,7 +57,10 @@ type ComposeEach<T extends Module, MaxDepth extends AllowedMaxDepth, N extends n
 export type SelfOf<T> = Omit<ComposeEach<ModuleValuesOf<T>, 1, 0>, 'setup'>
 export type SelfNameOf<T> = keyof T
 export type SpecifiedDepsOf<T, Composed> = Exclude<keyof Composed, SelfNameOf<T>> | never
-export type InjectOf<T, Composed, K extends SpecifiedDepsOf<T, Composed>> = Pick<Omit<Composed, SelfNameOf<T>>, | K> & Record<'self' | SelfNameOf<T>, SelfOf<T>>
+export type InjectOf<T, Composed, K extends SpecifiedDepsOf<T, Composed>> = 
+  Composed extends { config: unknown }
+  ? Pick<Omit<Composed, SelfNameOf<T>>, | K> & Record<'self' | SelfNameOf<T>, SelfOf<T>> & Record<'config', Composed['config']>
+  : Pick<Omit<Composed, SelfNameOf<T>>, | K> & Record<'self' | SelfNameOf<T>, SelfOf<T>>
 
 type ComposeType = 'Single' | 'Flat'
 export type ComposedModule<T extends Module, CT extends ComposeType = 'Single'> = Simplify<
