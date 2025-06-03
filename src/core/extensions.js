@@ -1,13 +1,14 @@
 const _ = require('./util');
 
 const stateContainer = globalThis;
-if (!stateContainer.moduleComposer) stateContainer.moduleComposer = { extensions: {} };
-const register = (name, extension) => Object.assign(stateContainer.moduleComposer.extensions, { [name]: extension });
+const stateKey = __dirname;
+if (!stateContainer[stateKey]) stateContainer[stateKey] = { extensions: {} };
+const register = (name, extension) => Object.assign(stateContainer[stateKey].extensions, { [name]: extension });
 
 const setup = session => {
-    const extensionNames = Object.keys(stateContainer.moduleComposer.extensions);
+    const extensionNames = Object.keys(stateContainer[stateKey].extensions);
     return extensionNames.reduce((acc, name) => {
-        const ext = stateContainer.moduleComposer.extensions[name];
+        const ext = stateContainer[stateKey].extensions[name];
         const getState = () => session.extensions[name];
         const setState = state => _.set(session.extensions, name, { ...getState(), ...state })[name];
         const arg = { ...session, getState, setState };

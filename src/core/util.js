@@ -75,8 +75,8 @@ const replaceAt = (obj, fromArray, toArray) => {
         unset(target, from);
         set(target, toArray[i], orig);
     });
-    const pickKeys = toArray.map(arr => arr.join('.'));
-    return pick(target, ...pickKeys);
+    // const pickKeys = toArray.map(arr => arr.join('.'));
+    return pick(target, ...toArray);
 };
 
 module.exports = {
