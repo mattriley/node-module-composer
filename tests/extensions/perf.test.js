@@ -1,6 +1,6 @@
 module.exports = ({ test, assert }) => composer => {
 
-    require('module-composer/extensions/perf');
+    require('../../extensions/perf');
 
     test('perf', () => {
         const target = { mod1: {}, mod2: {} };

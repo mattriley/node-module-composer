@@ -1,9 +1,9 @@
 .DS_Store
-/*cache
-/*output
 /.nyc_output
 /.serverless
 /.vscode
+/*cache
+/*output
 /build
 /config.*
 /coverage

@@ -1,6 +1,6 @@
 module.exports = ({ test, assert }) => composer => {
 
-    require('module-composer/extensions/module-alias');
+    require('../../extensions/module-alias');
 
     test('module alias', async t => {
         const modules = {

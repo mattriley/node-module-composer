@@ -1,6 +1,6 @@
 module.exports = ({ test, assert }) => composer => {
 
-    require('module-composer/extensions/global-register');
+    require('../../extensions/global-register');
 
     test('register composition using name field in package.json', () => {
         const target = { foo: {}, window: {} };

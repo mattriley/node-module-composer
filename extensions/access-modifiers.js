@@ -1,1 +1,1 @@
-require('module-composer/src/core/extensions').register('access-modifiers', require('module-composer/src/extensions/access-modifiers'));
+require('../src/core/extensions').register('access-modifiers', require('../src/extensions/access-modifiers'));

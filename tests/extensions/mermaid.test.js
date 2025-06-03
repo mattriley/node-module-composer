@@ -1,6 +1,6 @@
 module.exports = ({ test, assert }) => composer => {
 
-    require('module-composer/extensions/mermaid');
+    require('../../extensions/mermaid');
 
     test('mermaid', () => {
         const target = { foo: {} };

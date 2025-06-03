@@ -1,4 +1,4 @@
-const _ = require('module-composer/src/core/util');
+const _ = require('../core/util');
 
 const eject = session => () => {
     const deps = session.dependencies;

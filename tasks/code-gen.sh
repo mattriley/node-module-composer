@@ -11,7 +11,7 @@ function code_gen {
     for extension_file in "$SRC/extensions/"*; do 
         local extension_base; extension_base="$(basename "$extension_file")"
         local f="${extension_base%.*}"
-        echo "require('module-composer/src/core/extensions').register('$f', require('module-composer/src/extensions/$f'));" > "$extensions/$extension_base"
+        echo "require('../src/core/extensions').register('$f', require('../src/extensions/$f'));" > "$extensions/$extension_base"
         echo "require('./extensions/$f');" >> "$main"
     done;
 

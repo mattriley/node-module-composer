@@ -1,4 +1,4 @@
-const util = require('module-composer/src/core/util');
+const util = require('../core/util');
 
 const precompose = session => ({ key, target, options }) => {
     const { depth, publicPrefix, privatePrefix } = options;

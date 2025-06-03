@@ -55,4 +55,17 @@ module.exports = ({ test, assert }) => composer => {
         assert.throws(() => compose('mod', {}, { foo: 'bar', bar: 'foo' }), /^Error: Invalid option: foo, bar$/);
     });
 
+
+    test('function name containing dot', () => {
+        const target = {
+            mod1: { 'f.un': () => () => 2 },
+            mod2: { 'f.un': ({ mod1 }) => () => mod1['f.un']() }
+        };
+        const { compose } = composer(target);
+        const { mod1 } = compose('mod1', {});
+        const { mod2 } = compose('mod2', { mod1 });
+        assert.deepEqual(mod2['f.un'](), 2);
+        assert.deepEqual(compose.dependencies, { mod1: [], mod2: ['mod1'] });
+    });
+
 };

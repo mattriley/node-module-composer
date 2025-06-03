@@ -1,6 +1,6 @@
 module.exports = ({ test, assert }) => composer => {
 
-    require('module-composer/extensions/eject');
+    require('../../extensions/eject');
 
     test('[WIP] eject', () => {
         const bar = {

@@ -1,1 +1,1 @@
-require('module-composer/src/core/extensions').register('mermaid', require('module-composer/src/extensions/mermaid'));
+require('../src/core/extensions').register('mermaid', require('../src/extensions/mermaid'));

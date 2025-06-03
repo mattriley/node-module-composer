@@ -1,1 +1,1 @@
-require('module-composer/src/core/extensions').register('eject', require('module-composer/src/extensions/eject'));
+require('../src/core/extensions').register('eject', require('../src/extensions/eject'));
