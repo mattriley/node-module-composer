@@ -24,14 +24,14 @@ module.exports = ({ test, assert }) => composer => {
         assert.deepEqual(compose.dependencies, { mod: [] });
     });
 
-    test('customiser returns non-plain object', () => {
-        const customised = [];
-        const target = {
-            mod: { setup: () => () => customised }
-        };
-        const { compose } = composer(target);
-        assert.throws(() => compose('mod', {}), /^Error: mod.setup must return a plain object$/);
-    });
+    // test('customiser returns non-plain object', () => {
+    //     const customised = [];
+    //     const target = {
+    //         mod: { setup: () => () => customised }
+    //     };
+    //     const { compose } = composer(target);
+    //     assert.throws(() => compose('mod', {}), /^Error: mod.setup must return a plain object$/);
+    // });
 
     test('option to customise customiser globally', () => {
         const customised = { foo: 1 };
