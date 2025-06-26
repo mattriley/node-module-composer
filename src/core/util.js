@@ -1,5 +1,4 @@
 /* eslint-disable no-prototype-builtins */
-const cloneDeep = require('lodash/cloneDeep');
 const get = require('lodash/get');
 const has = require('lodash/has');
 const isFunction = require('lodash/isFunction');
@@ -62,27 +61,21 @@ const pipeAssign = (...funs) => {
     return funs.reduce((acc, fun) => ({ ...acc, ...invokeOrReturn(fun, acc) }), {});
 };
 
-// TODO: Refactor this.
 const removeAt = (obj, paths) => {
-    // Custom deep clone that preserves function identity
-    const customCloneDeep = value => {
-        if (typeof value === 'function') {
-            return value; // Preserve function reference
-        }
-        if (Array.isArray(value)) {
-            return value.map(customCloneDeep); // Recursively clone arrays
-        }
-        if (value && typeof value === 'object') {
-            return Object.fromEntries(
-                Object.entries(value).map(([key, val]) => [key, customCloneDeep(val)])
-            );
-        }
-        return value; // Return primitive values as-is
-    };
-
-    const target = customCloneDeep(obj); // Use custom deep clone
+    const target = cloneDeep(obj); // Use custom deep clone
     paths.forEach(path => unset(target, path)); // Remove specified paths
     return target;
+};
+
+const cloneDeep = value => {
+    if (typeof value === 'function') return value;
+    if (Array.isArray(value)) return value.map(cloneDeep);
+    if (value && typeof value === 'object') {
+        return Object.fromEntries(
+            Object.entries(value).map(([key, val]) => [key, cloneDeep(val)])
+        );
+    }
+    return value;
 };
 
 const replaceAt = (obj, fromArray, toArray) => {
@@ -92,12 +85,10 @@ const replaceAt = (obj, fromArray, toArray) => {
         unset(target, from);
         set(target, toArray[i], orig);
     });
-    // const pickKeys = toArray.map(arr => arr.join('.'));
     return pick(target, ...toArray);
 };
 
 module.exports = {
-    cloneDeep,
     deepFreeze,
     flattenObject,
     flatMapKeys,
