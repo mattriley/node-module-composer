@@ -16,9 +16,8 @@ const mergeWith = require('lodash/mergeWith');
 const omit = require('lodash/omit');
 const pickBy = require('lodash/pickBy');
 const set = require('lodash/set');
-const unset = require('lodash/unset');
 
-const invokeOrReturn = (target, ...args) => target && isPlainFunction(target) ? target(...args) : target;
+const invokeOrReturn = require('../util/invoke-or-return');
 const invokeAtOrReturn = (obj, path, ...args) => invokeOrReturn(get(obj, path, obj), ...args);
 const isPlainFunction = val => isFunction(val) && !val.hasOwnProperty('prototype');
 const isPromise = val => val && typeof val.then == 'function';
