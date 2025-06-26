@@ -2,6 +2,7 @@
 const deepFreeze = require('../util/freeze-deep');
 const flattenObject = require('../util/flatten-object');
 const cloneDeep = require('../util/clone-deep');
+const replaceAt = require('../util/replace-at');
 
 const get = require('lodash/get');
 const has = require('lodash/has');
@@ -22,14 +23,7 @@ const invokeAtOrReturn = (obj, path, ...args) => invokeOrReturn(get(obj, path, o
 const isPlainFunction = val => isFunction(val) && !val.hasOwnProperty('prototype');
 const isPromise = val => val && typeof val.then == 'function';
 
-const matchPaths = (obj, cb, depth, currentDepth = 0, currentPath = []) => {
-    return Object.entries(obj).flatMap(([key, val]) => {
-        const path = [...currentPath, key];
-        const res1 = !isPlainObject(val) && cb(key) ? [path] : [];
-        const res2 = isPlainObject(val) ? matchPaths(val, cb, depth, currentDepth + 1, path) : [];
-        return [...res1, ...res2];
-    });
-};
+const matchPaths = require('../util/match-paths');
 
 const flatMapKeys = (obj, iteratee) => {
     return Object.fromEntries(Object.entries(obj).flatMap(([key, val]) => {
@@ -50,7 +44,7 @@ const removeAt = (obj, paths) => {
 
 
 
-const replaceAt = require('../util/replace-at');
+
 
 module.exports = {
     deepFreeze,
