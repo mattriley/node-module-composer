@@ -1,4 +1,5 @@
 const freezeDeep = obj => {
+
     if (!obj || typeof obj !== 'object') return obj;
     if (Object.isFrozen(obj)) return obj;
     for (const key of Reflect.ownKeys(obj)) {
@@ -8,6 +9,7 @@ const freezeDeep = obj => {
         }
     }
     return Object.freeze(obj);
+
 };
 
 module.exports = freezeDeep;

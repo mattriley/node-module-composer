@@ -1,6 +1,7 @@
 const isPlainObject = require('./is-plain-object');
 
 module.exports = (obj, opts = {}) => {
+
     const recurse = (obj, parentKey = '', currentDepth = 0) => {
         return Object.entries(obj).reduce((acc, [key, val]) => {
             const done = !isPlainObject(val);
@@ -13,4 +14,5 @@ module.exports = (obj, opts = {}) => {
         }, {});
     };
     return recurse(obj);
+
 };

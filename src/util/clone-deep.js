@@ -1,4 +1,5 @@
 const cloneDeep = value => {
+
     if (typeof value === 'function') return value;
     if (Array.isArray(value)) return value.map(cloneDeep);
     if (value && typeof value === 'object') {
@@ -7,6 +8,7 @@ const cloneDeep = value => {
         );
     }
     return value;
+
 };
 
 module.exports = cloneDeep;
