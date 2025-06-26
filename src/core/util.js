@@ -1,5 +1,6 @@
 /* eslint-disable no-prototype-builtins */
 const deepFreeze = require('../util/freeze-deep');
+const flattenObject = require('../util/flatten-object');
 
 const get = require('lodash/get');
 const has = require('lodash/has');
@@ -35,20 +36,6 @@ const flatMapKeys = (obj, iteratee) => {
     }));
 };
 
-const flattenObject = (obj, opts = {}) => {
-    const recurse = (obj, parentKey = '', currentDepth = 0) => {
-        return Object.entries(obj).reduce((acc, [key, val]) => {
-            const done = !isPlainObject(val);
-            const newKey = parentKey && opts.delimiter ? parentKey + opts.delimiter + key : key;
-            if (done) return { ...acc, [newKey]: val };
-            const changes = recurse(val, opts.delimiter ? newKey : '', currentDepth + 1);
-            const collision = Object.keys(changes).find(key => acc[key]);
-            if (collision) throw new Error(`Collision: ${collision}`);
-            return { ...acc, ...changes };
-        }, {});
-    };
-    return recurse(obj);
-};
 
 const pipeAssign = (...funs) => {
     return funs.reduce((acc, fun) => ({ ...acc, ...invokeOrReturn(fun, acc) }), {});
