@@ -9,11 +9,11 @@ const invokeOrReturn = require('../util/invoke-or-return');
 const flatMapKeys = require('../util/flat-map-keys');
 const isPromise = require('../util/is-promise');
 const isPlainFunction = require('../util/is-plain-function');
+const invokeAtOrReturn = require('../util/invoke-at-or-return');
 
 
 const get = require('lodash/get');
 const has = require('lodash/has');
-const isFunction = require('lodash/isFunction');
 const isPlainObject = require('lodash/isPlainObject');
 const mapKeys = require('lodash/mapKeys');
 const mapValues = require('lodash/mapValues');
@@ -23,7 +23,6 @@ const omit = require('lodash/omit');
 const pickBy = require('lodash/pickBy');
 const set = require('lodash/set');
 
-const invokeAtOrReturn = (obj, path, ...args) => invokeOrReturn(get(obj, path, obj), ...args);
 
 
 
