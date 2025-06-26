@@ -4,6 +4,9 @@ const flattenObject = require('../util/flatten-object');
 const replaceAt = require('../util/replace-at');
 const matchPaths = require('../util/match-paths');
 const removeAt = require('../util/remove-at');
+const pipeAssign = require('../util/pipe-assign');
+const invokeOrReturn = require('../util/invoke-or-return');
+
 
 const get = require('lodash/get');
 const has = require('lodash/has');
@@ -17,7 +20,6 @@ const omit = require('lodash/omit');
 const pickBy = require('lodash/pickBy');
 const set = require('lodash/set');
 
-const invokeOrReturn = require('../util/invoke-or-return');
 const invokeAtOrReturn = (obj, path, ...args) => invokeOrReturn(get(obj, path, obj), ...args);
 const isPlainFunction = val => isFunction(val) && !val.hasOwnProperty('prototype');
 const isPromise = val => val && typeof val.then == 'function';
@@ -31,9 +33,7 @@ const flatMapKeys = (obj, iteratee) => {
 };
 
 
-const pipeAssign = (...funs) => {
-    return funs.reduce((acc, fun) => ({ ...acc, ...invokeOrReturn(fun, acc) }), {});
-};
+
 
 
 
