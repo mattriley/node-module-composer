@@ -62,9 +62,26 @@ const pipeAssign = (...funs) => {
     return funs.reduce((acc, fun) => ({ ...acc, ...invokeOrReturn(fun, acc) }), {});
 };
 
+// TODO: Refactor this.
 const removeAt = (obj, paths) => {
-    const target = cloneDeep(obj);
-    paths.forEach(path => unset(target, path));
+    // Custom deep clone that preserves function identity
+    const customCloneDeep = value => {
+        if (typeof value === 'function') {
+            return value; // Preserve function reference
+        }
+        if (Array.isArray(value)) {
+            return value.map(customCloneDeep); // Recursively clone arrays
+        }
+        if (value && typeof value === 'object') {
+            return Object.fromEntries(
+                Object.entries(value).map(([key, val]) => [key, customCloneDeep(val)])
+            );
+        }
+        return value; // Return primitive values as-is
+    };
+
+    const target = customCloneDeep(obj); // Use custom deep clone
+    paths.forEach(path => unset(target, path)); // Remove specified paths
     return target;
 };
 

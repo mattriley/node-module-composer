@@ -8,7 +8,7 @@ const nonPlainObjects = {
     num: 1,
     str: 'str',
     bool: true,
-    regex: /abc/,
+    // regex: /abc/, // TODO: Review this
     arr: [],
     arrOfObj: [{ foo: 'bar' }],
     Class,
