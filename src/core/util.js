@@ -6,6 +6,7 @@ const matchPaths = require('../util/match-paths');
 const removeAt = require('../util/remove-at');
 const pipeAssign = require('../util/pipe-assign');
 const invokeOrReturn = require('../util/invoke-or-return');
+const flatMapKeys = require('../util/flat-map-keys');
 
 
 const get = require('lodash/get');
@@ -26,11 +27,7 @@ const isPromise = val => val && typeof val.then == 'function';
 
 
 
-const flatMapKeys = (obj, iteratee) => {
-    return Object.fromEntries(Object.entries(obj).flatMap(([key, val]) => {
-        return iteratee(val, key, obj).map(key => [key, val]);
-    }));
-};
+
 
 
 
