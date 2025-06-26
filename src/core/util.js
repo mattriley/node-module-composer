@@ -1,4 +1,6 @@
 /* eslint-disable no-prototype-builtins */
+const deepFreeze = require('../util/freeze-deep');
+
 const get = require('lodash/get');
 const has = require('lodash/has');
 const isFunction = require('lodash/isFunction');
@@ -25,15 +27,6 @@ const matchPaths = (obj, cb, depth, currentDepth = 0, currentPath = []) => {
         const res2 = isPlainObject(val) ? matchPaths(val, cb, depth, currentDepth + 1, path) : [];
         return [...res1, ...res2];
     });
-};
-
-const deepFreeze = obj => {
-    const propNames = Reflect.ownKeys(obj);
-    for (const name of propNames) {
-        const value = obj[name];
-        if ((value && typeof value === 'object') || typeof value === 'function') deepFreeze(value);
-    }
-    return Object.freeze(obj);
 };
 
 const flatMapKeys = (obj, iteratee) => {
