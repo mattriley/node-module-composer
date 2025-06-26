@@ -8,6 +8,8 @@ const pipeAssign = require('../util/pipe-assign');
 const invokeOrReturn = require('../util/invoke-or-return');
 const flatMapKeys = require('../util/flat-map-keys');
 const isPromise = require('../util/is-promise');
+const isPlainFunction = require('../util/is-plain-function');
+
 
 const get = require('lodash/get');
 const has = require('lodash/has');
@@ -22,7 +24,6 @@ const pickBy = require('lodash/pickBy');
 const set = require('lodash/set');
 
 const invokeAtOrReturn = (obj, path, ...args) => invokeOrReturn(get(obj, path, obj), ...args);
-const isPlainFunction = val => isFunction(val) && !val.hasOwnProperty('prototype');
 
 
 
