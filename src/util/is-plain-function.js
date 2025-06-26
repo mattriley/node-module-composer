@@ -1,5 +1,5 @@
-const isFunction = require('lodash/isFunction');
-
 module.exports = val => {
-    return isFunction(val) && !val.hasOwnProperty('prototype');
+
+    return typeof val === 'function' && !Object.prototype.hasOwnProperty.call(val, 'prototype');
+
 }
