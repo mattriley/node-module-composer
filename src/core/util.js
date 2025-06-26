@@ -10,11 +10,12 @@ const flatMapKeys = require('../util/flat-map-keys');
 const isPromise = require('../util/is-promise');
 const isPlainFunction = require('../util/is-plain-function');
 const invokeAtOrReturn = require('../util/invoke-at-or-return');
+const isPlainObject = require('../util/is-plain-object');
+
 
 
 const get = require('lodash/get');
 const has = require('lodash/has');
-const isPlainObject = require('lodash/isPlainObject');
 const mapKeys = require('lodash/mapKeys');
 const mapValues = require('lodash/mapValues');
 const merge = require('lodash/merge');
