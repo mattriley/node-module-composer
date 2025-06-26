@@ -1,4 +1,15 @@
 /* eslint-disable no-prototype-builtins */
+
+const get = require('lodash/get');
+const has = require('lodash/has');
+const mapKeys = require('lodash/mapKeys');
+const mapValues = require('lodash/mapValues');
+const merge = require('lodash/merge');
+const mergeWith = require('lodash/mergeWith');
+const omit = require('lodash/omit');
+const pickBy = require('lodash/pickBy');
+const set = require('lodash/set');
+
 const deepFreeze = require('../util/freeze-deep');
 const flattenObject = require('../util/flatten-object');
 const replaceAt = require('../util/replace-at');
@@ -11,21 +22,6 @@ const isPromise = require('../util/is-promise');
 const isPlainFunction = require('../util/is-plain-function');
 const invokeAtOrReturn = require('../util/invoke-at-or-return');
 const isPlainObject = require('../util/is-plain-object');
-
-
-
-const get = require('lodash/get');
-const has = require('lodash/has');
-const mapKeys = require('lodash/mapKeys');
-const mapValues = require('lodash/mapValues');
-const merge = require('lodash/merge');
-const mergeWith = require('lodash/mergeWith');
-const omit = require('lodash/omit');
-const pickBy = require('lodash/pickBy');
-const set = require('lodash/set');
-
-
-
 
 module.exports = {
     deepFreeze,
