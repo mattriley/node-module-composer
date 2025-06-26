@@ -1,6 +1,7 @@
 /* eslint-disable no-prototype-builtins */
 const deepFreeze = require('../util/freeze-deep');
 const flattenObject = require('../util/flatten-object');
+const cloneDeep = require('../util/clone-deep');
 
 const get = require('lodash/get');
 const has = require('lodash/has');
@@ -47,16 +48,7 @@ const removeAt = (obj, paths) => {
     return target;
 };
 
-const cloneDeep = value => {
-    if (typeof value === 'function') return value;
-    if (Array.isArray(value)) return value.map(cloneDeep);
-    if (value && typeof value === 'object') {
-        return Object.fromEntries(
-            Object.entries(value).map(([key, val]) => [key, cloneDeep(val)])
-        );
-    }
-    return value;
-};
+
 
 const replaceAt = (obj, fromArray, toArray) => {
     const target = cloneDeep(obj);
