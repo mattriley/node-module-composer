@@ -50,15 +50,7 @@ const removeAt = (obj, paths) => {
 
 
 
-const replaceAt = (obj, fromArray, toArray) => {
-    const target = cloneDeep(obj);
-    fromArray.forEach((from, i) => {
-        const orig = get(obj, from);
-        unset(target, from);
-        set(target, toArray[i], orig);
-    });
-    return pick(target, ...toArray);
-};
+const replaceAt = require('../util/replace-at');
 
 module.exports = {
     deepFreeze,
