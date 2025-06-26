@@ -1,4 +1,4 @@
-const isPlainObject = require('lodash/isPlainObject');
+const isPlainObject = require('./is-plain-object');
 
 const matchPaths = (obj, cb, depth, currentDepth = 0, currentPath = []) => {
     return Object.entries(obj).flatMap(([key, val]) => {

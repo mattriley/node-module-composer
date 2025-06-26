@@ -1,4 +1,4 @@
-const isPlainObject = require('lodash/isPlainObject');
+const isPlainObject = require('./is-plain-object');
 
 module.exports = (obj, opts = {}) => {
     const recurse = (obj, parentKey = '', currentDepth = 0) => {
