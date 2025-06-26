@@ -1,9 +1,14 @@
 const freezeDeep = obj => {
-    const propNames = Reflect.ownKeys(obj);
-    for (const name of propNames) {
-        const value = obj[name];
-        if ((value && typeof value === 'object') || typeof value === 'function') freezeDeep(value);
+    if (!obj || typeof obj !== 'object') return obj;
+    if (Object.isFrozen(obj)) return obj;
+
+    for (const key of Reflect.ownKeys(obj)) {
+        const val = obj[key];
+        if (val && (typeof val === 'object' || typeof val === 'function')) {
+            freezeDeep(val);
+        }
     }
+
     return Object.freeze(obj);
 };
 
