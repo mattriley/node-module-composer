@@ -11,22 +11,22 @@ const pickBy = require('lodash/pickBy');
 const set = require('lodash/set');
 
 const deepFreeze = require('../util/freeze-deep');
-const flattenObject = require('../util/flatten-object');
-const replaceAt = require('../util/replace-at');
-const matchPaths = require('../util/match-paths');
-const removeAt = require('../util/remove-at');
-const pipeAssign = require('../util/pipe-assign');
-const invokeOrReturn = require('../util/invoke-or-return');
 const flatMapKeys = require('../util/flat-map-keys');
-const isPromise = require('../util/is-promise');
-const isPlainFunction = require('../util/is-plain-function');
+const flattenObject = require('../util/flatten-object');
 const invokeAtOrReturn = require('../util/invoke-at-or-return');
+const invokeOrReturn = require('../util/invoke-or-return');
+const isPlainFunction = require('../util/is-plain-function');
 const isPlainObject = require('../util/is-plain-object');
+const isPromise = require('../util/is-promise');
+const matchPaths = require('../util/match-paths');
+const pipeAssign = require('../util/pipe-assign');
+const removeAt = require('../util/remove-at');
+const replaceAt = require('../util/replace-at');
 
 module.exports = {
     deepFreeze,
-    flattenObject,
     flatMapKeys,
+    flattenObject,
     get,
     has,
     invokeAtOrReturn,
