@@ -1,5 +1,7 @@
 const invokeOrReturn = require('./invoke-or-return');
 
 module.exports = (...funs) => {
-    return funs.reduce((acc, fun) => ({ ...acc, ...invokeOrReturn(fun, acc) }), {});
+    const acc = {};
+    for (const fun of funs) { Object.assign(acc, invokeOrReturn(fun, acc)); }
+    return acc;
 };
