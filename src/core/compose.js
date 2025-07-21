@@ -19,26 +19,32 @@ module.exports = session => (path, deps, opts = {}) => {
     const self = {};
     const selfDeps = { ...session.configAliases, self, [key]: self, ...deps };
 
-    const recurse = (node, deps, depthLevel = 0, here = undefined, parent = undefined) => {
-        if (depthLevel === depth || !_.isPlainObject(node)) return node;
+    const recurse = (target, deps = {}, currentDepth = 0, here = undefined, parent = undefined) => {
+        if (currentDepth === depth) return target;
+        if (!_.isPlainObject(target)) return target;
 
-        here = here || (depthLevel === 0 ? self : {});
+        const isTopLevel = currentDepth === 0;
+        here = here || (isTopLevel ? self : {});
 
-        for (const [k, val] of Object.entries(node)) {
-            let result = val;
-
-            if (_.isPlainObject(val)) {
-                result = recurse(val, deps, depthLevel + 1, undefined, here);
-            }
-
-            if (_.isPlainFunction(result)) {
-                result = result({ self, here, parent, ...deps }, args);
-            }
-
-            here[k] = result;
+        // Phase 1: shallow assign all keys (without evaluating functions)
+        for (const [key, val] of Object.entries(target)) {
+            here[key] = _.isPlainObject(val)
+                ? recurse(val, deps, currentDepth + 1, undefined, here)
+                : val;
         }
 
-        return flat && depthLevel === 0 ? _.flattenObject(here) : here;
+        // Phase 2: now evaluate any functions in-place
+        for (const [key, val] of Object.entries(here)) {
+            if (_.isPlainFunction(val)) {
+                const result = val({ self, here, parent, ...deps }, args);
+                // only evaluate top-level function (not returned functions)
+                here[key] = result;
+            }
+        }
+
+        return (flat && isTopLevel)
+            ? _.flattenObject(here)
+            : here;
     };
 
     const apply = fns => input => fns.reduce((acc, fn) => Object.assign(acc, fn(acc)), input);
