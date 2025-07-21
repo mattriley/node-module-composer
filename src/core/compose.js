@@ -18,14 +18,31 @@ module.exports = session => (path, deps, opts = {}) => {
     const self = {};
     const selfDeps = { ...session.configAliases, self, [key]: self, ...deps };
 
-    const recurse = (target, deps = {}, currentDepth = 0) => {
+    const recurse = (target, deps = {}, currentDepth = 0, here = undefined) => {
         if (currentDepth === depth) return target;
         if (!_.isPlainObject(target)) return target;
-        const here = currentDepth === 0 ? self : {};
-        const evaluate = val => _.isPlainFunction(val) ? val({ here, ...deps }, args) : recurse(val, deps, currentDepth + 1);
-        const evaluated = _.mapValues(target, evaluate);
-        const result = flat ? _.flattenObject(evaluated) : evaluated;
-        return Object.assign(here, result);
+
+        // Create or reuse `here` for this level
+        here = here || (currentDepth === 0 ? self : {});
+
+        // First: recurse into child objects (bottom-up)
+        for (const [key, val] of Object.entries(target)) {
+            if (_.isPlainObject(val)) {
+                here[key] = recurse(val, deps, currentDepth + 1);
+            } else {
+                here[key] = val;
+            }
+        }
+
+        // Then: resolve any functions now that child values are available
+        for (const [key, val] of Object.entries(here)) {
+            if (_.isPlainFunction(val)) {
+                here[key] = val({ self, here, ...deps }, args);
+            }
+        }
+
+        const result = flat ? _.flattenObject(here) : here;
+        return result;
     };
 
     const precomposers = [
