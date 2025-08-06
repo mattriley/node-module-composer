@@ -15,7 +15,6 @@ const flatMapKeys = require('../util/flat-map-keys');
 const flattenObject = require('../util/flatten-object');
 const invokeAtOrReturn = require('../util/invoke-at-or-return');
 const invokeOrReturn = require('../util/invoke-or-return');
-const isPlainFunction = require('../util/is-plain-function');
 const isPlainObject = require('../util/is-plain-object');
 const isPromise = require('../util/is-promise');
 const matchPaths = require('../util/match-paths');
@@ -31,7 +30,6 @@ module.exports = {
     has,
     invokeAtOrReturn,
     invokeOrReturn,
-    isPlainFunction,
     isPlainObject,
     isPromise,
     mapKeys,
