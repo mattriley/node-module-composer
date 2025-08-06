@@ -35,7 +35,7 @@ module.exports = session => (path, deps, opts = {}) => {
 
         // Phase 2: now evaluate any functions in-place
         for (const [key, val] of Object.entries(here)) {
-            if (_.isPlainFunction(val)) {
+            if (val && typeof val === 'function') {
                 const result = val({ self, here, parent, ...deps }, args);
                 // only evaluate top-level function (not returned functions)
                 here[key] = result;

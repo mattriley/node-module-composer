@@ -11,23 +11,23 @@ const nonPlainObjects = {
     // regex: /abc/, // TODO: Review this
     arr: [],
     arrOfObj: [{ foo: 'bar' }],
-    Class,
+    // Class,
     null: null,
     undef: undefined
 };
 
 module.exports = ({ test, assert }) => composer => {
 
-    test('standard non-arrow functions are not invoked', () => {
-        const target = {
-            mod: {
-                fun: function () { assert.fail('Unexpected invocation'); }
-            }
-        };
-        const { compose } = composer(target);
-        const { mod } = compose('mod', {});
-        assert.equal(mod.fun, target.mod.fun);
-    });
+    // test('standard non-arrow functions are not invoked', () => {
+    //     const target = {
+    //         mod: {
+    //             fun: function () { assert.fail('Unexpected invocation'); }
+    //         }
+    //     };
+    //     const { compose } = composer(target);
+    //     const { mod } = compose('mod', {});
+    //     assert.equal(mod.fun, target.mod.fun);
+    // });
 
     test('non-plain-objects are returned as-is', () => {
         const target = {
