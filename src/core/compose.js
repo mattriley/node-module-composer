@@ -33,12 +33,14 @@ module.exports = session => (path, deps, opts = {}) => {
                 : val;
         }
 
-        // Phase 2: now evaluate any functions in-place
+        // Phase 2: evaluate functions in-place (replace if succeeds)
         for (const [key, val] of Object.entries(here)) {
-            if (val && typeof val === 'function') {
-                const result = val({ self, here, parent, ...deps }, args);
-                // only evaluate top-level function (not returned functions)
-                here[key] = result;
+            if (typeof val === 'function') {
+                try {
+                    here[key] = val({ self, here, parent, ...deps }, args);
+                } catch {
+                    here[key] = val; // fallback: keep original function
+                }
             }
         }
 
@@ -46,6 +48,7 @@ module.exports = session => (path, deps, opts = {}) => {
             ? _.flattenObject(here)
             : here;
     };
+
 
     const apply = fns => input => fns.reduce((acc, fn) => Object.assign(acc, fn(acc)), input);
 

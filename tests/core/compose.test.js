@@ -68,4 +68,17 @@ module.exports = ({ test, assert }) => composer => {
         assert.deepEqual(compose.dependencies, { mod1: [], mod2: ['mod1'] });
     });
 
+    test('ignore exception', () => {
+        const target = {
+            mod1: {
+                fun: () => {
+                    throw new Error("")
+                }
+            },
+        };
+        const { compose } = composer(target);
+        const { mod1 } = compose('mod1', {});
+        assert.equal(mod1.fun, target.mod1.fun);
+    });
+
 };
