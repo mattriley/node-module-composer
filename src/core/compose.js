@@ -24,30 +24,39 @@ module.exports = session => (path, deps, opts = {}) => {
         if (!_.isPlainObject(target)) return target;
 
         const isTopLevel = currentDepth === 0;
-        here = here || (isTopLevel ? self : {});
 
-        // Phase 1: shallow assign all keys (without evaluating functions)
+        // Allocate target object early (for reference identity)
+        here = here || (isTopLevel ? self : {});
+        const result = here;
+
+        // Phase 1: assign nested objects immediately (recursive)
         for (const [key, val] of Object.entries(target)) {
-            here[key] = _.isPlainObject(val)
-                ? recurse(val, deps, currentDepth + 1, undefined, here)
-                : val;
+            if (_.isPlainObject(val)) {
+                result[key] = recurse(val, deps, currentDepth + 1, undefined, result);
+            }
         }
 
-        // Phase 2: evaluate functions in-place (replace if succeeds)
-        for (const [key, val] of Object.entries(here)) {
+        // Phase 2: evaluate and assign non-objects (functions, primitives)
+        for (const [key, val] of Object.entries(target)) {
+            if (_.isPlainObject(val)) continue;
+
             if (typeof val === 'function') {
                 try {
-                    here[key] = val({ self, here, parent, ...deps }, args);
+                    const resolved = val({ self, here: result, parent, ...deps }, args);
+                    result[key] = resolved;
                 } catch {
-                    here[key] = val; // fallback: keep original function
+                    result[key] = val; // fallback
                 }
+            } else {
+                result[key] = val;
             }
         }
 
         return (flat && isTopLevel)
-            ? _.flattenObject(here)
-            : here;
+            ? _.flattenObject(result)
+            : result;
     };
+
 
 
     const apply = fns => input => fns.reduce((acc, fn) => Object.assign(acc, fn(acc)), input);
