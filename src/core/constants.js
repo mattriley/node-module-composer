@@ -19,7 +19,7 @@ const composerDefaultOptions = {
     config: {},
     extensions: true,
     compositionModule: true,
-    globalThis: globalThis,
+    globalThis,
     defaults: {}
 };
 

@@ -72,9 +72,9 @@ module.exports = ({ test, assert }) => composer => {
         const target = {
             mod1: {
                 fun: () => {
-                    throw new Error("")
+                    throw new Error('');
                 }
-            },
+            }
         };
         const { compose } = composer(target);
         const { mod1 } = compose('mod1', {});

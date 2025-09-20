@@ -7,7 +7,7 @@ const globalRegister = session => {
 
     const readPackageName = () => {
         try { return require(`${globalThis.process.cwd()}/package.json`).name; }
-        catch { } // eslint-disable-line no-empty
+        catch { }
     };
 
     const compositionName = [

@@ -52,9 +52,7 @@ module.exports = session => (path, deps, opts = {}) => {
             }
         }
 
-        return (flat && isTopLevel)
-            ? _.flattenObject(result)
-            : result;
+        return (flat && isTopLevel)? _.flattenObject(result): result;
     };
 
 

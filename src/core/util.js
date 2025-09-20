@@ -1,4 +1,4 @@
-/* eslint-disable no-prototype-builtins */
+
 
 const get = require('lodash/get');
 const has = require('lodash/has');

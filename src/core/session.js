@@ -40,4 +40,4 @@ module.exports = (target, options = {}, config = {}) => {
     if (composerOptions.compositionModule) Object.assign(state.modules, { composition: session.external });
     return session;
 
-}; 
+};

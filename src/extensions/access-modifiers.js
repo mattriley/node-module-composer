@@ -10,26 +10,40 @@ const precompose = session => ({ key, target, options }) => {
         return [view, paths];
     };
 
-    const [, markedPublicPaths] = getView(publicPrefix, key => key.startsWith(publicPrefix));
-    const [, markedPrivatePaths] = getView(privatePrefix, key => key.startsWith(privatePrefix));
-    const anyPublic = !!markedPublicPaths.length;
-    const anyPrivate = !!markedPrivatePaths.length;
+    // Probe for presence
+    const [, markedPublicPaths] = getView(publicPrefix, k => k.startsWith(publicPrefix));
+    const [, markedPrivatePaths] = getView(privatePrefix, k => k.startsWith(privatePrefix));
+    const anyPublic = markedPublicPaths.length > 0;
+    const anyPrivate = markedPrivatePaths.length > 0;
 
-    const [publicView] =
-        anyPublic ?
-            getView(publicPrefix, key => key.startsWith(publicPrefix)) :
-            anyPrivate ?
-                getView(privatePrefix, key => !key.startsWith(privatePrefix)) :
-                getView(publicPrefix, () => true);
+    const pickPublicView = () => {
+        if (anyPublic) {
+            return getView(publicPrefix, k => k.startsWith(publicPrefix));
+        }
+        if (anyPrivate) {
+            return getView(privatePrefix, k => !k.startsWith(privatePrefix));
+        }
+        return getView(publicPrefix, () => true);
+    };
 
-    const [privateView, privatePaths] =
-        anyPrivate && anyPublic ?
-            getView(privatePrefix, key => key.startsWith(privatePrefix) || !key.startsWith(publicPrefix)) :
-            anyPrivate ?
-                getView(privatePrefix, key => key.startsWith(privatePrefix)) :
-                anyPublic ?
-                    getView(publicPrefix, key => !key.startsWith(publicPrefix)) :
-                    getView(privatePrefix, () => false);
+    const pickPrivateView = () => {
+        if (anyPrivate && anyPublic) {
+            return getView(
+                privatePrefix,
+                k => k.startsWith(privatePrefix) || !k.startsWith(publicPrefix)
+            );
+        }
+        if (anyPrivate) {
+            return getView(privatePrefix, k => k.startsWith(privatePrefix));
+        }
+        if (anyPublic) {
+            return getView(publicPrefix, k => !k.startsWith(publicPrefix));
+        }
+        return getView(privatePrefix, () => false);
+    };
+
+    const [publicView] = pickPublicView();
+    const [privateView, privatePaths] = pickPrivateView();
 
     session.setState({ [key]: { privatePaths } });
 
